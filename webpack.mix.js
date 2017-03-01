@@ -16,7 +16,11 @@ var paths = {
     'fontawesome': 'node_modules/font-awesome'
 }
 
-mix.js('resources/assets/js/app.js', 'public/js')
+mix.js([
+        'resources/assets/js/app.js',
+        'resources/assets/js/vue.es6'
+    ]
+    , 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
     .combine([
         // Admin LTE
