@@ -1,4 +1,4 @@
-const { mix } = require('laravel-mix');
+const {mix} = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,5 +11,27 @@ const { mix } = require('laravel-mix');
  |
  */
 
+var paths = {
+    'admin_lte': 'node_modules/admin-lte',
+    'fontawesome': 'node_modules/font-awesome'
+}
+
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+    .sass('resources/assets/sass/app.scss', 'public/css')
+    .combine([
+        // Admin LTE
+        paths.admin_lte + '/dist/css/AdminLTE.min.css',
+        paths.admin_lte + '/dist/css/alt/AdminLTE-select2.min.css',
+        paths.admin_lte + '/dist/css/skins/skin-blue-light.min.css',
+        // Font Awsome
+        paths.fontawesome + '/css/font-awesome.css'
+    ], 'public/css/vendor.css')
+    .extract(['vue'])
+    .copy(
+        'node_modules/font-awesome/fonts',
+        'public/fonts'
+    );
+
+if (mix.config.inProduction) {
+    mix.version();
+}
