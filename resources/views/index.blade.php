@@ -8,7 +8,7 @@
     <link href="{{mix('/css/app.css')}}" rel="stylesheet" type="text/css">
     <link href="{{mix('/css/vendor.css')}}" rel="stylesheet" type="text/css">
 </head>
-<body class="hold-transition skin-blue-light sidebar-mini">
+<body class="hold-transition skin-blue-light">
 
 <div id="root"></div>
 </div>

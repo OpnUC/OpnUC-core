@@ -16,16 +16,60 @@
                         <router-link to="/dummyurl">Item1</router-link>
                     </li>
                 </ul>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="notifications-menu">
+                            <a>
+                                <i id="laravelEchoStatus" class="fa fa-bell-slash-o"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <router-link to="/login">ログイン</router-link>
+                        </li>
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false">
+                                <img src="" class="user-image" alt="User Image">
+                                username
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <img src="" class="img-circle" alt="User Image">
+                                    <p>
+                                        username
+                                    </p>
+                                </li>
+                                <li class="user-body">
+                                    <div class="col-xs-12 text-center">
+                                        <a href="">ユーザ管理</a>
+                                    </div>
+                                </li>
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href=""
+                                           class="btn btn-default btn-flat">ユーザ情報</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <form method="post" action="">
+                                            <button type="submit" class="btn btn-default btn-flat">ログアウト</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </nav>
         </header>
 
         <div class="main-sidebar">
             <div class="sidebar">
+                aaaaa
             </div>
         </div>
 
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
                     {{$route.name.toUpperCase() }}
@@ -53,7 +97,7 @@
             year: function () {
                 var y = new Date()
                 return y.getFullYear()
-            }
+            },
         },
         methods: {
             changeloading: function () {
@@ -67,7 +111,6 @@
             }
         },
         mounted: function () {
-            // Page is ready. Let's load our functions!
             console.log("Template Loaded");
         }
     }

@@ -1,5 +1,6 @@
 import Template from './components/Template.vue'
 import Index from './components/Index.vue'
+import Login from './components/Login.vue'
 import NotFoundView from './components/404.vue'
 
 // Routes
@@ -13,6 +14,15 @@ const routes = [
                 component: Index,
                 name: 'Dashboard',
                 meta: {description: 'Overview of environment'}
+            },
+            {
+                path: 'Login',
+                component: Login,
+                name: 'Login',
+                meta: {
+                    description: 'Overview of environment',
+                    sidebar:false
+                }
             },
             {
                 path: '*',
