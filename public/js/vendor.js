@@ -1,6 +1,6 @@
 webpackJsonp([1,2],{
 
-/***/ 13:
+/***/ 14:
 /***/ (function(module, exports) {
 
 var g;
@@ -228,7 +228,7 @@ module.exports = __webpack_require__(7);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process, global) {/*!
- * Vue.js v2.2.1
+ * Vue.js v2.2.0
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -4290,7 +4290,7 @@ Object.defineProperty(Vue$3.prototype, '$isServer', {
   get: isServerRendering
 });
 
-Vue$3.version = '2.2.1';
+Vue$3.version = '2.2.0';
 
 /*  */
 
@@ -9405,7 +9405,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(13)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(14)))
 
 /***/ })
 

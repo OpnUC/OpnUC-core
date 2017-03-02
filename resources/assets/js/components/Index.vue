@@ -13,9 +13,10 @@
 </template>
 <script>
     export default {
-        name: 'TOP'
+        created: function () {
+            this.$root.sidebar = true;
+        }
     }
 </script>
-
 <style>
 </style>

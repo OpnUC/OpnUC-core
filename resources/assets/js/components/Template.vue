@@ -63,11 +63,8 @@
             </nav>
         </header>
 
-        <div class="main-sidebar">
-            <div class="sidebar">
-                aaaaa
-            </div>
-        </div>
+        <router-view name="sidebar">
+        </router-view>
 
         <div class="content-wrapper">
             <section class="content-header">
@@ -109,9 +106,6 @@
                 // Add it to the item that was clicked
                 event.toElement.parentElement.className = 'pageLink active'
             }
-        },
-        mounted: function () {
-            console.log("Template Loaded");
         }
     }
 </script>

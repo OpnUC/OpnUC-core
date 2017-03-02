@@ -20,5 +20,24 @@ var router = new VueRouter({
 const app = new Vue({
     router: router,
     el: '#root',
+    data:{
+        sidebar: null
+    },
+    watch:{
+        // サイドバーの有無をチェック
+        sidebar: function(flag) {
+            console.log('change sidebar' + flag);
+
+            if(flag){
+                $('body').addClass('sidebar-mini');
+                $('body').removeClass('sidebar-collapse');
+                $('.sidebar-toggle').show();
+            }else{
+                $('body').removeClass('sidebar-mini');
+                $('body').addClass('sidebar-collapse');
+                $('.sidebar-toggle').hide();
+            }
+        }
+    },
     render: h => h(AppView)
 });

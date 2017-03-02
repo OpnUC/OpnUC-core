@@ -33,20 +33,11 @@
     </section>
 </template>
 <script>
-    module.exports = {
-        name: 'TOP',
-        mounted: function () {
-            // Page is ready. Let's load our functions!
-            $('body').removeClass('sidebar-mini');
-            $('body').addClass('sidebar-collapse');
-
-            $('.sidebar-toggle').hide();
-
-            console.log(this.$route.meta.sidebar);
-            console.log("Login Loaded");
+    export default {
+        created: function () {
+            this.$root.sidebar = false;
         }
     }
 </script>
-
 <style>
 </style>
