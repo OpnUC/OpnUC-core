@@ -12241,10 +12241,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
     created: function created() {
-        this.$root.sidebar = true;
+        this.$root.sidebar = false;
     }
 };
 
@@ -12315,6 +12339,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 41 */
 /***/ (function(module, exports) {
 
+//
+//
 //
 //
 //
@@ -12497,21 +12523,33 @@ window.axios.defaults.headers.common = {
 
 
 
+
+
+
 // Routes
 var routes = [{
     path: '/',
     component: __WEBPACK_IMPORTED_MODULE_0__components_Template_vue___default.a,
-    children: [{
+    children: [{ //aa
         path: '',
-        components: {
-            sidebar: __WEBPACK_IMPORTED_MODULE_2__components_Sidebar_vue___default.a,
-            default: __WEBPACK_IMPORTED_MODULE_1__components_Index_vue___default.a
-        },
-        name: 'Dashboard',
+        component: __WEBPACK_IMPORTED_MODULE_1__components_Index_vue___default.a,
+        name: 'Home',
         meta: {
-            description: 'Overview of environment'
+            description: 'Home'
         }
-    }, {
+    },
+    // {
+    //     path: '',
+    //     components: {
+    //         sidebar: Sidebar,
+    //         default: Index
+    //     },
+    //     name: 'Dashboard',
+    //     meta: {
+    //         description: 'Overview of environment'
+    //     }
+    // },
+    {
         path: '/Login',
         component: __WEBPACK_IMPORTED_MODULE_3__components_Login_vue___default.a,
         name: 'Login',
@@ -14923,7 +14961,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -14965,7 +15003,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -32335,11 +32373,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "navbar-custom-menu"
   }, [_c('ul', {
     staticClass: "nav navbar-nav"
-  }, [_vm._m(1), _vm._v(" "), _c('li', [_c('router-link', {
+  }, [_c('li', [_c('router-link', {
     attrs: {
       "to": "/login"
     }
-  }, [_vm._v("ログイン")])], 1), _vm._v(" "), _vm._m(2)])])])], 1), _vm._v(" "), _c('router-view', {
+  }, [_vm._v("ログイン")])], 1), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2)])])])], 1), _vm._v(" "), _c('router-view', {
     attrs: {
       "name": "sidebar"
     }
@@ -32388,7 +32426,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('img', {
     staticClass: "user-image",
     attrs: {
-      "src": "",
+      "src": "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm",
       "alt": "User Image"
     }
   }), _vm._v("\n                            username\n                            "), _c('span', {
@@ -32400,7 +32438,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('img', {
     staticClass: "img-circle",
     attrs: {
-      "src": "",
+      "src": "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm",
       "alt": "User Image"
     }
   }), _vm._v(" "), _c('p', [_vm._v("\n                                    username\n                                ")])]), _vm._v(" "), _c('li', {
@@ -32580,15 +32618,39 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
+  return _c('section', {
+    staticClass: "content"
+  }, [(1) ? [_vm._m(0)] : [_c('div', {
+    staticClass: "col-md-4"
+  }, [_c('div', {
+    staticClass: "box"
+  }, [_c('div', {
+    staticClass: "box-header with-border"
+  }, [_c('h3', {
+    staticClass: "box-title"
+  }, [_vm._v("発着信履歴")])]), _vm._v(" "), _c('div', {
+    staticClass: "box-body"
+  }, [_vm._v("\n                    発着信履歴の検索・表示が出来ます。\n                ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-4"
+  }, [_c('div', {
+    staticClass: "box"
+  }, [_c('div', {
+    staticClass: "box-header with-border"
+  }, [_c('h3', {
+    staticClass: "box-title"
+  }, [_vm._v("Web電話帳")])]), _vm._v(" "), _c('div', {
+    staticClass: "box-body"
+  }, [_vm._v("\n                    内線・個人・共有電話帳の検索・表示が出来ます。\n                ")])])])]], 2)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    staticClass: "container container-table"
-  }, [_c('section', {
-    staticClass: "content-header"
-  }, [_c('h1', [_vm._v("\n           TOP\n        ")])]), _vm._v(" "), _c('section', {
-    staticClass: "content"
-  })])
+    staticClass: "box"
+  }, [_c('div', {
+    staticClass: "box-header with-border"
+  }, [_c('h3', {
+    staticClass: "box-title"
+  }, [_vm._v("PBX Tool")])]), _vm._v(" "), _c('div', {
+    staticClass: "box-body"
+  }, [_vm._v("\n                このサイトを利用するにはログインが必要です。"), _c('br'), _vm._v("\n                右上からログインしてください。\n            ")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

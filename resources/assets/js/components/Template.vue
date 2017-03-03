@@ -18,24 +18,26 @@
                 </ul>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+
+                        <li>
+                            <router-link to="/login">ログイン</router-link>
+                        </li>
+
                         <li class="notifications-menu">
                             <a>
                                 <i id="laravelEchoStatus" class="fa fa-bell-slash-o"></i>
                             </a>
                         </li>
-                        <li>
-                            <router-link to="/login">ログイン</router-link>
-                        </li>
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">
-                                <img src="" class="user-image" alt="User Image">
+                                <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm" class="user-image" alt="User Image">
                                 username
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="user-header">
-                                    <img src="" class="img-circle" alt="User Image">
+                                    <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm" class="img-circle" alt="User Image">
                                     <p>
                                         username
                                     </p>
