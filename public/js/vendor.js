@@ -1,6 +1,6 @@
 webpackJsonp([1,2],{
 
-/***/ 14:
+/***/ 13:
 /***/ (function(module, exports) {
 
 var g;
@@ -28,7 +28,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 4:
+/***/ 5:
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -215,20 +215,12 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ 67:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(7);
-
-
-/***/ }),
-
 /***/ 7:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process, global) {/*!
- * Vue.js v2.2.0
+ * Vue.js v2.2.1
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -4290,7 +4282,7 @@ Object.defineProperty(Vue$3.prototype, '$isServer', {
   get: isServerRendering
 });
 
-Vue$3.version = '2.2.0';
+Vue$3.version = '2.2.1';
 
 /*  */
 
@@ -9405,8 +9397,16 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(14)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(13)))
+
+/***/ }),
+
+/***/ 72:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(7);
+
 
 /***/ })
 
-},[67]);
+},[72]);

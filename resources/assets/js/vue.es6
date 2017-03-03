@@ -39,5 +39,7 @@ const app = new Vue({
             }
         }
     },
-    render: h => h(AppView)
+    render: function(h){
+        return h(AppView);
+    }
 });
