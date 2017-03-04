@@ -93,7 +93,8 @@ return [
 
     'passwords' => [
         'users' => [
-            'provider' => 'users',
+            'provider' => 'eloquent',
+            'model' => \App\User::class,
             'table' => 'password_resets',
             'expire' => 60,
         ],
