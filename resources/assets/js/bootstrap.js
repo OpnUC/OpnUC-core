@@ -26,7 +26,8 @@ require('admin-lte');
 window.axios = require('axios');
 
 window.axios.defaults.headers.common = {
-//    'X-CSRF-TOKEN': window.Laravel.csrfToken,
+    'X-CSRF-TOKEN': window.Laravel.csrfToken,
+    'Authorization': 'Bearer ' + localStorage.getItem('id_token'),
     'X-Requested-With': 'XMLHttpRequest'
 };
 

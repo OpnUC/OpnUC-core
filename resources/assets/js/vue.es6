@@ -2,6 +2,7 @@
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Auth from './auth'
 
 import AppView from './components/App.vue'
 
@@ -16,6 +17,16 @@ var router = new VueRouter({
         return savedPosition || { x: 0, y: 0 }
     }
 })
+
+// router.beforeEach((to, from, next) => {
+//     if (to.matched.some(record => record.meta.requiresAuth) && !Auth.user.authenticated) {
+//         next({ path: '/login', query: { redirect: to.fullPath }});
+//     } else {
+//         next();
+//     }
+// });
+
+export {router};
 
 const app = new Vue({
     router: router,

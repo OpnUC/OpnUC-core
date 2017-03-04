@@ -179,7 +179,8 @@ return [
 
         // Entrust
         Zizaco\Entrust\EntrustServiceProvider::class,
-
+        // JWT-Auth
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
     ],
 
     /*
@@ -231,6 +232,9 @@ return [
 
         // Entrust
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        // JWT-Auth
+        'JWTAuth'   => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
     ],
 
 ];

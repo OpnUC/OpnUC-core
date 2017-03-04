@@ -1,17 +1,6 @@
 <template>
     <section class="content">
-        <template v-if="1">
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">PBX Tool</h3>
-                </div>
-                <div class="box-body">
-                    このサイトを利用するにはログインが必要です。<br/>
-                    右上からログインしてください。
-                </div>
-            </div>
-        </template>
-        <template v-else>
+        <template v-if="auth.user.authenticated">
             <div class="col-md-4">
                 <div class="box">
                     <div class="box-header with-border">
@@ -33,10 +22,28 @@
                 </div>
             </div>
         </template>
+        <template v-else>
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">PBX Tool</h3>
+                </div>
+                <div class="box-body">
+                    このサイトを利用するにはログインが必要です。<br/>
+                    右上からログインしてください。
+                </div>
+            </div>
+        </template>
     </section>
 </template>
 <script>
+    import auth from '../auth'
+
     export default {
+        data() {
+            return {
+                auth: auth
+            }
+        },
         created: function () {
             this.$root.sidebar = false;
         }

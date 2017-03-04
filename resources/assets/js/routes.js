@@ -18,7 +18,8 @@ const routes = [
                 component: Index,
                 name: 'Home',
                 meta: {
-                    description: 'Home'
+                    description: 'Home',
+                    // requiresAuth: true
                 }
             },
             // {

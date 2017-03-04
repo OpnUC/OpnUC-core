@@ -11,6 +11,9 @@
 |
 */
 
+Route::get('/authenticate', 'JwtAuthenticateController@index');
+Route::post('/authenticate', 'JwtAuthenticateController@authenticate');
+
 Route::get('/{vue?}', function () {
     return view('index');
 })->where('vue', '[\/\w\.-]*');
