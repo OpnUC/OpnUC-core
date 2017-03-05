@@ -12,8 +12,8 @@
                 </a>
 
                 <ul class="nav navbar-nav">
-                    <li class="active">
-                        <router-link to="/dummyurl">Item1</router-link>
+                    <li>
+                        <router-link to="/cdr">発着信履歴</router-link>
                     </li>
                 </ul>
                 <div class="navbar-custom-menu">

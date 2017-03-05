@@ -3,6 +3,8 @@ import Template from './components/Template.vue'
 import Index from './components/Index.vue'
 import Sidebar from './components/Sidebar.vue'
 
+import Cdr from './components/Cdr.vue'
+
 import Login from './components/Login.vue'
 
 import NotFoundView from './components/404.vue'
@@ -20,6 +22,14 @@ const routes = [
                 meta: {
                     description: 'Home',
                     // requiresAuth: true
+                }
+            },
+            {
+                path: '/Cdr',
+                component: Cdr,
+                name: '発着信履歴',
+                meta: {
+                    description: 'Call detail record'
                 }
             },
             // {
