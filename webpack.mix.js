@@ -30,7 +30,7 @@ mix.js([
         // Font Awsome
         paths.fontawesome + '/css/font-awesome.css'
     ], 'public/css/vendor.css')
-    .extract(['vue'])
+    .extract(['element-ui', 'jquery', 'vue', 'vue-router'])
     .copy(
         'node_modules/font-awesome/fonts',
         'public/fonts'

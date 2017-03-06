@@ -3,10 +3,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Auth from './auth'
-
+import ElementUI from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/ja'
+import 'element-ui/lib/theme-default/index.css'
 import AppView from './components/App.vue'
 
 Vue.use(VueRouter);
+Vue.use(ElementUI, {locale})
 
 import routes from './routes'
 

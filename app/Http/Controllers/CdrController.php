@@ -8,12 +8,14 @@ use App\Http\Requests;
 /**
  * 発着信履歴
  */
-class CdrController extends Controller {
+class CdrController extends Controller
+{
 
     /**
      * constructor
      */
-    public function __construct(){
+    public function __construct()
+    {
 
         // ミドルウェアの指定
         $this->middleware('jwt.auth');
@@ -25,7 +27,8 @@ class CdrController extends Controller {
      * @param Request $req
      * @return type
      */
-    public function search(Request $req) {
+    public function search(Request $req)
+    {
 
         $column = ['id', 'start_datetime', 'duration', 'type', 'sender', 'destination'];
 
@@ -33,31 +36,37 @@ class CdrController extends Controller {
 
         if (strlen($req['sender'])) {
             $items = $items
-                    ->where('sender', 'LIKE', '%' . $req['sender'] . '%');
+                ->where('sender', 'LIKE', '%' . $req['sender'] . '%');
         }
 
         if (strlen($req['destination'])) {
             $items = $items
-                    ->where('destination', 'LIKE', '%' . $req['destination'] . '%');
+                ->where('destination', 'LIKE', '%' . $req['destination'] . '%');
         }
 
-        if (strlen($req['start_datetime']) && date_parse($req['start_datetime']) && strlen($req['end_datetime']) && date_parse($req['end_datetime'])) {
+        $startDt = str_replace('"', '', $req['datetime'][0]);
+        $endDt = str_replace('"', '', $req['datetime'][1]);
+
+        if (is_array($req['datetime']) && strtotime($startDt) && strtotime($endDt)) {
+            $startDt = date('Y-m-d' . ' 00:00:00', strtotime($startDt));
+            $endDt = date('Y-m-d' . ' 23:59:59', strtotime($endDt));
+
             $items = $items
-                    ->whereBetween('start_datetime', array($req['start_datetime'], $req['end_datetime']));
+                ->whereBetween('start_datetime', array($startDt, $endDt));
         }
 
         $type = is_numeric($req['type']) ? intval($req['type']) : 0;
 
         if ($type !== 0) {
             $items = $items
-                    ->where('type', $req['type']);
+                ->where('type', $req['type']);
         }
 
         $sort = explode('|', $req['sort']);
         // Sort
         if (is_array($sort) && in_array($sort[0], $column) && in_array($sort[1], array('desc', 'asc'))) {
-                $items = $items
-                        ->orderBy($sort[0], $sort[1]);
+            $items = $items
+                ->orderBy($sort[0], $sort[1]);
         }
 
         $per_page = intval($req['per_page']) ? $req['per_page'] : 10;

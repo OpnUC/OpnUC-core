@@ -12,7 +12,7 @@
                     </h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="search">
-                    <form class="form-horizontal" id="searchForm">
+                    <form class="form-horizontal" id="searchForm" v-on:submit="onSearch">
                         <div class="panel-body">
                             <div class="form-group">
                                 <label for="searchSender" class="col-sm-1 control-label">発信者：</label>
@@ -38,12 +38,17 @@
                             <div class="form-group">
                                 <label for="searchDateStart" class="col-sm-1 control-label">期間：</label>
                                 <div class="col-sm-5">
-                                    <input type="text" class="form-control" id="searchDaterangepicker" value="">
+                                    <el-date-picker
+                                            v-model="moreParams.datetime" type="daterange"
+                                            placeholder="日時を選択してください"
+                                            format="yyyy/MM/dd"
+                                            range-separator="～"
+                                            :picker-options="dpOptions"></el-date-picker>
                                 </div>
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button class="btn btn-primary" type="button" v-on:click="onSearch">
+                            <button class="btn btn-primary" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
                                 検索
                             </button>
@@ -56,7 +61,7 @@
                 </div>
             </div>
             <div class="box">
-                <div id="resultLoading" style="visibility: hidden;" class="overlay">
+                <div id="resultLoading" style="visibility: visible;" class="overlay">
                     <i class="fa fa-refresh fa-spin"></i>
                 </div>
                 <div class="box-body">
@@ -92,11 +97,72 @@
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
-
+    require('moment/min/locales');
     export default {
         data() {
             return {
                 auth: auth,
+                dpOptions: {
+                    firstDayOfWeek: 1,
+                    shortcuts: [
+                        {
+                            text: '今日',
+                            onClick(picker) {
+                                const start = new Date();
+                                picker.$emit('pick', [start, start]);
+                            }
+                        },
+                        {
+                            text: '昨日',
+                            onClick(picker) {
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
+                                picker.$emit('pick', [start, start]);
+                            }
+                        },
+                        {
+                            text: '過去7日間',
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        },
+                        {
+                            text: '過去30日間',
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
+                                picker.$emit('pick', [start, end]);
+                            }
+                        },
+                        {
+                            text: '今月',
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
+                                picker.$emit('pick', [
+                                    moment().startOf('month'),
+                                    moment().endOf('month')
+                                ]);
+                            }
+                        },{
+                            text: '先月',
+                            onClick(picker) {
+                                const end = new Date();
+                                const start = new Date();
+                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
+                                picker.$emit('pick', [
+                                    moment().subtract(1, 'month').startOf('month'),
+                                    moment().subtract(1, 'month').endOf('month')
+                                ]);
+                            }
+                        }
+                    ]
+                },
                 types: [
                     {
                         key: 0,
@@ -132,23 +198,20 @@
                     ascendingIcon: 'glyphicon glyphicon-chevron-up',
                     descendingIcon: 'glyphicon glyphicon-chevron-down',
                     sortHandleIcon: 'glyphicon glyphicon-menu-hamburger',
-                }
-                ,
+                },
                 cssPagination: {
                     wrapperClass: 'pagination pull-right',
                     activeClass: 'btn-primary',
                     disabledClass: 'disabled',
                     pageClass: 'btn btn-border',
                     linkClass: 'btn btn-border',
-                }
-                ,
+                },
                 icons: {
                     first: '',
                     prev: '',
                     next: '',
                     last: '',
-                }
-                ,
+                },
                 fields: [
                     {
                         name: 'start_datetime',
@@ -183,6 +246,10 @@
                     sender: '',
                     destination: '',
                     type: 0,
+                    datetime: [
+                        moment().startOf('month'),
+                        moment().endOf('month')
+                    ],
                 }
             }
         },
@@ -226,13 +293,28 @@
                 this.$refs.vuetable.changePage(page)
             },
             onSearch(){
+                event.preventDefault()
+
                 this.$refs.vuetable.refresh()
             },
+            regEvent(){
+                this.$refs.vuetable.$on('vuetable:loading', () => {
+                    $('#resultLoading').css('visibility', 'visible');
+                })
+                this.$refs.vuetable.$on('vuetable:loaded', () => {
+                    $('#resultLoading').css('visibility', 'hidden');
+                })
+            },
+        },
+        mounted: function () {
+            moment.locale('ja')
+            this.regEvent();
         },
         created: function () {
             this.$root.sidebar = false;
         }
     }
+
 </script>
 <style>
     .pagination {
