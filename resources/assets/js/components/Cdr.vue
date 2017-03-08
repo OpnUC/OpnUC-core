@@ -92,7 +92,6 @@
     </section>
 </template>
 <script>
-    import auth from '../auth'
     import moment from 'moment'
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
@@ -101,7 +100,6 @@
     export default {
         data() {
             return {
-                auth: auth,
                 dpOptions: {
                     firstDayOfWeek: 1,
                     shortcuts: [

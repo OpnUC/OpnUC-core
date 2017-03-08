@@ -19,7 +19,7 @@
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
 
-                        <template v-if="auth.user.authenticated">
+                        <template v-if="$auth.check()">
                             <li class="notifications-menu">
                                 <a>
                                     <i id="laravelEchoStatus" class="fa fa-bell-slash-o"></i>
@@ -30,7 +30,7 @@
                                    aria-expanded="false">
                                     <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"
                                          class="user-image" alt="User Image">
-                                    {{auth.user.profile.display_name}}
+                                    {{ $auth.user().display_name }}
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -38,7 +38,7 @@
                                         <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"
                                              class="img-circle" alt="User Image">
                                         <p>
-                                            {{auth.user.profile.display_name}}
+                                            {{ $auth.user().display_name }}
                                         </p>
                                     </li>
                                     <li class="user-body">
@@ -96,15 +96,8 @@
 </template>
 
 <script>
-    import auth from '../auth'
-
     export default {
         name: 'Dash',
-        data() {
-            return {
-                auth: auth
-            }
-        },
         computed: {
             year: function () {
                 var y = new Date()
@@ -122,11 +115,16 @@
                 event.toElement.parentElement.className = 'pageLink active'
             },
             signout() {
-                auth.signout()
+                this.$auth.logout({
+                    //makeRequest: true,
+                    success() {
+                        console.log('success');
+                    },
+                    error() {
+                        console.log('error');
+                    }
+                });
             }
-        },
-        mounted () {
-            auth.check()
         }
     }
 </script>

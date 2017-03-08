@@ -21,7 +21,6 @@ const routes = [
                 name: 'Home',
                 meta: {
                     description: 'Home',
-                    // requiresAuth: true
                 }
             },
             {
@@ -29,7 +28,8 @@ const routes = [
                 component: Cdr,
                 name: '発着信履歴',
                 meta: {
-                    description: 'Call detail record'
+                    description: 'Call detail record',
+                    auth: true
                 }
             },
             // {
@@ -48,7 +48,7 @@ const routes = [
                 component: Login,
                 name: 'Login',
                 meta: {
-                    description: 'Overview of environment'
+                    description: 'Overview of environment',
                 }
             },
             {

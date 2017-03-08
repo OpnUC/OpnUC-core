@@ -34,8 +34,6 @@
     </section>
 </template>
 <script>
-    import auth from '../auth'
-
     export default {
         created: function () {
             this.$root.sidebar = false;
@@ -50,7 +48,25 @@
         methods: {
             signin(event) {
                 event.preventDefault()
-                auth.signin(this, this.username, this.password)
+
+                var redirect = this.$auth.redirect();
+
+                this.$auth.login({
+                    params:{
+                        'username': this.username,
+                        'password': this.password,
+                    },
+                    rememberMe: false,
+                    redirect: redirect ? redirect.from.fullPath : '/',
+                    success() {
+                        console.log('success');
+                    },
+                    error(res) {
+                        console.log('error');
+
+                        this.error = res.data;
+                    }
+                });
             }
         }
     }

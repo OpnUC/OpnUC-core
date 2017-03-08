@@ -25,7 +25,10 @@ class JwtAuthenticateController extends Controller
     public function index()
     {
 
-        return response()->json(['profile' => Auth::user()]);
+        return response()->json([
+            'status' => 'success',
+            'data' => Auth::User()
+        ]);
 
     }
 
@@ -35,14 +38,21 @@ class JwtAuthenticateController extends Controller
 
         try {
             // verify the credentials and create a token for the user
-            if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
+            if ( ! $token = JWTAuth::attempt($credentials)) {
+                return response([
+                    'status' => 'error',
+                    'error' => 'invalid.credentials',
+                    'msg' => 'Invalid Credentials.'
+                ], 400);
             }
         } catch (JWTException $e) {
             return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
-        return response()->json(['token' => $token, 'profile' => Auth::user()]);
+        return response([
+            'status' => 'success',
+        ])
+            ->header('Authorization', $token);
     }
 
 }
