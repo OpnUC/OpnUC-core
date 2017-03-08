@@ -4,10 +4,13 @@
             <div class="box box-solid box-info">
                 <div class="box-header">ログイン</div>
                 <div class="box-body">
-                    <form class="form-signin" autocomplete="off" v-on:submit="signin">
+                    <div v-if="error" class="alert alert-danger">
+                        {{error.message}}
+                    </div>
+                    <form class="form-signin" autocomplete="off" v-on:submit.prevent="signin">
                         <div class="form-group">
                             <label for="username" class="sr-only">ユーザ名</label>
-                            <input type="text" id="username" name="username" class="form-control"  v-model="username"
+                            <input type="text" id="username" name="username" class="form-control" v-model="username"
                                    placeholder="ユーザ名" required autofocus>
                         </div>
                         <div class="form-group">
@@ -18,7 +21,7 @@
                         </div>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" value="remember"> ログインを維持する
+                                <input type="checkbox" value="remember" v-model="remember"> ログインを維持する
                             </label>
                         </div>
                         <button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>
@@ -35,20 +38,19 @@
 </template>
 <script>
     export default {
-        created: function () {
+        created() {
             this.$root.sidebar = false;
         },
         data() {
             return {
                 username: null,
                 password: null,
-                error: false
+                remember: false,
+                error: null
             }
         },
         methods: {
-            signin(event) {
-                event.preventDefault()
-
+            signin() {
                 var redirect = this.$auth.redirect();
 
                 this.$auth.login({
@@ -56,15 +58,10 @@
                         'username': this.username,
                         'password': this.password,
                     },
-                    rememberMe: false,
+                    rememberMe: this.remember,
                     redirect: redirect ? redirect.from.fullPath : '/',
-                    success() {
-                        console.log('success');
-                    },
                     error(res) {
-                        console.log('error');
-
-                        this.error = res.data;
+                        this.error = res.response.data;
                     }
                 });
             }

@@ -77,12 +77,12 @@
         <div class="content-wrapper">
             <section class="content-header">
                 <h1>
-                    {{$route.name.toUpperCase() }}
+                    {{ $route.name.toUpperCase() }}
                     <small>{{ $route.meta.description }}</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="javascript:;"><i class="fa fa-home"></i>Home</a></li>
-                    <li class="active">{{$route.name.toUpperCase() }}</li>
+                    <li class="active">{{ $route.name.toUpperCase() }}</li>
                 </ol>
             </section>
 
@@ -97,7 +97,6 @@
 
 <script>
     export default {
-        name: 'Dash',
         computed: {
             year: function () {
                 var y = new Date()
@@ -105,10 +104,10 @@
             },
         },
         methods: {
-            changeloading: function () {
+            changeloading () {
                 //this.store.commit('TOGGLE_SEARCHING')
             },
-            toggleMenu: function (event) {
+            toggleMenu(event) {
                 // remove active from li
                 window.$('li.pageLink').removeClass('active')
                 // Add it to the item that was clicked
@@ -116,10 +115,7 @@
             },
             signout() {
                 this.$auth.logout({
-                    //makeRequest: true,
-                    success() {
-                        console.log('success');
-                    },
+                    makeRequest: true,
                     error() {
                         console.log('error');
                     }

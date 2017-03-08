@@ -48,7 +48,7 @@ const routes = [
                 component: Login,
                 name: 'Login',
                 meta: {
-                    description: 'Overview of environment',
+                    description: 'Login',
                 }
             },
             {

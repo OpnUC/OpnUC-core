@@ -304,15 +304,14 @@
                 })
             },
         },
-        mounted: function () {
+        mounted() {
             moment.locale('ja')
             this.regEvent();
         },
-        created: function () {
+        created() {
             this.$root.sidebar = false;
         }
     }
-
 </script>
 <style>
     .pagination {

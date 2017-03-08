@@ -11,8 +11,10 @@
 |
 */
 
-Route::get('/authenticate', 'JwtAuthenticateController@index');
-Route::post('/authenticate', 'JwtAuthenticateController@authenticate');
+Route::get('/auth/user', 'AuthController@user');
+Route::get('/auth/refresh', 'AuthController@refresh');
+Route::post('/auth/login', 'AuthController@login');
+Route::post('/auth/logout', 'AuthController@logout');
 
 Route::get('/cdr/search', 'CdrController@search');
 

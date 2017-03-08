@@ -37,7 +37,7 @@
 </template>
 <script>
     export default {
-        created: function () {
+        created() {
             this.$root.sidebar = false;
         }
     }
