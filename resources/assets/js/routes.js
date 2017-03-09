@@ -1,9 +1,10 @@
 import Template from './components/Template.vue'
 
 import Index from './components/Index.vue'
-import Sidebar from './components/Sidebar.vue'
 
 import Cdr from './components/Cdr.vue'
+import AddressBook from './components/AddressBook.vue'
+import AddressBook_Sidebar from './components/AddressBook_Sidebar.vue'
 
 import Login from './components/Login.vue'
 
@@ -32,17 +33,18 @@ const routes = [
                     auth: true
                 }
             },
-            // {
-            //     path: '',
-            //     components: {
-            //         sidebar: Sidebar,
-            //         default: Index
-            //     },
-            //     name: 'Dashboard',
-            //     meta: {
-            //         description: 'Overview of environment'
-            //     }
-            // },
+            {
+                path: '/AddressBook',
+                components: {
+                    sidebar: AddressBook_Sidebar,
+                    default: AddressBook
+                },
+                name: 'Web電話帳',
+                meta: {
+                    description: 'Web Address Book',
+                    auth: true
+                }
+            },
             {
                 path: '/Login',
                 component: Login,

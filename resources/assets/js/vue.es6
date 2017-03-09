@@ -36,6 +36,15 @@ Vue.use(VueAuth, {
 
 //export {router};
 
+// Vue.router.beforeEach((to, from, next) => {
+//     if (to.matched.some(record => record.components.sidebar)) {
+//         this.$root.sidebar = true;
+//     }else{
+//         this.$root.sidebar = false;
+//     }
+//         next()
+// })
+
 const app = new Vue({
     router: Vue.router,
     el: '#root',

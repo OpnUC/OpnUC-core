@@ -309,7 +309,7 @@
             this.regEvent();
         },
         created() {
-            this.$root.sidebar = false;
+            this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);
         }
     }
 </script>
