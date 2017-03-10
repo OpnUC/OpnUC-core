@@ -17,7 +17,7 @@
         methods:{
             // 詳細の表示
             showDetail() {
-                this.$events.$emit('AddressBook:showDetail', this.rowData.id)
+                this.$events.$emit('AddressBook:showDetail', this.rowData)
             }
         },
     }

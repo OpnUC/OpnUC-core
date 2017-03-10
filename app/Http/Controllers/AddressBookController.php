@@ -10,13 +10,6 @@ use App\Http\Requests;
 class AddressBookController extends Controller
 {
 
-    // アドレス帳種別
-    var $AddressBookType = array(
-        1 => '内線電話帳',
-        2 => '共通電話帳',
-        //9 => '個人電話帳',
-    );
-
     /**
      * アドレス帳の検索
      * @param Request $req
@@ -25,7 +18,7 @@ class AddressBookController extends Controller
     public function search(Request $req)
     {
 
-        $column = ['id', 'name_kana', 'tel1', 'name', 'position', 'tel2', 'tel3', 'email', 'comment', 'avatar_type', 'avatar_filename'];
+        $column = ['id', 'type', 'position', 'name_kana', 'name', 'tel1', 'tel2', 'tel3', 'email', 'comment', 'avatar_type', 'avatar_filename'];
         $typeId = intval($req['typeId']) ? intval($req['typeId']) : -1;
 
         $items = \App\AddressBook::select($column)

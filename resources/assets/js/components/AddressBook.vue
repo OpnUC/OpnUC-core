@@ -38,11 +38,95 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="Tips" v-model="dialog.visible" v-on:open="onDialogOpen" size="tiny">
-            <span>This is a message</span>
+        <el-dialog title="詳細" v-model="dialog.visible" v-on:open="onDialogOpen">
+            <table class="table table-bordered table-striped" v-if="dialog.selectItem != null">
+                <tbody>
+                <tr>
+                    <th width="150">
+                        アドレス帳ID
+                    </th>
+                    <td>
+                        {{ dialog.selectItem.id }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        役職
+                    </th>
+                    <td>
+                        {{ dialog.selectItem.position }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        名前
+                    </th>
+                    <td>
+                        <small>({{ dialog.selectItem.name_kana }})</small>
+                        </br>
+                        {{ dialog.selectItem.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        電話帳種別
+                    </th>
+                    <td>
+                        {{ addressBookType[dialog.selectItem.type] }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        所属グループ
+                    </th>
+                    <td>
+                        <!-- // Todo -->
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        電話番号1
+                    </th>
+                    <td>
+                        <a :href="`tel:${dialog.selectItem.tel1}`" v-if="dialog.selectItem.tel1">{{ dialog.selectItem.tel1 }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        電話番号2
+                    </th>
+                    <td>
+                        <a :href="`tel:${dialog.selectItem.tel2}`" v-if="dialog.selectItem.tel2">{{ dialog.selectItem.tel2 }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        電話番号3
+                    </th>
+                    <td>
+                        <a :href="`tel:${dialog.selectItem.tel3}`" v-if="dialog.selectItem.tel3">{{ dialog.selectItem.tel3 }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        メールアドレス
+                    </th>
+                    <td>
+                        <a :href="`mailto:${dialog.selectItem.email}`" v-if="dialog.selectItem.email">{{ dialog.selectItem.email }}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        備考
+                    </th>
+                    <td>
+                        {{ dialog.selectItem.comment }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialog.visible = false">Cancel</el-button>
-                <el-button type="primary" @click="dialog.visible = false">Confirm</el-button>
+                <button v-on:click="dialog.visible = false">閉じる</button>
              </span>
         </el-dialog>
     </section>
@@ -68,7 +152,12 @@
             return {
                 dialog: {
                     visible: false,
-                    selectId: null,
+                    selectItem: null,
+                },
+                addressBookType: {
+                    1: '内線電話帳',
+                    2: '共通電話帳',
+                    //9 : '個人電話帳',
                 },
                 sortOrder: [
                     {
@@ -169,9 +258,9 @@
         },
         events: {
             // 詳細の表示(ColumNameからのイベント)
-            'AddressBook:showDetail': function (id) {
+            'AddressBook:showDetail': function (item) {
                 this.dialog.visible = true
-                this.dialog.selectId = id
+                this.dialog.selectItem = item
             },
         }
     }
