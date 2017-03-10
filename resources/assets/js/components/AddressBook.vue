@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="詳細" v-model="dialog.visible" v-on:open="onDialogOpen">
+        <el-dialog title="詳細" v-model="dialog.visible">
             <table class="table table-bordered table-striped" v-if="dialog.selectItem != null">
                 <tbody>
                 <tr>
@@ -126,7 +126,7 @@
                 </tbody>
             </table>
             <span slot="footer" class="dialog-footer">
-                <button v-on:click="dialog.visible = false">閉じる</button>
+                <button class="btn btn-default" v-on:click="dialog.visible = false">閉じる</button>
              </span>
         </el-dialog>
     </section>
@@ -246,9 +246,6 @@
                     $('#resultLoading').css('visibility', 'hidden');
                 })
             },
-            onDialogOpen(){
-                console.log('dialog open:' + this.dialog.selectId)
-            }
         },
         mounted() {
             this.regEvent();

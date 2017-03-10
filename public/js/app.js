@@ -2772,9 +2772,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
             this.$refs.vuetable.$on('vuetable:loaded', function () {
                 $('#resultLoading').css('visibility', 'hidden');
             });
-        },
-        onDialogOpen: function onDialogOpen() {
-            console.log('dialog open:' + this.dialog.selectId);
         }
     },
     mounted: function mounted() {
@@ -31978,9 +31975,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "title": "詳細"
     },
-    on: {
-      "open": _vm.onDialogOpen
-    },
     model: {
       value: (_vm.dialog.visible),
       callback: function($$v) {
@@ -32013,6 +32007,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "dialog-footer",
     slot: "footer"
   }, [_c('button', {
+    staticClass: "btn btn-default",
     on: {
       "click": function($event) {
         _vm.dialog.visible = false
