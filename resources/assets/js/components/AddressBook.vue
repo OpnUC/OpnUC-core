@@ -16,9 +16,9 @@
                 </h3>
             </div>
             <div class="box-body">
-                <vuetable class="table table-condensed table-striped"
+                <vuetable class="table table-striped"
                           ref="vuetable"
-                          api-url="/cdr/search"
+                          api-url="/addressbook/search"
                           :css="css"
                           :fields="fields"
                           :sort-order="sortOrder"
@@ -38,21 +38,43 @@
                 </div>
             </div>
         </div>
+        <el-dialog title="Tips" v-model="dialog.visible" v-on:open="onDialogOpen" size="tiny">
+            <span>This is a message</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialog.visible = false">Cancel</el-button>
+                <el-button type="primary" @click="dialog.visible = false">Confirm</el-button>
+             </span>
+        </el-dialog>
     </section>
+
 </template>
 <script>
+    import Vue from 'vue'
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+    import columnAvatar from './AddressBook_ColumnAvatar.vue'
+    import columnName from './AddressBook_ColumnName.vue'
+    import columnContact from './AddressBook_ColumnContact.vue'
+    import columnAction from './AddressBook_ColumnAction.vue'
+
+    Vue.component('columnAvatar', columnAvatar)
+    Vue.component('columnName', columnName)
+    Vue.component('columnContact', columnContact)
+    Vue.component('columnAction', columnAction)
 
     export default {
         data() {
             return {
+                dialog: {
+                    visible: false,
+                    selectId: null,
+                },
                 sortOrder: [
                     {
-                        field: 'start_datetime',
-                        sortField: 'start_datetime',
-                        direction: 'desc'
+                        field: '__component:columnName',
+                        sortField: 'name_kana',
+                        direction: 'asc'
                     }
                 ],
                 css: {
@@ -77,38 +99,35 @@
                 },
                 fields: [
                     {
-                        name: 'start_datetime',
-                        title: '通話日時',
-                        sortField: 'start_datetime',
-                        callback: 'formatDate|YYYY/MM/DD hh:mm:ss',
+                        name: '__component:columnAvatar',
+                        title: '',
+                        titleClass: 'columnAvatar',
+                        dataClass: 'text-center',
                     },
                     {
-                        name: 'duration',
-                        title: '通話時間',
-                        sortField: 'duration',
-                        callback: 'toHMS',
+                        name: '__component:columnName',
+                        title: '役職/名前',
+                        sortField: 'name_kana',
+                        titleClass: 'columnName',
                     },
                     {
-                        name: 'type',
-                        title: '種別',
-                        sortField: 'type',
-                        callback: 'convertType',
+                        name: '__component:columnContact',
+                        title: '連絡先',
+                        sortField: 'tel1',
+                        titleClass: 'columnContact',
                     },
                     {
-                        name: 'sender',
-                        title: '発信者',
-                        sortField: 'sender',
+                        name: 'comment',
+                        title: '備考',
                     },
                     {
-                        name: 'destination',
-                        title: '着信先',
-                        sortField: 'destination',
+                        name: '__component:columnAction',
+                        title: '操作',
+                        titleClass: 'columnAction',
                     },
                 ],
                 moreParams: {
-                    sender: '',
-                    destination: '',
-                    type: 0,
+                    typeId: 1,
                 }
             }
         },
@@ -138,12 +157,22 @@
                     $('#resultLoading').css('visibility', 'hidden');
                 })
             },
+            onDialogOpen(){
+                console.log('dialog open:' + this.dialog.selectId)
+            }
         },
         mounted() {
             this.regEvent();
         },
         created() {
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);
+        },
+        events: {
+            // 詳細の表示(ColumNameからのイベント)
+            'AddressBook:showDetail': function (id) {
+                this.dialog.visible = true
+                this.dialog.selectId = id
+            },
         }
     }
 </script>
@@ -159,5 +188,29 @@
 
     .vuetable-pagination-info {
         margin-top: 8px !important;
+    }
+
+    .vuetable th.columnAvatar {
+        width: 100px;
+    }
+
+    .vuetable th.columnName {
+        width: 250px;
+    }
+
+    .vuetable th.columnContact {
+        width: 300px;
+    }
+
+    .vuetable th.columnAction {
+        width: 150px;
+    }
+
+    /* 内線プレゼンス */
+    i.extStatus::after {
+        padding-left: 3px;
+        font-size: 90%;
+        color: #333;
+        content: attr(title);
     }
 </style>

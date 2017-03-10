@@ -12,7 +12,9 @@ import AppView from './components/App.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import VueAuth from '@websanova/vue-auth'
+import VueEvents from 'vue-events'
 
+Vue.use(VueEvents)
 Vue.use(VueAxios, axios)
 Vue.use(VueRouter);
 Vue.use(ElementUI, {locale})
