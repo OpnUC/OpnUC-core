@@ -3,7 +3,7 @@
         <div v-if="rowData.position">
             <small>{{ rowData.position }}</small>
         </div>
-        <a v-on:click="showDetail" :title="rowData.name_kana">{{ rowData.name }}</a>
+        <a href="" v-on:click.prevent="showDetail" :title="rowData.name_kana">{{ rowData.name }}</a>
     </div>
 </template>
 <script>
