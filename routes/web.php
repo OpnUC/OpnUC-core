@@ -18,6 +18,7 @@ Route::post('/auth/logout', 'AuthController@logout');
 
 Route::get('/cdr/search', 'CdrController@search');
 Route::get('/addressbook/search', 'AddressBookController@search');
+Route::get('/addressbook/groups', 'AddressBookController@groups');
 
 Route::get('/{vue?}', function () {
     return view('index');

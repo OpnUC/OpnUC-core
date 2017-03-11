@@ -7,12 +7,12 @@
             <div class="box-header with-border">
                 <h3 class="box-title">
                     電話帳一覧
-                    <span id="breadcrumb" style="padding-left: 10px; color:gray; font-size:75%">
-                    内線電話帳 > すべてを表示
-                </span>
-                    <span id="breadcrumbKeyword" style="color:gray; font-size:75%; visibility: hidden;">
-                    > 検索結果
-                </span>
+                    <span style="padding-left: 10px; color:gray; font-size:75%">
+                        {{ addressBookType[moreParams.typeId] }} > {{ groupName }}
+                        <span v-if="isSearch">
+                            > 検索結果
+                        </span>
+                    </span>
                 </h3>
             </div>
             <div class="box-body">
@@ -88,7 +88,8 @@
                         電話番号1
                     </th>
                     <td>
-                        <a :href="`tel:${dialog.selectItem.tel1}`" v-if="dialog.selectItem.tel1">{{ dialog.selectItem.tel1 }}</a>
+                        <a :href="`tel:${dialog.selectItem.tel1}`" v-if="dialog.selectItem.tel1">{{
+                            dialog.selectItem.tel1 }}</a>
                     </td>
                 </tr>
                 <tr>
@@ -96,7 +97,8 @@
                         電話番号2
                     </th>
                     <td>
-                        <a :href="`tel:${dialog.selectItem.tel2}`" v-if="dialog.selectItem.tel2">{{ dialog.selectItem.tel2 }}</a>
+                        <a :href="`tel:${dialog.selectItem.tel2}`" v-if="dialog.selectItem.tel2">{{
+                            dialog.selectItem.tel2 }}</a>
                     </td>
                 </tr>
                 <tr>
@@ -104,7 +106,8 @@
                         電話番号3
                     </th>
                     <td>
-                        <a :href="`tel:${dialog.selectItem.tel3}`" v-if="dialog.selectItem.tel3">{{ dialog.selectItem.tel3 }}</a>
+                        <a :href="`tel:${dialog.selectItem.tel3}`" v-if="dialog.selectItem.tel3">{{
+                            dialog.selectItem.tel3 }}</a>
                     </td>
                 </tr>
                 <tr>
@@ -112,7 +115,8 @@
                         メールアドレス
                     </th>
                     <td>
-                        <a :href="`mailto:${dialog.selectItem.email}`" v-if="dialog.selectItem.email">{{ dialog.selectItem.email }}</a>
+                        <a :href="`mailto:${dialog.selectItem.email}`" v-if="dialog.selectItem.email">{{
+                            dialog.selectItem.email }}</a>
                     </td>
                 </tr>
                 <tr>
@@ -217,7 +221,11 @@
                 ],
                 moreParams: {
                     typeId: 1,
-                }
+                    groupId: 0,
+                    keyword: '',
+                },
+                isSearch: false,
+                groupName: 'すべてを表示',
             }
         },
         components: {
@@ -234,7 +242,7 @@
                 this.$refs.vuetable.changePage(page)
             },
             onSearch(){
-                event.preventDefault()
+                this.isSearch = this.moreParams.keyword ? true : false;
 
                 this.$refs.vuetable.refresh()
             },
@@ -258,6 +266,22 @@
             'AddressBook:showDetail': function (item) {
                 this.dialog.visible = true
                 this.dialog.selectItem = item
+            },
+            // 検索(Sidebarからのイベント)
+            'AddressBook:search': function (keyword, typeId, groupId, groupName) {
+                if(typeof typeId != "undefined"){
+                    this.moreParams.typeId = typeId;
+                }
+                if(typeof groupId != "undefined"){
+                    this.moreParams.groupId = groupId;
+                }
+                if(typeof groupName != "undefined"){
+                    this.groupName = groupName
+                }
+
+                this.moreParams.keyword = keyword;
+
+                this.onSearch();
             },
         }
     }

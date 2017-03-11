@@ -78,4 +78,66 @@ class AddressBookController extends Controller
         return \Response::json($items);
 
     }
+
+    /**
+     * グループ一覧を出力
+     * @param Request $req
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function groups(Request $req)
+    {
+
+        $typeId = intval($req['typeId']);
+
+        $dbGroups = \App\AddressBookGroup::where('parent_groupid', 0)
+            ->where('type', $typeId)
+            ->get();
+
+        $groups = $this->_buildGroups($dbGroups);
+
+        return \Response::json($groups);
+    }
+
+    /**
+     * グループ一覧を取得する処理の再帰部分
+     * @param $groups
+     * @return array|null
+     */
+    private function _buildGroups($groups)
+    {
+        $result = null;
+
+        // 親グループ
+        foreach ($groups as $Group) {
+            $result_child = null;
+
+            // 子グループ
+            foreach ($Group->childs as $item) {
+                // ToDo: 個人電話帳の考慮してない
+                $ItemCount = \App\AddressBook::where('type', $item->type)
+                    ->where('groupid', $item->id)
+                    ->count();
+                $result_child[] = array(
+                    'Id' => $item->id,
+                    'Name' => $item->group_name,
+                    'ItemCount' => $ItemCount,
+                    // 孫グループがある場合、再帰処理
+                    'Child' => $item->childs->count() ? $this->_buildGroups($item->childs) : null,
+                );
+            }
+
+            // ToDo: 個人電話帳の考慮してない
+            $ItemCount = \App\AddressBook::where('type', $Group->type)
+                ->where('groupid', $Group->id)
+                ->count();
+            $result[] = array(
+                'Id' => $Group->id,
+                'Name' => $Group->group_name,
+                'ItemCount' => $ItemCount,
+                'Child' => $result_child,
+            );
+        }
+
+        return $result;
+    }
 }
