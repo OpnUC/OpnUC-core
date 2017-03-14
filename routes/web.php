@@ -16,6 +16,8 @@ Route::get('/auth/refresh', 'AuthController@refresh');
 Route::post('/auth/login', 'AuthController@login');
 Route::post('/auth/logout', 'AuthController@logout');
 
+Route::post('/auth/resetEmail', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+
 Route::get('/cdr/search', 'CdrController@search');
 Route::get('/addressbook/search', 'AddressBookController@search');
 Route::get('/addressbook/groups', 'AddressBookController@groups');
