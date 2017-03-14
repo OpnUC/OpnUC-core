@@ -14,11 +14,18 @@
                         {{message}}
                     </div>
                     <form v-on:submit.prevent="resetEmail">
-                        <div class="form-group">
+                        <div class="form-group" :class="errors.email ? 'has-error' : ''">
                             <label for="email" class="sr-only">メールアドレス</label>
-                            <input type="email" class="form-control" v-model="email" name="email" placeholder="メールアドレス"
+                            <input type="email" class="form-control" v-model="email" id="email" placeholder="メールアドレス"
                                    required
                                    autofocus>
+                            <span class="help-block" v-if="errors.email">
+                                <ul>
+                                    <li v-for="item in errors.email">
+                                        {{ item }}
+                                    </li>
+                                </ul>
+                            </span>
                         </div>
                         <button class="btn btn-primary btn-block" type="submit">パスワードリセットを行う</button>
                     </form>
@@ -37,11 +44,16 @@
                 email: null,
                 status: null,
                 message: null,
+                errors: [],
             }
         },
         methods: {
             resetEmail() {
                 var _this = this
+
+                _this.status = null
+                _this.message = null
+                _this.errors = []
 
                 $('#resultLoading').css('visibility', 'visible');
 
@@ -51,16 +63,30 @@
                     })
                     .then(function (response) {
                         $('#resultLoading').css('visibility', 'hidden');
+
                         if(response.status === 200){
                             _this.status = response.data.status;
                             _this.message = response.data.message;
+
+                            if(response.data.status === 'success'){
+                                _this.email = ''
+                            }
                         }
                     })
                     .catch(function (error) {
                         $('#resultLoading').css('visibility', 'hidden');
-                        // 422 - Validation Error
+
                         _this.status = 'error'
-                        console.log(error);
+
+                        if(error.response.status === 422){
+                            // 422 - Validation Error
+                            _this.message = '入力に問題があります。'
+
+                            _this.errors = error.response.data
+                        }else{
+                            _this.message = 'エラーが発生しました。'
+                        }
+
                     });
             }
         }

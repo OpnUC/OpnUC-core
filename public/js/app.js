@@ -3562,6 +3562,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
     created: function created() {
@@ -3571,7 +3578,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             email: null,
             status: null,
-            message: null
+            message: null,
+            errors: []
         };
     },
 
@@ -3579,21 +3587,38 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         resetEmail: function resetEmail() {
             var _this = this;
 
+            _this.status = null;
+            _this.message = null;
+            _this.errors = [];
+
             $('#resultLoading').css('visibility', 'visible');
 
             axios.post('/auth/resetEmail', {
                 email: this.email
             }).then(function (response) {
                 $('#resultLoading').css('visibility', 'hidden');
+
                 if (response.status === 200) {
                     _this.status = response.data.status;
                     _this.message = response.data.message;
+
+                    if (response.data.status === 'success') {
+                        _this.email = '';
+                    }
                 }
             }).catch(function (error) {
                 $('#resultLoading').css('visibility', 'hidden');
-                // 422 - Validation Error
+
                 _this.status = 'error';
-                console.log(error);
+
+                if (error.response.status === 422) {
+                    // 422 - Validation Error
+                    _this.message = '入力に問題があります。';
+
+                    _this.errors = error.response.data;
+                } else {
+                    _this.message = 'エラーが発生しました。';
+                }
             });
         }
     }
@@ -3982,7 +4007,7 @@ exports = module.exports = __webpack_require__(7)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -33024,7 +33049,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_c('div', {
-    staticClass: "form-group"
+    staticClass: "form-group",
+    class: _vm.errors.email ? 'has-error' : ''
   }, [_c('label', {
     staticClass: "sr-only",
     attrs: {
@@ -33040,7 +33066,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "email",
-      "name": "email",
+      "id": "email",
       "placeholder": "メールアドレス",
       "required": "",
       "autofocus": ""
@@ -33054,7 +33080,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.email = $event.target.value
       }
     }
-  })]), _vm._v(" "), _c('button', {
+  }), _vm._v(" "), (_vm.errors.email) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.email), function(item) {
+    return _c('li', [_vm._v("\n                                    " + _vm._s(item) + "\n                                ")])
+  }))]) : _vm._e()]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-primary btn-block",
     attrs: {
       "type": "submit"
