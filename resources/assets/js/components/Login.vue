@@ -2,6 +2,9 @@
     <section class="content">
         <div class="col-md-4 col-md-offset-4">
             <div class="box box-solid box-info">
+                <div id="resultLoading" style="visibility: hidden;" class="overlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
                 <div class="box-header">ログイン</div>
                 <div class="box-body">
                     <div v-if="error" class="alert alert-danger">
@@ -51,6 +54,8 @@
         },
         methods: {
             signin() {
+                $('#resultLoading').css('visibility', 'visible');
+
                 var redirect = this.$auth.redirect();
 
                 this.$auth.login({
@@ -61,6 +66,7 @@
                     rememberMe: this.remember,
                     redirect: redirect ? redirect.from.fullPath : '/',
                     error(res) {
+                        $('#resultLoading').css('visibility', 'hidden');
                         this.error = res.response.data;
                     }
                 });

@@ -2909,15 +2909,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 215 */,
-/* 216 */
+/* 215 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue__ = __webpack_require__(309);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue__ = __webpack_require__(268);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue__);
 //
 //
@@ -3034,6 +3033,52 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('group-list', __WEBPACK_IM
     }
 };
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))
+
+/***/ }),
+/* 216 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    data: function data() {
+        return {
+            parent_groupName_: this.parent_groupName ? this.parent_groupName + ' > ' + this.item.Name + ' > ' : this.item.Name + ' > '
+        };
+    },
+
+    props: ['item', 'index', 'keyword', 'parent_groupName'],
+    methods: {
+        // 検索
+        onSearch: function onSearch() {
+            this.$events.$emit('AddressBook:search', this.keyword);
+        },
+
+        // グループの選択
+        onSelect: function onSelect(typeId, groupId, groupName, flag) {
+            if (!flag) {
+                this.$events.$emit('AddressBook:search', this.keyword, typeId, groupId, groupName);
+            }
+        }
+    }
+};
 
 /***/ }),
 /* 217 */
@@ -3403,7 +3448,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -3458,6 +3506,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         signin: function signin() {
+            $('#resultLoading').css('visibility', 'visible');
+
             var redirect = this.$auth.redirect();
 
             this.$auth.login({
@@ -3468,12 +3518,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 rememberMe: this.remember,
                 redirect: redirect ? redirect.from.fullPath : '/',
                 error: function error(res) {
+                    $('#resultLoading').css('visibility', 'hidden');
                     this.error = res.response.data;
                 }
             });
         }
     }
 };
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))
 
 /***/ }),
 /* 221 */
@@ -3673,7 +3725,7 @@ window.axios.defaults.headers.common = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Cdr_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Cdr_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_AddressBook_vue__ = __webpack_require__(262);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_AddressBook_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_AddressBook_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_AddressBook_Sidebar_vue__ = __webpack_require__(268);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_AddressBook_Sidebar_vue__ = __webpack_require__(267);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_AddressBook_Sidebar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_AddressBook_Sidebar_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Login_vue__ = __webpack_require__(272);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_Login_vue__);
@@ -3833,7 +3885,7 @@ exports = module.exports = __webpack_require__(7)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -31442,8 +31494,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 267 */,
-/* 268 */
+/* 267 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -31452,7 +31503,7 @@ __webpack_require__(291)
 
 var Component = __webpack_require__(2)(
   /* script */
-  __webpack_require__(216),
+  __webpack_require__(215),
   /* template */
   __webpack_require__(275),
   /* scopeId */
@@ -31474,6 +31525,40 @@ if (false) {(function () {
     hotAPI.createRecord("data-v-106fde65", Component.options)
   } else {
     hotAPI.reload("data-v-106fde65", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 268 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(216),
+  /* template */
+  __webpack_require__(286),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\OpnUC-core\\resources\\assets\\js\\components\\AddressBook_Sidebar_GroupList.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] AddressBook_Sidebar_GroupList.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b4a83d7a", Component.options)
+  } else {
+    hotAPI.reload("data-v-b4a83d7a", Component.options)
   }
 })()}
 
@@ -32625,13 +32710,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-md-4 col-md-offset-4"
   }, [_c('div', {
     staticClass: "box box-solid box-info"
-  }, [_c('div', {
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "box-header"
   }, [_vm._v("ログイン")]), _vm._v(" "), _c('div', {
     staticClass: "box-body"
   }, [(_vm.error) ? _c('div', {
     staticClass: "alert alert-danger"
-  }, [_vm._v("\n                    " + _vm._s(_vm.error.message) + "\n                ")]) : _vm._e(), _vm._v(" "), _c('form', {
+  }, [_vm._v("\n                    " + _vm._s(_vm.error.message) + "  \n                ")]) : _vm._e(), _vm._v(" "), _c('form', {
     staticClass: "form-signin",
     attrs: {
       "autocomplete": "off"
@@ -32749,8 +32834,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": ""
     }
-  }, [_vm._v("SAML2でログイン")]), _vm._v(" "), _c('br'), _vm._v(" "), _vm._m(0)])])])])])
+  }, [_vm._v("SAML2でログイン")]), _vm._v(" "), _c('br'), _vm._v(" "), _vm._m(1)])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "overlay",
+    staticStyle: {
+      "visibility": "hidden"
+    },
+    attrs: {
+      "id": "resultLoading"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-refresh fa-spin"
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "text-center"
   }, [_c('a', {
@@ -32854,7 +32951,43 @@ if (false) {
 }
 
 /***/ }),
-/* 286 */,
+/* 286 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return (_vm.item.Child) ? _c('ul', {
+    staticClass: "treeview-menu"
+  }, _vm._l((_vm.item.Child), function(childItem) {
+    return _c('li', [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          _vm.onSelect(_vm.index, childItem.Id, _vm.parent_groupName_ + childItem.Name, childItem.Child)
+        }
+      }
+    }, [_vm._v("\n            " + _vm._s(childItem.Name) + "\n            "), (childItem.Child) ? _c('i', {
+      staticClass: "fa fa-angle-left pull-right"
+    }) : _vm._e()]), _vm._v(" "), _c('group-list', {
+      attrs: {
+        "item": childItem,
+        "index": _vm.index,
+        "keyword": _vm.keyword,
+        "parent_groupName": _vm.item.Name
+      }
+    })], 1)
+  })) : _vm._e()
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-b4a83d7a", module.exports)
+  }
+}
+
+/***/ }),
 /* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -33239,130 +33372,6 @@ __webpack_require__(154);
 __webpack_require__(156);
 module.exports = __webpack_require__(155);
 
-
-/***/ }),
-/* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-    data: function data() {
-        return {
-            parent_groupName_: this.parent_groupName ? this.parent_groupName + ' > ' + this.item.Name + ' > ' : this.item.Name + ' > '
-        };
-    },
-
-    props: ['item', 'index', 'keyword', 'parent_groupName'],
-    methods: {
-        // 検索
-        onSearch: function onSearch() {
-            this.$events.$emit('AddressBook:search', this.keyword);
-        },
-
-        // グループの選択
-        onSelect: function onSelect(typeId, groupId, groupName, flag) {
-            if (!flag) {
-                this.$events.$emit('AddressBook:search', this.keyword, typeId, groupId, groupName);
-            }
-        }
-    }
-};
-
-/***/ }),
-/* 309 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(2)(
-  /* script */
-  __webpack_require__(308),
-  /* template */
-  __webpack_require__(310),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\OpnUC-core\\resources\\assets\\js\\components\\AddressBook_Sidebar_GroupList.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] AddressBook_Sidebar_GroupList.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b4a83d7a", Component.options)
-  } else {
-    hotAPI.reload("data-v-b4a83d7a", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 310 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return (_vm.item.Child) ? _c('ul', {
-    staticClass: "treeview-menu"
-  }, _vm._l((_vm.item.Child), function(childItem) {
-    return _c('li', [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          _vm.onSelect(_vm.index, childItem.Id, _vm.parent_groupName_ + childItem.Name, childItem.Child)
-        }
-      }
-    }, [_vm._v("\n            " + _vm._s(childItem.Name) + "\n            "), (childItem.Child) ? _c('i', {
-      staticClass: "fa fa-angle-left pull-right"
-    }) : _vm._e()]), _vm._v(" "), _c('group-list', {
-      attrs: {
-        "item": childItem,
-        "index": _vm.index,
-        "keyword": _vm.keyword,
-        "parent_groupName": _vm.item.Name
-      }
-    })], 1)
-  })) : _vm._e()
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-b4a83d7a", module.exports)
-  }
-}
 
 /***/ })
 ],[300]);
