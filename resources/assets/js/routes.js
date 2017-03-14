@@ -7,6 +7,7 @@ import AddressBook from './components/AddressBook.vue'
 import AddressBook_Sidebar from './components/AddressBook_Sidebar.vue'
 
 import Login from './components/Login.vue'
+import PasswordReset from './components/PasswordReset.vue'
 import PasswordResetEmail from './components/PasswordResetEmail.vue'
 
 import NotFoundView from './components/404.vue'
@@ -52,6 +53,14 @@ const routes = [
                 name: 'Login',
                 meta: {
                     description: 'Login',
+                }
+            },
+            {
+                path: '/PasswordReset/:token',
+                component: PasswordReset,
+                name: 'パスワードリセット',
+                meta: {
+                    description: 'Password Reset',
                 }
             },
             {

@@ -44,6 +44,6 @@ class CustomPasswordReset extends ResetPassword
         return (new MailMessage)
             ->subject('[OpnUC] パスワードリセット')
             ->view('auth.emails.password')
-            ->action('Reset Password', url('password/reset', $this->token));
+            ->action('Reset Password', url('PasswordReset', $this->token));
     }
 }
