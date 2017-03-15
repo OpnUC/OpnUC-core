@@ -23,6 +23,8 @@ Route::get('/cdr/search', 'CdrController@search');
 Route::get('/addressbook/search', 'AddressBookController@search');
 Route::get('/addressbook/groups', 'AddressBookController@groups');
 
+// Vue向けのルート
+// saml2/　で始まるリクエストは処理しない
 Route::get('/{vue?}', function () {
     return view('index');
-})->where('vue', '[\/\w\.-]*');
+})->where('vue', '(?!saml2/)[\/\w\.-]*');
