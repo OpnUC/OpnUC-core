@@ -33,21 +33,44 @@ class AuthController extends Controller
 
     }
 
+    /**
+     * ログイン処理
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function login(Request $request)
     {
-        $credentials = $request->only('username', 'password');
 
-        try {
-            // verify the credentials and create a token for the user
-            if (!$token = JWTAuth::attempt($credentials)) {
+        $token = null;
+
+        // mode が restore の場合は、Laravel上でログイン済みとして、Tokenの取得を試みる
+        if($request['mode'] === 'restore'){
+            $logginUser = Auth::user();
+
+            if($logginUser === null){
                 return response([
                     'status' => 'error',
                     'error' => 'invalid.credentials',
-                    'message' => 'ユーザ名もしくはパスワードが正しくありません。'
-                ], 400);
+                    'message' => '認証に失敗しました。'
+                ], 401);
             }
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
+
+            $token = JWTAuth::fromUser($logginUser);
+        }else{
+            $credentials = $request->only('username', 'password');
+
+            try {
+                // verify the credentials and create a token for the user
+                if (!$token = JWTAuth::attempt($credentials)) {
+                    return response([
+                        'status' => 'error',
+                        'error' => 'invalid.credentials',
+                        'message' => 'ユーザ名もしくはパスワードが正しくありません。'
+                    ], 400);
+                }
+            } catch (JWTException $e) {
+                return response()->json(['error' => 'could_not_create_token'], 500);
+            }
         }
 
         return response([

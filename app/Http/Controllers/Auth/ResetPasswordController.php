@@ -62,19 +62,4 @@ class ResetPasswordController extends Controller
 
     }
 
-    /**
-     * Ajaxでリクエストを受け付けるため、自前で実装
-     * @param $user
-     * @param $password
-     */
-    protected function resetPassword($user, $password)
-    {
-        // ToDo: パスワードリセット後 自動ログインさせたい
-
-        $user->forceFill([
-            'password' => bcrypt($password),
-            'remember_token' => Str::random(60),
-        ])->save();
-
-    }
 }

@@ -96,7 +96,12 @@
                         _this.message = response.data.message;
 
                         if(response.data.status === 'success'){
-                            _this.$router.push('/login')
+                            _this.$router.push({
+                                path: '/login',
+                                query: {
+                                    mode: 'restore'
+                                }
+                            })
                         }
                     })
                     .catch(function (error) {

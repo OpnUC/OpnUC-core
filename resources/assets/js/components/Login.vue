@@ -10,7 +10,10 @@
                     <div v-if="error" class="alert alert-danger">
                         {{error.message}}
                     </div>
-                    <form class="form-signin" autocomplete="off" v-on:submit.prevent="signin">
+                    <div class="box-body text-center" v-if="$route.query.mode === 'restore'">
+                        リダイレクト中・・・
+                    </div>
+                    <form class="form-signin" autocomplete="off" v-on:submit.prevent="signin" v-else>
                         <div class="form-group">
                             <label for="username" class="sr-only">ユーザ名</label>
                             <input type="text" id="username" name="username" class="form-control" v-model="username"
@@ -50,6 +53,27 @@
                 password: null,
                 remember: false,
                 error: null
+            }
+        },
+        mounted(){
+            // mode が restore の場合は、Laravelのログイン情報を元にTokenの取得を試みる
+            if(this.$route.query.mode === 'restore'){
+
+                $('#resultLoading').css('visibility', 'visible');
+
+                var redirect = this.$auth.redirect();
+
+                this.$auth.login({
+                    params:{
+                        'mode': 'restore',
+                    },
+                    rememberMe: false,
+                    redirect: redirect ? redirect.from.fullPath : '/',
+                    error(res) {
+                        $('#resultLoading').css('visibility', 'hidden');
+                        this.error = res.response.data;
+                    }
+                });
             }
         },
         methods: {
