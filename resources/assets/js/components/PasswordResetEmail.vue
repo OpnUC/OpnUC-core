@@ -57,7 +57,7 @@
 
                 $('#resultLoading').css('visibility', 'visible');
 
-                axios.post('/auth/resetEmail',
+                axios.post('/auth/resetPasswordEmail',
                     {
                         email: this.email,
                     })

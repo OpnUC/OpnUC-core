@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
@@ -21,13 +24,6 @@ class ResetPasswordController extends Controller
     use ResetsPasswords;
 
     /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
@@ -35,5 +31,50 @@ class ResetPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    /**
+     * Ajaxでリクエストを受け付けるため、自前で実装
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function reset(Request $request)
+    {
+        $this->validate($request, $this->rules(), $this->validationErrorMessages());
+
+        $response = $this->broker()->reset(
+            $this->credentials($request), function ($user, $password) {
+                $this->resetPassword($user, $password);
+            }
+        );
+
+        if ($response == Password::PASSWORD_RESET) {
+            return response([
+                'status' => 'success',
+                'message' => trans($response)
+            ]);
+        } else {
+            return response([
+                'status' => 'error',
+                'message' => trans($response)
+            ]);
+        }
+
+    }
+
+    /**
+     * Ajaxでリクエストを受け付けるため、自前で実装
+     * @param $user
+     * @param $password
+     */
+    protected function resetPassword($user, $password)
+    {
+        // ToDo: パスワードリセット後 自動ログインさせたい
+
+        $user->forceFill([
+            'password' => bcrypt($password),
+            'remember_token' => Str::random(60),
+        ])->save();
+
     }
 }

@@ -3593,7 +3593,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             $('#resultLoading').css('visibility', 'visible');
 
-            axios.post('/auth/resetEmail', {
+            axios.post('/auth/resetPasswordEmail', {
                 email: this.email
             }).then(function (response) {
                 $('#resultLoading').css('visibility', 'hidden');
@@ -33737,7 +33737,7 @@ module.exports = __webpack_require__(155);
         return {
             email: null,
             password: null,
-            password_confirm: null,
+            password_confirmation: null,
             status: null,
             message: null,
             errors: []
@@ -33754,14 +33754,19 @@ module.exports = __webpack_require__(155);
 
             $('#resultLoading').css('visibility', 'visible');
 
-            axios.post('/auth/reset', {
+            axios.post('/auth/resetPassword', {
                 email: this.email,
                 password: this.password,
-                password_confirm: this.password_confirm,
+                password_confirmation: this.password_confirmation,
                 token: this.$route.params.token
             }).then(function (response) {
-                if (response.status === 200) {
-                    console.log("redirect");
+                $('#resultLoading').css('visibility', 'hidden');
+
+                _this.status = response.data.status;
+                _this.message = response.data.message;
+
+                if (response.data.status === 'success') {
+                    _this.$router.push('/login');
                 }
             }).catch(function (error) {
                 $('#resultLoading').css('visibility', 'hidden');
@@ -33791,7 +33796,7 @@ exports = module.exports = __webpack_require__(7)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -33927,44 +33932,44 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.password = $event.target.value
       }
     }
-  }), _vm._v(" "), (_vm.errors.email) ? _c('span', {
+  }), _vm._v(" "), (_vm.errors.password) ? _c('span', {
     staticClass: "help-block"
   }, [_c('ul', _vm._l((_vm.errors.password), function(item) {
     return _c('li', [_vm._v("\n                                    " + _vm._s(item) + "\n                                ")])
   }))]) : _vm._e()]), _vm._v(" "), _c('div', {
     staticClass: "form-group",
-    class: _vm.errors.password_confirm ? 'has-error' : ''
+    class: _vm.errors.password_confirmation ? 'has-error' : ''
   }, [_c('label', {
     staticClass: "sr-only",
     attrs: {
-      "for": "password_confirm"
+      "for": "password_confirmation"
     }
   }, [_vm._v("パスワード(確認)")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.password_confirm),
-      expression: "password_confirm"
+      value: (_vm.password_confirmation),
+      expression: "password_confirmation"
     }],
     staticClass: "form-control",
     attrs: {
       "type": "password",
-      "id": "password_confirm",
+      "id": "password_confirmation",
       "placeholder": "パスワード(確認)",
       "required": ""
     },
     domProps: {
-      "value": (_vm.password_confirm)
+      "value": (_vm.password_confirmation)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.password_confirm = $event.target.value
+        _vm.password_confirmation = $event.target.value
       }
     }
-  }), _vm._v(" "), (_vm.errors.email) ? _c('span', {
+  }), _vm._v(" "), (_vm.errors.password_confirmation) ? _c('span', {
     staticClass: "help-block"
-  }, [_c('ul', _vm._l((_vm.errors.password_confirm), function(item) {
+  }, [_c('ul', _vm._l((_vm.errors.password_confirmation), function(item) {
     return _c('li', [_vm._v("\n                                    " + _vm._s(item) + "\n                                ")])
   }))]) : _vm._e()]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-primary btn-block",

@@ -29,7 +29,7 @@
                         <div class="form-group" :class="errors.password ? 'has-error' : ''">
                             <label for="password" class="sr-only">パスワード</label>
                             <input type="password" class="form-control" id="password" v-model="password" placeholder="パスワード" required>
-                            <span class="help-block" v-if="errors.email">
+                            <span class="help-block" v-if="errors.password">
                                 <ul>
                                     <li v-for="item in errors.password">
                                         {{ item }}
@@ -38,12 +38,12 @@
                             </span>
                         </div>
 
-                        <div class="form-group" :class="errors.password_confirm ? 'has-error' : ''">
-                            <label for="password_confirm" class="sr-only">パスワード(確認)</label>
-                            <input type="password" class="form-control" id="password_confirm" v-model="password_confirm" placeholder="パスワード(確認)" required>
-                            <span class="help-block" v-if="errors.email">
+                        <div class="form-group" :class="errors.password_confirmation ? 'has-error' : ''">
+                            <label for="password_confirmation" class="sr-only">パスワード(確認)</label>
+                            <input type="password" class="form-control" id="password_confirmation" v-model="password_confirmation" placeholder="パスワード(確認)" required>
+                            <span class="help-block" v-if="errors.password_confirmation">
                                 <ul>
-                                    <li v-for="item in errors.password_confirm">
+                                    <li v-for="item in errors.password_confirmation">
                                         {{ item }}
                                     </li>
                                 </ul>
@@ -66,7 +66,7 @@
             return {
                 email: null,
                 password: null,
-                password_confirm: null,
+                password_confirmation: null,
                 status: null,
                 message: null,
                 errors: [],
@@ -82,16 +82,21 @@
 
                 $('#resultLoading').css('visibility', 'visible');
 
-                axios.post('/auth/reset',
+                axios.post('/auth/resetPassword',
                     {
                         email: this.email,
                         password: this.password,
-                        password_confirm: this.password_confirm,
+                        password_confirmation: this.password_confirmation,
                         token: this.$route.params.token
                     })
                     .then(function (response) {
-                        if(response.status === 200){
-                            console.log("redirect")
+                        $('#resultLoading').css('visibility', 'hidden');
+
+                        _this.status = response.data.status;
+                        _this.message = response.data.message;
+
+                        if(response.data.status === 'success'){
+                            _this.$router.push('/login')
                         }
                     })
                     .catch(function (error) {
