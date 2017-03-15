@@ -33368,7 +33368,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("ログイン")]), _vm._v(" "), _c('a', {
     staticClass: "btn btn-primary btn-block",
     attrs: {
-      "href": ""
+      "href": "/saml2/login"
     }
   }, [_vm._v("SAML2でログイン")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
     staticClass: "text-center"

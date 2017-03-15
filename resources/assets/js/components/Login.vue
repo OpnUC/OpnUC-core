@@ -31,7 +31,7 @@
                             </label>
                         </div>
                         <button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>
-                        <a href="" class="btn btn-primary btn-block">SAML2でログイン</a>
+                        <a href="/saml2/login" class="btn btn-primary btn-block">SAML2でログイン</a>
                         <br/>
                         <div class="text-center">
                             <router-link to="/PasswordResetEmail">パスワードをお忘れですか？</router-link>

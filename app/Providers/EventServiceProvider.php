@@ -33,11 +33,11 @@ class EventServiceProvider extends ServiceProvider
         Event::listen('Aacotroneo\Saml2\Events\Saml2LoginEvent', function ($event) {
 
             $user = $event->getSaml2User();
-            $userData = [
-                'id' => $user->getUserId(),
-                'attributes' => $user->getAttributes(),
-                'assertion' => $user->getRawSamlAssertion()
-            ];
+//            $userData = [
+//                'id' => $user->getUserId(),
+//                'attributes' => $user->getAttributes(),
+//                'assertion' => $user->getRawSamlAssertion()
+//            ];
 
             $laravelUser = User::where('email', $user->getUserId())
                 ->first();
@@ -49,6 +49,6 @@ class EventServiceProvider extends ServiceProvider
             //Auth::logout();
             //Session::save();
         });
-        
+
     }
 }
