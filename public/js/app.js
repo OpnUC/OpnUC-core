@@ -3904,7 +3904,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         signout: function signout() {
             this.$auth.logout({
-                //makeRequest: true,
+                makeRequest: true,
                 error: function error() {
                     console.log('error');
                 }

@@ -118,7 +118,7 @@
             },
             signout() {
                 this.$auth.logout({
-                    //makeRequest: true,
+                    makeRequest: true,
                     error() {
                         console.log('error');
                     }
