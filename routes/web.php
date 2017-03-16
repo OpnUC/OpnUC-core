@@ -22,6 +22,7 @@ Route::post('/auth/resetPassword', 'Auth\ResetPasswordController@reset');
 Route::get('/cdr/search', 'CdrController@search');
 Route::get('/addressbook/search', 'AddressBookController@search');
 Route::get('/addressbook/groups', 'AddressBookController@groups');
+Route::post('/addressbook/edit', 'AddressBookController@edit');
 Route::post('/addressbook/delete', 'AddressBookController@delete');
 
 // Vue向けのルート

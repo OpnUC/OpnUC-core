@@ -2795,6 +2795,69 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2815,6 +2878,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
         return {
             status: null,
             message: null,
+            errors: [],
             detailDialog: {
                 visible: false,
                 selectItem: null
@@ -2987,18 +3051,34 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
         'AddressBook:edit': function AddressBookEdit(item) {
             var _this = this;
 
-            _this.editDialog.selectItem = item;
+            _this.status = null;
+            _this.message = null;
+            _this.errors = [];
+
+            _this.editDialog.selectItem = $.extend(true, {}, item);
 
             this.editDialog.callback = function () {
                 // 編集処理
                 axios.post('/addressbook/edit', _this.editDialog.selectItem).then(function (response) {
-                    _this.status = response.data.status;
-                    _this.message = response.data.message;
+                    _this.$message({
+                        type: response.data.status,
+                        message: response.data.message
+                    });
 
-                    //                            _this.$refs.vuetable.refresh()
+                    _this.editDialog.visible = false;
+
+                    _this.$refs.vuetable.refresh();
                 }).catch(function (error) {
-                    _this.status = error.response.data.status;
-                    _this.message = error.response.data.message;
+                    _this.status = 'error';
+
+                    if (error.response.status === 422) {
+                        // 422 - Validation Error
+                        _this.message = '入力に問題があります。';
+
+                        _this.errors = error.response.data;
+                    } else {
+                        _this.message = 'エラーが発生しました。';
+                    }
                 });
             };
 
@@ -32977,11 +33057,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                    " + _vm._s(_vm.addressBookType[_vm.moreParams.typeId]) + " > " + _vm._s(_vm.groupName) + "\n                    "), (_vm.isSearch) ? _c('span', [_vm._v("\n                        > 検索結果\n                    ")]) : _vm._e()])])]), _vm._v(" "), _c('div', {
     staticClass: "box-body"
-  }, [(_vm.status == 'success') ? _c('div', {
-    staticClass: "alert alert-success"
-  }, [_vm._v("\n                " + _vm._s(_vm.message) + "\n            ")]) : (_vm.status == 'error') ? _c('div', {
-    staticClass: "alert alert-error"
-  }, [_vm._v("\n                " + _vm._s(_vm.message) + "\n            ")]) : _vm._e(), _vm._v(" "), _c('vuetable', {
+  }, [_c('vuetable', {
     ref: "vuetable",
     staticClass: "table table-striped",
     attrs: {
@@ -33054,7 +33130,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.detailDialog.visible = false
       }
     }
-  }, [_vm._v("閉じる")])])]), _vm._v(" "), _c('el-dialog', {
+  }, [_vm._v("閉じる")])])]), _vm._v(" "), (_vm.editDialog.selectItem != null) ? _c('el-dialog', {
     attrs: {
       "title": "追加・編集"
     },
@@ -33064,18 +33140,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.editDialog.visible = $$v
       }
     }
-  }, [(_vm.editDialog.selectItem != null) ? _c('table', {
-    staticClass: "table table-bordered table-striped"
-  }, [_c('tbody', [_c('tr', [_c('th', {
-    attrs: {
-      "width": "150"
-    }
+  }, [(_vm.status == 'success') ? _c('div', {
+    staticClass: "alert alert-success"
+  }, [_vm._v("\n            " + _vm._s(_vm.message) + "\n        ")]) : (_vm.status == 'error') ? _c('div', {
+    staticClass: "alert alert-error"
+  }, [_vm._v("\n            " + _vm._s(_vm.message) + "\n        ")]) : _vm._e(), _vm._v(" "), _c('form', {
+    staticClass: "form-horizontal"
+  }, [_c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.id ? 'has-error' : ''
   }, [_c('label', {
-    staticClass: "control-label",
+    staticClass: "control-label col-xs-3",
     attrs: {
       "for": "inputId"
     }
-  }, [_vm._v("アドレス帳ID")])]), _vm._v(" "), _c('td', [_c('input', {
+  }, [_vm._v("アドレス帳ID")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33098,12 +33179,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.editDialog.selectItem.id = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
-    staticClass: "control-label",
+  }), _vm._v(" "), (_vm.errors.id) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.id), function(item) {
+    return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.position ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
     attrs: {
       "for": "inputPosition"
     }
-  }, [_vm._v("役職")])]), _vm._v(" "), _c('td', [_c('input', {
+  }, [_vm._v("役職")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33125,12 +33215,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.editDialog.selectItem.position = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
-    staticClass: "control-label",
+  }), _vm._v(" "), (_vm.errors.position) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.position), function(item) {
+    return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.name_kana ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
     attrs: {
       "for": "inputNameKana"
     }
-  }, [_vm._v("名前(カナ)")])]), _vm._v(" "), _c('td', [_c('input', {
+  }, [_vm._v("名前(カナ)")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33152,12 +33251,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.editDialog.selectItem.name_kana = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
-    staticClass: "control-label",
+  }), _vm._v(" "), (_vm.errors.name_kana) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.name_kana), function(item) {
+    return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.name ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
     attrs: {
       "for": "inputName"
     }
-  }, [_vm._v("名前")])]), _vm._v(" "), _c('td', [_c('input', {
+  }, [_vm._v("名前")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33179,12 +33287,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.editDialog.selectItem.name = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
-    staticClass: "control-label",
+  }), _vm._v(" "), (_vm.errors.name) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.name), function(item) {
+    return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.type ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
     attrs: {
       "for": "inputType"
     }
-  }, [_vm._v("電話帳種別")])]), _vm._v(" "), _c('td', [_c('select', {
+  }, [_vm._v("電話帳種別")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33212,12 +33329,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": key
       }
     }, [_vm._v("\n                            " + _vm._s(value) + "\n                        ")])
-  }))])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
-    staticClass: "control-label",
+  })), _vm._v(" "), (_vm.errors.type) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.type), function(item) {
+    return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.groupid ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
     attrs: {
       "for": "inputGroup"
     }
-  }, [_vm._v("所属グループ")])]), _vm._v(" "), _c('td', [_c('select', {
+  }, [_vm._v("所属グループ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33226,7 +33352,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control input-sm",
     attrs: {
-      "name": "groupid",
       "id": "inputGroup"
     },
     on: {
@@ -33246,12 +33371,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "value": item.key
       }
     }, [_vm._v("\n                            " + _vm._s(item.value) + "\n                        ")])
-  }))])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
-    staticClass: "control-label",
+  })), _vm._v(" "), (_vm.errors.groupid) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.groupid), function(item) {
+    return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.tel1 ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
     attrs: {
       "for": "inputTel1"
     }
-  }, [_vm._v("電話番号1")])]), _vm._v(" "), _c('td', [_c('input', {
+  }, [_vm._v("電話番号1")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33260,7 +33394,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control input-sm",
     attrs: {
-      "type": "tel",
+      "type": "text",
       "id": "inputTel1",
       "placeholder": "電話番号1"
     },
@@ -33273,12 +33407,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.editDialog.selectItem.tel1 = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
-    staticClass: "control-label",
+  }), _vm._v(" "), (_vm.errors.tel1) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.tel1), function(item) {
+    return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.tel2 ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
     attrs: {
       "for": "inputTel2"
     }
-  }, [_vm._v("電話番号2")])]), _vm._v(" "), _c('td', [_c('input', {
+  }, [_vm._v("電話番号2")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33287,7 +33430,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control input-sm",
     attrs: {
-      "type": "tel",
+      "type": "text",
       "id": "inputTel2",
       "placeholder": "電話番号2"
     },
@@ -33300,12 +33443,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.editDialog.selectItem.tel2 = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
-    staticClass: "control-label",
+  }), _vm._v(" "), (_vm.errors.tel2) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.tel2), function(item) {
+    return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.tel3 ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
     attrs: {
       "for": "inputTel3"
     }
-  }, [_vm._v("電話番号3")])]), _vm._v(" "), _c('td', [_c('input', {
+  }, [_vm._v("電話番号3")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33314,7 +33466,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control input-sm",
     attrs: {
-      "type": "tel",
+      "type": "text",
       "id": "inputTel3",
       "placeholder": "電話番号3"
     },
@@ -33327,12 +33479,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.editDialog.selectItem.tel3 = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
-    staticClass: "control-label",
+  }), _vm._v(" "), (_vm.errors.tel3) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.tel3), function(item) {
+    return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.email ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
     attrs: {
       "for": "inputEmail"
     }
-  }, [_vm._v("メールアドレス")])]), _vm._v(" "), _c('td', [_c('input', {
+  }, [_vm._v("メールアドレス")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33354,12 +33515,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.editDialog.selectItem.email = $event.target.value
       }
     }
-  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
-    staticClass: "control-label",
+  }), _vm._v(" "), (_vm.errors.email) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.email), function(item) {
+    return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.comment ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
     attrs: {
       "for": "inputComment"
     }
-  }, [_vm._v("備考")])]), _vm._v(" "), _c('td', [_c('input', {
+  }, [_vm._v("備考")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -33381,7 +33551,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.editDialog.selectItem.comment = $event.target.value
       }
     }
-  })])])])]) : _vm._e(), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), (_vm.errors.comment) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.comment), function(item) {
+    return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
+  }))]) : _vm._e()])])]), _vm._v(" "), _c('span', {
     staticClass: "dialog-footer",
     slot: "footer"
   }, [_c('button', {
@@ -33396,7 +33570,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.onEditDialogCallback
     }
-  }, [_vm._v("保存")])])])], 1)
+  }, [_vm._v("保存")])])]) : _vm._e()], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "overlay",

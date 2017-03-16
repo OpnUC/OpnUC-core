@@ -180,4 +180,38 @@ class AddressBookController extends Controller
         ]);
 
     }
+
+    /**
+     * アドレス帳 編集
+     * @param Request $req
+     */
+    public function edit(\App\Http\Requests\AddressBookRequest $request)
+    {
+
+        // 権限が無い場合は、個人電話帳のみとする
+        if (!\Entrust::can('edit-addressbook') && $request['type'] != 9) {
+            abort(403);
+        }
+
+        $id = intval($request['id']);
+
+        $record = \App\AddressBook::firstOrNew(['id' => $id]);
+        $record->position = $request['position'];
+        $record->name_kana = $request['name_kana'];
+        $record->name = $request['name'];
+        $record->type = $request['type'];
+        $record->groupid = $request['groupid'];
+        $record->tel1 = $request['tel1'];
+        $record->tel2 = $request['tel2'];
+        $record->tel3 = $request['tel3'];
+        $record->email = $request['email'];
+        $record->comment = $request['comment'];
+        $record->save();
+
+        return response([
+            'status' => 'success',
+            'message' => '連絡先の追加・編集が完了しました。'
+        ]);
+
+    }
 }

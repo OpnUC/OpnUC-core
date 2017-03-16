@@ -16,12 +16,6 @@
                 </h3>
             </div>
             <div class="box-body">
-                <div v-if="status == 'success'" class="alert alert-success">
-                    {{message}}
-                </div>
-                <div v-else-if="status == 'error'" class="alert alert-error">
-                    {{message}}
-                </div>
                 <vuetable class="table table-striped"
                           ref="vuetable"
                           api-url="/addressbook/search"
@@ -140,123 +134,192 @@
              </span>
         </el-dialog>
 
-        <el-dialog title="追加・編集" v-model="editDialog.visible">
-            <table class="table table-bordered table-striped" v-if="editDialog.selectItem != null">
-                <tbody>
-                <tr>
-                    <th width="150">
-                        <label for="inputId" class="control-label">アドレス帳ID</label>
-                    </th>
-                    <td>
+        <el-dialog title="追加・編集" v-model="editDialog.visible" v-if="editDialog.selectItem != null">
+            <div v-if="status == 'success'" class="alert alert-success">
+                {{message}}
+            </div>
+            <div v-else-if="status == 'error'" class="alert alert-error">
+                {{message}}
+            </div>
+            <form class="form-horizontal">
+                <div class="form-group" :class="errors.id ? 'has-error' : ''">
+                    <label class="control-label col-xs-3" for="inputId">アドレス帳ID</label>
+                    <div class="col-xs-7">
                         <input type="text" class="form-control input-sm" id="inputId"
                                placeholder="アドレス帳ID" readonly="readonly" v-model="editDialog.selectItem.id">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="inputPosition" class="control-label">役職</label>
-                    </th>
-                    <td>
+                        <span class="help-block" v-if="errors.id">
+                            <ul>
+                                <li v-for="item in errors.id">
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" :class="errors.position ? 'has-error' : ''">
+                    <label class="control-label col-xs-3" for="inputPosition">役職</label>
+                    <div class="col-xs-7">
                         <input type="text" class="form-control input-sm" id="inputPosition"
                                placeholder="役職" v-model="editDialog.selectItem.position">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="inputNameKana" class="control-label">名前(カナ)</label>
-                    </th>
-                    <td>
+                        <span class="help-block" v-if="errors.position">
+                            <ul>
+                                <li v-for="item in errors.position">
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" :class="errors.name_kana ? 'has-error' : ''">
+                    <label class="control-label col-xs-3" for="inputNameKana">名前(カナ)</label>
+                    <div class="col-xs-7">
                         <input type="text" class="form-control input-sm" id="inputNameKana"
                                placeholder="名前(カナ)" v-model="editDialog.selectItem.name_kana">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="inputName" class="control-label">名前</label>
-                    </th>
-                    <td>
+                        <span class="help-block" v-if="errors.name_kana">
+                            <ul>
+                                <li v-for="item in errors.name_kana">
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" :class="errors.name ? 'has-error' : ''">
+                    <label class="control-label col-xs-3" for="inputName">名前</label>
+                    <div class="col-xs-7">
                         <input type="text" class="form-control input-sm" id="inputName"
                                placeholder="名前" v-model="editDialog.selectItem.name">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="inputType" class="control-label">電話帳種別</label>
-                    </th>
-                    <td>
+                        <span class="help-block" v-if="errors.name">
+                            <ul>
+                                <li v-for="item in errors.name">
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" :class="errors.type ? 'has-error' : ''">
+                    <label class="control-label col-xs-3" for="inputType">電話帳種別</label>
+                    <div class="col-xs-7">
                         <select class="form-control input-sm" id="inputType" v-model="editDialog.selectItem.type">
                             <option v-for="(value, key) in addressBookType" v-bind:value="key">
                                 {{ value }}
                             </option>
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="inputGroup" class="control-label">所属グループ</label>
-                    </th>
-                    <td>
-                        <select class="form-control input-sm" name="groupid" id="inputGroup"
+                        <span class="help-block" v-if="errors.type">
+                            <ul>
+                                <li v-for="item in errors.type">
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" :class="errors.groupid ? 'has-error' : ''">
+                    <label class="control-label col-xs-3" for="inputGroup">所属グループ</label>
+                    <div class="col-xs-7">
+                        <select class="form-control input-sm" id="inputGroup"
                                 v-model="editDialog.selectItem.groupid">
                             <option v-for="item in addressBookGroup[editDialog.selectItem.type]"
                                     v-bind:value="item.key">
                                 {{ item.value }}
                             </option>
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="inputTel1" class="control-label">電話番号1</label>
-                    </th>
-                    <td>
-                        <input type="tel" class="form-control input-sm" id="inputTel1" placeholder="電話番号1"
-                               v-model="editDialog.selectItem.tel1">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="inputTel2" class="control-label">電話番号2</label>
-                    </th>
-                    <td>
-                        <input type="tel" class="form-control input-sm" id="inputTel2" placeholder="電話番号2"
-                               v-model="editDialog.selectItem.tel2">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="inputTel3" class="control-label">電話番号3</label>
-                    </th>
-                    <td>
-                        <input type="tel" class="form-control input-sm" id="inputTel3" placeholder="電話番号3"
-                               v-model="editDialog.selectItem.tel3">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="inputEmail" class="control-label">メールアドレス</label>
-                    </th>
-                    <td>
-                        <input type="email" class="form-control input-sm" id="inputEmail" placeholder="メールアドレス"
-                               v-model="editDialog.selectItem.email">
-                    </td>
-                </tr>
-                <tr>
-                    <th>
-                        <label for="inputComment" class="control-label">備考</label>
-                    </th>
-                    <td>
-                        <input type="text" class="form-control input-sm"
-                               id="inputComment" placeholder="備考"
-                               v-model="editDialog.selectItem.comment">
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                        <span class="help-block" v-if="errors.groupid">
+                            <ul>
+                                <li v-for="item in errors.groupid">
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" :class="errors.tel1 ? 'has-error' : ''">
+                    <label class="control-label col-xs-3" for="inputTel1">電話番号1</label>
+                    <div class="col-xs-7">
+                        <input type="text" class="form-control input-sm" id="inputTel1"
+                               placeholder="電話番号1" v-model="editDialog.selectItem.tel1">
+                        <span class="help-block" v-if="errors.tel1">
+                            <ul>
+                                <li v-for="item in errors.tel1">
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" :class="errors.tel2 ? 'has-error' : ''">
+                    <label class="control-label col-xs-3" for="inputTel2">電話番号2</label>
+                    <div class="col-xs-7">
+                        <input type="text" class="form-control input-sm" id="inputTel2"
+                               placeholder="電話番号2" v-model="editDialog.selectItem.tel2">
+                        <span class="help-block" v-if="errors.tel2">
+                            <ul>
+                                <li v-for="item in errors.tel2">
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" :class="errors.tel3 ? 'has-error' : ''">
+                    <label class="control-label col-xs-3" for="inputTel3">電話番号3</label>
+                    <div class="col-xs-7">
+                        <input type="text" class="form-control input-sm" id="inputTel3"
+                               placeholder="電話番号3" v-model="editDialog.selectItem.tel3">
+                        <span class="help-block" v-if="errors.tel3">
+                            <ul>
+                                <li v-for="item in errors.tel3">
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" :class="errors.email ? 'has-error' : ''">
+                    <label class="control-label col-xs-3" for="inputEmail">メールアドレス</label>
+                    <div class="col-xs-7">
+                        <input type="email" class="form-control input-sm" id="inputEmail"
+                               placeholder="メールアドレス" v-model="editDialog.selectItem.email">
+                        <span class="help-block" v-if="errors.email">
+                            <ul>
+                                <li v-for="item in errors.email">
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" :class="errors.comment ? 'has-error' : ''">
+                    <label class="control-label col-xs-3" for="inputComment">備考</label>
+                    <div class="col-xs-7">
+                        <input type="text" class="form-control input-sm" id="inputComment"
+                               placeholder="備考" v-model="editDialog.selectItem.comment">
+                        <span class="help-block" v-if="errors.comment">
+                            <ul>
+                                <li v-for="item in errors.comment">
+                                    {{ item }}
+                                </li>
+                            </ul>
+                        </span>
+                    </div>
+                </div>
+            </form>
+
             <span slot="footer" class="dialog-footer">
-                <button class="btn btn-default" v-on:click="editDialog.visible = false">キャンセル</button>
-                <button class="btn btn-primary" v-on:click="onEditDialogCallback">保存</button>
-            </span>
+                    <button class="btn btn-default" v-on:click="editDialog.visible = false">キャンセル</button>
+                    <button class="btn btn-primary" v-on:click="onEditDialogCallback">保存</button>
+                </span>
         </el-dialog>
     </section>
 </template>
@@ -280,6 +343,7 @@
             return {
                 status: null,
                 message: null,
+                errors: [],
                 detailDialog: {
                     visible: false,
                     selectItem: null,
@@ -457,20 +521,36 @@
             'AddressBook:edit': function (item) {
                 var _this = this
 
-                _this.editDialog.selectItem = item
+                _this.status = null
+                _this.message = null
+                _this.errors = []
+
+                _this.editDialog.selectItem = $.extend(true, {}, item);
 
                 this.editDialog.callback = function () {
                     // 編集処理
                     axios.post('/addressbook/edit', _this.editDialog.selectItem)
                         .then(function (response) {
-                            _this.status = response.data.status
-                            _this.message = response.data.message
+                            _this.$message({
+                                type: response.data.status,
+                                message: response.data.message,
+                            });
 
-//                            _this.$refs.vuetable.refresh()
+                            _this.editDialog.visible = false
+
+                            _this.$refs.vuetable.refresh()
                         })
                         .catch(function (error) {
-                            _this.status = error.response.data.status
-                            _this.message = error.response.data.message
+                            _this.status = 'error'
+
+                            if (error.response.status === 422) {
+                                // 422 - Validation Error
+                                _this.message = '入力に問題があります。'
+
+                                _this.errors = error.response.data
+                            } else {
+                                _this.message = 'エラーが発生しました。'
+                            }
                         });
                 }
 
@@ -503,7 +583,7 @@
                                 message: '削除に失敗しました。'
                             });
                         });
-                }).catch(function(error){
+                }).catch(function (error) {
                     console.log(error.message);
                 });
             },
