@@ -22,6 +22,7 @@ Route::post('/auth/resetPassword', 'Auth\ResetPasswordController@reset');
 Route::get('/cdr/search', 'CdrController@search');
 Route::get('/addressbook/search', 'AddressBookController@search');
 Route::get('/addressbook/groups', 'AddressBookController@groups');
+Route::post('/addressbook/delete', 'AddressBookController@delete');
 
 // Vue向けのルート
 // saml2/　で始まるリクエストは処理しない

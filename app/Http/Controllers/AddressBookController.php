@@ -149,4 +149,34 @@ class AddressBookController extends Controller
 
         return $result;
     }
+
+    /**
+     * 連絡先の削除
+     * @param $inputId int
+     * @return type
+     */
+    public function delete(Request $request)
+    {
+
+        $id = intval($request['id']);
+
+        $address = \App\AddressBook::find($id);
+
+        // 権限が無い場合は、個人電話帳のみとする
+        // ToDo 所有者チェック
+        if (!\Entrust::can('edit-addressbook') && $address['type'] != 9) {
+            return response([
+                'status' => 'error',
+                'message' => '選択された連絡先を削除する権限がありません。'
+            ]);
+        }
+
+        $address->delete();
+
+        return response([
+            'status' => 'success',
+            'message' => '選択された連絡先を削除しました。'
+        ]);
+
+    }
 }

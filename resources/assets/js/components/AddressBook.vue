@@ -16,6 +16,12 @@
                 </h3>
             </div>
             <div class="box-body">
+                <div v-if="status == 'success'" class="alert alert-success">
+                    {{message}}
+                </div>
+                <div v-else-if="status == 'error'" class="alert alert-error">
+                    {{message}}
+                </div>
                 <vuetable class="table table-striped"
                           ref="vuetable"
                           api-url="/addressbook/search"
@@ -38,15 +44,15 @@
                 </div>
             </div>
         </div>
-        <el-dialog title="詳細" v-model="dialog.visible">
-            <table class="table table-bordered table-striped" v-if="dialog.selectItem != null">
+        <el-dialog title="詳細" v-model="detailDialog.visible">
+            <table class="table table-bordered table-striped" v-if="detailDialog.selectItem != null">
                 <tbody>
                 <tr>
                     <th width="150">
                         アドレス帳ID
                     </th>
                     <td>
-                        {{ dialog.selectItem.id }}
+                        {{ detailDialog.selectItem.id }}
                     </td>
                 </tr>
                 <tr>
@@ -54,7 +60,7 @@
                         役職
                     </th>
                     <td>
-                        {{ dialog.selectItem.position }}
+                        {{ detailDialog.selectItem.position }}
                     </td>
                 </tr>
                 <tr>
@@ -62,9 +68,9 @@
                         名前
                     </th>
                     <td>
-                        <small>({{ dialog.selectItem.name_kana }})</small>
+                        <small>({{ detailDialog.selectItem.name_kana }})</small>
                         </br>
-                        {{ dialog.selectItem.name }}
+                        {{ detailDialog.selectItem.name }}
                     </td>
                 </tr>
                 <tr>
@@ -72,7 +78,7 @@
                         電話帳種別
                     </th>
                     <td>
-                        {{ addressBookType[dialog.selectItem.type] }}
+                        {{ addressBookType[detailDialog.selectItem.type] }}
                     </td>
                 </tr>
                 <tr>
@@ -88,8 +94,8 @@
                         電話番号1
                     </th>
                     <td>
-                        <a :href="`tel:${dialog.selectItem.tel1}`" v-if="dialog.selectItem.tel1">{{
-                            dialog.selectItem.tel1 }}</a>
+                        <a :href="`tel:${detailDialog.selectItem.tel1}`" v-if="detailDialog.selectItem.tel1">{{
+                            detailDialog.selectItem.tel1 }}</a>
                     </td>
                 </tr>
                 <tr>
@@ -97,8 +103,8 @@
                         電話番号2
                     </th>
                     <td>
-                        <a :href="`tel:${dialog.selectItem.tel2}`" v-if="dialog.selectItem.tel2">{{
-                            dialog.selectItem.tel2 }}</a>
+                        <a :href="`tel:${detailDialog.selectItem.tel2}`" v-if="detailDialog.selectItem.tel2">{{
+                            detailDialog.selectItem.tel2 }}</a>
                     </td>
                 </tr>
                 <tr>
@@ -106,8 +112,8 @@
                         電話番号3
                     </th>
                     <td>
-                        <a :href="`tel:${dialog.selectItem.tel3}`" v-if="dialog.selectItem.tel3">{{
-                            dialog.selectItem.tel3 }}</a>
+                        <a :href="`tel:${detailDialog.selectItem.tel3}`" v-if="detailDialog.selectItem.tel3">{{
+                            detailDialog.selectItem.tel3 }}</a>
                     </td>
                 </tr>
                 <tr>
@@ -115,8 +121,8 @@
                         メールアドレス
                     </th>
                     <td>
-                        <a :href="`mailto:${dialog.selectItem.email}`" v-if="dialog.selectItem.email">{{
-                            dialog.selectItem.email }}</a>
+                        <a :href="`mailto:${detailDialog.selectItem.email}`" v-if="detailDialog.selectItem.email">{{
+                            detailDialog.selectItem.email }}</a>
                     </td>
                 </tr>
                 <tr>
@@ -124,17 +130,24 @@
                         備考
                     </th>
                     <td>
-                        {{ dialog.selectItem.comment }}
+                        {{ detailDialog.selectItem.comment }}
                     </td>
                 </tr>
                 </tbody>
             </table>
             <span slot="footer" class="dialog-footer">
-                <button class="btn btn-default" v-on:click="dialog.visible = false">閉じる</button>
+                <button class="btn btn-default" v-on:click="detailDialog.visible = false">閉じる</button>
              </span>
         </el-dialog>
-    </section>
 
+        <el-dialog title="確認" v-model="comfirmDialog.visible" size="tiny">
+            <span>選択された連絡先を削除してもよろしいですか？</span>
+            <span slot="footer" class="dialog-footer">
+                <button class="btn btn-default" v-on:click="comfirmDialog.visible = false">キャンセル</button>
+                <button class="btn btn-primary" v-on:click="onComfirmDialogCallback">実行</button>
+            </span>
+        </el-dialog>
+    </section>
 </template>
 <script>
     import Vue from 'vue'
@@ -154,9 +167,15 @@
     export default {
         data() {
             return {
-                dialog: {
+                status: null,
+                message: null,
+                detailDialog: {
                     visible: false,
                     selectItem: null,
+                },
+                comfirmDialog:{
+                    visible: false,
+                    callback: null,
                 },
                 addressBookType: {
                     1: '内線電話帳',
@@ -246,6 +265,12 @@
 
                 this.$refs.vuetable.refresh()
             },
+            onComfirmDialogCallback(){
+                // Callbackを実行
+                if(this.comfirmDialog.callback){
+                    this.comfirmDialog.callback();
+                }
+            },
             regEvent(){
                 this.$refs.vuetable.$on('vuetable:loading', () => {
                     $('#resultLoading').css('visibility', 'visible');
@@ -264,18 +289,43 @@
         events: {
             // 詳細の表示(ColumNameからのイベント)
             'AddressBook:showDetail': function (item) {
-                this.dialog.visible = true
-                this.dialog.selectItem = item
+                this.detailDialog.visible = true
+                this.detailDialog.selectItem = item
+            },
+            'AddressBook:delete': function (item) {
+                var _this = this
+
+                this.comfirmDialog.callback = function () {
+                    this.visible = false
+
+                    // 削除処理
+                    axios.post('/addressbook/delete',
+                        {
+                            id: item.id
+                        })
+                        .then(function (response) {
+                            _this.status = response.data.status
+                            _this.message = response.data.message
+
+                            _this.$refs.vuetable.refresh()
+                        })
+                        .catch(function (error) {
+                            _this.status = error.response.data.status
+                            _this.message = error.response.data.message
+                        });
+                }
+
+                this.comfirmDialog.visible = true
             },
             // 検索(Sidebarからのイベント)
             'AddressBook:search': function (keyword, typeId, groupId, groupName) {
-                if(typeof typeId != "undefined"){
+                if (typeof typeId != "undefined") {
                     this.moreParams.typeId = typeId;
                 }
-                if(typeof groupId != "undefined"){
+                if (typeof groupId != "undefined") {
                     this.moreParams.groupId = groupId;
                 }
-                if(typeof groupName != "undefined"){
+                if (typeof groupName != "undefined") {
                     this.groupName = groupName
                 }
 

@@ -2671,6 +2671,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2689,9 +2702,15 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
         return {
-            dialog: {
+            status: null,
+            message: null,
+            detailDialog: {
                 visible: false,
                 selectItem: null
+            },
+            comfirmDialog: {
+                visible: false,
+                callback: null
             },
             addressBookType: {
                 1: '内線電話帳',
@@ -2773,6 +2792,12 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
 
             this.$refs.vuetable.refresh();
         },
+        onComfirmDialogCallback: function onComfirmDialogCallback() {
+            // Callbackを実行
+            if (this.comfirmDialog.callback) {
+                this.comfirmDialog.callback();
+            }
+        },
         regEvent: function regEvent() {
             this.$refs.vuetable.$on('vuetable:loading', function () {
                 $('#resultLoading').css('visibility', 'visible');
@@ -2794,8 +2819,30 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
     events: {
         // 詳細の表示(ColumNameからのイベント)
         'AddressBook:showDetail': function AddressBookShowDetail(item) {
-            this.dialog.visible = true;
-            this.dialog.selectItem = item;
+            this.detailDialog.visible = true;
+            this.detailDialog.selectItem = item;
+        },
+        'AddressBook:delete': function AddressBookDelete(item) {
+            var _this = this;
+
+            this.comfirmDialog.callback = function () {
+                this.visible = false;
+
+                // 削除処理
+                axios.post('/addressbook/delete', {
+                    id: item.id
+                }).then(function (response) {
+                    _this.status = response.data.status;
+                    _this.message = response.data.message;
+
+                    _this.$refs.vuetable.refresh();
+                }).catch(function (error) {
+                    _this.status = error.response.data.status;
+                    _this.message = error.response.data.message;
+                });
+            };
+
+            this.comfirmDialog.visible = true;
         },
         // 検索(Sidebarからのイベント)
         'AddressBook:search': function AddressBookSearch(keyword, typeId, groupId, groupName) {
@@ -2839,6 +2886,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         rowData: {
             type: Object,
             required: true
+        }
+    },
+    methods: {
+        // 詳細の表示
+        onDelete: function onDelete() {
+            this.$events.$emit('AddressBook:delete', this.rowData);
         }
     }
 };
@@ -32674,23 +32727,29 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
+  return _c('div', [_vm._m(0), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-default btn-xs",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.onDelete($event)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-times"
+  }), _vm._v(" 削除\n    ")])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('button', {
+  return _c('button', {
     staticClass: "btn btn-default btn-xs",
     attrs: {
       "type": "button"
     }
   }, [_c('i', {
     staticClass: "fa fa-edit"
-  }), _vm._v(" 編集\n    ")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-default btn-xs",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-times"
-  }), _vm._v(" 削除\n    ")])])
+  }), _vm._v(" 編集\n    ")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -32721,7 +32780,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                    " + _vm._s(_vm.addressBookType[_vm.moreParams.typeId]) + " > " + _vm._s(_vm.groupName) + "\n                    "), (_vm.isSearch) ? _c('span', [_vm._v("\n                        > 検索結果\n                    ")]) : _vm._e()])])]), _vm._v(" "), _c('div', {
     staticClass: "box-body"
-  }, [_c('vuetable', {
+  }, [(_vm.status == 'success') ? _c('div', {
+    staticClass: "alert alert-success"
+  }, [_vm._v("\n                " + _vm._s(_vm.message) + "\n            ")]) : (_vm.status == 'error') ? _c('div', {
+    staticClass: "alert alert-error"
+  }, [_vm._v("\n                " + _vm._s(_vm.message) + "\n            ")]) : _vm._e(), _vm._v(" "), _c('vuetable', {
     ref: "vuetable",
     staticClass: "table table-striped",
     attrs: {
@@ -32757,44 +32820,70 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "title": "詳細"
     },
     model: {
-      value: (_vm.dialog.visible),
+      value: (_vm.detailDialog.visible),
       callback: function($$v) {
-        _vm.dialog.visible = $$v
+        _vm.detailDialog.visible = $$v
       }
     }
-  }, [(_vm.dialog.selectItem != null) ? _c('table', {
+  }, [(_vm.detailDialog.selectItem != null) ? _c('table', {
     staticClass: "table table-bordered table-striped"
   }, [_c('tbody', [_c('tr', [_c('th', {
     attrs: {
       "width": "150"
     }
-  }, [_vm._v("\n                    アドレス帳ID\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.dialog.selectItem.id) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    役職\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.dialog.selectItem.position) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    名前\n                ")]), _vm._v(" "), _c('td', [_c('small', [_vm._v("(" + _vm._s(_vm.dialog.selectItem.name_kana) + ")")]), _vm._v(" "), _c('br'), _vm._v("\n                    " + _vm._s(_vm.dialog.selectItem.name) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話帳種別\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.addressBookType[_vm.dialog.selectItem.type]) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    所属グループ\n                ")]), _vm._v(" "), _c('td')]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話番号1\n                ")]), _vm._v(" "), _c('td', [(_vm.dialog.selectItem.tel1) ? _c('a', {
+  }, [_vm._v("\n                    アドレス帳ID\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.detailDialog.selectItem.id) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    役職\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.detailDialog.selectItem.position) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    名前\n                ")]), _vm._v(" "), _c('td', [_c('small', [_vm._v("(" + _vm._s(_vm.detailDialog.selectItem.name_kana) + ")")]), _vm._v(" "), _c('br'), _vm._v("\n                    " + _vm._s(_vm.detailDialog.selectItem.name) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話帳種別\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.addressBookType[_vm.detailDialog.selectItem.type]) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    所属グループ\n                ")]), _vm._v(" "), _c('td')]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話番号1\n                ")]), _vm._v(" "), _c('td', [(_vm.detailDialog.selectItem.tel1) ? _c('a', {
     attrs: {
-      "href": ("tel:" + (_vm.dialog.selectItem.tel1))
+      "href": ("tel:" + (_vm.detailDialog.selectItem.tel1))
     }
-  }, [_vm._v(_vm._s(_vm.dialog.selectItem.tel1))]) : _vm._e()])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話番号2\n                ")]), _vm._v(" "), _c('td', [(_vm.dialog.selectItem.tel2) ? _c('a', {
+  }, [_vm._v(_vm._s(_vm.detailDialog.selectItem.tel1))]) : _vm._e()])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話番号2\n                ")]), _vm._v(" "), _c('td', [(_vm.detailDialog.selectItem.tel2) ? _c('a', {
     attrs: {
-      "href": ("tel:" + (_vm.dialog.selectItem.tel2))
+      "href": ("tel:" + (_vm.detailDialog.selectItem.tel2))
     }
-  }, [_vm._v(_vm._s(_vm.dialog.selectItem.tel2))]) : _vm._e()])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話番号3\n                ")]), _vm._v(" "), _c('td', [(_vm.dialog.selectItem.tel3) ? _c('a', {
+  }, [_vm._v(_vm._s(_vm.detailDialog.selectItem.tel2))]) : _vm._e()])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話番号3\n                ")]), _vm._v(" "), _c('td', [(_vm.detailDialog.selectItem.tel3) ? _c('a', {
     attrs: {
-      "href": ("tel:" + (_vm.dialog.selectItem.tel3))
+      "href": ("tel:" + (_vm.detailDialog.selectItem.tel3))
     }
-  }, [_vm._v(_vm._s(_vm.dialog.selectItem.tel3))]) : _vm._e()])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    メールアドレス\n                ")]), _vm._v(" "), _c('td', [(_vm.dialog.selectItem.email) ? _c('a', {
+  }, [_vm._v(_vm._s(_vm.detailDialog.selectItem.tel3))]) : _vm._e()])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    メールアドレス\n                ")]), _vm._v(" "), _c('td', [(_vm.detailDialog.selectItem.email) ? _c('a', {
     attrs: {
-      "href": ("mailto:" + (_vm.dialog.selectItem.email))
+      "href": ("mailto:" + (_vm.detailDialog.selectItem.email))
     }
-  }, [_vm._v(_vm._s(_vm.dialog.selectItem.email))]) : _vm._e()])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    備考\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.dialog.selectItem.comment) + "\n                ")])])])]) : _vm._e(), _vm._v(" "), _c('span', {
+  }, [_vm._v(_vm._s(_vm.detailDialog.selectItem.email))]) : _vm._e()])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    備考\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.detailDialog.selectItem.comment) + "\n                ")])])])]) : _vm._e(), _vm._v(" "), _c('span', {
     staticClass: "dialog-footer",
     slot: "footer"
   }, [_c('button', {
     staticClass: "btn btn-default",
     on: {
       "click": function($event) {
-        _vm.dialog.visible = false
+        _vm.detailDialog.visible = false
       }
     }
-  }, [_vm._v("閉じる")])])])], 1)
+  }, [_vm._v("閉じる")])])]), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "確認",
+      "size": "tiny"
+    },
+    model: {
+      value: (_vm.comfirmDialog.visible),
+      callback: function($$v) {
+        _vm.comfirmDialog.visible = $$v
+      }
+    }
+  }, [_c('span', [_vm._v("選択された連絡先を削除してもよろしいですか？")]), _vm._v(" "), _c('span', {
+    staticClass: "dialog-footer",
+    slot: "footer"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    on: {
+      "click": function($event) {
+        _vm.comfirmDialog.visible = false
+      }
+    }
+  }, [_vm._v("キャンセル")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-primary",
+    on: {
+      "click": _vm.onComfirmDialogCallback
+    }
+  }, [_vm._v("実行")])])])], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "overlay",
