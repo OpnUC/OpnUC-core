@@ -86,7 +86,7 @@
                         所属グループ
                     </th>
                     <td>
-                        <!-- // Todo -->
+                        {{ detailDialog.selectItem.group_name }}
                     </td>
                 </tr>
                 <tr>
@@ -140,6 +140,125 @@
              </span>
         </el-dialog>
 
+        <el-dialog title="追加・編集" v-model="editDialog.visible">
+            <table class="table table-bordered table-striped" v-if="editDialog.selectItem != null">
+                <tbody>
+                <tr>
+                    <th width="150">
+                        <label for="inputId" class="control-label">アドレス帳ID</label>
+                    </th>
+                    <td>
+                        <input type="text" class="form-control input-sm" id="inputId"
+                               placeholder="アドレス帳ID" readonly="readonly" v-model="editDialog.selectItem.id">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputPosition" class="control-label">役職</label>
+                    </th>
+                    <td>
+                        <input type="text" class="form-control input-sm" id="inputPosition"
+                               placeholder="役職" v-model="editDialog.selectItem.position">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputNameKana" class="control-label">名前(カナ)</label>
+                    </th>
+                    <td>
+                        <input type="text" class="form-control input-sm" id="inputNameKana"
+                               placeholder="名前(カナ)" v-model="editDialog.selectItem.name_kana">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputName" class="control-label">名前</label>
+                    </th>
+                    <td>
+                        <input type="text" class="form-control input-sm" id="inputName"
+                               placeholder="名前" v-model="editDialog.selectItem.name">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputType" class="control-label">電話帳種別</label>
+                    </th>
+                    <td>
+                        <select class="form-control input-sm" id="inputType" v-model="editDialog.selectItem.type">
+                            <option v-for="(value, key) in addressBookType" v-bind:value="key">
+                                {{ value }}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputGroup" class="control-label">所属グループ</label>
+                    </th>
+                    <td>
+                        <select class="form-control input-sm" name="groupid" id="inputGroup"
+                                v-model="editDialog.selectItem.groupid">
+                            <option v-for="item in addressBookGroup[editDialog.selectItem.type]"
+                                    v-bind:value="item.key">
+                                {{ item.value }}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputTel1" class="control-label">電話番号1</label>
+                    </th>
+                    <td>
+                        <input type="tel" class="form-control input-sm" id="inputTel1" placeholder="電話番号1"
+                               v-model="editDialog.selectItem.tel1">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputTel2" class="control-label">電話番号2</label>
+                    </th>
+                    <td>
+                        <input type="tel" class="form-control input-sm" id="inputTel2" placeholder="電話番号2"
+                               v-model="editDialog.selectItem.tel2">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputTel3" class="control-label">電話番号3</label>
+                    </th>
+                    <td>
+                        <input type="tel" class="form-control input-sm" id="inputTel3" placeholder="電話番号3"
+                               v-model="editDialog.selectItem.tel3">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputEmail" class="control-label">メールアドレス</label>
+                    </th>
+                    <td>
+                        <input type="email" class="form-control input-sm" id="inputEmail" placeholder="メールアドレス"
+                               v-model="editDialog.selectItem.email">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label for="inputComment" class="control-label">備考</label>
+                    </th>
+                    <td>
+                        <input type="text" class="form-control input-sm"
+                               id="inputComment" placeholder="備考"
+                               v-model="editDialog.selectItem.comment">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <span slot="footer" class="dialog-footer">
+                <button class="btn btn-default" v-on:click="editDialog.visible = false">キャンセル</button>
+                <button class="btn btn-primary" v-on:click="onEditDialogCallback">保存</button>
+            </span>
+        </el-dialog>
+
         <el-dialog title="確認" v-model="comfirmDialog.visible" size="tiny">
             <span>選択された連絡先を削除してもよろしいですか？</span>
             <span slot="footer" class="dialog-footer">
@@ -173,8 +292,13 @@
                     visible: false,
                     selectItem: null,
                 },
-                comfirmDialog:{
+                comfirmDialog: {
                     visible: false,
+                    callback: null,
+                },
+                editDialog: {
+                    visible: false,
+                    selectItem: null,
                     callback: null,
                 },
                 addressBookType: {
@@ -182,6 +306,7 @@
                     2: '共通電話帳',
                     //9 : '個人電話帳',
                 },
+                addressBookGroup: {},
                 sortOrder: [
                     {
                         field: '__component:columnName',
@@ -265,9 +390,15 @@
 
                 this.$refs.vuetable.refresh()
             },
+            onEditDialogCallback(){
+                // Callbackを実行
+                if (this.editDialog.callback) {
+                    this.editDialog.callback();
+                }
+            },
             onComfirmDialogCallback(){
                 // Callbackを実行
-                if(this.comfirmDialog.callback){
+                if (this.comfirmDialog.callback) {
                     this.comfirmDialog.callback();
                 }
             },
@@ -281,7 +412,55 @@
             },
         },
         mounted() {
+            var _this = this
             this.regEvent();
+
+            $.each(this.addressBookType, function (index, val) {
+                axios.get('/addressbook/groups', {
+                    params: {
+                        typeId: index
+                    }
+                })
+                    .then(function (response) {
+                        var items = [];
+
+                        // 再帰処理のため、匿名関数を作成
+                        var buildGroupList = function (group, parentGroupName = null) {
+                            $.each(group, function (index, val) {
+                                if (val.Child) {
+                                    // 子供がある場合は再帰処理
+                                    buildGroupList(val.Child, val.Name)
+                                }else{
+                                    // 末端グループの場合は表示する
+                                    if (parentGroupName) {
+                                        items.push({
+                                            key: val.Id,
+                                            value: parentGroupName + ' > ' + val.Name
+                                        })
+                                    } else {
+                                        items.push({
+                                            key: val.Id,
+                                            value: val.Name
+                                        })
+                                    }
+                                }
+                            })
+                        }
+
+                        // 1度目の処理
+                        buildGroupList(response.data);
+
+                        // グループ名でソート
+                        items.sort(function(a, b) {
+                            return (a.value < b.value) ? -1 : 1;
+                        });
+
+                        Vue.set(_this.addressBookGroup, index, items)
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            });
         },
         created() {
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);
@@ -292,6 +471,30 @@
                 this.detailDialog.visible = true
                 this.detailDialog.selectItem = item
             },
+            // 編集(ColumnActionからのイベント)
+            'AddressBook:edit': function (item) {
+                var _this = this
+
+                _this.editDialog.selectItem = item
+
+                this.editDialog.callback = function () {
+                    // 編集処理
+                    axios.post('/addressbook/edit', _this.editDialog.selectItem)
+                        .then(function (response) {
+                            _this.status = response.data.status
+                            _this.message = response.data.message
+
+//                            _this.$refs.vuetable.refresh()
+                        })
+                        .catch(function (error) {
+                            _this.status = error.response.data.status
+                            _this.message = error.response.data.message
+                        });
+                }
+
+                this.editDialog.visible = true
+            },
+            // 削除(ColumnActionからのイベント)
             'AddressBook:delete': function (item) {
                 var _this = this
 

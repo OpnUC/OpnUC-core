@@ -2684,6 +2684,125 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2712,10 +2831,16 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
                 visible: false,
                 callback: null
             },
+            editDialog: {
+                visible: false,
+                selectItem: null,
+                callback: null
+            },
             addressBookType: {
                 1: '内線電話帳',
                 2: '共通電話帳'
             },
+            addressBookGroup: {},
             sortOrder: [{
                 field: '__component:columnName',
                 sortField: 'name_kana',
@@ -2792,6 +2917,12 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
 
             this.$refs.vuetable.refresh();
         },
+        onEditDialogCallback: function onEditDialogCallback() {
+            // Callbackを実行
+            if (this.editDialog.callback) {
+                this.editDialog.callback();
+            }
+        },
         onComfirmDialogCallback: function onComfirmDialogCallback() {
             // Callbackを実行
             if (this.comfirmDialog.callback) {
@@ -2808,7 +2939,55 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
         }
     },
     mounted: function mounted() {
+        var _this = this;
         this.regEvent();
+
+        $.each(this.addressBookType, function (index, val) {
+            axios.get('/addressbook/groups', {
+                params: {
+                    typeId: index
+                }
+            }).then(function (response) {
+                var items = [];
+
+                // 再帰処理のため、匿名関数を作成
+                var buildGroupList = function buildGroupList(group) {
+                    var parentGroupName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+                    $.each(group, function (index, val) {
+                        if (val.Child) {
+                            // 子供がある場合は再帰処理
+                            buildGroupList(val.Child, val.Name);
+                        } else {
+                            // 末端グループの場合は表示する
+                            if (parentGroupName) {
+                                items.push({
+                                    key: val.Id,
+                                    value: parentGroupName + ' > ' + val.Name
+                                });
+                            } else {
+                                items.push({
+                                    key: val.Id,
+                                    value: val.Name
+                                });
+                            }
+                        }
+                    });
+                };
+
+                // 1度目の処理
+                buildGroupList(response.data);
+
+                // グループ名でソート
+                items.sort(function (a, b) {
+                    return a.value < b.value ? -1 : 1;
+                });
+
+                __WEBPACK_IMPORTED_MODULE_0_vue___default.a.set(_this.addressBookGroup, index, items);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        });
     },
     created: function created() {
         this.$root.sidebar = this.$route.matched.some(function (record) {
@@ -2822,6 +3001,28 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
             this.detailDialog.visible = true;
             this.detailDialog.selectItem = item;
         },
+        // 編集(ColumnActionからのイベント)
+        'AddressBook:edit': function AddressBookEdit(item) {
+            var _this = this;
+
+            _this.editDialog.selectItem = item;
+
+            this.editDialog.callback = function () {
+                // 編集処理
+                axios.post('/addressbook/edit', _this.editDialog.selectItem).then(function (response) {
+                    _this.status = response.data.status;
+                    _this.message = response.data.message;
+
+                    //                            _this.$refs.vuetable.refresh()
+                }).catch(function (error) {
+                    _this.status = error.response.data.status;
+                    _this.message = error.response.data.message;
+                });
+            };
+
+            this.editDialog.visible = true;
+        },
+        // 削除(ColumnActionからのイベント)
         'AddressBook:delete': function AddressBookDelete(item) {
             var _this = this;
 
@@ -2889,7 +3090,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        // 詳細の表示
+        // 編集
+        onEdit: function onEdit() {
+            this.$events.$emit('AddressBook:edit', this.rowData);
+        },
+
+        // 削除
         onDelete: function onDelete() {
             this.$events.$emit('AddressBook:delete', this.rowData);
         }
@@ -32727,7 +32933,20 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_vm._m(0), _vm._v(" "), _c('button', {
+  return _c('div', [_c('button', {
+    staticClass: "btn btn-default btn-xs",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.onEdit($event)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-edit"
+  }), _vm._v(" 編集\n    ")]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-default btn-xs",
     attrs: {
       "type": "button"
@@ -32741,16 +32960,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fa fa-times"
   }), _vm._v(" 削除\n    ")])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('button', {
-    staticClass: "btn btn-default btn-xs",
-    attrs: {
-      "type": "button"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-edit"
-  }), _vm._v(" 編集\n    ")])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -32831,7 +33041,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "width": "150"
     }
-  }, [_vm._v("\n                    アドレス帳ID\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.detailDialog.selectItem.id) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    役職\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.detailDialog.selectItem.position) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    名前\n                ")]), _vm._v(" "), _c('td', [_c('small', [_vm._v("(" + _vm._s(_vm.detailDialog.selectItem.name_kana) + ")")]), _vm._v(" "), _c('br'), _vm._v("\n                    " + _vm._s(_vm.detailDialog.selectItem.name) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話帳種別\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.addressBookType[_vm.detailDialog.selectItem.type]) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    所属グループ\n                ")]), _vm._v(" "), _c('td')]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話番号1\n                ")]), _vm._v(" "), _c('td', [(_vm.detailDialog.selectItem.tel1) ? _c('a', {
+  }, [_vm._v("\n                    アドレス帳ID\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.detailDialog.selectItem.id) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    役職\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.detailDialog.selectItem.position) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    名前\n                ")]), _vm._v(" "), _c('td', [_c('small', [_vm._v("(" + _vm._s(_vm.detailDialog.selectItem.name_kana) + ")")]), _vm._v(" "), _c('br'), _vm._v("\n                    " + _vm._s(_vm.detailDialog.selectItem.name) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話帳種別\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.addressBookType[_vm.detailDialog.selectItem.type]) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    所属グループ\n                ")]), _vm._v(" "), _c('td', [_vm._v("\n                    " + _vm._s(_vm.detailDialog.selectItem.group_name) + "\n                ")])]), _vm._v(" "), _c('tr', [_c('th', [_vm._v("\n                    電話番号1\n                ")]), _vm._v(" "), _c('td', [(_vm.detailDialog.selectItem.tel1) ? _c('a', {
     attrs: {
       "href": ("tel:" + (_vm.detailDialog.selectItem.tel1))
     }
@@ -32858,6 +33068,348 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }, [_vm._v("閉じる")])])]), _vm._v(" "), _c('el-dialog', {
+    attrs: {
+      "title": "追加・編集"
+    },
+    model: {
+      value: (_vm.editDialog.visible),
+      callback: function($$v) {
+        _vm.editDialog.visible = $$v
+      }
+    }
+  }, [(_vm.editDialog.selectItem != null) ? _c('table', {
+    staticClass: "table table-bordered table-striped"
+  }, [_c('tbody', [_c('tr', [_c('th', {
+    attrs: {
+      "width": "150"
+    }
+  }, [_c('label', {
+    staticClass: "control-label",
+    attrs: {
+      "for": "inputId"
+    }
+  }, [_vm._v("アドレス帳ID")])]), _vm._v(" "), _c('td', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.editDialog.selectItem.id),
+      expression: "editDialog.selectItem.id"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputId",
+      "placeholder": "アドレス帳ID",
+      "readonly": "readonly"
+    },
+    domProps: {
+      "value": (_vm.editDialog.selectItem.id)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.editDialog.selectItem.id = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
+    staticClass: "control-label",
+    attrs: {
+      "for": "inputPosition"
+    }
+  }, [_vm._v("役職")])]), _vm._v(" "), _c('td', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.editDialog.selectItem.position),
+      expression: "editDialog.selectItem.position"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputPosition",
+      "placeholder": "役職"
+    },
+    domProps: {
+      "value": (_vm.editDialog.selectItem.position)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.editDialog.selectItem.position = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
+    staticClass: "control-label",
+    attrs: {
+      "for": "inputNameKana"
+    }
+  }, [_vm._v("名前(カナ)")])]), _vm._v(" "), _c('td', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.editDialog.selectItem.name_kana),
+      expression: "editDialog.selectItem.name_kana"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputNameKana",
+      "placeholder": "名前(カナ)"
+    },
+    domProps: {
+      "value": (_vm.editDialog.selectItem.name_kana)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.editDialog.selectItem.name_kana = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
+    staticClass: "control-label",
+    attrs: {
+      "for": "inputName"
+    }
+  }, [_vm._v("名前")])]), _vm._v(" "), _c('td', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.editDialog.selectItem.name),
+      expression: "editDialog.selectItem.name"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputName",
+      "placeholder": "名前"
+    },
+    domProps: {
+      "value": (_vm.editDialog.selectItem.name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.editDialog.selectItem.name = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
+    staticClass: "control-label",
+    attrs: {
+      "for": "inputType"
+    }
+  }, [_vm._v("電話帳種別")])]), _vm._v(" "), _c('td', [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.editDialog.selectItem.type),
+      expression: "editDialog.selectItem.type"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "id": "inputType"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.editDialog.selectItem.type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.addressBookType), function(value, key) {
+    return _c('option', {
+      domProps: {
+        "value": key
+      }
+    }, [_vm._v("\n                            " + _vm._s(value) + "\n                        ")])
+  }))])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
+    staticClass: "control-label",
+    attrs: {
+      "for": "inputGroup"
+    }
+  }, [_vm._v("所属グループ")])]), _vm._v(" "), _c('td', [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.editDialog.selectItem.groupid),
+      expression: "editDialog.selectItem.groupid"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "name": "groupid",
+      "id": "inputGroup"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.editDialog.selectItem.groupid = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.addressBookGroup[_vm.editDialog.selectItem.type]), function(item) {
+    return _c('option', {
+      domProps: {
+        "value": item.key
+      }
+    }, [_vm._v("\n                            " + _vm._s(item.value) + "\n                        ")])
+  }))])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
+    staticClass: "control-label",
+    attrs: {
+      "for": "inputTel1"
+    }
+  }, [_vm._v("電話番号1")])]), _vm._v(" "), _c('td', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.editDialog.selectItem.tel1),
+      expression: "editDialog.selectItem.tel1"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "tel",
+      "id": "inputTel1",
+      "placeholder": "電話番号1"
+    },
+    domProps: {
+      "value": (_vm.editDialog.selectItem.tel1)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.editDialog.selectItem.tel1 = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
+    staticClass: "control-label",
+    attrs: {
+      "for": "inputTel2"
+    }
+  }, [_vm._v("電話番号2")])]), _vm._v(" "), _c('td', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.editDialog.selectItem.tel2),
+      expression: "editDialog.selectItem.tel2"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "tel",
+      "id": "inputTel2",
+      "placeholder": "電話番号2"
+    },
+    domProps: {
+      "value": (_vm.editDialog.selectItem.tel2)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.editDialog.selectItem.tel2 = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
+    staticClass: "control-label",
+    attrs: {
+      "for": "inputTel3"
+    }
+  }, [_vm._v("電話番号3")])]), _vm._v(" "), _c('td', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.editDialog.selectItem.tel3),
+      expression: "editDialog.selectItem.tel3"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "tel",
+      "id": "inputTel3",
+      "placeholder": "電話番号3"
+    },
+    domProps: {
+      "value": (_vm.editDialog.selectItem.tel3)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.editDialog.selectItem.tel3 = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
+    staticClass: "control-label",
+    attrs: {
+      "for": "inputEmail"
+    }
+  }, [_vm._v("メールアドレス")])]), _vm._v(" "), _c('td', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.editDialog.selectItem.email),
+      expression: "editDialog.selectItem.email"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "email",
+      "id": "inputEmail",
+      "placeholder": "メールアドレス"
+    },
+    domProps: {
+      "value": (_vm.editDialog.selectItem.email)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.editDialog.selectItem.email = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('tr', [_c('th', [_c('label', {
+    staticClass: "control-label",
+    attrs: {
+      "for": "inputComment"
+    }
+  }, [_vm._v("備考")])]), _vm._v(" "), _c('td', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.editDialog.selectItem.comment),
+      expression: "editDialog.selectItem.comment"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputComment",
+      "placeholder": "備考"
+    },
+    domProps: {
+      "value": (_vm.editDialog.selectItem.comment)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.editDialog.selectItem.comment = $event.target.value
+      }
+    }
+  })])])])]) : _vm._e(), _vm._v(" "), _c('span', {
+    staticClass: "dialog-footer",
+    slot: "footer"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    on: {
+      "click": function($event) {
+        _vm.editDialog.visible = false
+      }
+    }
+  }, [_vm._v("キャンセル")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-primary",
+    on: {
+      "click": _vm.onEditDialogCallback
+    }
+  }, [_vm._v("保存")])])]), _vm._v(" "), _c('el-dialog', {
     attrs: {
       "title": "確認",
       "size": "tiny"

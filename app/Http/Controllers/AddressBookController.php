@@ -27,7 +27,7 @@ class AddressBookController extends Controller
     public function search(Request $req)
     {
 
-        $column = ['id', 'type', 'position', 'name_kana', 'name', 'tel1', 'tel2', 'tel3', 'email', 'comment', 'avatar_type', 'avatar_filename'];
+        $column = ['id', 'type', 'groupid', 'position', 'name_kana', 'name', 'tel1', 'tel2', 'tel3', 'email', 'comment', 'avatar_type', 'avatar_filename'];
         $typeId = intval($req['typeId']) ? intval($req['typeId']) : -1;
 
         $items = \App\AddressBook::select($column)
@@ -74,7 +74,8 @@ class AddressBookController extends Controller
         $items = $items->paginate($per_page);
 
         // プレゼンス取得
-//        foreach ($data as $key => &$value) {
+        foreach ($items as $key => &$value) {
+            $value['group_name'] = $value->GroupName();
 //            foreach (['tel1', 'tel2', 'tel3'] as $item) {
 //                // 内線と思われる物だけ取得
 //                if (substr($value[$item], 0, 1) != 0) {
@@ -82,7 +83,7 @@ class AddressBookController extends Controller
 //                    $value[$item . '_status'] = $status == null ? 'unknown' : $status;
 //                }
 //            }
-//        }
+        }
 
         return \Response::json($items);
 
