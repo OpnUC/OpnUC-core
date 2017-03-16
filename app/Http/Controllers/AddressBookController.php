@@ -11,6 +11,15 @@ class AddressBookController extends Controller
 {
 
     /**
+     * constructor
+     */
+    public function __construct()
+    {
+        // ミドルウェアの指定
+        $this->middleware('jwt.auth');
+    }
+
+    /**
      * アドレス帳の検索
      * @param Request $req
      * @return type
