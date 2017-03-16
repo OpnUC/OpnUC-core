@@ -258,14 +258,6 @@
                 <button class="btn btn-primary" v-on:click="onEditDialogCallback">保存</button>
             </span>
         </el-dialog>
-
-        <el-dialog title="確認" v-model="comfirmDialog.visible" size="tiny">
-            <span>選択された連絡先を削除してもよろしいですか？</span>
-            <span slot="footer" class="dialog-footer">
-                <button class="btn btn-default" v-on:click="comfirmDialog.visible = false">キャンセル</button>
-                <button class="btn btn-primary" v-on:click="onComfirmDialogCallback">実行</button>
-            </span>
-        </el-dialog>
     </section>
 </template>
 <script>
@@ -291,10 +283,6 @@
                 detailDialog: {
                     visible: false,
                     selectItem: null,
-                },
-                comfirmDialog: {
-                    visible: false,
-                    callback: null,
                 },
                 editDialog: {
                     visible: false,
@@ -396,12 +384,6 @@
                     this.editDialog.callback();
                 }
             },
-            onComfirmDialogCallback(){
-                // Callbackを実行
-                if (this.comfirmDialog.callback) {
-                    this.comfirmDialog.callback();
-                }
-            },
             regEvent(){
                 this.$refs.vuetable.$on('vuetable:loading', () => {
                     $('#resultLoading').css('visibility', 'visible');
@@ -430,7 +412,7 @@
                                 if (val.Child) {
                                     // 子供がある場合は再帰処理
                                     buildGroupList(val.Child, val.Name)
-                                }else{
+                                } else {
                                     // 末端グループの場合は表示する
                                     if (parentGroupName) {
                                         items.push({
@@ -451,7 +433,7 @@
                         buildGroupList(response.data);
 
                         // グループ名でソート
-                        items.sort(function(a, b) {
+                        items.sort(function (a, b) {
                             return (a.value < b.value) ? -1 : 1;
                         });
 
@@ -498,27 +480,32 @@
             'AddressBook:delete': function (item) {
                 var _this = this
 
-                this.comfirmDialog.callback = function () {
-                    this.visible = false
-
-                    // 削除処理
+                this.$confirm('選択された連絡先を削除しても良いですか？', '確認', {
+                    confirmButtonText: '削除',
+                    cancelButtonText: 'キャンセル',
+                    type: 'warning'
+                }).then(() => {
                     axios.post('/addressbook/delete',
                         {
                             id: item.id
                         })
                         .then(function (response) {
-                            _this.status = response.data.status
-                            _this.message = response.data.message
+                            _this.$message({
+                                type: 'success',
+                                message: '削除が完了しました。'
+                            });
 
                             _this.$refs.vuetable.refresh()
                         })
                         .catch(function (error) {
-                            _this.status = error.response.data.status
-                            _this.message = error.response.data.message
+                            _this.$message({
+                                type: 'error',
+                                message: '削除に失敗しました。'
+                            });
                         });
-                }
-
-                this.comfirmDialog.visible = true
+                }).catch(function(error){
+                    console.log(error.message);
+                });
             },
             // 検索(Sidebarからのイベント)
             'AddressBook:search': function (keyword, typeId, groupId, groupName) {

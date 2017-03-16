@@ -2795,14 +2795,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -2826,10 +2818,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
             detailDialog: {
                 visible: false,
                 selectItem: null
-            },
-            comfirmDialog: {
-                visible: false,
-                callback: null
             },
             editDialog: {
                 visible: false,
@@ -2921,12 +2909,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
             // Callbackを実行
             if (this.editDialog.callback) {
                 this.editDialog.callback();
-            }
-        },
-        onComfirmDialogCallback: function onComfirmDialogCallback() {
-            // Callbackを実行
-            if (this.comfirmDialog.callback) {
-                this.comfirmDialog.callback();
             }
         },
         regEvent: function regEvent() {
@@ -3026,24 +3008,29 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
         'AddressBook:delete': function AddressBookDelete(item) {
             var _this = this;
 
-            this.comfirmDialog.callback = function () {
-                this.visible = false;
-
-                // 削除処理
+            this.$confirm('選択された連絡先を削除しても良いですか？', '確認', {
+                confirmButtonText: '削除',
+                cancelButtonText: 'キャンセル',
+                type: 'warning'
+            }).then(function () {
                 axios.post('/addressbook/delete', {
                     id: item.id
                 }).then(function (response) {
-                    _this.status = response.data.status;
-                    _this.message = response.data.message;
+                    _this.$message({
+                        type: 'success',
+                        message: '削除が完了しました。'
+                    });
 
                     _this.$refs.vuetable.refresh();
                 }).catch(function (error) {
-                    _this.status = error.response.data.status;
-                    _this.message = error.response.data.message;
+                    _this.$message({
+                        type: 'error',
+                        message: '削除に失敗しました。'
+                    });
                 });
-            };
-
-            this.comfirmDialog.visible = true;
+            }).catch(function (error) {
+                console.log(error.message);
+            });
         },
         // 検索(Sidebarからのイベント)
         'AddressBook:search': function AddressBookSearch(keyword, typeId, groupId, groupName) {
@@ -33409,33 +33396,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.onEditDialogCallback
     }
-  }, [_vm._v("保存")])])]), _vm._v(" "), _c('el-dialog', {
-    attrs: {
-      "title": "確認",
-      "size": "tiny"
-    },
-    model: {
-      value: (_vm.comfirmDialog.visible),
-      callback: function($$v) {
-        _vm.comfirmDialog.visible = $$v
-      }
-    }
-  }, [_c('span', [_vm._v("選択された連絡先を削除してもよろしいですか？")]), _vm._v(" "), _c('span', {
-    staticClass: "dialog-footer",
-    slot: "footer"
-  }, [_c('button', {
-    staticClass: "btn btn-default",
-    on: {
-      "click": function($event) {
-        _vm.comfirmDialog.visible = false
-      }
-    }
-  }, [_vm._v("キャンセル")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-primary",
-    on: {
-      "click": _vm.onComfirmDialogCallback
-    }
-  }, [_vm._v("実行")])])])], 1)
+  }, [_vm._v("保存")])])])], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "overlay",
