@@ -53,10 +53,10 @@
                     <i class="fa fa-cog"></i> 管理
                 </li>
                 <li class="treeview">
-                    <a href="#" v-on:click.prevent="onEdit">
+                    <router-link to="/AddressBook/Edit">
                         <i class="fa fa-plus-square"></i>
                         <span>連絡先追加</span>
-                    </a>
+                    </router-link>
                 </li>
                 <li class="treeview">
                     <a>

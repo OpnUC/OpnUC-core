@@ -3055,6 +3055,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -4409,8 +4413,7 @@ var routes = [{
         path: '/AddressBook/Edit/:id?',
         name: 'AddressBookEdit',
         components: {
-            default: __WEBPACK_IMPORTED_MODULE_5__components_AddressBookEdit_vue___default.a,
-            sidebar: __WEBPACK_IMPORTED_MODULE_4__components_AddressBook_Sidebar_vue___default.a
+            default: __WEBPACK_IMPORTED_MODULE_5__components_AddressBookEdit_vue___default.a
         },
         meta: {
             title: 'Web電話帳',
@@ -4543,7 +4546,7 @@ exports = module.exports = __webpack_require__(7)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -33067,19 +33070,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "sidebar-menu"
   }, [_vm._m(2), _vm._v(" "), _c('li', {
     staticClass: "treeview"
-  }, [_c('a', {
+  }, [_c('router-link', {
     attrs: {
-      "href": "#"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.onEdit($event)
-      }
+      "to": "/AddressBook/Edit"
     }
   }, [_c('i', {
     staticClass: "fa fa-plus-square"
-  }), _vm._v(" "), _c('span', [_vm._v("連絡先追加")])])]), _vm._v(" "), _vm._m(3)])])])
+  }), _vm._v(" "), _c('span', [_vm._v("連絡先追加")])])], 1), _vm._v(" "), _vm._m(3)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "pull-left image"
@@ -33551,6 +33548,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('section', {
     staticClass: "content"
   }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-8"
+  }, [_c('div', {
     staticClass: "box box-primary"
   }, [_vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), (_vm.selectItem) ? _c('form', {
     staticClass: "form-horizontal",
@@ -33564,9 +33565,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box-body"
   }, [(_vm.status == 'success') ? _c('div', {
     staticClass: "alert alert-success"
-  }, [_vm._v("\n                    " + _vm._s(_vm.message) + "\n                ")]) : (_vm.status == 'error') ? _c('div', {
+  }, [_vm._v("\n                            " + _vm._s(_vm.message) + "\n                        ")]) : (_vm.status == 'error') ? _c('div', {
     staticClass: "alert alert-error"
-  }, [_vm._v("\n                    " + _vm._s(_vm.message) + "\n                ")]) : _vm._e(), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                            " + _vm._s(_vm.message) + "\n                        ")]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "form-group",
     class: _vm.errors.id ? 'has-error' : ''
   }, [_c('label', {
@@ -33748,7 +33749,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": key
       }
-    }, [_vm._v("\n                                " + _vm._s(value) + "\n                            ")])
+    }, [_vm._v("\n                                        " + _vm._s(value) + "\n                                    ")])
   })), _vm._v(" "), (_vm.errors.type) ? _c('span', {
     staticClass: "help-block"
   }, [_c('ul', _vm._l((_vm.errors.type), function(item) {
@@ -33790,7 +33791,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       domProps: {
         "value": item.key
       }
-    }, [_vm._v("\n                                " + _vm._s(item.value) + "\n                            ")])
+    }, [_vm._v("\n                                        " + _vm._s(item.value) + "\n                                    ")])
   })), _vm._v(" "), (_vm.errors.groupid) ? _c('span', {
     staticClass: "help-block"
   }, [_c('ul', _vm._l((_vm.errors.groupid), function(item) {
@@ -33975,7 +33976,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "help-block"
   }, [_c('ul', _vm._l((_vm.errors.comment), function(item) {
     return _c('li', [_vm._v("\n                                " + _vm._s(item) + "\n                            ")])
-  }))]) : _vm._e()])])]), _vm._v(" "), _vm._m(2)]) : _vm._e()])])
+  }))]) : _vm._e()])])]), _vm._v(" "), _vm._m(2)]) : _vm._e()])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "overlay",
@@ -33993,7 +33994,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box-header with-border"
   }, [_c('h3', {
     staticClass: "box-title"
-  }, [_vm._v("\n                連絡先 追加・編集\n            ")])])
+  }, [_vm._v("\n                        連絡先 追加・編集\n                    ")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box-footer"
