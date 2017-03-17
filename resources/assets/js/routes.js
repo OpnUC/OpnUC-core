@@ -5,6 +5,7 @@ import Index from './components/Index.vue'
 import Cdr from './components/Cdr.vue'
 import AddressBook from './components/AddressBook.vue'
 import AddressBook_Sidebar from './components/AddressBook_Sidebar.vue'
+import AddressBookEdit from './components/AddressBookEdit.vue'
 
 import Login from './components/Login.vue'
 import PasswordReset from './components/PasswordReset.vue'
@@ -21,16 +22,16 @@ const routes = [
             {
                 path: '',
                 component: Index,
-                name: 'Home',
                 meta: {
+                    title: 'Home',
                     description: 'Home',
                 }
             },
             {
                 path: '/Cdr',
                 component: Cdr,
-                name: '発着信履歴',
                 meta: {
+                    title: '発着信履歴',
                     description: 'Call detail record',
                     auth: true
                 }
@@ -38,44 +39,57 @@ const routes = [
             {
                 path: '/AddressBook',
                 components: {
-                    sidebar: AddressBook_Sidebar,
-                    default: AddressBook
+                    default: AddressBook,
+                    sidebar: AddressBook_Sidebar
                 },
-                name: 'Web電話帳',
                 meta: {
+                    title: 'Web電話帳',
                     description: 'Web Address Book',
                     auth: true
-                }
+                },
+            },
+            {
+                path: '/AddressBook/Edit/:id?',
+                name: 'AddressBookEdit',
+                components: {
+                    default: AddressBookEdit,
+                    sidebar: AddressBook_Sidebar
+                },
+                meta: {
+                    title: 'Web電話帳',
+                    description: 'Web Address Book',
+                    auth: true
+                },
             },
             {
                 path: '/Login',
                 component: Login,
-                name: 'Login',
                 meta: {
+                    title: 'Login',
                     description: 'Login',
                 }
             },
             {
                 path: '/PasswordReset/:token',
                 component: PasswordReset,
-                name: 'パスワードリセット',
                 meta: {
+                    title: 'パスワードリセット',
                     description: 'Password Reset',
                 }
             },
             {
                 path: '/PasswordResetEmail',
                 component: PasswordResetEmail,
-                name: 'パスワードリセット',
                 meta: {
+                    title: 'パスワードリセット',
                     description: 'Password Reset',
                 }
             },
             {
                 path: '*',
                 component: NotFoundView,
-                name: 'NotFound',
                 meta: {
+                    title: 'NotFound',
                     description: '404 Not Found'
                 }
             },

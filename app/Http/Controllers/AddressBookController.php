@@ -19,6 +19,23 @@ class AddressBookController extends Controller
         $this->middleware('jwt.auth');
     }
 
+    public function detail(Request $request){
+
+        $id = intval($request['id']) ? intval($request['id']) : 0;
+
+        $item = \App\AddressBook::find($id);
+
+        if($item){
+            return \Response::json($item);
+        }else{
+            return response([
+                'status' => 'error',
+                'message' => '404 Not Found。'
+            ], 404);
+        }
+
+    }
+
     /**
      * アドレス帳の検索
      * @param Request $req
