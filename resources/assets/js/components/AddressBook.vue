@@ -1,14 +1,14 @@
 <template>
     <section class="content">
         <div class="box box-primary">
-            <div id="resultLoading" style="visibility: hidden;" class="overlay">
+            <div id="resultLoading" style="visibility: visible;" class="overlay">
                 <i class="fa fa-refresh fa-spin"></i>
             </div>
             <div class="box-header with-border">
                 <h3 class="box-title">
                     電話帳一覧
                     <span style="padding-left: 10px; color:gray; font-size:75%">
-                        {{ addressBookType[moreParams.typeId] }} > {{ groupName }}
+                        {{ typeName }} > {{ groupName }}
                         <span v-if="isSearch">
                             > 検索結果
                         </span>
@@ -22,7 +22,7 @@
                           :css="css"
                           :fields="fields"
                           :sort-order="sortOrder"
-                          :append-params="moreParams"
+                          :append-params="searchParam"
                           detail-row-id="id"
                           @vuetable:pagination-data="onPaginationData"
                           pagination-path=""></vuetable>
@@ -38,6 +38,7 @@
                 </div>
             </div>
         </div>
+
         <el-dialog title="詳細" v-model="detailDialog.visible">
             <table class="table table-bordered table-striped" v-if="detailDialog.selectItem != null">
                 <tbody>
@@ -153,9 +154,6 @@
     export default {
         data() {
             return {
-                status: null,
-                message: null,
-                errors: [],
                 detailDialog: {
                     visible: false,
                     selectItem: null,
@@ -165,6 +163,7 @@
                     2: '共通電話帳',
                     //9 : '個人電話帳',
                 },
+                addressBookGroups: null,
                 sortOrder: [
                     {
                         field: '__component:columnName',
@@ -221,13 +220,15 @@
                         titleClass: 'columnAction',
                     },
                 ],
-                moreParams: {
-                    typeId: 1,
-                    groupId: 0,
-                    keyword: '',
-                },
                 isSearch: false,
+                typeName: null,
+                groupId: null,
                 groupName: 'すべてを表示',
+                searchParam: {
+                    typeId: null,
+                    groupId: null,
+                    keyword: null,
+                },
             }
         },
         components: {
@@ -257,8 +258,47 @@
                 })
             },
         },
+        watch: {
+            '$route' (to, from) {
+                console.log(to)
+                if(to.params.groupId){
+                    this.groupId = to.params.groupId
+                }
+            },
+            groupId: function () {
+                // グループIDが変更された場合
+                var _this = this
+
+                var setGroupName = function(){
+                    if(_this.addressBookGroups[1][_this.groupId]){
+                        _this.searchParam.groupId = _this.groupId
+                        _this.searchParam.typeId = 1
+
+                        _this.groupName = _this.addressBookGroups[_this.searchParam.typeId][_this.searchParam.groupId].full_group_name
+                        _this.typeName = _this.addressBookType[_this.searchParam.typeId]
+                        _this.$refs.vuetable.refresh()
+                    }
+                }
+
+                // 初回はサーバから取得する
+                if(!this.addressBookGroups){
+                    axios.get('/addressbook/groups')
+                        .then(function (response) {
+                            _this.addressBookGroups = response.data
+
+                            setGroupName()
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        });
+                }else{
+                    setGroupName()
+                }
+            }
+        },
         mounted() {
             this.regEvent();
+            this.groupId = this.$route.params.groupId
         },
         created() {
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);
@@ -301,18 +341,8 @@
                 });
             },
             // 検索(Sidebarからのイベント)
-            'AddressBook:search': function (keyword, typeId, groupId, groupName) {
-                if (typeof typeId != "undefined") {
-                    this.moreParams.typeId = typeId;
-                }
-                if (typeof groupId != "undefined") {
-                    this.moreParams.groupId = groupId;
-                }
-                if (typeof groupName != "undefined") {
-                    this.groupName = groupName
-                }
-
-                this.moreParams.keyword = keyword;
+            'AddressBook:search': function (keyword) {
+                this.searchParam.keyword = keyword;
 
                 this.onSearch();
             },

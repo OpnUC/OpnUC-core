@@ -19,15 +19,16 @@ class AddressBookController extends Controller
         $this->middleware('jwt.auth');
     }
 
-    public function detail(Request $request){
+    public function detail(Request $request)
+    {
 
         $id = intval($request['id']) ? intval($request['id']) : 0;
 
         $item = \App\AddressBook::find($id);
 
-        if($item){
+        if ($item) {
             return \Response::json($item);
-        }else{
+        } else {
             return response([
                 'status' => 'error',
                 'message' => '404 Not Found。'
@@ -107,21 +108,46 @@ class AddressBookController extends Controller
     }
 
     /**
+     * グループ情報を出力
+     * @param Request $req
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function groups()
+    {
+
+        $dbGroups = \App\AddressBookGroup::all();
+
+        $result = [];
+
+        foreach ($dbGroups as $group){
+            if(count($group->childs)){
+                continue;
+            }
+
+            $result[$group['type']][$group['id']] = array(
+                'id' => $group['id'],
+                'group_name' => $group['group_name'],
+                'full_group_name' => $group->FullGroupName(),
+            );
+
+        }
+
+        return \Response::json($result);
+
+    }
+
+    /**
      * グループ一覧を出力
      * @param Request $req
      * @return \Illuminate\Http\JsonResponse
      */
-    public function groups(Request $req)
+    public function groups2(Request $req)
     {
-
         $typeId = intval($req['typeId']);
-
         $dbGroups = \App\AddressBookGroup::where('parent_groupid', 0)
             ->where('type', $typeId)
             ->get();
-
         $groups = $this->_buildGroups($dbGroups);
-
         return \Response::json($groups);
     }
 
@@ -133,11 +159,9 @@ class AddressBookController extends Controller
     private function _buildGroups($groups)
     {
         $result = null;
-
         // 親グループ
         foreach ($groups as $Group) {
             $result_child = null;
-
             // 子グループ
             foreach ($Group->childs as $item) {
                 // ToDo: 個人電話帳の考慮してない
@@ -152,7 +176,6 @@ class AddressBookController extends Controller
                     'Child' => $item->childs->count() ? $this->_buildGroups($item->childs) : null,
                 );
             }
-
             // ToDo: 個人電話帳の考慮してない
             $ItemCount = \App\AddressBook::where('type', $Group->type)
                 ->where('groupid', $Group->id)
@@ -164,7 +187,6 @@ class AddressBookController extends Controller
                 'Child' => $result_child,
             );
         }
-
         return $result;
     }
 

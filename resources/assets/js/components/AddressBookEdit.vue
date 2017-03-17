@@ -104,17 +104,17 @@
                                     <select class="form-control input-sm" id="inputGroup"
                                             v-model="selectItem.groupid">
                                         <option v-for="item in addressBookGroup[selectItem.type]"
-                                                v-bind:value="item.key">
-                                            {{ item.value }}
+                                                v-bind:value="item.id">
+                                            {{ item.full_group_name }}
                                         </option>
                                     </select>
                                     <span class="help-block" v-if="errors.groupid">
-                            <ul>
-                                <li v-for="item in errors.groupid">
-                                    {{ item }}
-                                </li>
-                            </ul>
-                        </span>
+                                        <ul>
+                                            <li v-for="item in errors.groupid">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
 
@@ -273,52 +273,14 @@
                 $('#resultLoading').css('visibility', 'hidden');
             }
 
-            $.each(this.addressBookType, function (index, val) {
-                axios.get('/addressbook/groups', {
-                    params: {
-                        typeId: index
-                    }
+            axios.get('/addressbook/groups')
+                .then(function (response) {
+                    _this.addressBookGroup = response.data
+                    console.log(response)
                 })
-                    .then(function (response) {
-                        var items = [];
-
-                        // 再帰処理のため、匿名関数を作成
-                        var buildGroupList = function (group, parentGroupName = null) {
-                            $.each(group, function (index, val) {
-                                if (val.Child) {
-                                    // 子供がある場合は再帰処理
-                                    buildGroupList(val.Child, val.Name)
-                                } else {
-                                    // 末端グループの場合は表示する
-                                    if (parentGroupName) {
-                                        items.push({
-                                            key: val.Id,
-                                            value: parentGroupName + ' > ' + val.Name
-                                        })
-                                    } else {
-                                        items.push({
-                                            key: val.Id,
-                                            value: val.Name
-                                        })
-                                    }
-                                }
-                            })
-                        }
-
-                        // 1度目の処理
-                        buildGroupList(response.data);
-
-                        // グループ名でソート
-                        items.sort(function (a, b) {
-                            return (a.value < b.value) ? -1 : 1;
-                        });
-
-                        Vue.set(_this.addressBookGroup, index, items)
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            });
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
         created() {
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);

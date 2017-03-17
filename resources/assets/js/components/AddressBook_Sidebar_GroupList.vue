@@ -1,10 +1,10 @@
 <template>
     <ul class="treeview-menu" v-if="item.Child">
         <li v-for="childItem in item.Child">
-            <a href="#" v-on:click="onSelect(index, childItem.Id, parent_groupName_ + childItem.Name, childItem.Child)">
+            <router-link :to="{ name: 'AddressBook', params: { groupId: childItem.Id }}">
                 {{ childItem.Name }}
                 <i class="fa fa-angle-left pull-right" v-if="childItem.Child"></i>
-            </a>
+            </router-link>
             <group-list :item="childItem" :index="index" :keyword="keyword" :parent_groupName="item.Name"></group-list>
         </li>
     </ul>

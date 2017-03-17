@@ -34,15 +34,15 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="#" v-on:click="onSelect(index, 0, 'すべてを表示', null)">すべてを表示</a>
+                            <a href="/AddressBook">すべてを表示</a>
                         </li>
                         <!--//ここから切り出す-->
                         <li v-for="item in groups[index]">
-                            <a href="#" v-on:click="onSelect(index, item.Id, item.Name, item.Child)">
+                            <router-link :to="{ name: 'AddressBook', params: { groupId: item.Id }}">
                                 {{ item.Name }}
                                 <i class="fa fa-angle-left pull-right" v-if="item.Child"></i>
-                            </a>
-                            <group-list :item="item" :index="index" :keyword="keyword"></group-list>
+                            </router-link>
+                            <group-list :item="item" :index="index"></group-list>
                         </li>
                     </ul>
                 </li>
@@ -89,7 +89,7 @@
             this.types = this.$route.matched[1].components.default.data().addressBookType
 
             $.each(this.types, function (index, val) {
-                axios.get('/addressbook/groups', {
+                axios.get('/addressbook/groups2', {
                     params: {
                         typeId: index
                     }
