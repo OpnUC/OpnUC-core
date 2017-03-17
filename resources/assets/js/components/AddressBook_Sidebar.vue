@@ -53,7 +53,8 @@
                     <i class="fa fa-cog"></i> 管理
                 </li>
                 <li class="treeview">
-                    <a>
+                    <a href="#" v-on:click.prevent="onEdit">
+                        <i class="fa fa-plus-square"></i>
                         <span>連絡先追加</span>
                     </a>
                 </li>
@@ -111,6 +112,10 @@
                 if (!flag) {
                     this.$events.$emit('AddressBook:search', this.keyword, typeId, groupId, groupName)
                 }
+            },
+            // 追加
+            onEdit() {
+                this.$events.$emit('AddressBook:edit', this.rowData)
             },
         },
     }

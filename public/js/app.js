@@ -3055,6 +3055,14 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
             _this.message = null;
             _this.errors = [];
 
+            // itemがundefinedの場合は新規作成
+            if (typeof item === "undefined") {
+                // typeを設定しないと、selectが動かないため、初期値設定
+                item = {
+                    type: 1
+                };
+            }
+
             _this.editDialog.selectItem = $.extend(true, {}, item);
 
             this.editDialog.callback = function () {
@@ -3312,6 +3320,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -3355,6 +3364,11 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('group-list', __WEBPACK_IM
             if (!flag) {
                 this.$events.$emit('AddressBook:search', this.keyword, typeId, groupId, groupName);
             }
+        },
+
+        // 追加
+        onEdit: function onEdit() {
+            this.$events.$emit('AddressBook:edit', this.rowData);
         }
     }
 };
@@ -4440,7 +4454,7 @@ exports = module.exports = __webpack_require__(7)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -32950,7 +32964,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       })], 1)
     })], 2)])
-  })], 2), _vm._v(" "), _vm._m(2)])])
+  })], 2), _vm._v(" "), _c('ul', {
+    staticClass: "sidebar-menu"
+  }, [_vm._m(2), _vm._v(" "), _c('li', {
+    staticClass: "treeview"
+  }, [_c('a', {
+    attrs: {
+      "href": "#"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.onEdit($event)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-plus-square"
+  }), _vm._v(" "), _c('span', [_vm._v("連絡先追加")])])]), _vm._v(" "), _vm._m(3)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "pull-left image"
@@ -32975,17 +33005,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-search"
   })])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', {
-    staticClass: "sidebar-menu"
-  }, [_c('li', {
+  return _c('li', {
     staticClass: "header"
   }, [_c('i', {
     staticClass: "fa fa-cog"
-  }), _vm._v(" 管理\n            ")]), _vm._v(" "), _c('li', {
+  }), _vm._v(" 管理\n            ")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('li', {
     staticClass: "treeview"
-  }, [_c('a', [_c('span', [_vm._v("連絡先追加")])])]), _vm._v(" "), _c('li', {
-    staticClass: "treeview"
-  }, [_c('a', [_c('span', [_vm._v("グループ管理")])])])])
+  }, [_c('a', [_c('span', [_vm._v("グループ管理")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

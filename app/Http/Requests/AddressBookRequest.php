@@ -26,6 +26,8 @@ class AddressBookRequest extends FormRequest
             'id' => 'numeric',
             'name_kana' => 'required',
             'name' => 'required',
+            'type' => 'required',
+            'groupid' => 'required',
             'tel1' => 'nullable|numeric',
             'tel2' => 'nullable|numeric',
             'tel3' => 'nullable|numeric',
@@ -36,8 +38,10 @@ class AddressBookRequest extends FormRequest
     // カスタムメッセージを設定
     public function messages() {
         return [
-            'name.required' => '名前は必ず入力して下さい。',
             'name_kana.required' => '名前(カナ)は必ず入力して下さい。',
+            'name.required' => '名前は必ず入力して下さい。',
+            'type.required' => '電話帳種別は必ず選択して下さい。',
+            'groupid.required' => '所属グループは必ず選択して下さい。',
             'tel1.numeric' => '電話番号1は半角数字で入力してください。',
             'tel2.numeric' => '電話番号2は半角数字で入力してください。',
             'tel3.numeric' => '電話番号3は半角数字で入力してください。',

@@ -317,9 +317,9 @@
             </form>
 
             <span slot="footer" class="dialog-footer">
-                    <button class="btn btn-default" v-on:click="editDialog.visible = false">キャンセル</button>
-                    <button class="btn btn-primary" v-on:click="onEditDialogCallback">保存</button>
-                </span>
+                <button class="btn btn-default" v-on:click="editDialog.visible = false">キャンセル</button>
+                <button class="btn btn-primary" v-on:click="onEditDialogCallback">保存</button>
+            </span>
         </el-dialog>
     </section>
 </template>
@@ -524,6 +524,14 @@
                 _this.status = null
                 _this.message = null
                 _this.errors = []
+
+                // itemがundefinedの場合は新規作成
+                if (typeof item === "undefined") {
+                    // typeを設定しないと、selectが動かないため、初期値設定
+                    item = {
+                        type : 1
+                    }
+                }
 
                 _this.editDialog.selectItem = $.extend(true, {}, item);
 
