@@ -1,7 +1,7 @@
 <template>
     <ul class="treeview-menu" v-if="item.Child">
         <li v-for="childItem in item.Child">
-            <router-link :to="{ name: 'AddressBook', params: { groupId: childItem.Id }}">
+            <router-link :to="{ name: 'AddressBook', query: { typeId: index, groupId: childItem.Id }}">
                 {{ childItem.Name }}
                 <i class="fa fa-angle-left pull-right" v-if="childItem.Child"></i>
             </router-link>

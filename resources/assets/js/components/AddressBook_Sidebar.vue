@@ -34,11 +34,13 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="/AddressBook">すべてを表示</a>
+                            <router-link :to="{ name: 'AddressBook', query: { typeId: index }}">
+                                すべてを表示
+                            </router-link>
                         </li>
                         <!--//ここから切り出す-->
                         <li v-for="item in groups[index]">
-                            <router-link :to="{ name: 'AddressBook', params: { groupId: item.Id }}">
+                            <router-link :to="{ name: 'AddressBook', query: { typeId: index, groupId: item.Id }}">
                                 {{ item.Name }}
                                 <i class="fa fa-angle-left pull-right" v-if="item.Child"></i>
                             </router-link>

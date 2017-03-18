@@ -222,7 +222,6 @@
                 ],
                 isSearch: false,
                 typeName: null,
-                groupId: null,
                 groupName: 'すべてを表示',
                 searchParam: {
                     typeId: null,
@@ -260,20 +259,36 @@
         },
         watch: {
             '$route' (to, from) {
-                console.log(to)
-                if(to.params.groupId){
-                    this.groupId = to.params.groupId
+                if(to.query.groupId){
+                    console.log('group change')
+                    this.searchParam.groupId = to.query.groupId
+                    this.searchParam.typeId = to.query.typeId
+                }else if(to.query.typeId){
+                    console.log('type change')
+                    this.searchParam.groupId = 0
+                    this.searchParam.typeId = to.query.typeId
                 }
             },
-            groupId: function () {
+            'searchParam.typeId': function () {
+                // 種別IDが変更された場合
+                console.log('typeId:' + this.searchParam.typeId)
+
+                if(this.addressBookType[this.searchParam.typeId]){
+//                    this.searchParam.groupId = 0
+
+                    this.groupName = 'すべてを表示'
+                    this.typeName = this.addressBookType[this.searchParam.typeId]
+                    this.$refs.vuetable.refresh()
+                }
+            },
+            'searchParam.groupId': function () {
                 // グループIDが変更された場合
+                console.log('groupId:' + this.searchParam.groupId)
                 var _this = this
 
+                // ToDo: グループIDに対する種別IDが必要
                 var setGroupName = function(){
-                    if(_this.addressBookGroups[1][_this.groupId]){
-                        _this.searchParam.groupId = _this.groupId
-                        _this.searchParam.typeId = 1
-
+                    if(_this.addressBookGroups[1][_this.searchParam.groupId]){
                         _this.groupName = _this.addressBookGroups[_this.searchParam.typeId][_this.searchParam.groupId].full_group_name
                         _this.typeName = _this.addressBookType[_this.searchParam.typeId]
                         _this.$refs.vuetable.refresh()
@@ -297,8 +312,16 @@
             }
         },
         mounted() {
-            this.regEvent();
-            this.groupId = this.$route.params.groupId
+            this.regEvent()
+
+            // パラメタ判断
+            if(this.$route.query.groupId){
+                // グループIDが設定されているとき
+                this.searchParam.groupId = this.$route.query.groupId
+            }else if(this.$route.query.typeId){
+                // 種別IDが設定されているとき
+                this.searchParam.typeId = this.$route.query.typeId
+            }
         },
         created() {
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);
