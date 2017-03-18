@@ -37,7 +37,7 @@ const routes = [
                 }
             },
             {
-                path: '/AddressBook/:groupId?',
+                path: '/AddressBook',
                 name: 'AddressBook',
                 components: {
                     default: AddressBook,

@@ -222,7 +222,6 @@
                 ],
                 isSearch: false,
                 typeName: null,
-                groupId: null,
                 groupName: 'すべてを表示',
                 searchParam: {
                     typeId: null,
@@ -245,39 +244,22 @@
                 this.$refs.vuetable.changePage(page)
             },
             onSearch(){
-                this.isSearch = this.moreParams.keyword ? true : false;
-
-                this.$refs.vuetable.refresh()
-            },
-            regEvent(){
-                this.$refs.vuetable.$on('vuetable:loading', () => {
-                    $('#resultLoading').css('visibility', 'visible');
-                })
-                this.$refs.vuetable.$on('vuetable:loaded', () => {
-                    $('#resultLoading').css('visibility', 'hidden');
-                })
-            },
-        },
-        watch: {
-            '$route' (to, from) {
-                console.log(to)
-                if(to.params.groupId){
-                    this.groupId = to.params.groupId
-                }
-            },
-            groupId: function () {
-                // グループIDが変更された場合
                 var _this = this
 
-                var setGroupName = function(){
-                    if(_this.addressBookGroups[1][_this.groupId]){
-                        _this.searchParam.groupId = _this.groupId
-                        _this.searchParam.typeId = 1
+                this.isSearch = this.searchParam.keyword ? true : false;
 
+                var setGroupName = function(){
+                    _this.typeName = _this.addressBookType[_this.searchParam.typeId]
+
+                    if(_this.searchParam.groupId === 0){
+                        _this.groupName = 'すべてを表示'
+                    }else if(_this.addressBookGroups[_this.searchParam.typeId][_this.searchParam.groupId]){
                         _this.groupName = _this.addressBookGroups[_this.searchParam.typeId][_this.searchParam.groupId].full_group_name
-                        _this.typeName = _this.addressBookType[_this.searchParam.typeId]
-                        _this.$refs.vuetable.refresh()
+                    }else{
+                        return
                     }
+
+                    _this.$refs.vuetable.refresh()
                 }
 
                 // 初回はサーバから取得する
@@ -294,11 +276,44 @@
                 }else{
                     setGroupName()
                 }
-            }
+
+            },
+            regEvent(){
+                this.$refs.vuetable.$on('vuetable:loading', () => {
+                    $('#resultLoading').css('visibility', 'visible');
+                })
+                this.$refs.vuetable.$on('vuetable:loaded', () => {
+                    $('#resultLoading').css('visibility', 'hidden');
+                })
+            },
+            updateSearchParam(){
+                // パラメタ判断
+                if(this.$route.query.groupId){
+                    // グループIDが設定されているとき
+                    this.searchParam.typeId = this.$route.query.typeId
+                    this.searchParam.groupId = this.$route.query.groupId
+                }else if(this.$route.query.typeId){
+                    this.searchParam.typeId = this.$route.query.typeId
+                    this.searchParam.groupId = 0
+                }else{
+                    this.searchParam.typeId = 1
+                    this.searchParam.groupId = 0
+                }
+
+                this.searchParam.keyword = this.$route.query.keyword
+
+                this.onSearch()
+            },
+        },
+        watch: {
+            '$route' (to, from) {
+                this.updateSearchParam()
+            },
         },
         mounted() {
-            this.regEvent();
-            this.groupId = this.$route.params.groupId
+            this.regEvent()
+
+            this.updateSearchParam()
         },
         created() {
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);
@@ -339,12 +354,6 @@
                 }).catch(function (error) {
                     console.log(error.message);
                 });
-            },
-            // 検索(Sidebarからのイベント)
-            'AddressBook:search': function (keyword) {
-                this.searchParam.keyword = keyword;
-
-                this.onSearch();
             },
         }
     }

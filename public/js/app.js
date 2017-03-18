@@ -2748,7 +2748,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
             }],
             isSearch: false,
             typeName: null,
-            groupId: null,
             groupName: 'すべてを表示',
             searchParam: {
                 typeId: null,
@@ -2772,40 +2771,22 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
             this.$refs.vuetable.changePage(page);
         },
         onSearch: function onSearch() {
-            this.isSearch = this.moreParams.keyword ? true : false;
-
-            this.$refs.vuetable.refresh();
-        },
-        regEvent: function regEvent() {
-            this.$refs.vuetable.$on('vuetable:loading', function () {
-                $('#resultLoading').css('visibility', 'visible');
-            });
-            this.$refs.vuetable.$on('vuetable:loaded', function () {
-                $('#resultLoading').css('visibility', 'hidden');
-            });
-        }
-    },
-    watch: {
-        '$route': function $route(to, from) {
-            console.log(to);
-            if (to.params.groupId) {
-                this.groupId = to.params.groupId;
-            }
-        },
-
-        groupId: function groupId() {
-            // グループIDが変更された場合
             var _this = this;
 
-            var setGroupName = function setGroupName() {
-                if (_this.addressBookGroups[1][_this.groupId]) {
-                    _this.searchParam.groupId = _this.groupId;
-                    _this.searchParam.typeId = 1;
+            this.isSearch = this.searchParam.keyword ? true : false;
 
+            var setGroupName = function setGroupName() {
+                _this.typeName = _this.addressBookType[_this.searchParam.typeId];
+
+                if (_this.searchParam.groupId === 0) {
+                    _this.groupName = 'すべてを表示';
+                } else if (_this.addressBookGroups[_this.searchParam.typeId][_this.searchParam.groupId]) {
                     _this.groupName = _this.addressBookGroups[_this.searchParam.typeId][_this.searchParam.groupId].full_group_name;
-                    _this.typeName = _this.addressBookType[_this.searchParam.typeId];
-                    _this.$refs.vuetable.refresh();
+                } else {
+                    return;
                 }
+
+                _this.$refs.vuetable.refresh();
             };
 
             // 初回はサーバから取得する
@@ -2820,11 +2801,43 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
             } else {
                 setGroupName();
             }
+        },
+        regEvent: function regEvent() {
+            this.$refs.vuetable.$on('vuetable:loading', function () {
+                $('#resultLoading').css('visibility', 'visible');
+            });
+            this.$refs.vuetable.$on('vuetable:loaded', function () {
+                $('#resultLoading').css('visibility', 'hidden');
+            });
+        },
+        updateSearchParam: function updateSearchParam() {
+            // パラメタ判断
+            if (this.$route.query.groupId) {
+                // グループIDが設定されているとき
+                this.searchParam.typeId = this.$route.query.typeId;
+                this.searchParam.groupId = this.$route.query.groupId;
+            } else if (this.$route.query.typeId) {
+                this.searchParam.typeId = this.$route.query.typeId;
+                this.searchParam.groupId = 0;
+            } else {
+                this.searchParam.typeId = 1;
+                this.searchParam.groupId = 0;
+            }
+
+            this.searchParam.keyword = this.$route.query.keyword;
+
+            this.onSearch();
+        }
+    },
+    watch: {
+        '$route': function $route(to, from) {
+            this.updateSearchParam();
         }
     },
     mounted: function mounted() {
         this.regEvent();
-        this.groupId = this.$route.params.groupId;
+
+        this.updateSearchParam();
     },
     created: function created() {
         this.$root.sidebar = this.$route.matched.some(function (record) {
@@ -2865,12 +2878,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
             }).catch(function (error) {
                 console.log(error.message);
             });
-        },
-        // 検索(Sidebarからのイベント)
-        'AddressBook:search': function AddressBookSearch(keyword) {
-            this.searchParam.keyword = keyword;
-
-            this.onSearch();
         }
     }
 };
@@ -3346,6 +3353,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -3364,14 +3373,15 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('group-list', __WEBPACK_IM
         var _this = this;
 
         this.types = this.$route.matched[1].components.default.data().addressBookType;
+        this.keyword = this.$route.query.keyword;
 
-        $.each(this.types, function (index, val) {
+        $.each(this.types, function (typeId, val) {
             axios.get('/addressbook/groups2', {
                 params: {
-                    typeId: index
+                    typeId: typeId
                 }
             }).then(function (response) {
-                __WEBPACK_IMPORTED_MODULE_0_vue___default.a.set(_this.groups, index, response.data);
+                __WEBPACK_IMPORTED_MODULE_0_vue___default.a.set(_this.groups, typeId, response.data);
             }).catch(function (error) {
                 console.log(error);
             });
@@ -3381,19 +3391,11 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('group-list', __WEBPACK_IM
     methods: {
         // 検索
         onSearch: function onSearch() {
-            this.$events.$emit('AddressBook:search', this.keyword);
-        },
-
-        // グループの選択
-        onSelect: function onSelect(typeId, groupId, groupName, flag) {
-            if (!flag) {
-                this.$events.$emit('AddressBook:search', this.keyword, typeId, groupId, groupName);
-            }
-        },
-
-        // 追加
-        onEdit: function onEdit() {
-            this.$events.$emit('AddressBook:edit', this.rowData);
+            this.$router.replace({ query: {
+                    keyword: this.keyword,
+                    typeId: this.$route.query.typeId,
+                    groupId: this.$route.query.groupId
+                } });
         }
     }
 };
@@ -3405,8 +3407,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('group-list', __WEBPACK_IM
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 //
 //
 //
@@ -3419,30 +3419,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
-
 
 /* harmony default export */ __webpack_exports__["default"] = {
-    data: function data() {
-        return {
-            parent_groupName_: this.parent_groupName ? this.parent_groupName + ' > ' + this.item.Name + ' > ' : this.item.Name + ' > '
-        };
-    },
-
-    props: ['item', 'index', 'keyword', 'parent_groupName'],
-    methods: {
-        // 検索
-        onSearch: function onSearch() {
-            this.$events.$emit('AddressBook:search', this.keyword);
-        },
-
-        // グループの選択
-        onSelect: function onSelect(typeId, groupId, groupName, flag) {
-            if (!flag) {
-                this.$events.$emit('AddressBook:search', this.keyword, typeId, groupId, groupName);
-            }
-        }
-    }
+    props: ['item', 'typeId']
 };
 
 /***/ }),
@@ -4388,7 +4367,7 @@ var routes = [{
             auth: true
         }
     }, {
-        path: '/AddressBook/:groupId?',
+        path: '/AddressBook',
         name: 'AddressBook',
         components: {
             default: __WEBPACK_IMPORTED_MODULE_3__components_AddressBook_vue___default.a,
@@ -4494,7 +4473,7 @@ exports = module.exports = __webpack_require__(7)();
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -33014,7 +32993,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "sidebar-menu"
   }, [_c('li', {
     staticClass: "header"
-  }, [_vm._v("電話帳")]), _vm._v(" "), _vm._l((_vm.types), function(type, index) {
+  }, [_vm._v("電話帳")]), _vm._v(" "), _vm._l((_vm.types), function(typeName, typeId) {
     return _c('li', {
       staticClass: "treeview"
     }, [_c('a', {
@@ -33023,16 +33002,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_c('i', {
       staticClass: "fa fa-address-book"
-    }), _vm._v(" "), _c('span', [_vm._v(_vm._s(type))]), _vm._v(" "), _c('i', {
+    }), _vm._v(" "), _c('span', [_vm._v(_vm._s(typeName))]), _vm._v(" "), _c('i', {
       staticClass: "fa fa-angle-left pull-right"
     })]), _vm._v(" "), _c('ul', {
       staticClass: "treeview-menu"
-    }, [_vm._m(2, true), _vm._v(" "), _vm._l((_vm.groups[index]), function(item) {
+    }, [_c('li', [_c('router-link', {
+      attrs: {
+        "to": {
+          name: 'AddressBook',
+          query: {
+            typeId: typeId
+          }
+        }
+      }
+    }, [_vm._v("\n                            すべてを表示\n                        ")])], 1), _vm._v(" "), _vm._l((_vm.groups[typeId]), function(item) {
       return _c('li', [_c('router-link', {
         attrs: {
           "to": {
             name: 'AddressBook',
-            params: {
+            query: {
+              typeId: typeId,
               groupId: item.Id
             }
           }
@@ -33042,13 +33031,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }) : _vm._e()]), _vm._v(" "), _c('group-list', {
         attrs: {
           "item": item,
-          "index": index
+          "typeId": typeId
         }
       })], 1)
     })], 2)])
   })], 2), _vm._v(" "), _c('ul', {
     staticClass: "sidebar-menu"
-  }, [_vm._m(3), _vm._v(" "), _c('li', {
+  }, [_vm._m(2), _vm._v(" "), _c('li', {
     staticClass: "treeview"
   }, [_c('router-link', {
     attrs: {
@@ -33056,7 +33045,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-plus-square"
-  }), _vm._v(" "), _c('span', [_vm._v("連絡先追加")])])], 1), _vm._v(" "), _vm._m(4)])])])
+  }), _vm._v(" "), _c('span', [_vm._v("連絡先追加")])])], 1), _vm._v(" "), _vm._m(3)])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "pull-left image"
@@ -33080,12 +33069,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fa fa-search"
   })])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', [_c('a', {
-    attrs: {
-      "href": "/AddressBook"
-    }
-  }, [_vm._v("すべてを表示")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('li', {
     staticClass: "header"
@@ -34503,7 +34486,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "to": {
           name: 'AddressBook',
-          params: {
+          query: {
+            typeId: _vm.typeId,
             groupId: childItem.Id
           }
         }
@@ -34513,9 +34497,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }) : _vm._e()]), _vm._v(" "), _c('group-list', {
       attrs: {
         "item": childItem,
-        "index": _vm.index,
-        "keyword": _vm.keyword,
-        "parent_groupName": _vm.item.Name
+        "typeId": _vm.typeId
       }
     })], 1)
   })) : _vm._e()

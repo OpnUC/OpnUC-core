@@ -26,23 +26,25 @@
             <ul class="sidebar-menu">
                 <li class="header">電話帳</li>
                 <!-- // 電話帳種別  -->
-                <li class="treeview" v-for="(type, index) in types">
+                <li class="treeview" v-for="(typeName, typeId) in types">
                     <a href="#">
                         <i class="fa fa-address-book"></i>
-                        <span>{{ type }}</span>
+                        <span>{{ typeName }}</span>
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                            <a href="/AddressBook">すべてを表示</a>
+                            <router-link :to="{ name: 'AddressBook', query: { typeId: typeId }}">
+                                すべてを表示
+                            </router-link>
                         </li>
                         <!--//ここから切り出す-->
-                        <li v-for="item in groups[index]">
-                            <router-link :to="{ name: 'AddressBook', params: { groupId: item.Id }}">
+                        <li v-for="item in groups[typeId]">
+                            <router-link :to="{ name: 'AddressBook', query: { typeId: typeId, groupId: item.Id }}">
                                 {{ item.Name }}
                                 <i class="fa fa-angle-left pull-right" v-if="item.Child"></i>
                             </router-link>
-                            <group-list :item="item" :index="index"></group-list>
+                            <group-list :item="item" :typeId="typeId"></group-list>
                         </li>
                     </ul>
                 </li>
@@ -87,15 +89,16 @@
             var _this = this
 
             this.types = this.$route.matched[1].components.default.data().addressBookType
+            this.keyword = this.$route.query.keyword
 
-            $.each(this.types, function (index, val) {
+            $.each(this.types, function (typeId, val) {
                 axios.get('/addressbook/groups2', {
                     params: {
-                        typeId: index
+                        typeId: typeId
                     }
                 })
                     .then(function (response) {
-                        Vue.set(_this.groups, index, response.data)
+                        Vue.set(_this.groups, typeId, response.data)
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -105,17 +108,11 @@
         methods: {
             // 検索
             onSearch () {
-                this.$events.$emit('AddressBook:search', this.keyword)
-            },
-            // グループの選択
-            onSelect(typeId, groupId, groupName, flag){
-                if (!flag) {
-                    this.$events.$emit('AddressBook:search', this.keyword, typeId, groupId, groupName)
-                }
-            },
-            // 追加
-            onEdit() {
-                this.$events.$emit('AddressBook:edit', this.rowData)
+                this.$router.replace({ query: {
+                    keyword: this.keyword,
+                    typeId: this.$route.query.typeId,
+                    groupId: this.$route.query.groupId,
+                }})
             },
         },
     }
