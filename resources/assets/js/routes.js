@@ -54,6 +54,7 @@ const routes = [
                 name: 'AddressBookEdit',
                 components: {
                     default: AddressBookEdit,
+                    sidebar: AddressBook_Sidebar
                 },
                 meta: {
                     title: 'Web電話帳',

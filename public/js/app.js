@@ -4382,7 +4382,8 @@ var routes = [{
         path: '/AddressBook/Edit/:id?',
         name: 'AddressBookEdit',
         components: {
-            default: __WEBPACK_IMPORTED_MODULE_5__components_AddressBookEdit_vue___default.a
+            default: __WEBPACK_IMPORTED_MODULE_5__components_AddressBookEdit_vue___default.a,
+            sidebar: __WEBPACK_IMPORTED_MODULE_4__components_AddressBook_Sidebar_vue___default.a
         },
         meta: {
             title: 'Web電話帳',
