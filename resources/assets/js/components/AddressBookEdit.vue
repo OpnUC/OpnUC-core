@@ -2,9 +2,9 @@
     <section class="content">
         <div class="row">
             <div class="col-md-8">
-                <form class="form-horizontal" v-if="selectItem" v-on:submit.prevent="onSave">
+                <form class="form-horizontal" v-on:submit.prevent="onSave">
                     <div class="box box-primary">
-                        <div id="resultLoading" style="visibility: hidden;" class="overlay">
+                        <div class="overlay" v-if="isLoading">
                             <i class="fa fa-refresh fa-spin"></i>
                         </div>
                         <div class="box-header with-border">
@@ -12,7 +12,7 @@
                                 連絡先 追加・編集
                             </h3>
                         </div>
-                        <div class="box-body">
+                        <div class="box-body" v-if="selectItem">
                             <div v-if="status == 'success'" class="alert alert-success">
                                 {{message}}
                             </div>
@@ -208,31 +208,42 @@
     export default {
         data() {
             return {
+                selectItem: null,
+                // Validation
                 status: null,
                 message: null,
                 errors: [],
-                selectItem: null,
-                addressBookType: {
-                    1: '内線電話帳',
-                    2: '共通電話帳',
-                    //9 : '個人電話帳',
-                },
-                addressBookGroup: {},
+                // 読み込み中かどうか
+                isLoading: true,
+                // ページ上のデータ
+                addressBookType: [],
+                addressBookGroup: [],
             }
         },
         methods: {
             onSave(){
                 var _this = this
 
+                _this.isLoading = true
+
+                // 初期化
+                _this.status = null
+                _this.message = null
+                _this.errors = []
+
                 // 編集処理
                 axios.post('/addressbook/edit', _this.selectItem)
                     .then(function (response) {
+                        _this.isLoading = false
+
                         _this.$message({
                             type: response.data.status,
                             message: response.data.message,
                         });
+
                     })
                     .catch(function (error) {
+                        _this.isLoading = false
                         _this.status = 'error'
 
                         if (error.response.status === 422) {
@@ -247,9 +258,9 @@
             }
         },
         mounted() {
-            $('#resultLoading').css('visibility', 'visible');
-
             var _this = this
+
+            _this.isLoading = true
 
             if (this.$route.params.id) {
                 // Read
@@ -261,7 +272,7 @@
                     .then(function (response) {
                         _this.selectItem = response.data
 
-                        $('#resultLoading').css('visibility', 'hidden');
+                        _this.isLoading = false
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -270,20 +281,18 @@
                 _this.selectItem = {
                     type: 1
                 }
-                $('#resultLoading').css('visibility', 'hidden');
-            }
 
-            axios.get('/addressbook/groups')
-                .then(function (response) {
-                    _this.addressBookGroup = response.data
-                    console.log(response)
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+                _this.isLoading = false
+            }
+        },
+        events: {
+            'AddressBook:updateGroup': function (group) {
+                this.addressBookGroup = group
+            },
         },
         created() {
-            this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);
+            this.addressBookType = this.$route.matched[1].components.default.data().addressBookType
+            this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar)
         },
     }
 </script>

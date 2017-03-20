@@ -112,7 +112,7 @@ class AddressBookController extends Controller
      * @param Request $req
      * @return \Illuminate\Http\JsonResponse
      */
-    public function groups()
+    public function groupList()
     {
 
         $dbGroups = \App\AddressBookGroup::all();
@@ -141,7 +141,7 @@ class AddressBookController extends Controller
      * @param Request $req
      * @return \Illuminate\Http\JsonResponse
      */
-    public function groups2(Request $req)
+    public function groups(Request $req)
     {
         $typeId = intval($req['typeId']);
         $dbGroups = \App\AddressBookGroup::where('parent_groupid', 0)

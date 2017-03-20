@@ -22,9 +22,8 @@ Route::post('/auth/resetPassword', 'Auth\ResetPasswordController@reset');
 Route::get('/cdr/search', 'CdrController@search');
 Route::get('/addressbook/search', 'AddressBookController@search');
 Route::get('/addressbook/detail', 'AddressBookController@detail');
-Route::get('/addressbook/group', 'AddressBookController@group');
+Route::get('/addressbook/groupList', 'AddressBookController@groupList');
 Route::get('/addressbook/groups', 'AddressBookController@groups');
-Route::get('/addressbook/groups2', 'AddressBookController@groups2');
 Route::post('/addressbook/edit', 'AddressBookController@edit');
 Route::post('/addressbook/delete', 'AddressBookController@delete');
 

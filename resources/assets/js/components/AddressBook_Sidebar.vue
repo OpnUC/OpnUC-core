@@ -26,7 +26,7 @@
             <ul class="sidebar-menu">
                 <li class="header">電話帳</li>
                 <!-- // 電話帳種別  -->
-                <li class="treeview" v-for="(typeName, typeId) in types">
+                <li class="treeview" v-for="(typeName, typeId) in addressBookType">
                     <a href="#">
                         <i class="fa fa-address-book"></i>
                         <span>{{ typeName }}</span>
@@ -39,8 +39,12 @@
                             </router-link>
                         </li>
                         <!--//ここから切り出す-->
-                        <li v-for="item in groups[typeId]">
-                            <router-link :to="{ name: 'AddressBook', query: { typeId: typeId, groupId: item.Id }}">
+                        <li v-for="item in addressBookGroups[typeId]">
+                            <a href="#" v-if="item.Child">
+                                {{ item.Name }}
+                                <i class="fa fa-angle-left pull-right" v-if="item.Child"></i>
+                            </a>
+                            <router-link v-else :to="{ name: 'AddressBook', query: { typeId: typeId, groupId: item.Id }}">
                                 {{ item.Name }}
                                 <i class="fa fa-angle-left pull-right" v-if="item.Child"></i>
                             </router-link>
@@ -81,24 +85,25 @@
         data(){
             return {
                 keyword: '',
-                types: null,
-                groups: [],
+                addressBookType: null,
+                addressBookGroups: [],
             }
         },
         created() {
             var _this = this
 
-            this.types = this.$route.matched[1].components.default.data().addressBookType
+            // 種別はテンプレートからもらう
+            this.addressBookType = this.$route.matched[1].components.default.data().addressBookType
             this.keyword = this.$route.query.keyword
 
-            $.each(this.types, function (typeId, val) {
-                axios.get('/addressbook/groups2', {
+            $.each(this.addressBookType, function (typeId, val) {
+                axios.get('/addressbook/groups', {
                     params: {
                         typeId: typeId
                     }
                 })
                     .then(function (response) {
-                        Vue.set(_this.groups, typeId, response.data)
+                        Vue.set(_this.addressBookGroups, typeId, response.data)
                     })
                     .catch(function (error) {
                         console.log(error);

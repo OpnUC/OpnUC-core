@@ -12,12 +12,8 @@
                 </a>
 
                 <ul class="nav navbar-nav">
-                    <li>
-                        <router-link to="/cdr">発着信履歴</router-link>
-                    </li>
-                    <li>
-                        <router-link to="/AddressBook">Web電話帳</router-link>
-                    </li>
+                        <router-link tag="li" to="/cdr"><a>発着信履歴</a></router-link>
+                        <router-link tag="li" to="/AddressBook"><a>Web電話帳</a></router-link>
                 </ul>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">

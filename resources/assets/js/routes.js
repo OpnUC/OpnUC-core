@@ -3,6 +3,7 @@ import Template from './components/Template.vue'
 import Index from './components/Index.vue'
 
 import Cdr from './components/Cdr.vue'
+import AddressBook_Template from './components/AddressBook_Template.vue'
 import AddressBook from './components/AddressBook.vue'
 import AddressBook_Sidebar from './components/AddressBook_Sidebar.vue'
 import AddressBookEdit from './components/AddressBookEdit.vue'
@@ -38,29 +39,32 @@ const routes = [
             },
             {
                 path: '/AddressBook',
-                name: 'AddressBook',
                 components: {
-                    default: AddressBook,
+                    default: AddressBook_Template,
                     sidebar: AddressBook_Sidebar
                 },
-                meta: {
-                    title: 'Web電話帳',
-                    description: 'Web Address Book',
-                    auth: true
-                },
-            },
-            {
-                path: '/AddressBook/Edit/:id?',
-                name: 'AddressBookEdit',
-                components: {
-                    default: AddressBookEdit,
-                    sidebar: AddressBook_Sidebar
-                },
-                meta: {
-                    title: 'Web電話帳',
-                    description: 'Web Address Book',
-                    auth: true
-                },
+                children: [
+                    {
+                        path: '',
+                        name: 'AddressBook',
+                        component: AddressBook,
+                        meta: {
+                            title: 'Web電話帳',
+                            description: 'Web Address Book',
+                            auth: true
+                        },
+                    },
+                    {
+                        path: 'Edit/:id?',
+                        name: 'AddressBookEdit',
+                        component: AddressBookEdit,
+                        meta: {
+                            title: 'Web電話帳',
+                            description: 'Web Address Book',
+                            auth: true
+                        },
+                    },
+                ],
             },
             {
                 path: '/Login',
