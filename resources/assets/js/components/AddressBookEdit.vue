@@ -2,16 +2,16 @@
     <section class="content">
         <div class="row">
             <div class="col-md-8">
-                <div class="box box-primary">
-                    <div id="resultLoading" style="visibility: hidden;" class="overlay">
-                        <i class="fa fa-refresh fa-spin"></i>
-                    </div>
-                    <div class="box-header with-border">
-                        <h3 class="box-title">
-                            連絡先 追加・編集
-                        </h3>
-                    </div>
-                    <form class="form-horizontal" v-if="selectItem" v-on:submit.prevent="onSave">
+                <form class="form-horizontal" v-if="selectItem" v-on:submit.prevent="onSave">
+                    <div class="box box-primary">
+                        <div id="resultLoading" style="visibility: hidden;" class="overlay">
+                            <i class="fa fa-refresh fa-spin"></i>
+                        </div>
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                連絡先 追加・編集
+                            </h3>
+                        </div>
                         <div class="box-body">
                             <div v-if="status == 'success'" class="alert alert-success">
                                 {{message}}
@@ -26,12 +26,12 @@
                                     <input type="text" class="form-control input-sm" id="inputId"
                                            placeholder="アドレス帳ID" readonly="readonly" v-model="selectItem.id">
                                     <span class="help-block" v-if="errors.id">
-                            <ul>
-                                <li v-for="item in errors.id">
-                                    {{ item }}
-                                </li>
-                            </ul>
-                        </span>
+                                        <ul>
+                                            <li v-for="item in errors.id">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
 
@@ -41,12 +41,12 @@
                                     <input type="text" class="form-control input-sm" id="inputPosition"
                                            placeholder="役職" v-model="selectItem.position">
                                     <span class="help-block" v-if="errors.position">
-                            <ul>
-                                <li v-for="item in errors.position">
-                                    {{ item }}
-                                </li>
-                            </ul>
-                        </span>
+                                        <ul>
+                                            <li v-for="item in errors.position">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
 
@@ -56,12 +56,12 @@
                                     <input type="text" class="form-control input-sm" id="inputNameKana"
                                            placeholder="名前(カナ)" v-model="selectItem.name_kana">
                                     <span class="help-block" v-if="errors.name_kana">
-                            <ul>
-                                <li v-for="item in errors.name_kana">
-                                    {{ item }}
-                                </li>
-                            </ul>
-                        </span>
+                                        <ul>
+                                            <li v-for="item in errors.name_kana">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
 
@@ -71,12 +71,12 @@
                                     <input type="text" class="form-control input-sm" id="inputName"
                                            placeholder="名前" v-model="selectItem.name">
                                     <span class="help-block" v-if="errors.name">
-                            <ul>
-                                <li v-for="item in errors.name">
-                                    {{ item }}
-                                </li>
-                            </ul>
-                        </span>
+                                        <ul>
+                                            <li v-for="item in errors.name">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
 
@@ -89,12 +89,12 @@
                                         </option>
                                     </select>
                                     <span class="help-block" v-if="errors.type">
-                            <ul>
-                                <li v-for="item in errors.type">
-                                    {{ item }}
-                                </li>
-                            </ul>
-                        </span>
+                                        <ul>
+                                            <li v-for="item in errors.type">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
 
@@ -124,12 +124,12 @@
                                     <input type="text" class="form-control input-sm" id="inputTel1"
                                            placeholder="電話番号1" v-model="selectItem.tel1">
                                     <span class="help-block" v-if="errors.tel1">
-                            <ul>
-                                <li v-for="item in errors.tel1">
-                                    {{ item }}
-                                </li>
-                            </ul>
-                        </span>
+                                        <ul>
+                                            <li v-for="item in errors.tel1">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
 
@@ -139,12 +139,12 @@
                                     <input type="text" class="form-control input-sm" id="inputTel2"
                                            placeholder="電話番号2" v-model="selectItem.tel2">
                                     <span class="help-block" v-if="errors.tel2">
-                            <ul>
-                                <li v-for="item in errors.tel2">
-                                    {{ item }}
-                                </li>
-                            </ul>
-                        </span>
+                                        <ul>
+                                            <li v-for="item in errors.tel2">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
 
@@ -154,12 +154,12 @@
                                     <input type="text" class="form-control input-sm" id="inputTel3"
                                            placeholder="電話番号3" v-model="selectItem.tel3">
                                     <span class="help-block" v-if="errors.tel3">
-                            <ul>
-                                <li v-for="item in errors.tel3">
-                                    {{ item }}
-                                </li>
-                            </ul>
-                        </span>
+                                        <ul>
+                                            <li v-for="item in errors.tel3">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
 
@@ -169,12 +169,12 @@
                                     <input type="email" class="form-control input-sm" id="inputEmail"
                                            placeholder="メールアドレス" v-model="selectItem.email">
                                     <span class="help-block" v-if="errors.email">
-                            <ul>
-                                <li v-for="item in errors.email">
-                                    {{ item }}
-                                </li>
-                            </ul>
-                        </span>
+                                        <ul>
+                                            <li v-for="item in errors.email">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
 
@@ -184,20 +184,20 @@
                                     <input type="text" class="form-control input-sm" id="inputComment"
                                            placeholder="備考" v-model="selectItem.comment">
                                     <span class="help-block" v-if="errors.comment">
-                            <ul>
-                                <li v-for="item in errors.comment">
-                                    {{ item }}
-                                </li>
-                            </ul>
-                        </span>
+                                        <ul>
+                                            <li v-for="item in errors.comment">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary pull-right">保存</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
