@@ -65,9 +65,10 @@
                     </router-link>
                 </li>
                 <li class="treeview">
-                    <a>
+                    <router-link to="/AddressBook/Group">
+                        <i class="fa fa-cog"></i>
                         <span>グループ管理</span>
-                    </a>
+                    </router-link>
                 </li>
             </ul>
         </div>

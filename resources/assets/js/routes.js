@@ -7,6 +7,7 @@ import AddressBook_Template from './components/AddressBook_Template.vue'
 import AddressBook from './components/AddressBook.vue'
 import AddressBook_Sidebar from './components/AddressBook_Sidebar.vue'
 import AddressBookEdit from './components/AddressBookEdit.vue'
+import AddressBookGroup from './components/AddressBookGroup.vue'
 
 import Login from './components/Login.vue'
 import PasswordReset from './components/PasswordReset.vue'
@@ -48,6 +49,16 @@ const routes = [
                         path: '',
                         name: 'AddressBook',
                         component: AddressBook,
+                        meta: {
+                            title: 'Web電話帳',
+                            description: 'Web Address Book',
+                            auth: true
+                        },
+                    },
+                    {
+                        path: 'Group',
+                        name: 'AddressBookGroup',
+                        component: AddressBookGroup,
                         meta: {
                             title: 'Web電話帳',
                             description: 'Web Address Book',
