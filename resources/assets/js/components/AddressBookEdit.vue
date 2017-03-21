@@ -291,7 +291,8 @@
             },
         },
         created() {
-            this.addressBookType = this.$route.matched[1].components.default.data().addressBookType
+            this.addressBookGroup = this.$parent.$data.addressBookGroup
+            this.addressBookType = this.$parent.$data.addressBookType
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar)
         },
     }

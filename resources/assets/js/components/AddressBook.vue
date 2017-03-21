@@ -286,7 +286,7 @@
             this.updateSearchParam()
         },
         created() {
-            this.addressBookType = this.$route.matched[1].components.default.data().addressBookType
+            this.addressBookType = this.$parent.$data.addressBookType
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);
         },
         computed: {
