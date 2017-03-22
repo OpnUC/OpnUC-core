@@ -4527,7 +4527,7 @@ function deepMerge(target, source) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process, global) {/*!
- * Vue.js v2.2.0
+ * Vue.js v2.2.1
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -8589,7 +8589,7 @@ Object.defineProperty(Vue$3.prototype, '$isServer', {
   get: isServerRendering
 });
 
-Vue$3.version = '2.2.0';
+Vue$3.version = '2.2.1';
 
 /*  */
 
@@ -13728,8 +13728,7 @@ module.exports = exports['default'];
 
 /***/ }),
 /* 5 */,
-/* 6 */,
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -23956,6 +23955,7 @@ return jQuery;
 
 
 /***/ }),
+/* 7 */,
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28356,7 +28356,7 @@ if (typeof jQuery === 'undefined') {
 
 }(jQuery);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
 /* 25 */
@@ -76894,7 +76894,7 @@ webpackContext.id = 265;
 __webpack_require__(25);
 __webpack_require__(24);
 __webpack_require__(12);
-__webpack_require__(7);
+__webpack_require__(6);
 __webpack_require__(3);
 __webpack_require__(28);
 __webpack_require__(27);

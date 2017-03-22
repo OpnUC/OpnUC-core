@@ -10,13 +10,6 @@
                 </h3>
             </div>
             <div class="box-body">
-                <div v-if="status == 'success'" class="alert alert-success">
-                    {{message}}
-                </div>
-                <div v-else-if="status == 'error'" class="alert alert-error">
-                    {{message}}
-                </div>
-
                 <a href="" class="btn btn-default">
                     <i class="fa fa-plus"></i>
                     グループの追加
@@ -31,30 +24,14 @@
                     <div class="tab-content">
                         <div class="tab-pane" :class="{ active : typeId == 1 }" :id="'tab_' + typeId"
                              v-for="(typeName, typeId) in addressBookType">
-                            <table class="table table-condensed table-striped tree">
-                                <thead>
-                                <tr>
-                                    <th>グループ名</th>
-                                    <th width="200">操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    <tr :class="'treegrid-' + groupIndex" v-for="(groupItem, groupIndex) in addressBookGroups[typeId]">
-                                        <td>{{groupItem.Name}}</td>
-                                        <td>
-                                            <a href="" class="btn btn-default btn-xs">
-                                                <i class="fa fa-edit"></i>
-                                                編集
-                                            </a>
-                                            <button type="button" class="btn btn-default btn-xs" >
-                                                <i class="fa fa-times"></i>
-                                                削除
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <group-list :groupItem="groupItem" :typeId="typeId"></group-list>
-                                </tbody>
-                            </table>
+                            <el-tree
+                                    :props="treeProps"
+                                    :data="addressBookGroups[typeId]"
+                                    node-key="Id"
+                                    default-expand-all
+                                    :expand-on-click-node="false"
+                                    :render-content="renderContent">
+                            </el-tree>
                         </div>
                     </div>
                 </div>
@@ -65,88 +42,127 @@
 <script>
     import Vue from 'vue'
 
-    import AddressBookGroup_GroupList from './AddressBookGroup_GroupList.vue'
-
-    Vue.component('group-list',
-        AddressBookGroup_GroupList
-    );
-
     export default {
         data() {
             return {
-                selectItem: null,
-                // Validation
-                status: null,
-                message: null,
-                errors: [],
                 // 読み込み中かどうか
                 isLoading: true,
                 // ページ上のデータ
                 addressBookType: [],
                 addressBookGroups: [],
+                // Treeのプロパティ
+                treeProps: {
+                    children: 'Child',
+                    label: 'Name',
+                },
             }
         },
         methods: {
-            onSave(){
+            renderContent(h, {node, data, store}) {
+                return this.$createElement('span', {}, [
+                    this.$createElement('span', {}, [
+                        this.$createElement('span', {}, [
+                            data.Name
+                        ])
+                    ]),
+                    this.$createElement('span', {style: 'float: right; margin-right: 20px'}, [
+                        this.$createElement('button', {
+                            class: 'btn btn-default btn-xs',
+                            on: {
+                                click: (function (data, fnc) {
+                                    return function (event) {
+                                        fnc(event, data);
+                                    }
+                                })(data, this.onEdit)
+                            },
+                        }, [
+                            '編集'
+                        ]),
+                        !data.Child && !data.ItemCount ? this.$createElement('button', {
+                                class: 'btn btn-default btn-xs',
+                                on: {
+                                    click: (function (data, fnc) {
+                                        return function (event) {
+                                            fnc(event, data);
+                                        }
+                                    })(data, this.onDelete)
+                                },
+                            }, [
+                                '削除'
+                            ]) : null
+                    ])
+                ])
+            },
+            // 削除
+            onDelete(event, data){
                 var _this = this
 
-                _this.isLoading = true
+                // 削除確認
+                this.$confirm('選択されたグループを削除しても良いですか？', '確認', {
+                    confirmButtonText: '削除',
+                    cancelButtonText: 'キャンセル',
+                    type: 'warning'
+                }).then(() => {
+                    // Ajaxで削除
+                    axios.post('/addressbook/groupDelete',
+                        {
+                            groupId: data.Id
+                        })
+                        .then(function (response) {
+                            _this.$message({
+                                type: response.data.type,
+                                message: response.data.message
+                            });
 
-                // 初期化
-                _this.status = null
-                _this.message = null
-                _this.errors = []
-
-                // 編集処理
-                axios.post('/addressbook/edit', _this.selectItem)
-                    .then(function (response) {
-                        _this.isLoading = false
-
-                        _this.$message({
-                            type: response.data.status,
-                            message: response.data.message,
+                            // 削除完了のため、更新
+                            _this.onLoadGroup();
+                        })
+                        .catch(function (error) {
+                            _this.$message({
+                                type: 'error',
+                                message: '削除に失敗しました。'
+                            });
                         });
+                }).catch(function (error) {
+                    console.log(error.message);
+                });
+            },
+            // 編集
+            onEdit(event, data){
+                this.$router.push({ name: 'AddressBookGroupEdit', params: { id: data.Id }})
+            },
+            // グループ情報の読み込み
+            onLoadGroup(){
+                var _this = this
 
-                    })
-                    .catch(function (error) {
-                        _this.isLoading = false
-                        _this.status = 'error'
+                this.isLoading = true
 
-                        if (error.response.status === 422) {
-                            // 422 - Validation Error
-                            _this.message = '入力に問題があります。'
-
-                            _this.errors = error.response.data
-                        } else {
-                            _this.message = 'エラーが発生しました。'
+                // Ajaxで読み込み
+                $.each(this.addressBookType, function (typeId, val) {
+                    axios.get('/addressbook/groups', {
+                        params: {
+                            typeId: typeId
                         }
-                    });
-            }
-        },
-        mounted() {
-            var _this = this
+                    })
+                        .then(function (response) {
+                            Vue.set(_this.addressBookGroups, typeId, response.data)
 
-            _this.isLoading = false
+                            _this.isLoading = false
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+
+                            _this.isLoading = false
+                        });
+                });
+            }
         },
         created() {
             this.addressBookType = this.$parent.$data.addressBookType
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar)
 
-            var _this = this
-
-            $.each(this.addressBookType, function (typeId, val) {
-                axios.get('/addressbook/groups', {
-                    params: {
-                        typeId: typeId
-                    }
-                })
-                    .then(function (response) {
-                        Vue.set(_this.addressBookGroups, typeId, response.data)
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            });
+            // グループ情報の読み込み
+            this.onLoadGroup()
         },
     }
 </script>

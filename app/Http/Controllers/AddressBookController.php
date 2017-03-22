@@ -221,6 +221,44 @@ class AddressBookController extends Controller
     }
 
     /**
+     * グループの削除
+     * @param $inputId int
+     * @return type
+     */
+    public function groupDelete(Request $request)
+    {
+
+        $id = intval($request['groupId']);
+
+        $group = \App\AddressBookGroup::find($id);
+
+        $ItemCount = \App\AddressBook::where('type', $group->type)
+            ->where('groupid', $group->id)
+            ->count();
+
+        // 権限が無い場合は、個人電話帳のみとする
+        // ToDo 所有者チェック
+        if (!\Entrust::can('edit-addressbook') && $group['type'] != 9) {
+            abort(403);
+        }
+
+        if ($ItemCount == 0 && count($group->childs) == 0) {
+            $group->delete();
+            return response([
+                'type' => 'success',
+                'message' => '選択されたグループを削除しました。'
+            ]);
+        } else {
+            return response([
+                'type' => 'error',
+                'message' => '該当グループに所属する電話帳があるか、子グループが存在するため、削除出来ません。'
+            ]);
+        }
+
+    }
+
+
+    /**
      * アドレス帳 編集
      * @param Request $req
      */
