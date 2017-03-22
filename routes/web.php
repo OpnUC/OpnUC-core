@@ -24,7 +24,9 @@ Route::get('/addressbook/search', 'AddressBookController@search');
 Route::get('/addressbook/detail', 'AddressBookController@detail');
 Route::get('/addressbook/groupList', 'AddressBookController@groupList');
 Route::get('/addressbook/groups', 'AddressBookController@groups');
+Route::get('/addressbook/group', 'AddressBookController@group');
 Route::post('/addressbook/edit', 'AddressBookController@edit');
+Route::post('/addressbook/groupEdit', 'AddressBookController@groupEdit');
 Route::post('/addressbook/delete', 'AddressBookController@delete');
 Route::post('/addressbook/groupDelete', 'AddressBookController@groupDelete');
 

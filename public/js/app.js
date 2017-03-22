@@ -33491,7 +33491,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-refresh fa-spin"
   })]) : _vm._e(), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "box-body"
-  }, [_vm._m(1), _vm._v(" "), _c('p'), _vm._v(" "), _c('div', {
+  }, [_c('router-link', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "to": {
+        name: 'AddressBookGroupEdit'
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-plus"
+  }), _vm._v("\n                グループの追加\n            ")]), _vm._v(" "), _c('p'), _vm._v(" "), _c('div', {
     staticClass: "nav-tabs-custom"
   }, [_c('ul', {
     staticClass: "nav nav-tabs"
@@ -33528,22 +33537,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "render-content": _vm.renderContent
       }
     })], 1)
-  }))])])])])
+  }))])], 1)])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box-header with-border"
   }, [_c('h3', {
     staticClass: "box-title"
   }, [_vm._v("\n                グループ管理\n            ")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    staticClass: "btn btn-default",
-    attrs: {
-      "href": ""
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-plus"
-  }), _vm._v("\n                グループの追加\n            ")])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -35481,10 +35481,207 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = {};
+/* harmony default export */ __webpack_exports__["default"] = {
+    data: function data() {
+        return {
+            selectItem: null,
+            // Validation
+            status: null,
+            message: null,
+            errors: [],
+            // 読み込み中かどうか
+            isLoading: true,
+            // ページ上のデータ
+            addressBookType: [],
+            addressBookGroup: []
+        };
+    },
+
+    methods: {
+        onSave: function onSave() {
+            var _this = this;
+
+            _this.isLoading = true;
+
+            // 初期化
+            _this.status = null;
+            _this.message = null;
+            _this.errors = [];
+
+            // 編集処理
+            axios.post('/addressbook/groupEdit', _this.selectItem).then(function (response) {
+                _this.onLoadGroup();
+
+                _this.isLoading = false;
+
+                _this.$message({
+                    type: response.data.status,
+                    message: response.data.message
+                });
+            }).catch(function (error) {
+                _this.isLoading = false;
+                _this.status = 'error';
+
+                if (error.response.status === 422) {
+                    // 422 - Validation Error
+                    _this.message = '入力に問題があります。';
+
+                    _this.errors = error.response.data;
+                } else {
+                    _this.message = 'エラーが発生しました。';
+                }
+            });
+        },
+        onLoadGroup: function onLoadGroup() {
+            var _this = this;
+
+            // すべてのグループ情報が欲しいため、自前で取得する
+            axios.get('/addressbook/groupList', {
+                params: {
+                    isAll: true
+                }
+            }).then(function (response) {
+                _this.addressBookGroup = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        _this.isLoading = true;
+
+        if (this.$route.params.id) {
+            // Read
+            axios.get('/addressbook/group', {
+                params: {
+                    groupId: this.$route.params.id
+                }
+            }).then(function (response) {
+                _this.selectItem = response.data;
+
+                _this.isLoading = false;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        } else {
+            _this.selectItem = {
+                type: 1
+            };
+
+            _this.isLoading = false;
+        }
+    },
+    created: function created() {
+        var _this = this;
+
+        this.addressBookType = this.$parent.$data.addressBookType;
+        this.$root.sidebar = this.$route.matched.some(function (record) {
+            return record.components.sidebar;
+        });
+
+        this.onLoadGroup();
+    }
+};
 
 /***/ }),
 /* 334 */,
@@ -35526,15 +35723,212 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _vm._m(0)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('section', {
     staticClass: "content"
   }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-md-8"
-  })])])
+  }, [_c('form', {
+    staticClass: "form-horizontal",
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.onSave($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "box box-primary"
+  }, [(_vm.isLoading) ? _c('div', {
+    staticClass: "overlay"
+  }, [_c('i', {
+    staticClass: "fa fa-refresh fa-spin"
+  })]) : _vm._e(), _vm._v(" "), _vm._m(0), _vm._v(" "), (_vm.selectItem) ? _c('div', {
+    staticClass: "box-body"
+  }, [(_vm.status == 'success') ? _c('div', {
+    staticClass: "alert alert-success"
+  }, [_vm._v("\n                            " + _vm._s(_vm.message) + "\n                        ")]) : (_vm.status == 'error') ? _c('div', {
+    staticClass: "alert alert-error"
+  }, [_vm._v("\n                            " + _vm._s(_vm.message) + "\n                        ")]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.id ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputId"
+    }
+  }, [_vm._v("グループID")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.id),
+      expression: "selectItem.id"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputId",
+      "placeholder": "グループID",
+      "readonly": "readonly"
+    },
+    domProps: {
+      "value": (_vm.selectItem.id)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.selectItem.id = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.id) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.id), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.type ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputType"
+    }
+  }, [_vm._v("電話帳種別")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.type),
+      expression: "selectItem.type"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "id": "inputType"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectItem.type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.addressBookType), function(value, key) {
+    return _c('option', {
+      domProps: {
+        "value": key
+      }
+    }, [_vm._v("\n                                        " + _vm._s(value) + "\n                                    ")])
+  })), _vm._v(" "), (_vm.errors.type) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.type), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.parent_groupid ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputParentGroup"
+    }
+  }, [_vm._v("親グループ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.parent_groupid),
+      expression: "selectItem.parent_groupid"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "id": "inputParentGroup"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectItem.parent_groupid = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "0"
+    }
+  }, [_vm._v("\n                                        親グループ\n                                    ")]), _vm._v(" "), _vm._l((_vm.addressBookGroup[_vm.selectItem.type]), function(item) {
+    return _c('option', {
+      attrs: {
+        "disabled": _vm.selectItem.id === item.id
+      },
+      domProps: {
+        "value": item.id
+      }
+    }, [_vm._v("\n                                        " + _vm._s(item.full_group_name) + "\n                                    ")])
+  })], 2), _vm._v(" "), (_vm.errors.parent_groupid) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.parent_groupid), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.group_name ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputGroupName"
+    }
+  }, [_vm._v("グループ名")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.group_name),
+      expression: "selectItem.group_name"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputGroupName",
+      "placeholder": "グループ名"
+    },
+    domProps: {
+      "value": (_vm.selectItem.group_name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.selectItem.group_name = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.group_name) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.group_name), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), _vm._m(1)])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "box-header with-border"
+  }, [_c('h3', {
+    staticClass: "box-title"
+  }, [_vm._v("\n                            グループ 追加・編集\n                        ")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "box-footer"
+  }, [_c('button', {
+    staticClass: "btn btn-primary pull-right",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("保存")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

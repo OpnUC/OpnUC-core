@@ -10,10 +10,10 @@
                 </h3>
             </div>
             <div class="box-body">
-                <a href="" class="btn btn-default">
+                <router-link :to="{ name: 'AddressBookGroupEdit'}" class="btn btn-default">
                     <i class="fa fa-plus"></i>
                     グループの追加
-                </a>
+                </router-link>
                 <p/>
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">

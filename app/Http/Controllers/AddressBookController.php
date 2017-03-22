@@ -10,6 +10,8 @@ use App\Http\Requests;
 class AddressBookController extends Controller
 {
 
+    // ToDo: グループ取得処理が多すぎるため、見直し必要
+
     /**
      * constructor
      */
@@ -109,18 +111,22 @@ class AddressBookController extends Controller
 
     /**
      * グループ情報を出力
-     * @param Request $req
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function groupList()
+    public function groupList(Request $request)
     {
+
+        // 末端のグループのみを表示するか
+        $isAll = $request['isAll'] ? true : false;
 
         $dbGroups = \App\AddressBookGroup::all();
 
         $result = [];
 
         foreach ($dbGroups as $group){
-            if(count($group->childs)){
+            // 末端のグループのみを表示する場合、子供が有るグループは処理しない
+            if($isAll == false && count($group->childs)){
                 continue;
             }
 
@@ -129,7 +135,6 @@ class AddressBookController extends Controller
                 'group_name' => $group['group_name'],
                 'full_group_name' => $group->FullGroupName(),
             );
-
         }
 
         return \Response::json($result);
@@ -149,6 +154,19 @@ class AddressBookController extends Controller
             ->get();
         $groups = $this->_buildGroups($dbGroups);
         return \Response::json($groups);
+    }
+
+    /**
+     * グループを出力
+     * @param Request $req
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function group(Request $request)
+    {
+        $groupId = intval($request['groupId']);
+        $dbGroup = \App\AddressBookGroup::find($groupId);
+
+        return \Response::json($dbGroup);
     }
 
     /**
@@ -257,6 +275,33 @@ class AddressBookController extends Controller
 
     }
 
+    /**
+     * グループ 編集
+     * @param AddressBookGroupRequest|Requests\AddressBookGroupRequest $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function groupEdit(\App\Http\Requests\AddressBookGroupRequest $request)
+    {
+
+        // 権限が無い場合は、個人電話帳のみとする
+        if (!\Entrust::can('edit-addressbook') && $request['type'] != 9) {
+            abort(403);
+        }
+
+        $id = intval($request['id']);
+
+        $record = \App\AddressBookGroup::firstOrNew(['id' => $id]);
+        $record->type = $request['type'];
+        $record->parent_groupid = $request['parent_groupid'];
+        $record->group_name = $request['group_name'];
+        $record->save();
+
+        return response([
+            'status' => 'success',
+            'message' => 'グループの追加・編集が完了しました。'
+        ]);
+
+    }
 
     /**
      * アドレス帳 編集
