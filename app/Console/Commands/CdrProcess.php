@@ -126,7 +126,7 @@ class CdrProcess extends Command
             $cdr->save();
 
             // 処理が終了したバッファレコードは削除
-            $cdr->delete();
+            $bufCdr->delete();
 
             echo "### End of Record\n";
         }
