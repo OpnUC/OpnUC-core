@@ -20,15 +20,16 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
         // 発着信履歴の処理
-//        $schedule->command(CdrProcess::class)
-//            ->everyFiveMinutes()
-//            ->withoutOverlapping();
+        $schedule->command(CdrProcess::class)
+            ->everyFiveMinutes()
+            ->withoutOverlapping()
+            ->appendOutputTo(storage_path('logs/cdr_process.log'));
     }
 
     /**
