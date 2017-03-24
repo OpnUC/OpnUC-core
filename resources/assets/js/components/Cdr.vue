@@ -215,7 +215,7 @@
                         name: 'start_datetime',
                         title: '通話日時',
                         sortField: 'start_datetime',
-                        callback: 'formatDate|YYYY/MM/DD hh:mm:ss',
+                        callback: 'formatDate|YYYY/MM/DD HH:mm:ss',
                     },
                     {
                         name: 'duration',
@@ -281,7 +281,7 @@
             formatDate (value, fmt) {
                 return (value == null)
                     ? ''
-                    : moment(value, 'YYYY-MM-DD hh:mm:ss').format(fmt)
+                    : moment(value).format(fmt)
             },
             onPaginationData (paginationData) {
                 this.$refs.pagination.setPaginationData(paginationData)

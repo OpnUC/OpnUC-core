@@ -3854,7 +3854,7 @@ __webpack_require__(266);
                 name: 'start_datetime',
                 title: '通話日時',
                 sortField: 'start_datetime',
-                callback: 'formatDate|YYYY/MM/DD hh:mm:ss'
+                callback: 'formatDate|YYYY/MM/DD HH:mm:ss'
             }, {
                 name: 'duration',
                 title: '通話時間',
@@ -3911,7 +3911,7 @@ __webpack_require__(266);
             return hms;
         },
         formatDate: function formatDate(value, fmt) {
-            return value == null ? '' : __WEBPACK_IMPORTED_MODULE_0_moment___default()(value, 'YYYY-MM-DD hh:mm:ss').format(fmt);
+            return value == null ? '' : __WEBPACK_IMPORTED_MODULE_0_moment___default()(value, 'YYYY-MM-DD HH:mm:ss').format(fmt);
         },
         onPaginationData: function onPaginationData(paginationData) {
             this.$refs.pagination.setPaginationData(paginationData);
