@@ -65,6 +65,11 @@
                     <i class="fa fa-refresh fa-spin"></i>
                 </div>
                 <div class="box-body">
+                    <div class="pull-left">
+                        <el-button v-on:click="onDownload" :loading="isDownloading">
+                            CSVでダウンロード
+                        </el-button>
+                    </div>
                     <div class="form-inline pull-right">
                         <label>
                             1ページの件数：
@@ -112,6 +117,7 @@
         data() {
             return {
                 perPage: 50,
+                isDownloading: false,
                 dpOptions: {
                     firstDayOfWeek: 1,
                     shortcuts: [
@@ -313,6 +319,39 @@
                 event.preventDefault()
 
                 this.$refs.vuetable.refresh()
+            },
+            onDownload(){
+                var _this = this
+                this.isDownloading = true
+
+                this.$message({
+                    type: 'info',
+                    message: 'ダウンロードを開始しました。',
+                });
+
+                axios.get('/cdr/download', {
+                        params: this.moreParams
+                    }
+                )
+                    .then(function (response) {
+                        var headers = response.headers;
+                        var blob = new Blob([response.data], {type: headers['content-type']});
+                        var link = document.createElement('a');
+                        var contentDisposition = response.headers['content-disposition'] || '';
+                        var filename = contentDisposition.split('filename=')[1];
+                        filename = filename ? filename.replace(/"/g, "") : 'cdr.csv'
+
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = filename
+                        link.click();
+
+                        _this.isDownloading = false
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+
+                        _this.isDownloading = false
+                    });
             },
             regEvent(){
                 this.$refs.vuetable.$on('vuetable:loading', () => {

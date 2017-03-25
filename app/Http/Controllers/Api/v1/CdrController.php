@@ -27,27 +27,73 @@ class CdrController extends Controller
      * @param Request $req
      * @return type
      */
-    public function search(Request $req)
+    public function search(Request $request)
     {
+
+        $per_page = intval($request['per_page']) ? $request['per_page'] : 10;
+
+        $items = $this->_getItems($request)->paginate($per_page);
+
+        return \Response::json($items);
+    }
+
+    /**
+     * 発着信履歴をCSVでダウンロードさせる
+     * ToDo : 種別がタイプ値なので、分かりにくい
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function download(Request $request){
+
+        $items = $this->_getItems($request)->get()->toArray();
+
+        $csvHeader = ['id', 'start_datetime', 'duration', 'type', 'sender', 'destination'];
+        array_unshift($items, $csvHeader);
+
+        $stream = fopen('php://temp', 'r+b');
+
+        foreach ($items as $user) {
+            fputcsv($stream, $user);
+        }
+
+        rewind($stream);
+
+        $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
+
+        $headers = array(
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="cdr.csv"',
+        );
+
+        return \Response::make($csv, 200, $headers);
+
+    }
+
+    /**
+     * 発着信履歴のデータを取得する内部処理
+     * @param Request $req
+     * @return mixed
+     */
+    private function _getItems(Request $request){
 
         $column = ['id', 'start_datetime', 'duration', 'type', 'sender', 'destination'];
 
         $items = \App\Cdr::select($column);
 
-        if (strlen($req['sender'])) {
+        if (strlen($request['sender'])) {
             $items = $items
-                ->where('sender', 'LIKE', '%' . $req['sender'] . '%');
+                ->where('sender', 'LIKE', '%' . $request['sender'] . '%');
         }
 
-        if (strlen($req['destination'])) {
+        if (strlen($request['destination'])) {
             $items = $items
-                ->where('destination', 'LIKE', '%' . $req['destination'] . '%');
+                ->where('destination', 'LIKE', '%' . $request['destination'] . '%');
         }
 
-        $startDt = str_replace('"', '', $req['datetime'][0]);
-        $endDt = str_replace('"', '', $req['datetime'][1]);
+        $startDt = str_replace('"', '', $request['datetime'][0]);
+        $endDt = str_replace('"', '', $request['datetime'][1]);
 
-        if (is_array($req['datetime']) && strtotime($startDt) && strtotime($endDt)) {
+        if (is_array($request['datetime']) && strtotime($startDt) && strtotime($endDt)) {
             $startDt = date('Y-m-d' . ' 00:00:00', strtotime($startDt));
             $endDt = date('Y-m-d' . ' 23:59:59', strtotime($endDt));
 
@@ -55,25 +101,23 @@ class CdrController extends Controller
                 ->whereBetween('start_datetime', array($startDt, $endDt));
         }
 
-        $type = is_numeric($req['type']) ? intval($req['type']) : 0;
+        $type = is_numeric($request['type']) ? intval($request['type']) : 0;
 
         if ($type !== 0) {
             $items = $items
-                ->where('type', $req['type']);
+                ->where('type', $request['type']);
         }
 
-        $sort = explode('|', $req['sort']);
+        $sort = explode('|', $request['sort']);
+
         // Sort
         if (is_array($sort) && in_array($sort[0], $column) && in_array($sort[1], array('desc', 'asc'))) {
             $items = $items
                 ->orderBy($sort[0], $sort[1]);
         }
 
-        $per_page = intval($req['per_page']) ? $req['per_page'] : 10;
+        return $items;
 
-        $items = $items->paginate($per_page);
-
-        return \Response::json($items);
     }
 
 }

@@ -4010,6 +4010,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -4020,6 +4025,7 @@ __webpack_require__(274);
     data: function data() {
         return {
             perPage: 50,
+            isDownloading: false,
             dpOptions: {
                 firstDayOfWeek: 1,
                 shortcuts: [{
@@ -4191,6 +4197,37 @@ __webpack_require__(274);
             event.preventDefault();
 
             this.$refs.vuetable.refresh();
+        },
+        onDownload: function onDownload() {
+            var _this = this;
+
+            this.isDownloading = true;
+
+            this.$message({
+                type: 'info',
+                message: 'ダウンロードを開始しました。'
+            });
+
+            axios.get('/cdr/download', {
+                params: this.moreParams
+            }).then(function (response) {
+                var headers = response.headers;
+                var blob = new Blob([response.data], { type: headers['content-type'] });
+                var link = document.createElement('a');
+                var contentDisposition = response.headers['content-disposition'] || '';
+                var filename = contentDisposition.split('filename=')[1];
+                filename = filename ? filename.replace(/"/g, "") : 'cdr.csv';
+
+                link.href = window.URL.createObjectURL(blob);
+                link.download = filename;
+                link.click();
+
+                _this.isDownloading = false;
+            }).catch(function (error) {
+                console.log(error);
+
+                _this.isDownloading = false;
+            });
         },
         regEvent: function regEvent() {
             this.$refs.vuetable.$on('vuetable:loading', function () {
@@ -33859,6 +33896,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "box-body"
   }, [_c('div', {
+    staticClass: "pull-left"
+  }, [_c('el-button', {
+    attrs: {
+      "loading": _vm.isDownloading
+    },
+    on: {
+      "click": _vm.onDownload
+    }
+  }, [_vm._v("\n                        CSVでダウンロード\n                    ")])], 1), _vm._v(" "), _c('div', {
     staticClass: "form-inline pull-right"
   }, [_c('label', [_vm._v("\n                        1ページの件数：\n                        "), _c('select', {
     directives: [{

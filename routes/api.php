@@ -24,6 +24,8 @@ Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
     Route::post('/auth/resetPassword', 'Auth\ResetPasswordController@reset');
 
     Route::get('/cdr/search', 'CdrController@search');
+    Route::get('/cdr/download', 'CdrController@download');
+
     Route::get('/addressbook/search', 'AddressBookController@search');
     Route::get('/addressbook/detail', 'AddressBookController@detail');
     Route::get('/addressbook/groupList', 'AddressBookController@groupList');
