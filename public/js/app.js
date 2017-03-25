@@ -656,6 +656,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_7_vue_
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_element_ui___default.a, {locale: __WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_ja___default.a})
 
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.axios.defaults.baseURL = '/api/v1';
+
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]({

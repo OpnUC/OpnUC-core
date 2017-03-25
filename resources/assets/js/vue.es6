@@ -19,6 +19,8 @@ Vue.use(VueAxios, axios)
 Vue.use(VueRouter);
 Vue.use(ElementUI, {locale})
 
+Vue.axios.defaults.baseURL = '/api/v1';
+
 import routes from './routes'
 
 Vue.router = new VueRouter({
