@@ -16,6 +16,16 @@
                 </h3>
             </div>
             <div class="box-body">
+                <div class="form-inline pull-right">
+                    <label>
+                        1ページの件数：
+                        <select class="form-control" v-model="perPage">
+                            <option v-for="n in [10,30,50,100]" :value="n">
+                                {{ n }}
+                            </option>
+                        </select>
+                    </label>
+                </div>
                 <vuetable class="table table-striped"
                           ref="vuetable"
                           api-url="/addressbook/search"
@@ -24,6 +34,7 @@
                           :sort-order="sortOrder"
                           :append-params="searchParam"
                           detail-row-id="id"
+                          :per-page="perPage"
                           @vuetable:pagination-data="onPaginationData"
                           pagination-path=""></vuetable>
                 <div class="vuetable-pagination ui basic segment grid">
@@ -154,6 +165,7 @@
     export default {
         data() {
             return {
+                perPage: 10,
                 // Vuetableのパラメタ
                 sortOrder: [
                     {
@@ -279,6 +291,11 @@
             '$route' (to, from) {
                 this.updateSearchParam()
             },
+            perPage: function () {
+                this.$nextTick(function () {
+                    this.$refs.vuetable.refresh()
+                })
+            }
         },
         mounted() {
             this.regEvent()

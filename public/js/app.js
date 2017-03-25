@@ -2673,6 +2673,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2691,6 +2702,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
         return {
+            perPage: 10,
             // Vuetableのパラメタ
             sortOrder: [{
                 field: '__component:columnName',
@@ -2808,6 +2820,12 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_
     watch: {
         '$route': function $route(to, from) {
             this.updateSearchParam();
+        },
+
+        perPage: function perPage() {
+            this.$nextTick(function () {
+                this.$refs.vuetable.refresh();
+            });
         }
     },
     mounted: function mounted() {
@@ -3981,6 +3999,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3990,6 +4019,7 @@ __webpack_require__(274);
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
         return {
+            perPage: 50,
             dpOptions: {
                 firstDayOfWeek: 1,
                 shortcuts: [{
@@ -4117,6 +4147,13 @@ __webpack_require__(274);
         Vuetable: __WEBPACK_IMPORTED_MODULE_1_vuetable_2_src_components_Vuetable___default.a,
         VuetablePagination: __WEBPACK_IMPORTED_MODULE_2_vuetable_2_src_components_VuetablePagination___default.a,
         VuetablePaginationInfo: __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo___default.a
+    },
+    watch: {
+        perPage: function perPage() {
+            this.$nextTick(function () {
+                this.$refs.vuetable.refresh();
+            });
+        }
     },
     methods: {
         convertType: function convertType(value) {
@@ -33821,7 +33858,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "box"
   }, [_vm._m(2), _vm._v(" "), _c('div', {
     staticClass: "box-body"
-  }, [_c('vuetable', {
+  }, [_c('div', {
+    staticClass: "form-inline pull-right"
+  }, [_c('label', [_vm._v("\n                        1ページの件数：\n                        "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.perPage),
+      expression: "perPage"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.perPage = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l(([10, 30, 50, 100]), function(n) {
+    return _c('option', {
+      domProps: {
+        "value": n
+      }
+    }, [_vm._v("\n                                " + _vm._s(n) + "\n                            ")])
+  }))])]), _vm._v(" "), _c('vuetable', {
     ref: "vuetable",
     staticClass: "table table-condensed table-striped",
     attrs: {
@@ -33831,6 +33895,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "sort-order": _vm.sortOrder,
       "append-params": _vm.moreParams,
       "detail-row-id": "id",
+      "per-page": _vm.perPage,
       "pagination-path": ""
     },
     on: {
@@ -34372,7 +34437,34 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                    " + _vm._s(_vm.typeName) + " > " + _vm._s(_vm.groupName) + "\n                    "), (_vm.isSearch) ? _c('span', [_vm._v("\n                        > 検索結果\n                    ")]) : _vm._e()])])]), _vm._v(" "), _c('div', {
     staticClass: "box-body"
-  }, [_c('vuetable', {
+  }, [_c('div', {
+    staticClass: "form-inline pull-right"
+  }, [_c('label', [_vm._v("\n                    1ページの件数：\n                    "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.perPage),
+      expression: "perPage"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.perPage = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l(([10, 30, 50, 100]), function(n) {
+    return _c('option', {
+      domProps: {
+        "value": n
+      }
+    }, [_vm._v("\n                            " + _vm._s(n) + "\n                        ")])
+  }))])]), _vm._v(" "), _c('vuetable', {
     ref: "vuetable",
     staticClass: "table table-striped",
     attrs: {
@@ -34382,6 +34474,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "sort-order": _vm.sortOrder,
       "append-params": _vm.searchParam,
       "detail-row-id": "id",
+      "per-page": _vm.perPage,
       "pagination-path": ""
     },
     on: {

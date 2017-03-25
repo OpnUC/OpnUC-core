@@ -65,6 +65,16 @@
                     <i class="fa fa-refresh fa-spin"></i>
                 </div>
                 <div class="box-body">
+                    <div class="form-inline pull-right">
+                        <label>
+                            1ページの件数：
+                            <select class="form-control" v-model="perPage">
+                                <option v-for="n in [10,30,50,100]" :value="n">
+                                    {{ n }}
+                                </option>
+                            </select>
+                        </label>
+                    </div>
                     <vuetable class="table table-condensed table-striped"
                               ref="vuetable"
                               api-url="/cdr/search"
@@ -73,6 +83,7 @@
                               :sort-order="sortOrder"
                               :append-params="moreParams"
                               detail-row-id="id"
+                              :per-page="perPage"
                               @vuetable:pagination-data="onPaginationData"
                               pagination-path=""
                     ></vuetable>
@@ -100,6 +111,7 @@
     export default {
         data() {
             return {
+                perPage: 50,
                 dpOptions: {
                     firstDayOfWeek: 1,
                     shortcuts: [
@@ -147,7 +159,7 @@
                                     moment().endOf('month')
                                 ]);
                             }
-                        },{
+                        }, {
                             text: '先月',
                             onClick(picker) {
                                 const end = new Date();
@@ -255,6 +267,13 @@
             Vuetable,
             VuetablePagination,
             VuetablePaginationInfo
+        },
+        watch: {
+            perPage: function () {
+                this.$nextTick(function () {
+                    this.$refs.vuetable.refresh()
+                })
+            }
         },
         methods: {
             convertType(value){
