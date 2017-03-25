@@ -12,7 +12,8 @@
 */
 
 Route::get('/auth/user', 'AuthController@user');
-Route::get('/auth/refresh', 'AuthController@refresh');
+Route::get('/auth/refresh', 'AuthController@refresh')
+    ->middleware('jwt.refresh');
 Route::post('/auth/login', 'AuthController@login');
 Route::post('/auth/logout', 'AuthController@logout');
 

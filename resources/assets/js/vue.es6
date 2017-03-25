@@ -32,9 +32,12 @@ Vue.router = new VueRouter({
 
 Vue.use(VueAuth, {
     auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
-    http:  require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
+    http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
     rolesVar: 'roles',
+    tokenExpired: function (item) {
+        return true;
+    }
 })
 
 //export {router};
@@ -63,3 +66,22 @@ const app = new Vue({
         return h(AppView);
     }
 });
+
+// 30min interval JWT Token Refresh
+var timer = setInterval(function () {
+    app.$auth.refresh()
+}, 30 * 60 * 1000);
+
+// window.app = app
+
+// window.axios.interceptors.response.use((response) => {
+//     return response
+// }, function (error) {
+//     var originalRequest = error.config
+//     console.log(originalRequest)
+//     if (error.response.status === 401 && !originalRequest._retry) {
+//         originalRequest._retry = true
+//     }
+//     // Do something with response error
+//     return Promise.reject(error)
+// })
