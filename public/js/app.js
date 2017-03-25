@@ -627,8 +627,6 @@ __webpack_require__(235);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_events__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_vue_events__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__routes__ = __webpack_require__(236);
-//import Pace from 'pace'
-
 __webpack_require__(269).polyfill();
 
 
@@ -648,7 +646,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_7_vue_
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]);
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_2_element_ui___default.a, {locale: __WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_ja___default.a})
 
-window.axios.defaults.baseURL = '/api/v1';
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.axios.defaults.baseURL = '/api/v1';
 
 
 

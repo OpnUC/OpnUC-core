@@ -1,5 +1,3 @@
-//import Pace from 'pace'
-
 require('es6-promise').polyfill();
 
 import Vue from 'vue'
