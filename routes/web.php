@@ -15,4 +15,4 @@
 // saml2/　で始まるリクエストは処理しない
 Route::get('/{vue?}', function () {
     return view('index');
-})->where('vue', '(?!saml2/)[\/\w\.-]*');
+})->where('vue', '(?!saml2/|broadcasting/)[\/\w\.-]*');

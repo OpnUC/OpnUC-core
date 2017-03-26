@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\CdrProcess'
+        'App\Console\Commands\CdrProcess',
+        'App\Console\Commands\EchoTest'
     ];
 
     /**
