@@ -12,8 +12,8 @@
                 </a>
 
                 <ul class="nav navbar-nav">
-                        <router-link tag="li" to="/cdr"><a>発着信履歴</a></router-link>
-                        <router-link tag="li" to="/AddressBook"><a>Web電話帳</a></router-link>
+                    <router-link tag="li" to="/cdr"><a>発着信履歴</a></router-link>
+                    <router-link tag="li" to="/AddressBook"><a>Web電話帳</a></router-link>
                 </ul>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
@@ -101,6 +101,24 @@
                 var y = new Date()
                 return y.getFullYear()
             },
+        },
+        events: {
+            'LaravelEcho:init': function () {
+                window.echo.channel('BroadcastChannel')
+                    .listen('MessageCreateBroadcastEvent', (e) => {
+                        this.$events.$emit('LaravelEcho:Broadcast', e)
+                    });
+
+                if (this.$auth.check()) {
+                    window.echo.private('PrivateChannel.' + this.$auth.user().id)
+                        .listen('MessageCreatePrivateEvent', (e) => {
+                            this.$events.$emit('LaravelEcho:Private', e)
+                        });
+                }
+            }
+        },
+        mounted(){
+            this.$events.$emit('LaravelEcho:init')
         },
         methods: {
             changeloading () {

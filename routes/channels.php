@@ -15,7 +15,7 @@
 //    return (int)$user->id === (int)$id;
 //});
 
-Broadcast::channel('PrivateChannel.*', function ($user, $userId) {
+Broadcast::channel('PrivateChannel.{userId}', function ($user, $userId) {
 //    \Log::debug(print_r($user, true));
     return (int)$user->id === (int)$userId;
 });
