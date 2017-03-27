@@ -95,6 +95,25 @@
 </template>
 
 <script>
+    var extStatus = {
+        'unknown': {
+            'statusClass': 'fa fa-circle text-gray',
+            'statusText': '不明'
+        },
+        'idle': {
+            'statusClass': 'fa fa-circle text-info',
+            'statusText': 'アイドル'
+        },
+        'away': {
+            'statusClass': 'fa fa-circle text-primary',
+            'statusText': '不在'
+        },
+        'busy': {
+            'statusClass': 'fa fa-circle text-danger',
+            'statusText': '通話中'
+        },
+    };
+
     export default {
         computed: {
             year: function () {
@@ -103,10 +122,25 @@
             },
         },
         events: {
+            'LaravelEcho:PresenceUpdated': function (e) {
+                var ext = e.ext
+                var status = e.status
+
+                // プレゼンスの更新
+                $('i.fa.fa-circle.extStatus.ext' + ext)
+                    .removeClass(function (index, className) {
+                        return (className.match(/\btext-\S+/g) || []).join(' ');
+                    })
+                    .addClass(extStatus[status]['statusClass'])
+                    .attr('title', extStatus[status]['statusText']);
+            },
             'LaravelEcho:init': function () {
                 window.echo.channel('BroadcastChannel')
                     .listen('MessageCreateBroadcastEvent', (e) => {
                         this.$events.$emit('LaravelEcho:Broadcast', e)
+                    })
+                    .listen('PresenceUpdated', (e) => {
+                        this.$events.$emit('LaravelEcho:PresenceUpdated', e)
                     });
 
                 if (this.$auth.check()) {

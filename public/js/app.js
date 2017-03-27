@@ -3638,6 +3638,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
     props: {
@@ -4633,7 +4636,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
@@ -4730,6 +4733,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
+var extStatus = {
+    'unknown': {
+        'statusClass': 'fa fa-circle text-gray',
+        'statusText': '不明'
+    },
+    'idle': {
+        'statusClass': 'fa fa-circle text-info',
+        'statusText': 'アイドル'
+    },
+    'away': {
+        'statusClass': 'fa fa-circle text-primary',
+        'statusText': '不在'
+    },
+    'busy': {
+        'statusClass': 'fa fa-circle text-danger',
+        'statusText': '通話中'
+    }
+};
 
 /* harmony default export */ __webpack_exports__["default"] = {
     computed: {
@@ -4739,11 +4761,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     events: {
+        'LaravelEcho:PresenceUpdated': function LaravelEchoPresenceUpdated(e) {
+            var ext = e.ext;
+            var status = e.status;
+
+            // プレゼンスの更新
+            $('i.fa.fa-circle.extStatus.ext' + ext).removeClass(function (index, className) {
+                return (className.match(/\btext-\S+/g) || []).join(' ');
+            }).addClass(extStatus[status]['statusClass']).attr('title', extStatus[status]['statusText']);
+        },
         'LaravelEcho:init': function LaravelEchoInit() {
             var _this = this;
 
             window.echo.channel('BroadcastChannel').listen('MessageCreateBroadcastEvent', function (e) {
                 _this.$events.$emit('LaravelEcho:Broadcast', e);
+            }).listen('PresenceUpdated', function (e) {
+                _this.$events.$emit('LaravelEcho:PresenceUpdated', e);
             });
 
             if (this.$auth.check()) {
@@ -4777,6 +4810,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     }
 };
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(6)))
 
 /***/ }),
 /* 227 */
@@ -5034,7 +5068,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(5)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 238 */
@@ -36267,34 +36301,37 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "href": ("tel:" + (_vm.rowData.tel1))
     }
-  }, [_vm._v(_vm._s(_vm.rowData.tel1))]), _vm._v(" "), _c('i', {
-    staticClass: "fa fa-circle text-gray extStatus ext",
+  }, [_vm._v(_vm._s(_vm.rowData.tel1) + " ")]), _vm._v(" "), (_vm.rowData.tel1.lastIndexOf('0', 0) != 0) ? _c('i', {
+    staticClass: "fa fa-circle text-gray extStatus",
+    class: ("ext" + (_vm.rowData.tel1)),
     attrs: {
       "title": _vm.rowData.tel1_status
     }
-  })]) : _vm._e(), _vm._v(" "), (_vm.rowData.tel2) ? _c('div', [_c('i', {
+  }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.rowData.tel2) ? _c('div', [_c('i', {
     staticClass: "fa fa-phone"
   }), _vm._v(" "), _c('a', {
     attrs: {
       "href": ("tel:" + (_vm.rowData.tel2))
     }
-  }, [_vm._v(_vm._s(_vm.rowData.tel2))]), _vm._v(" "), _c('i', {
-    staticClass: "fa fa-circle text-gray extStatus ext",
+  }, [_vm._v(_vm._s(_vm.rowData.tel2))]), _vm._v(" "), (_vm.rowData.tel2.lastIndexOf('0', 0) != 0) ? _c('i', {
+    staticClass: "fa fa-circle text-gray extStatus",
+    class: ("ext" + (_vm.rowData.tel2)),
     attrs: {
       "title": _vm.rowData.tel2_status
     }
-  })]) : _vm._e(), _vm._v(" "), (_vm.rowData.tel3) ? _c('div', [_c('i', {
+  }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.rowData.tel3) ? _c('div', [_c('i', {
     staticClass: "fa fa-phone"
   }), _vm._v(" "), _c('a', {
     attrs: {
       "href": ("tel:" + (_vm.rowData.tel3))
     }
-  }, [_vm._v(_vm._s(_vm.rowData.tel3))]), _vm._v(" "), _c('i', {
-    staticClass: "fa fa-circle text-gray extStatus ext",
+  }, [_vm._v(_vm._s(_vm.rowData.tel3))]), _vm._v(" "), (_vm.rowData.tel3.lastIndexOf('0', 0) != 0) ? _c('i', {
+    staticClass: "fa fa-circle text-gray extStatus",
+    class: ("ext" + (_vm.rowData.tel3)),
     attrs: {
       "title": _vm.rowData.tel3_status
     }
-  })]) : _vm._e(), _vm._v(" "), (_vm.rowData.email) ? _c('div', [_c('i', {
+  }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.rowData.email) ? _c('div', [_c('i', {
     staticClass: "fa fa-envelope"
   }), _vm._v(" "), _c('a', {
     attrs: {
