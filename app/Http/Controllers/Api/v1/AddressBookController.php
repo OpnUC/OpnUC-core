@@ -96,13 +96,13 @@ class AddressBookController extends Controller
         // プレゼンス取得
         foreach ($items as $key => &$value) {
             $value['group_name'] = $value->GroupName();
-//            foreach (['tel1', 'tel2', 'tel3'] as $item) {
-//                // 内線と思われる物だけ取得
-//                if (substr($value[$item], 0, 1) != 0) {
-//                    $status = \Redis::GET('extStatus:' . $value[$item]);
-//                    $value[$item . '_status'] = $status == null ? 'unknown' : $status;
-//                }
-//            }
+            foreach (['tel1', 'tel2', 'tel3'] as $item) {
+                // 内線と思われる物だけ取得
+                if (substr($value[$item], 0, 1) != 0) {
+                    $status = \Redis::GET('extStatus:' . $value[$item]);
+                    $value[$item . '_status'] = $status == null ? 'unknown' : $status;
+                }
+            }
         }
 
         return \Response::json($items);

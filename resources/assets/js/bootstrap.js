@@ -40,3 +40,22 @@ window.echo = new Echo({
         }
     }
 });
+
+window.extStatus = {
+    'unknown': {
+        'statusClass': 'fa fa-circle text-gray',
+        'statusText': '不明'
+    },
+    'idle': {
+        'statusClass': 'fa fa-circle text-info',
+        'statusText': 'アイドル'
+    },
+    'away': {
+        'statusClass': 'fa fa-circle text-primary',
+        'statusText': '不在'
+    },
+    'busy': {
+        'statusClass': 'fa fa-circle text-danger',
+        'statusText': '通話中'
+    },
+};

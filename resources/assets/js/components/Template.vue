@@ -95,25 +95,6 @@
 </template>
 
 <script>
-    var extStatus = {
-        'unknown': {
-            'statusClass': 'fa fa-circle text-gray',
-            'statusText': '不明'
-        },
-        'idle': {
-            'statusClass': 'fa fa-circle text-info',
-            'statusText': 'アイドル'
-        },
-        'away': {
-            'statusClass': 'fa fa-circle text-primary',
-            'statusText': '不在'
-        },
-        'busy': {
-            'statusClass': 'fa fa-circle text-danger',
-            'statusText': '通話中'
-        },
-    };
-
     export default {
         computed: {
             year: function () {
@@ -131,8 +112,8 @@
                     .removeClass(function (index, className) {
                         return (className.match(/\btext-\S+/g) || []).join(' ');
                     })
-                    .addClass(extStatus[status]['statusClass'])
-                    .attr('title', extStatus[status]['statusText']);
+                    .addClass(window.extStatus[status]['statusClass'])
+                    .attr('title', window.extStatus[status]['statusText']);
             },
             'LaravelEcho:init': function () {
                 window.echo.channel('BroadcastChannel')
