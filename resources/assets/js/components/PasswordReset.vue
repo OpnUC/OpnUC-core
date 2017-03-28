@@ -96,12 +96,10 @@
                         _this.message = response.data.message;
 
                         if(response.data.status === 'success'){
-                            _this.$router.push({
-                                path: '/login',
-                                query: {
-                                    mode: 'restore'
-                                }
-                            })
+                            _this.$message({
+                                type: 'info',
+                                message: 'パスワードのリセットが完了しました。ログインし直してください。',
+                            });
                         }
                     })
                     .catch(function (error) {

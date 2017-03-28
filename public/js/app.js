@@ -4527,11 +4527,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.message = response.data.message;
 
                 if (response.data.status === 'success') {
-                    _this.$router.push({
-                        path: '/login',
-                        query: {
-                            mode: 'restore'
-                        }
+                    _this.$message({
+                        type: 'info',
+                        message: 'パスワードのリセットが完了しました。ログインし直してください。'
                     });
                 }
             }).catch(function (error) {
@@ -5046,7 +5044,7 @@ exports.push([module.i, "\n.pagination {\n    margin-top: 0;\n}\n.btn.btn-border
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 232 */
