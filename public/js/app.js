@@ -3787,6 +3787,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3794,6 +3800,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('group-list', __WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue___default.a);
 
 /* harmony default export */ __webpack_exports__["default"] = {
+    computed: {
+        my_ext: function my_ext() {
+            if (this.$auth.user().address_book) {
+                return this.$auth.user().address_book.tel1;
+            } else {
+                return '';
+            }
+        },
+
+        my_ext_title: function my_ext_title() {
+            if (this.$auth.user().address_book) {
+                return window.extStatus[this.$auth.user().address_book.tel1_status]['statusText'];
+            } else {
+                return '';
+            }
+        },
+        my_ext_class: function my_ext_class() {
+            if (this.$auth.user().address_book) {
+                return window.extStatus[this.$auth.user().address_book.tel1_status]['statusClass'];
+            } else {
+                return '';
+            }
+        }
+    },
     data: function data() {
         return {
             keyword: '',
@@ -3824,11 +3854,13 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('group-list', __WEBPACK_IM
     methods: {
         // 検索
         onSearch: function onSearch() {
-            this.$router.replace({ query: {
+            this.$router.replace({
+                query: {
                     keyword: this.keyword,
                     typeId: this.$route.query.typeId,
                     groupId: this.$route.query.groupId
-                } });
+                }
+            });
         }
     }
 };
@@ -5051,7 +5083,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 233 */
@@ -34404,12 +34436,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "user-panel"
   }, [_vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "pull-left info"
-  }, [_c('p', [_vm._v(_vm._s(_vm.$auth.user().display_name))]), _vm._v(" "), _c('i', {
-    staticClass: "myExtStatus extStatus ext text-gray extStatus ext",
+  }, [_c('p', [_vm._v(_vm._s(_vm.$auth.user().display_name))]), _vm._v(" "), (_vm.my_ext) ? _c('div', [_c('i', {
+    staticClass: "fa fa-phone"
+  }), _vm._v("\n                    " + _vm._s(_vm.my_ext) + "\n                    "), _c('i', {
+    staticClass: "myExtStatus extStatus",
+    class: ("ext" + _vm.my_ext + " " + _vm.my_ext_class),
     attrs: {
-      "title": "不明"
+      "title": _vm.my_ext_title
     }
-  })])]), _vm._v(" "), _c('form', {
+  })]) : _vm._e()])]), _vm._v(" "), _c('form', {
     staticClass: "sidebar-form",
     attrs: {
       "id": "AddressBookSearch"

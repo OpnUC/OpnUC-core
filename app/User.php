@@ -31,6 +31,26 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    // JSONに追加する属性
+    protected $appends = array(
+        'address_book',
+    );
+
+    /**
+     * アドレス帳情報を取得
+     * @return AddressBook
+     */
+    public function getAddressBookAttribute()
+    {
+        // 内線電話帳で所有者が自分のIDは自分のアイテムとして処理する
+        $item = \App\AddressBook::where('type', 1)
+            ->where('owner_userid', $this->id)
+            ->get()
+            ->first();
+
+        return $item;
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new CustomPasswordReset($token));

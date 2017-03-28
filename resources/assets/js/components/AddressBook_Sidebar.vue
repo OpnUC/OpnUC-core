@@ -8,7 +8,12 @@
                 </div>
                 <div class="pull-left info">
                     <p>{{ $auth.user().display_name }}</p>
-                    <i class="myExtStatus extStatus ext text-gray extStatus ext" title="不明"></i>
+                    <div v-if="my_ext">
+                        <i class="fa fa-phone"></i>
+                        {{ my_ext }}
+                        <i class="myExtStatus extStatus" :class="`ext${my_ext} ${my_ext_class}`"
+                           :title="my_ext_title"></i>
+                    </div>
                 </div>
             </div>
 
@@ -44,7 +49,8 @@
                                 {{ item.Name }}
                                 <i class="fa fa-angle-left pull-right" v-if="item.Child"></i>
                             </a>
-                            <router-link v-else :to="{ name: 'AddressBook', query: { typeId: typeId, groupId: item.Id }}">
+                            <router-link v-else
+                                         :to="{ name: 'AddressBook', query: { typeId: typeId, groupId: item.Id }}">
                                 {{ item.Name }}
                                 <i class="fa fa-angle-left pull-right" v-if="item.Child"></i>
                             </router-link>
@@ -83,6 +89,29 @@
     );
 
     export default {
+        computed: {
+            my_ext(){
+                if (this.$auth.user().address_book) {
+                    return this.$auth.user().address_book.tel1
+                } else {
+                    return ''
+                }
+            },
+            my_ext_title: function () {
+                if (this.$auth.user().address_book) {
+                    return window.extStatus[this.$auth.user().address_book.tel1_status]['statusText']
+                } else {
+                    return ''
+                }
+            },
+            my_ext_class: function () {
+                if (this.$auth.user().address_book) {
+                    return window.extStatus[this.$auth.user().address_book.tel1_status]['statusClass']
+                } else {
+                    return ''
+                }
+            },
+        },
         data(){
             return {
                 keyword: '',
@@ -114,11 +143,13 @@
         methods: {
             // 検索
             onSearch () {
-                this.$router.replace({ query: {
-                    keyword: this.keyword,
-                    typeId: this.$route.query.typeId,
-                    groupId: this.$route.query.groupId,
-                }})
+                this.$router.replace({
+                    query: {
+                        keyword: this.keyword,
+                        typeId: this.$route.query.typeId,
+                        groupId: this.$route.query.groupId,
+                    }
+                })
             },
         },
     }
