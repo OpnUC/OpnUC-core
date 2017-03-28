@@ -43,7 +43,9 @@ var myBearer = {
             token = token.split(/Bearer\:?\s?/i);
 
             // for LaravelEcho
-            window.echo.options.auth.headers.Authorization = 'Bearer ' + token
+            if(window.echo){
+                window.echo.options.auth.headers.Authorization = 'Bearer ' + token
+            }
 
             return token[token.length > 1 ? 1 : 0].trim();
         }
@@ -82,6 +84,28 @@ const app = new Vue({
                 $('.sidebar-toggle').hide();
             }
         }
+    },
+    events:{
+        'LaravelEcho:init': function () {
+            if(!window.echo){
+                return;
+            }
+
+            window.echo.channel('BroadcastChannel')
+                .listen('MessageCreateBroadcastEvent', (e) => {
+                    this.$events.$emit('LaravelEcho:Broadcast', e)
+                })
+                .listen('PresenceUpdated', (e) => {
+                    this.$events.$emit('LaravelEcho:PresenceUpdated', e)
+                });
+
+            if (this.$auth.check()) {
+                window.echo.private('PrivateChannel.' + this.$auth.user().id)
+                    .listen('MessageCreatePrivateEvent', (e) => {
+                        this.$events.$emit('LaravelEcho:Private', e)
+                    });
+            }
+        },
     },
     render: function (h) {
         return h(AppView);

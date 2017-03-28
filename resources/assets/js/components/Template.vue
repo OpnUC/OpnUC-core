@@ -115,22 +115,6 @@
                     .addClass(window.extStatus[status]['statusClass'])
                     .attr('title', window.extStatus[status]['statusText']);
             },
-            'LaravelEcho:init': function () {
-                window.echo.channel('BroadcastChannel')
-                    .listen('MessageCreateBroadcastEvent', (e) => {
-                        this.$events.$emit('LaravelEcho:Broadcast', e)
-                    })
-                    .listen('PresenceUpdated', (e) => {
-                        this.$events.$emit('LaravelEcho:PresenceUpdated', e)
-                    });
-
-                if (this.$auth.check()) {
-                    window.echo.private('PrivateChannel.' + this.$auth.user().id)
-                        .listen('MessageCreatePrivateEvent', (e) => {
-                            this.$events.$emit('LaravelEcho:Private', e)
-                        });
-                }
-            }
         },
         mounted(){
             this.$events.$emit('LaravelEcho:init')

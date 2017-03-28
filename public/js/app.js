@@ -665,7 +665,9 @@ var myBearer = {
             token = token.split(/Bearer\:?\s?/i);
 
             // for LaravelEcho
-            window.echo.options.auth.headers.Authorization = 'Bearer ' + token
+            if(window.echo){
+                window.echo.options.auth.headers.Authorization = 'Bearer ' + token
+            }
 
             return token[token.length > 1 ? 1 : 0].trim();
         }
@@ -704,6 +706,28 @@ const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 $('.sidebar-toggle').hide();
             }
         }
+    },
+    events:{
+        'LaravelEcho:init': function () {
+            if(!window.echo){
+                return;
+            }
+
+            window.echo.channel('BroadcastChannel')
+                .listen('MessageCreateBroadcastEvent', (e) => {
+                    this.$events.$emit('LaravelEcho:Broadcast', e)
+                })
+                .listen('PresenceUpdated', (e) => {
+                    this.$events.$emit('LaravelEcho:PresenceUpdated', e)
+                });
+
+            if (this.$auth.check()) {
+                window.echo.private('PrivateChannel.' + this.$auth.user().id)
+                    .listen('MessageCreatePrivateEvent', (e) => {
+                        this.$events.$emit('LaravelEcho:Private', e)
+                    });
+            }
+        },
     },
     render: function (h) {
         return h(__WEBPACK_IMPORTED_MODULE_5__components_App_vue___default.a);
@@ -4423,7 +4447,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     'mode': 'restore',
                     'token': this.$route.query.token
                 },
-                rememberMe: this.remember,
+                rememberMe: false,
                 redirect: redirect ? redirect.from.fullPath : '/',
                 error: function error(res) {
                     $('#resultLoading').css('visibility', 'hidden');
@@ -4800,21 +4824,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             $('i.fa.fa-circle.extStatus.ext' + ext).removeClass(function (index, className) {
                 return (className.match(/\btext-\S+/g) || []).join(' ');
             }).addClass(window.extStatus[status]['statusClass']).attr('title', window.extStatus[status]['statusText']);
-        },
-        'LaravelEcho:init': function LaravelEchoInit() {
-            var _this = this;
-
-            window.echo.channel('BroadcastChannel').listen('MessageCreateBroadcastEvent', function (e) {
-                _this.$events.$emit('LaravelEcho:Broadcast', e);
-            }).listen('PresenceUpdated', function (e) {
-                _this.$events.$emit('LaravelEcho:PresenceUpdated', e);
-            });
-
-            if (this.$auth.check()) {
-                window.echo.private('PrivateChannel.' + this.$auth.user().id).listen('MessageCreatePrivateEvent', function (e) {
-                    _this.$events.$emit('LaravelEcho:Private', e);
-                });
-            }
         }
     },
     mounted: function mounted() {
@@ -4884,15 +4893,18 @@ window.axios.defaults.headers.common = {
 
 
 
-window.echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
-    broadcaster: 'socket.io',
-    host: window.location.hostname + ':6001',
-    auth: {
-        headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('default-auth-token')
+if (typeof io != "undefined") {
+    // ioが定義されていない場合は、実行しない
+    window.echo = new __WEBPACK_IMPORTED_MODULE_0_laravel_echo___default.a({
+        broadcaster: 'socket.io',
+        host: window.location.hostname + ':6001',
+        auth: {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('default-auth-token')
+            }
         }
-    }
-});
+    });
+}
 
 window.extStatus = {
     'unknown': {
@@ -5118,7 +5130,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 238 */
