@@ -7,7 +7,7 @@ return $settings = array(
     'retrieveParametersFromServer' => false,
     'logoutRoute' => '/',
     // Vue側ですでにログイン済みとして処理するため、 mode を restore とする
-    'loginRoute' => '/login?mode=restore',
+    'loginRoute' => '/loginRestore',
     'errorRoute' => '/login',
     'strict' => true, //@todo: make this depend on laravel config
     'debug' => env('APP_DEBUG'),

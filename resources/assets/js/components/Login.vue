@@ -56,9 +56,8 @@
             }
         },
         mounted(){
-            // mode が restore の場合は、Laravelのログイン情報を元にTokenの取得を試みる
-            if(this.$route.query.mode === 'restore'){
-
+            // mode が restore の場合は、渡されたTokenで認証を試みる
+            if(this.$route.query.mode === 'restore' && this.$route.query.token){
                 $('#resultLoading').css('visibility', 'visible');
 
                 var redirect = this.$auth.redirect();
@@ -66,6 +65,7 @@
                 this.$auth.login({
                     params:{
                         'mode': 'restore',
+                        'token': this.$route.query.token,
                     },
                     rememberMe: false,
                     redirect: redirect ? redirect.from.fullPath : '/',

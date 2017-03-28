@@ -12,17 +12,6 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class AuthController extends Controller
 {
 
-    /**
-     * constructor
-     */
-    public function __construct()
-    {
-
-        // ミドルウェアの指定と、例外の指定
-        $this->middleware('jwt.auth', ['except' => ['login']]);
-
-    }
-
     public function user()
     {
 
@@ -43,11 +32,13 @@ class AuthController extends Controller
 
         $token = null;
 
-        // mode が restore の場合は、Laravel上でログイン済みとして、Tokenの取得を試みる
-        if($request['mode'] === 'restore'){
-            $logginUser = Auth::user();
+        // mode が restore の場合は、ログイン済みとして、Tokenで認証を試みる
+        if ($request['mode'] === 'restore' && $request['token']) {
+            JWTAuth::setToken($request['token']);
 
-            if($logginUser === null){
+            $logginUser = JWTAuth::parseToken()->authenticate();
+
+            if ($logginUser === null) {
                 return response([
                     'status' => 'error',
                     'error' => 'invalid.credentials',
@@ -56,7 +47,7 @@ class AuthController extends Controller
             }
 
             $token = JWTAuth::fromUser($logginUser);
-        }else{
+        } else {
             $credentials = $request->only('username', 'password');
 
             try {

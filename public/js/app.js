@@ -4380,18 +4380,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
     mounted: function mounted() {
-        // mode が restore の場合は、Laravelのログイン情報を元にTokenの取得を試みる
-        if (this.$route.query.mode === 'restore') {
-
+        // mode が restore の場合は、渡されたTokenで認証を試みる
+        if (this.$route.query.mode === 'restore' && this.$route.query.token) {
             $('#resultLoading').css('visibility', 'visible');
 
             var redirect = this.$auth.redirect();
 
             this.$auth.login({
                 params: {
-                    'mode': 'restore'
+                    'mode': 'restore',
+                    'token': this.$route.query.token
                 },
-                rememberMe: false,
+                rememberMe: this.remember,
                 redirect: redirect ? redirect.from.fullPath : '/',
                 error: function error(res) {
                     $('#resultLoading').css('visibility', 'hidden');

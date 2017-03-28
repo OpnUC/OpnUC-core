@@ -13,26 +13,38 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['namespace' => 'Api\v1', 'prefix' => 'v1'], function() {
-    Route::get('/auth/user', 'AuthController@user');
-    Route::get('/auth/refresh', 'AuthController@refresh')
-        ->middleware('jwt.refresh');
-    Route::post('/auth/login', 'AuthController@login');
-    Route::post('/auth/logout', 'AuthController@logout');
-
+Route::group([
+    'middleware' => ['api'],
+    'namespace' => 'Api\v1',
+    'prefix' => 'v1'
+], function () {
+    // Guest Access
     Route::post('/auth/resetPasswordEmail', 'Auth\ForgotPasswordController@sendResetLinkEmail');
     Route::post('/auth/resetPassword', 'Auth\ResetPasswordController@reset');
+    Route::post('/auth/login', 'AuthController@login');
 
-    Route::get('/cdr/search', 'CdrController@search');
-    Route::get('/cdr/download', 'CdrController@download');
+    // Token Refresh
+    Route::get('/auth/refresh', 'AuthController@refresh')
+        ->middleware(['api', 'jwt.refresh']);
 
-    Route::get('/addressbook/search', 'AddressBookController@search');
-    Route::get('/addressbook/detail', 'AddressBookController@detail');
-    Route::get('/addressbook/groupList', 'AddressBookController@groupList');
-    Route::get('/addressbook/groups', 'AddressBookController@groups');
-    Route::get('/addressbook/group', 'AddressBookController@group');
-    Route::post('/addressbook/edit', 'AddressBookController@edit');
-    Route::post('/addressbook/groupEdit', 'AddressBookController@groupEdit');
-    Route::post('/addressbook/delete', 'AddressBookController@delete');
-    Route::post('/addressbook/groupDelete', 'AddressBookController@groupDelete');
+    // Login Check
+    Route::group([
+        'middleware' => ['jwt.auth'],
+    ], function () {
+        Route::get('/auth/user', 'AuthController@user');
+        Route::post('/auth/logout', 'AuthController@logout');
+
+        Route::get('/cdr/search', 'CdrController@search');
+        Route::get('/cdr/download', 'CdrController@download');
+
+        Route::get('/addressbook/search', 'AddressBookController@search');
+        Route::get('/addressbook/detail', 'AddressBookController@detail');
+        Route::get('/addressbook/groupList', 'AddressBookController@groupList');
+        Route::get('/addressbook/groups', 'AddressBookController@groups');
+        Route::get('/addressbook/group', 'AddressBookController@group');
+        Route::post('/addressbook/edit', 'AddressBookController@edit');
+        Route::post('/addressbook/groupEdit', 'AddressBookController@groupEdit');
+        Route::post('/addressbook/delete', 'AddressBookController@delete');
+        Route::post('/addressbook/groupDelete', 'AddressBookController@groupDelete');
+    });
 });
