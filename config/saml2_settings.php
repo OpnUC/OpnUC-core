@@ -13,13 +13,13 @@ return $settings = array(
     'debug' => env('APP_DEBUG'),
     'sp' => array(
         'NameIDFormat' => 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-        'x509cert' => env('SAML2_SP_CERT', ''),
-        'privateKey' => env('SAML2_SP_KEY', ''),
+        'x509cert' => env('SAML2_SP_CERT', 'dummy'),
+        'privateKey' => env('SAML2_SP_KEY', 'dummy'),
     ),
     'idp' => array(
-        'entityId' => env('SAML2_ENTITYID', ''),
+        'entityId' => env('SAML2_ENTITYID', 'dummy'),
         'singleSignOnService' => array(
-            'url' => env('SAML2_SSOS', ''),
+            'url' => env('SAML2_SSOS', 'http://example.com/dummy/'),
         ),
         'singleLogoutService' => array(
             'url' => env('SAML2_SLS', ''),
