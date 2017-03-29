@@ -34,6 +34,7 @@ class User extends Authenticatable
     // JSONに追加する属性
     protected $appends = array(
         'address_book',
+        'roles',
     );
 
     /**
@@ -49,6 +50,28 @@ class User extends Authenticatable
             ->first();
 
         return $item;
+    }
+
+    /**
+     * ロール情報を取得
+     * @return array
+     */
+    public function getRolesAttribute()
+    {
+
+        $result = array();
+        $roles = $this->roles()->get();
+
+        foreach ($roles as $role){
+            $perms = $role->perms()->get();
+
+            foreach ($perms as $perm){
+                $result[] = $perm->name;
+            }
+        }
+
+        return $result;
+
     }
 
     public function sendPasswordResetNotification($token)
