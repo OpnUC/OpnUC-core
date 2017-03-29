@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api\v1;
 
 use Illuminate\Http\Request;
@@ -23,6 +24,10 @@ class AddressBookController extends Controller
 
     public function detail(Request $request)
     {
+        // 権限チェック
+        if (!\Entrust::can('addressbook-user')) {
+            abort(403);
+        }
 
         $id = intval($request['id']) ? intval($request['id']) : 0;
 
@@ -46,6 +51,10 @@ class AddressBookController extends Controller
      */
     public function search(Request $req)
     {
+        // 権限チェック
+        if (!\Entrust::can('addressbook-user')) {
+            abort(403);
+        }
 
         $column = ['id', 'type', 'groupid', 'position', 'name_kana', 'name', 'tel1', 'tel2', 'tel3', 'email', 'comment', 'avatar_type', 'avatar_filename'];
         $typeId = intval($req['typeId']) ? intval($req['typeId']) : -1;
@@ -104,6 +113,10 @@ class AddressBookController extends Controller
      */
     public function groupList(Request $request)
     {
+        // 権限チェック
+        if (!\Entrust::can('addressbook-user')) {
+            abort(403);
+        }
 
         // 末端のグループのみを表示するか
         $isAll = $request['isAll'] ? true : false;
@@ -112,9 +125,9 @@ class AddressBookController extends Controller
 
         $result = [];
 
-        foreach ($dbGroups as $group){
+        foreach ($dbGroups as $group) {
             // 末端のグループのみを表示する場合、子供が有るグループは処理しない
-            if($isAll == false && count($group->childs)){
+            if ($isAll == false && count($group->childs)) {
                 continue;
             }
 
@@ -136,6 +149,11 @@ class AddressBookController extends Controller
      */
     public function groups(Request $req)
     {
+        // 権限チェック
+        if (!\Entrust::can('addressbook-user')) {
+            abort(403);
+        }
+
         $typeId = intval($req['typeId']);
         $dbGroups = \App\AddressBookGroup::where('parent_groupid', 0)
             ->where('type', $typeId)
@@ -151,6 +169,11 @@ class AddressBookController extends Controller
      */
     public function group(Request $request)
     {
+        // 権限チェック
+        if (!\Entrust::can('addressbook-user')) {
+            abort(403);
+        }
+
         $groupId = intval($request['groupId']);
         $dbGroup = \App\AddressBookGroup::find($groupId);
 
@@ -203,6 +226,10 @@ class AddressBookController extends Controller
      */
     public function delete(Request $request)
     {
+        // 権限チェック
+        if (!\Entrust::can('addressbook-admin')) {
+            abort(403);
+        }
 
         $id = intval($request['id']);
 
@@ -233,6 +260,10 @@ class AddressBookController extends Controller
      */
     public function groupDelete(Request $request)
     {
+        // 権限チェック
+        if (!\Entrust::can('addressbook-admin')) {
+            abort(403);
+        }
 
         $id = intval($request['groupId']);
 
@@ -270,9 +301,9 @@ class AddressBookController extends Controller
      */
     public function groupEdit(\App\Http\Requests\AddressBookGroupRequest $request)
     {
-
+        // 権限チェック
         // 権限が無い場合は、個人電話帳のみとする
-        if (!\Entrust::can('edit-addressbook') && $request['type'] != 9) {
+        if (!\Entrust::can('addressbook-admin') && $request['type'] != 9) {
             abort(403);
         }
 
@@ -299,7 +330,7 @@ class AddressBookController extends Controller
     {
 
         // 権限が無い場合は、個人電話帳のみとする
-        if (!\Entrust::can('edit-addressbook') && $request['type'] != 9) {
+        if (!\Entrust::can('addressbook-admin') && $request['type'] != 9) {
             abort(403);
         }
 
