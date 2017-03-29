@@ -34605,7 +34605,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('router-link', {
+  return _c('div', [(_vm.$auth.check('addressbook-admin')) ? _c('router-link', {
     staticClass: "btn btn-default btn-xs",
     attrs: {
       "to": {
@@ -34617,7 +34617,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-edit"
-  }), _vm._v(" 編集\n    ")]), _vm._v(" "), _c('button', {
+  }), _vm._v(" 編集\n    ")]) : _vm._e(), _vm._v(" "), (_vm.$auth.check('addressbook-admin')) ? _c('button', {
     staticClass: "btn btn-default btn-xs",
     attrs: {
       "type": "button"
@@ -34630,7 +34630,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times"
-  }), _vm._v(" 削除\n    ")])], 1)
+  }), _vm._v(" 削除\n    ")]) : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -35609,17 +35609,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._m(0), _vm._v(" "), _c('ul', {
     staticClass: "nav navbar-nav"
-  }, [_c('router-link', {
+  }, [(_vm.$auth.check('cdr-user')) ? _c('router-link', {
     attrs: {
       "tag": "li",
       "to": "/cdr"
     }
-  }, [_c('a', [_vm._v("発着信履歴")])]), _vm._v(" "), _c('router-link', {
+  }, [_c('a', [_vm._v("発着信履歴")])]) : _vm._e(), _vm._v(" "), (_vm.$auth.check('addressbook-user')) ? _c('router-link', {
     attrs: {
       "tag": "li",
       "to": "/AddressBook"
     }
-  }, [_c('a', [_vm._v("Web電話帳")])])], 1), _vm._v(" "), _c('div', {
+  }, [_c('a', [_vm._v("Web電話帳")])]) : _vm._e()], 1), _vm._v(" "), _c('div', {
     staticClass: "navbar-custom-menu"
   }, [_c('ul', {
     staticClass: "nav navbar-nav"

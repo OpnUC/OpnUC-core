@@ -1,9 +1,9 @@
 <template>
     <div>
-        <router-link :to="{ name: 'AddressBookEdit', params: { id: rowData.id }}" class="btn btn-default btn-xs">
+        <router-link v-if="$auth.check('addressbook-admin')" :to="{ name: 'AddressBookEdit', params: { id: rowData.id }}" class="btn btn-default btn-xs">
             <i class="fa fa-edit"></i> 編集
         </router-link>
-        <button type="button" class="btn btn-default btn-xs" v-on:click.prevent="onDelete">
+        <button v-if="$auth.check('addressbook-admin')" type="button" class="btn btn-default btn-xs" v-on:click.prevent="onDelete">
             <i class="fa fa-times"></i> 削除
         </button>
     </div>
