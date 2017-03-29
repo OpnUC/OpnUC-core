@@ -35677,7 +35677,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "content-header"
   }, [_c('h1', [_vm._v("\n                " + _vm._s(_vm.$route.meta.title) + "\n                "), _c('small', [_vm._v(_vm._s(_vm.$route.meta.description))])]), _vm._v(" "), _c('ol', {
     staticClass: "breadcrumb"
-  }, [_vm._m(4), _vm._v(" "), _c('li', {
+  }, [_c('li', [_c('router-link', {
+    attrs: {
+      "to": "/"
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-home"
+  }), _vm._v("Home")])], 1), _vm._v(" "), _c('li', {
     staticClass: "active"
   }, [_vm._v(_vm._s(_vm.$route.meta.title))])])]), _vm._v(" "), _c('router-view')], 1), _vm._v(" "), _c('footer', {
     staticClass: "main-footer"
@@ -35721,14 +35727,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "href": ""
     }
   }, [_vm._v("ユーザ情報")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('li', [_c('a', {
-    attrs: {
-      "href": "javascript:;"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-home"
-  }), _vm._v("Home")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

@@ -80,7 +80,7 @@
                     <small>{{ $route.meta.description }}</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="javascript:;"><i class="fa fa-home"></i>Home</a></li>
+                    <li><router-link to="/"><i class="fa fa-home"></i>Home</router-link></li>
                     <li class="active">{{ $route.meta.title }}</li>
                 </ol>
             </section>
