@@ -34,6 +34,8 @@ Route::group([
         Route::get('/auth/user', 'AuthController@user');
         Route::post('/auth/logout', 'AuthController@logout');
 
+        Route::post('/click2call/originate', 'Click2CallController@originate');
+
         Route::get('/cdr/search', 'CdrController@search');
         Route::get('/cdr/download', 'CdrController@download');
 

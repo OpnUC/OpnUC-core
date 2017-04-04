@@ -8,12 +8,8 @@
                 </div>
                 <div class="pull-left info">
                     <p>{{ $auth.user().display_name }}</p>
-                    <div v-if="my_ext">
-                        <i class="fa fa-phone"></i>
-                        {{ my_ext }}
-                        <i class="myExtStatus extStatus" :class="`ext${my_ext} ${my_ext_class}`"
-                           :title="my_ext_title"></i>
-                    </div>
+                    <tel-contact :number="my_ext" :status="my_ext_status">
+                    </tel-contact>
                 </div>
             </div>
 
@@ -97,16 +93,9 @@
                     return ''
                 }
             },
-            my_ext_title: function () {
+            my_ext_status() {
                 if (this.$auth.user().address_book) {
-                    return window.extStatus[this.$auth.user().address_book.tel1_status]['statusText']
-                } else {
-                    return ''
-                }
-            },
-            my_ext_class: function () {
-                if (this.$auth.user().address_book) {
-                    return window.extStatus[this.$auth.user().address_book.tel1_status]['statusClass']
+                    return this.$auth.user().address_book.tel1_status
                 } else {
                     return ''
                 }

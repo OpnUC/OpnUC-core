@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\CdrProcess',
         'App\Console\Commands\EchoTest',
         'App\Console\Commands\PresenceTest',
-        \App\Console\Commands\AsteriskLinker::class,
+        \App\Console\Commands\PbxLinker::class,
     ];
 
     /**

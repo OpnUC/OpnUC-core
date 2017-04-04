@@ -100,8 +100,8 @@
                         電話番号1
                     </th>
                     <td>
-                        <a :href="`tel:${detailDialog.selectItem.tel1}`" v-if="detailDialog.selectItem.tel1">{{
-                            detailDialog.selectItem.tel1 }}</a>
+                        <tel-contact :number="detailDialog.selectItem.tel1" :status="detailDialog.selectItem.tel1_status">
+                        </tel-contact>
                     </td>
                 </tr>
                 <tr>
@@ -109,8 +109,8 @@
                         電話番号2
                     </th>
                     <td>
-                        <a :href="`tel:${detailDialog.selectItem.tel2}`" v-if="detailDialog.selectItem.tel2">{{
-                            detailDialog.selectItem.tel2 }}</a>
+                        <tel-contact :number="detailDialog.selectItem.tel2" :status="detailDialog.selectItem.tel2_status">
+                        </tel-contact>
                     </td>
                 </tr>
                 <tr>
@@ -118,8 +118,8 @@
                         電話番号3
                     </th>
                     <td>
-                        <a :href="`tel:${detailDialog.selectItem.tel3}`" v-if="detailDialog.selectItem.tel3">{{
-                            detailDialog.selectItem.tel3 }}</a>
+                        <tel-contact :number="detailDialog.selectItem.tel3" :status="detailDialog.selectItem.tel3_status">
+                        </tel-contact>
                     </td>
                 </tr>
                 <tr>

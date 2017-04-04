@@ -114,7 +114,7 @@
                     })
                     .addClass(window.extStatus[status]['statusClass'])
                     .attr('title', window.extStatus[status]['statusText']);
-            },
+            }
         },
         mounted(){
             this.$events.$emit('LaravelEcho:init')

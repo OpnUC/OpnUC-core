@@ -43,7 +43,7 @@ var myBearer = {
             token = token.split(/Bearer\:?\s?/i);
 
             // for LaravelEcho
-            if(window.echo){
+            if (window.echo) {
                 window.echo.options.auth.headers.Authorization = 'Bearer ' + token
             }
 
@@ -65,6 +65,8 @@ Vue.use(VueAuth, {
 
 //export {router};
 
+Vue.component('tel-contact', require('./components/common_TelContact.vue'))
+
 const app = new Vue({
     router: Vue.router,
     el: '#root',
@@ -85,9 +87,9 @@ const app = new Vue({
             }
         }
     },
-    events:{
+    events: {
         'LaravelEcho:init': function () {
-            if(!window.echo){
+            if (!window.echo) {
                 return;
             }
 
@@ -105,6 +107,34 @@ const app = new Vue({
                         this.$events.$emit('LaravelEcho:Private', e)
                     });
             }
+        },
+        // Click to Callの発信処理
+        'Click2Call': function(number){
+            var _this = this
+
+            console.log(number)
+
+            this.$confirm(number + 'に発信します。よろしいですか？', '確認', {
+                confirmButtonText: '発信',
+                cancelButtonText: 'キャンセル',
+            }).then(() => {
+                axios.post('/click2call/originate',
+                    {
+                        number: number
+                    })
+                    .then(function (response) {
+                        _this.$message({
+                            type: 'info',
+                            message: '発信中です。しばらくお待ちください。'
+                        });
+                    })
+                    .catch(function (error) {
+                        _this.$message({
+                            type: 'error',
+                            message: '発信に失敗しました。'
+                        });
+                    });
+            });
         },
     },
     render: function (h) {
