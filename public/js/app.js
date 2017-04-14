@@ -4984,14 +4984,17 @@ window.extStatus = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_User_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__components_User_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_User_PasswordChange_vue__ = __webpack_require__(354);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_User_PasswordChange_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__components_User_PasswordChange_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_Login_vue__ = __webpack_require__(295);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_Login_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_PasswordReset_vue__ = __webpack_require__(296);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_PasswordReset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_PasswordReset_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_PasswordResetEmail_vue__ = __webpack_require__(297);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_PasswordResetEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_PasswordResetEmail_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_404_vue__ = __webpack_require__(280);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_404_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_404_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_User_AddressBook_vue__ = __webpack_require__(357);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_User_AddressBook_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__components_User_AddressBook_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_Login_vue__ = __webpack_require__(295);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__components_Login_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_PasswordReset_vue__ = __webpack_require__(296);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_PasswordReset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15__components_PasswordReset_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_PasswordResetEmail_vue__ = __webpack_require__(297);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_PasswordResetEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16__components_PasswordResetEmail_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_404_vue__ = __webpack_require__(280);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_404_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__components_404_vue__);
+
 
 
 
@@ -5101,31 +5104,40 @@ var routes = [{
                 description: 'User',
                 auth: true
             }
+        }, {
+            path: 'AddressBook',
+            name: 'UserAddressBook',
+            component: __WEBPACK_IMPORTED_MODULE_13__components_User_AddressBook_vue___default.a,
+            meta: {
+                title: 'ユーザ情報',
+                description: 'User',
+                auth: true
+            }
         }]
     }, {
         path: '/Login',
-        component: __WEBPACK_IMPORTED_MODULE_13__components_Login_vue___default.a,
+        component: __WEBPACK_IMPORTED_MODULE_14__components_Login_vue___default.a,
         meta: {
             title: 'Login',
             description: 'Login'
         }
     }, {
         path: '/PasswordReset/:token',
-        component: __WEBPACK_IMPORTED_MODULE_14__components_PasswordReset_vue___default.a,
+        component: __WEBPACK_IMPORTED_MODULE_15__components_PasswordReset_vue___default.a,
         meta: {
             title: 'パスワードリセット',
             description: 'Password Reset'
         }
     }, {
         path: '/PasswordResetEmail',
-        component: __WEBPACK_IMPORTED_MODULE_15__components_PasswordResetEmail_vue___default.a,
+        component: __WEBPACK_IMPORTED_MODULE_16__components_PasswordResetEmail_vue___default.a,
         meta: {
             title: 'パスワードリセット',
             description: 'Password Reset'
         }
     }, {
         path: '*',
-        component: __WEBPACK_IMPORTED_MODULE_16__components_404_vue___default.a,
+        component: __WEBPACK_IMPORTED_MODULE_17__components_404_vue___default.a,
         meta: {
             title: 'NotFound',
             description: '404 Not Found'
@@ -37739,7 +37751,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-user"
-  }), _vm._v(" "), _c('span', [_vm._v("基本情報")])])], 1), _vm._v(" "), _c('li', {
+  }), _vm._v(" "), _c('span', [_vm._v("基本情報")])])], 1), _vm._v(" "), (_vm.$auth.user().address_book) ? _c('li', {
     staticClass: "treeview"
   }, [_c('router-link', {
     attrs: {
@@ -37747,7 +37759,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-address-book"
-  }), _vm._v(" "), _c('span', [_vm._v("内線電話帳情報")])])], 1), _vm._v(" "), _c('li', {
+  }), _vm._v(" "), _c('span', [_vm._v("内線電話帳情報")])])], 1) : _vm._e(), _vm._v(" "), _c('li', {
     staticClass: "treeview"
   }, [_c('router-link', {
     attrs: {
@@ -38497,6 +38509,717 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
      require("vue-hot-reload-api").rerender("data-v-32867f2a", module.exports)
+  }
+}
+
+/***/ }),
+/* 356 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    data: function data() {
+        return {
+            selectItem: null,
+            // Validation
+            status: null,
+            message: null,
+            errors: [],
+            // 読み込み中かどうか
+            isLoading: true,
+            addressBookGroup: []
+        };
+    },
+
+    methods: {
+        onSave: function onSave() {
+            var _this = this;
+
+            _this.isLoading = true;
+
+            // 初期化
+            _this.status = null;
+            _this.message = null;
+            _this.errors = [];
+
+            // 編集処理
+            axios.post('/addressbook/edit', _this.selectItem).then(function (response) {
+                _this.isLoading = false;
+
+                _this.$message({
+                    type: response.data.status,
+                    message: response.data.message
+                });
+            }).catch(function (error) {
+                _this.isLoading = false;
+                _this.status = 'error';
+
+                if (error.response.status === 422) {
+                    // 422 - Validation Error
+                    _this.message = '入力に問題があります。';
+
+                    _this.errors = error.response.data;
+                } else {
+                    _this.message = 'エラーが発生しました。';
+                }
+            });
+        }
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        _this.isLoading = true;
+
+        axios.get('/addressbook/groupList').then(function (response) {
+            _this.addressBookGroup = response.data;
+        }).catch(function (error) {
+            console.log(error);
+        });
+
+        axios.get('/auth/user').then(function (response) {
+            _this.selectItem = response.data.data.address_book;
+
+            _this.isLoading = false;
+        }).catch(function (error) {
+            console.log(error);
+
+            _this.isLoading = false;
+        });
+    },
+    created: function created() {
+        this.$root.sidebar = this.$route.matched.some(function (record) {
+            return record.components.sidebar;
+        });
+    }
+};
+
+/***/ }),
+/* 357 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(356),
+  /* template */
+  __webpack_require__(358),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\OpnUC-core\\resources\\assets\\js\\components\\User_AddressBook.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] User_AddressBook.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-527cbe8e", Component.options)
+  } else {
+    hotAPI.reload("data-v-527cbe8e", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 358 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('section', {
+    staticClass: "content"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-md-3"
+  }, [_c('div', {
+    staticClass: "box box-primary"
+  }, [_c('div', {
+    staticClass: "box-body box-profile"
+  }, [_c('img', {
+    staticClass: "profile-user-img img-responsive img-circle",
+    attrs: {
+      "src": "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm",
+      "alt": "User profile picture"
+    }
+  }), _vm._v(" "), _c('h3', {
+    staticClass: "profile-username text-center"
+  }, [_vm._v("\n                        " + _vm._s(_vm.$auth.user().address_book.name) + "\n                    ")]), _vm._v(" "), _c('p', {
+    staticClass: "text-muted text-center"
+  }, [_vm._v("\n                        " + _vm._s(_vm.$auth.user().address_book.position) + "\n                    ")])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-md-8"
+  }, [_c('form', {
+    staticClass: "form-horizontal",
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.onSave($event)
+      }
+    }
+  }, [_c('div', {
+    staticClass: "box box-primary"
+  }, [(_vm.isLoading) ? _c('div', {
+    staticClass: "overlay"
+  }, [_c('i', {
+    staticClass: "fa fa-refresh fa-spin"
+  })]) : _vm._e(), _vm._v(" "), _vm._m(0), _vm._v(" "), (_vm.selectItem) ? _c('div', {
+    staticClass: "box-body"
+  }, [(_vm.status == 'success') ? _c('div', {
+    staticClass: "alert alert-success"
+  }, [_vm._v("\n                            " + _vm._s(_vm.message) + "\n                        ")]) : (_vm.status == 'error') ? _c('div', {
+    staticClass: "alert alert-error"
+  }, [_vm._v("\n                            " + _vm._s(_vm.message) + "\n                        ")]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.position ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputPosition"
+    }
+  }, [_vm._v("役職")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.position),
+      expression: "selectItem.position"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputPosition",
+      "placeholder": "役職"
+    },
+    domProps: {
+      "value": (_vm.selectItem.position)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.selectItem.position = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.position) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.position), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.name_kana ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputNameKana"
+    }
+  }, [_vm._v("名前(カナ)")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.name_kana),
+      expression: "selectItem.name_kana"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputNameKana",
+      "placeholder": "名前(カナ)"
+    },
+    domProps: {
+      "value": (_vm.selectItem.name_kana)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.selectItem.name_kana = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.name_kana) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.name_kana), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.name ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputName"
+    }
+  }, [_vm._v("名前")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.name),
+      expression: "selectItem.name"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputName",
+      "placeholder": "名前"
+    },
+    domProps: {
+      "value": (_vm.selectItem.name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.selectItem.name = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.name) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.name), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.groupid ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputGroup"
+    }
+  }, [_vm._v("所属グループ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.groupid),
+      expression: "selectItem.groupid"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "id": "inputGroup"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.selectItem.groupid = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, _vm._l((_vm.addressBookGroup[_vm.selectItem.type]), function(item) {
+    return _c('option', {
+      domProps: {
+        "value": item.id
+      }
+    }, [_vm._v("\n                                        " + _vm._s(item.full_group_name) + "\n                                    ")])
+  })), _vm._v(" "), (_vm.errors.groupid) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.groupid), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.tel1 ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputTel1"
+    }
+  }, [_vm._v("電話番号1")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.tel1),
+      expression: "selectItem.tel1"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputTel1",
+      "placeholder": "電話番号1"
+    },
+    domProps: {
+      "value": (_vm.selectItem.tel1)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.selectItem.tel1 = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.tel1) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.tel1), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.tel2 ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputTel2"
+    }
+  }, [_vm._v("電話番号2")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.tel2),
+      expression: "selectItem.tel2"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputTel2",
+      "placeholder": "電話番号2"
+    },
+    domProps: {
+      "value": (_vm.selectItem.tel2)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.selectItem.tel2 = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.tel2) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.tel2), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.tel3 ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputTel3"
+    }
+  }, [_vm._v("電話番号3")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.tel3),
+      expression: "selectItem.tel3"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputTel3",
+      "placeholder": "電話番号3"
+    },
+    domProps: {
+      "value": (_vm.selectItem.tel3)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.selectItem.tel3 = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.tel3) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.tel3), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.email ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputEmail"
+    }
+  }, [_vm._v("メールアドレス")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.email),
+      expression: "selectItem.email"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "email",
+      "id": "inputEmail",
+      "placeholder": "メールアドレス"
+    },
+    domProps: {
+      "value": (_vm.selectItem.email)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.selectItem.email = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.email) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.email), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.comment ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputComment"
+    }
+  }, [_vm._v("備考")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.selectItem.comment),
+      expression: "selectItem.comment"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputComment",
+      "placeholder": "備考"
+    },
+    domProps: {
+      "value": (_vm.selectItem.comment)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.selectItem.comment = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.comment) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.comment), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), _vm._m(1)])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "box-header with-border"
+  }, [_c('h3', {
+    staticClass: "box-title"
+  }, [_vm._v("\n                            内線電話帳情報\n                        ")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "box-footer"
+  }, [_c('button', {
+    staticClass: "btn btn-primary pull-right",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("保存")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-527cbe8e", module.exports)
   }
 }
 

@@ -11,7 +11,7 @@
                         <span>基本情報</span>
                     </router-link>
                 </li>
-                <li class="treeview">
+                <li class="treeview" v-if="$auth.user().address_book">
                     <router-link to="/User/AddressBook">
                         <i class="fa fa-address-book"></i>
                         <span>内線電話帳情報</span>

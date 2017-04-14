@@ -14,6 +14,7 @@ import User_Template from './components/User_Template.vue'
 import User_Sidebar from './components/User_Sidebar.vue'
 import User from './components/User.vue'
 import User_PasswordChange from './components/User_PasswordChange.vue'
+import User_AddressBook from './components/User_AddressBook.vue'
 
 import Login from './components/Login.vue'
 import PasswordReset from './components/PasswordReset.vue'
@@ -114,6 +115,16 @@ const routes = [
                         path: 'PasswordChange',
                         name: 'UserPasswordChange',
                         component: User_PasswordChange,
+                        meta: {
+                            title: 'ユーザ情報',
+                            description: 'User',
+                            auth: true
+                        },
+                    },
+                    {
+                        path: 'AddressBook',
+                        name: 'UserAddressBook',
+                        component: User_AddressBook,
                         meta: {
                             title: 'ユーザ情報',
                             description: 'User',
