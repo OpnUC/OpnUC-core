@@ -10,6 +10,11 @@ import AddressBookEdit from './components/AddressBookEdit.vue'
 import AddressBookGroup from './components/AddressBookGroup.vue'
 import AddressBookGroupEdit from './components/AddressBookGroupEdit.vue'
 
+import User_Template from './components/User_Template.vue'
+import User_Sidebar from './components/User_Sidebar.vue'
+import User from './components/User.vue'
+import User_PasswordChange from './components/User_PasswordChange.vue'
+
 import Login from './components/Login.vue'
 import PasswordReset from './components/PasswordReset.vue'
 import PasswordResetEmail from './components/PasswordResetEmail.vue'
@@ -87,6 +92,35 @@ const routes = [
                         },
                     },
                 ],
+            },
+            {
+                path: '/User',
+                components: {
+                    default: User_Template,
+                    sidebar: User_Sidebar
+                },
+                children: [
+                    {
+                        path: '',
+                        name: 'User',
+                        component: User,
+                        meta: {
+                            title: 'ユーザ情報',
+                            description: 'User',
+                            auth: true
+                        },
+                    },
+                    {
+                        path: 'PasswordChange',
+                        name: 'UserPasswordChange',
+                        component: User_PasswordChange,
+                        meta: {
+                            title: 'ユーザ情報',
+                            description: 'User',
+                            auth: true
+                        },
+                    },
+                ]
             },
             {
                 path: '/Login',

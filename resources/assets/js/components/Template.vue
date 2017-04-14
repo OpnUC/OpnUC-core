@@ -47,8 +47,9 @@
                                     </li>
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href=""
-                                               class="btn btn-default btn-flat">ユーザ情報</a>
+                                            <router-link to="/User" class="btn btn-default btn-flat">
+                                                ユーザ情報
+                                            </router-link>
                                         </div>
                                         <div class="pull-right">
                                             <button type="submit" class="btn btn-default btn-flat" v-on:click="signout">

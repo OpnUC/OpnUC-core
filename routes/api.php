@@ -34,6 +34,9 @@ Route::group([
         Route::get('/auth/user', 'AuthController@user');
         Route::post('/auth/logout', 'AuthController@logout');
 
+        Route::post('/user/edit', 'UserController@edit');
+        Route::post('/user/passwordChange', 'UserController@passwordChange');
+
         Route::post('/click2call/originate', 'Click2CallController@originate');
 
         Route::get('/cdr/search', 'CdrController@search');
