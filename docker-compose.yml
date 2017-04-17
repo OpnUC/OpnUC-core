@@ -1,0 +1,49 @@
+version: '2'
+services:
+  app:
+    restart: always
+    build:
+      context: ./
+      dockerfile: deploy/app.docker
+    volumes:
+      - ./:/var/www
+    links:
+      - redis
+      - mysql
+  web:
+    restart: always
+    image: nginx:1.11-alpine
+    volumes:
+      - ./deploy/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./:/var/www
+    ports:
+      - 80:80
+    links:
+      - app
+  mysql:
+    restart: always
+    image: mysql:latest
+    volumes:
+      - ./deploy/mysql/database/:/var/lib/mysql
+      - ./deploy/mysql/conf.d/:/etc/mysql/conf.d/
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_USER=opnuc
+      - MYSQL_DATABASE=opnuc
+      - MYSQL_PASSWORD=opnuc
+  redis:
+    restart: always
+    image: redis:alpine
+  laravel-echo:
+    restart: always
+#    image: lagun4ik/laravel-echo-server
+    build:
+      context: ./
+      dockerfile: deploy/laravel-echo.docker
+    volumes:
+      - ./deploy/laravel-echo/:/app
+    ports:
+      - 6001:6001
+    links:
+      - web
+      - redis
