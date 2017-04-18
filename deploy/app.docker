@@ -6,6 +6,4 @@ RUN apk --update add git libmcrypt-dev mysql-client && \
 RUN curl -sS https://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
-ADD deploy/app_setup.sh /var/www
-
 WORKDIR /var/www
