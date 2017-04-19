@@ -14,5 +14,10 @@ database:
     - php artisan migrate
 
 test:
+  pre:
+    - cp .env.example .env
+    - php artisan key:generate
+    - php artisan migrate
+    - php artisan db:seed
   override:
     - vendor/bin/phpunit -d memory_limit=512M
