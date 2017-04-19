@@ -6,6 +6,7 @@ machine:
     DB_DATABASE: circle_test
     DB_USERNAME: ubuntu
     DB_PASSWORD:
+    CACHE_DRIVER: array
   php:
     version: 5.6.22
 
