@@ -16,6 +16,11 @@ import User from './components/User.vue'
 import User_PasswordChange from './components/User_PasswordChange.vue'
 import User_AddressBook from './components/User_AddressBook.vue'
 
+import Admin_Template from './components/Admin_Template.vue'
+import Admin_Sidebar from './components/Admin_Sidebar.vue'
+import Admin from './components/Admin.vue'
+import Admin_Users from './components/Admin_Users.vue'
+
 import Login from './components/Login.vue'
 import PasswordReset from './components/PasswordReset.vue'
 import PasswordResetEmail from './components/PasswordResetEmail.vue'
@@ -129,6 +134,35 @@ const routes = [
                             title: 'ユーザ情報',
                             description: 'User',
                             auth: true
+                        },
+                    },
+                ]
+            },
+            {
+                path: '/Admin',
+                components: {
+                    default: Admin_Template,
+                    sidebar: Admin_Sidebar
+                },
+                children: [
+                    {
+                        path: '',
+                        name: 'Admin',
+                        component: Admin,
+                        meta: {
+                            title: 'システム管理',
+                            description: 'System Administration',
+                            auth: 'system-admin'
+                        },
+                    },
+                    {
+                        path: 'Users',
+                        name: 'Admin_Users',
+                        component: Admin_Users,
+                        meta: {
+                            title: 'システム管理',
+                            description: 'System Administration',
+                            auth: 'system-admin'
                         },
                     },
                 ]

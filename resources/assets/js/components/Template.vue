@@ -40,9 +40,12 @@
                                             {{ $auth.user().display_name }}
                                         </p>
                                     </li>
-                                    <li class="user-body">
+                                    <li class="user-body" v-if="$auth.check('system-admin')">
                                         <div class="col-xs-12 text-center">
-                                            <a href="">ユーザ管理</a>
+                                            <router-link to="/Admin">
+                                                <i class="fa fa-cog"></i>
+                                                システム管理
+                                            </router-link>
                                         </div>
                                     </li>
                                     <li class="user-footer">
