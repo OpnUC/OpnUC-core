@@ -1,8 +1,8 @@
 <template>
     <div>
-        <!--<router-link :to="{ name: 'AddressBookEdit', params: { id: rowData.id }}" class="btn btn-default btn-xs">-->
-            <!--<i class="fa fa-edit"></i> 編集-->
-        <!--</router-link>-->
+        <router-link :to="{ name: 'AdminUserEdit', params: { id: rowData.id }}" class="btn btn-default btn-xs">
+            <i class="fa fa-edit"></i> 編集
+        </router-link>
         <button type="button" class="btn btn-default btn-xs" v-on:click.prevent="onDelete">
             <i class="fa fa-times"></i> 削除
         </button>
@@ -19,7 +19,7 @@
         methods:{
             // 削除
             onDelete() {
-//                this.$events.$emit('AddressBook:delete', this.rowData)
+                this.$events.$emit('AdminUser:delete', this.rowData)
             },
         },
     }

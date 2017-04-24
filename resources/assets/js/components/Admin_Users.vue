@@ -10,6 +10,12 @@
                 </h3>
             </div>
             <div class="box-body">
+                <div class="pull-left">
+                    <router-link :to="{ name: 'AdminUserEdit'}" class="btn btn-default">
+                        <i class="fa fa-plus"></i>
+                        ユーザの追加
+                    </router-link>
+                </div>
                 <div class="form-inline pull-right">
                     <label>
                         1ページの件数：
@@ -26,7 +32,6 @@
                           :css="css"
                           :fields="fields"
                           :sort-order="sortOrder"
-                          :append-params="searchParam"
                           detail-row-id="id"
                           :per-page="perPage"
                           @vuetable:pagination-data="onPaginationData"
@@ -63,8 +68,8 @@
                 // Vuetableのパラメタ
                 sortOrder: [
                     {
-                        field: '__component:columnName',
-                        sortField: 'name_kana',
+                        field: 'id',
+                        sortField: 'id',
                         direction: 'asc'
                     }
                 ],
@@ -111,11 +116,6 @@
                         titleClass: 'columnAction',
                     },
                 ],
-                searchParam: {
-                    typeId: null,
-                    groupId: null,
-                    keyword: null,
-                },
                 // ここまで：Vuetableのパラメタ
                 detailDialog: {
                     visible: false,
@@ -163,20 +163,20 @@
         },
         events: {
             // 詳細の表示(ColumNameからのイベント)
-            'AddressBook:showDetail': function (item) {
+            'AdminUser:showDetail': function (item) {
                 this.detailDialog.visible = true
                 this.detailDialog.selectItem = item
             },
             // 削除(ColumnActionからのイベント)
-            'AddressBook:delete': function (item) {
+            'AdminUser:delete': function (item) {
                 var _this = this
 
-                this.$confirm('選択された連絡先を削除しても良いですか？', '確認', {
+                this.$confirm('選択されたユーザを削除しても良いですか？', '確認', {
                     confirmButtonText: '削除',
                     cancelButtonText: 'キャンセル',
                     type: 'warning'
                 }).then(() => {
-                    axios.post('/addressbook/delete',
+                    axios.post('/admin/userDelete',
                         {
                             id: item.id
                         })
