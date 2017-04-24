@@ -32,6 +32,7 @@ class AddressBookRequest extends FormRequest
             'tel2' => 'nullable|numeric',
             'tel3' => 'nullable|numeric',
             'email' => 'nullable|email',
+            'owner_userid' => 'nullable|numeric|unique:address_books,owner_userid,' . $this['id'],
         ];
     }
 
@@ -46,6 +47,7 @@ class AddressBookRequest extends FormRequest
             'tel2.numeric' => '電話番号2は半角数字で入力してください。',
             'tel3.numeric' => '電話番号3は半角数字で入力してください。',
             'email.email' => 'メールアドレスはメールアドレスの形式で入力してください。',
+            'owner_userid.unique' => '選択されたユーザはすでに別の電話帳を持っています。',
         ];
     }
 

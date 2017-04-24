@@ -3186,6 +3186,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3199,6 +3224,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             errors: [],
             // 読み込み中かどうか
             isLoading: true,
+            selOwnerLoading: false,
+            selOwnerItems: [],
             // ページ上のデータ
             addressBookType: [],
             addressBookGroup: []
@@ -3219,6 +3246,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // 編集処理
             axios.post('/addressbook/edit', _this.selectItem).then(function (response) {
                 _this.isLoading = false;
+
+                // 一覧ページに戻す
+                _this.$router.push({
+                    path: '/AddressBook',
+                    query: {
+                        typeId: _this.selectItem.type,
+                        groupId: _this.selectItem.groupid
+                    }
+                });
 
                 _this.$message({
                     type: response.data.status,
@@ -3251,6 +3287,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     id: this.$route.params.id
                 }
             }).then(function (response) {
+                // UIが崩れるため、0の場合は空白とする
+                if (response.data.owner_userid === 0) {
+                    response.data.owner_userid = '';
+                }
+
                 _this.selectItem = response.data;
 
                 _this.isLoading = false;
@@ -3276,6 +3317,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.addressBookType = this.$parent.$data.addressBookType;
         this.$root.sidebar = this.$route.matched.some(function (record) {
             return record.components.sidebar;
+        });
+
+        var _this = this;
+
+        // ユーザ一覧を取得
+        axios.get('/admin/users').then(function (response) {
+            _this.selOwnerLoading = false;
+            _this.selOwnerItems = response.data.data;
+        }).catch(function (error) {
+            console.log(error);
         });
     }
 };
@@ -6301,7 +6352,7 @@ exports.push([module.i, "\n[v-cloak] {\n  display: none;\n}\n.vuetable th.sortab
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 241 */
@@ -37871,7 +37922,41 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "help-block"
   }, [_c('ul', _vm._l((_vm.errors.comment), function(item) {
     return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
-  }))]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), _vm._m(1)])])])])])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.owner_userid ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputOwnerUserId"
+    }
+  }, [_vm._v("所有ユーザ")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('el-select', {
+    attrs: {
+      "filterable": "",
+      "clearable": "true",
+      "placeholder": "所有ユーザ"
+    },
+    model: {
+      value: (_vm.selectItem.owner_userid),
+      callback: function($$v) {
+        _vm.selectItem.owner_userid = $$v
+      },
+      expression: "selectItem.owner_userid"
+    }
+  }, _vm._l((_vm.selOwnerItems), function(item) {
+    return _c('el-option', {
+      attrs: {
+        "label": item.display_name + ' / ' + item.username,
+        "value": item.id
+      }
+    })
+  })), _vm._v(" "), (_vm.errors.owner_userid) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.owner_userid), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()], 1)])]) : _vm._e(), _vm._v(" "), _vm._m(1)])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box-header with-border"

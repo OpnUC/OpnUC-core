@@ -29,13 +29,25 @@ class AdminController extends Controller
     {
 
         // 権限チェック
-        if (!\Entrust::can('system-admin')) {
+        // アドレス帳の中でも利用するため、権限を開ける
+        if (!\Entrust::can('system-admin') || !\Entrust::can('addressbook-admin')) {
             abort(403);
         }
 
         $column = ['id', 'username', 'display_name', 'email', 'created_at'];
 
         $items = \App\User::select($column);
+
+        // キーワードで絞り込み
+        if (strlen($request['keyword']) != 0) {
+            $items = $items
+                ->where(function ($query) use ($request) {
+                    $query
+                        ->orWhere('username', 'like', '%' . $request['keyword'] . '%')
+                        ->orWhere('display_name', 'like', '%' . $request['keyword'] . '%')
+                        ->orWhere('email', 'like', '%' . $request['keyword'] . '%');
+                });
+        }
 
         $sort = explode('|', $request['sort']);
         // Sort

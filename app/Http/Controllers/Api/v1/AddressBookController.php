@@ -347,6 +347,8 @@ class AddressBookController extends Controller
         $record->tel3 = $request['tel3'];
         $record->email = $request['email'];
         $record->comment = $request['comment'];
+        // 数値で無い場合は0とする
+        $record->owner_userid = intval($request['owner_userid']) ? intval($request['owner_userid']) : 0;
         $record->save();
 
         return response([

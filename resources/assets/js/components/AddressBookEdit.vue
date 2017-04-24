@@ -192,6 +192,31 @@
                                     </span>
                                 </div>
                             </div>
+
+                            <div class="form-group" :class="errors.owner_userid ? 'has-error' : ''">
+                                <label class="control-label col-xs-3" for="inputOwnerUserId">所有ユーザ</label>
+                                <div class="col-xs-7">
+                                    <el-select
+                                            v-model="selectItem.owner_userid"
+                                            filterable
+                                            clearable="true"
+                                            placeholder="所有ユーザ">
+                                        <el-option
+                                                v-for="item in selOwnerItems"
+                                                :label="item.display_name + ' / ' + item.username"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                    <span class="help-block" v-if="errors.owner_userid">
+                                        <ul>
+                                            <li v-for="item in errors.owner_userid">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary pull-right">保存</button>
@@ -215,6 +240,8 @@
                 errors: [],
                 // 読み込み中かどうか
                 isLoading: true,
+                selOwnerLoading: false,
+                selOwnerItems: [],
                 // ページ上のデータ
                 addressBookType: [],
                 addressBookGroup: [],
@@ -235,6 +262,15 @@
                 axios.post('/addressbook/edit', _this.selectItem)
                     .then(function (response) {
                         _this.isLoading = false
+
+                        // 一覧ページに戻す
+                        _this.$router.push({
+                            path: '/AddressBook',
+                            query: {
+                                typeId: _this.selectItem.type,
+                                groupId: _this.selectItem.groupid,
+                            }
+                        })
 
                         _this.$message({
                             type: response.data.status,
@@ -270,6 +306,11 @@
                     }
                 })
                     .then(function (response) {
+                        // UIが崩れるため、0の場合は空白とする
+                        if (response.data.owner_userid === 0) {
+                            response.data.owner_userid = ''
+                        }
+
                         _this.selectItem = response.data
 
                         _this.isLoading = false
@@ -294,6 +335,18 @@
             this.addressBookGroup = this.$parent.$data.addressBookGroup
             this.addressBookType = this.$parent.$data.addressBookType
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar)
+
+            var _this = this
+
+            // ユーザ一覧を取得
+            axios.get('/admin/users')
+                .then(function (response) {
+                    _this.selOwnerLoading = false;
+                    _this.selOwnerItems = response.data.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
     }
 </script>
