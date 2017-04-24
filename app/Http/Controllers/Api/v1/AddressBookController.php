@@ -237,11 +237,11 @@ class AddressBookController extends Controller
 
         // 権限が無い場合は、個人電話帳のみとする
         // ToDo 所有者チェック
-        if (!\Entrust::can('edit-addressbook') && $address['type'] != 9) {
+        if (!\Entrust::can('addressbook-admin') && $address['type'] != 9) {
             return response([
                 'status' => 'error',
                 'message' => '選択された連絡先を削除する権限がありません。'
-            ]);
+            ], 403);
         }
 
         $address->delete();

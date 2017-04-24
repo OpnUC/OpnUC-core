@@ -315,7 +315,7 @@
                         .catch(function (error) {
                             _this.$message({
                                 type: 'error',
-                                message: '削除に失敗しました。'
+                                message: '削除に失敗しました。' + error.response.data.message
                             });
                         });
                 }).catch(function (error) {
