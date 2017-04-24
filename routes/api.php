@@ -34,6 +34,7 @@ Route::group([
         Route::get('/auth/user', 'AuthController@user');
         Route::post('/auth/logout', 'AuthController@logout');
 
+        Route::get('/admin/roles', 'AdminController@roles');
         Route::get('/admin/users', 'AdminController@users');
         Route::get('/admin/user', 'AdminController@user');
         Route::post('/admin/userEdit', 'AdminController@userEdit');

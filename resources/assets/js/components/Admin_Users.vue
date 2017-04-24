@@ -58,8 +58,10 @@
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
     import columnAction from './Admin_Users_ColumnAction.vue'
+    import columnRole from './Admin_Users_ColumnRole.vue'
 
     Vue.component('columnAction', columnAction)
+    Vue.component('columnRole', columnRole)
 
     export default {
         data() {
@@ -104,11 +106,17 @@
                         name: 'username',
                         title: 'ユーザ名',
                         sortField: 'username',
+                        titleClass: 'columnUsername',
                     },
                     {
                         name: 'display_name',
                         title: '表示名',
                         sortField: 'display_name',
+                    },
+                    {
+                        name: '__component:columnRole',
+                        title: 'ロール',
+                        titleClass: 'columnRole',
                     },
                     {
                         name: '__component:columnAction',
@@ -217,6 +225,14 @@
 
     .vuetable th.columnId {
         width: 50px;
+    }
+
+    .vuetable th.columnUsername {
+        width: 150px;
+    }
+
+    .vuetable th.columnRole {
+        width: 200px;
     }
 
     .vuetable th.columnAction {

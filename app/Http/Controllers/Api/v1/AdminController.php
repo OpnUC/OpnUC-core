@@ -118,4 +118,23 @@ class AdminController extends Controller
 
     }
 
+    /**
+     * ロール一覧
+     */
+    public function roles()
+    {
+
+        // 権限チェック
+        if (!\Entrust::can('system-admin')) {
+            abort(403);
+        }
+
+        $column = ['id', 'name', 'display_name', 'description'];
+
+        $items = \App\Role::All($column);
+
+        return \Response::json($items);
+
+    }
+
 }

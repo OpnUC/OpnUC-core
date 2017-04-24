@@ -35,6 +35,7 @@ class User extends Authenticatable
     protected $appends = array(
         'address_book',
         'roles',
+        'permissions',
     );
 
     /**
@@ -62,10 +63,28 @@ class User extends Authenticatable
         $result = array();
         $roles = $this->roles()->get();
 
-        foreach ($roles as $role){
+        foreach ($roles as $role) {
+            $result[] = $role->name;
+        }
+
+        return $result;
+
+    }
+
+    /**
+     * 権限情報を取得
+     * @return array
+     */
+    public function getPermissionsAttribute()
+    {
+
+        $result = array();
+        $roles = $this->roles()->get();
+
+        foreach ($roles as $role) {
             $perms = $role->perms()->get();
 
-            foreach ($perms as $perm){
+            foreach ($perms as $perm) {
                 $result[] = $perm->name;
             }
         }
