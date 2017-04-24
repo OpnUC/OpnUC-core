@@ -64,7 +64,7 @@ class User extends Authenticatable
         $roles = $this->roles()->get();
 
         foreach ($roles as $role) {
-            $result[] = $role->name;
+            $result[] = $role->id;
         }
 
         return $result;

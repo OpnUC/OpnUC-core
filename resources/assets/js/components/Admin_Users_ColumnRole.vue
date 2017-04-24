@@ -26,11 +26,8 @@
             axios.get('/admin/roles')
                 .then(function (response) {
                     $.each(response.data, function (index, val) {
-                        _this.roles[val.name] = val.display_name
+                        Vue.set(_this.roles, val.id, val.display_name)
                     });
-                    // ゴミをセットして更新させる
-                    // ToDo 見直し必要
-                    Vue.set(_this.roles, [])
                 })
                 .catch(function (error) {
                     console.log(error);

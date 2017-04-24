@@ -4104,6 +4104,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -4116,7 +4136,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             message: null,
             errors: [],
             // 読み込み中かどうか
-            isLoading: true
+            isLoading: true,
+            roles: []
         };
     },
 
@@ -4182,8 +4203,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     created: function created() {
+        var _this = this;
         this.$root.sidebar = this.$route.matched.some(function (record) {
             return record.components.sidebar;
+        });
+
+        axios.get('/admin/roles').then(function (response) {
+            _this.roles = response.data;
+        }).catch(function (error) {
+            console.log(error);
         });
     }
 };
@@ -4478,7 +4506,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         axios.get('/admin/roles').then(function (response) {
             $.each(response.data, function (index, val) {
-                _this.roles[val.name] = val.display_name;
+                __WEBPACK_IMPORTED_MODULE_0_vue___default.a.set(_this.roles, val.id, val.display_name);
             });
             // ゴミをセットして更新させる
             // ToDo 見直し必要
@@ -39058,6 +39086,40 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('ul', _vm._l((_vm.errors.email), function(item) {
     return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
   }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.roles ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputRoles"
+    }
+  }, [_vm._v("所属ロール")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('el-select', {
+    attrs: {
+      "id": "inputRoles",
+      "multiple": "",
+      "placeholder": "所属ロール"
+    },
+    model: {
+      value: (_vm.selectItem.roles),
+      callback: function($$v) {
+        _vm.selectItem.roles = $$v
+      },
+      expression: "selectItem.roles"
+    }
+  }, _vm._l((_vm.roles), function(role) {
+    return _c('el-option', {
+      attrs: {
+        "label": role.display_name,
+        "value": role.id
+      }
+    })
+  })), _vm._v(" "), (_vm.errors.roles) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.roles), function(item) {
+    return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
+  }))]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
     staticClass: "form-group",
     class: _vm.errors.password ? 'has-error' : ''
   }, [_c('label', {

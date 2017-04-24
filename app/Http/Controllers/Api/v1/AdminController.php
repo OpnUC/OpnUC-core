@@ -111,6 +111,25 @@ class AdminController extends Controller
 
         $record->save();
 
+        $diffRole = array_diff($record->roles, $request['roles']);
+
+        // ロールから外す
+        foreach ($diffRole as $roleId) {
+            $role = \App\Role::find($roleId);
+            $record->detachRole($role);
+        }
+
+        // ロールを割り当てる
+        foreach ($request['roles'] as $roleId) {
+            //
+            if(in_array( $roleId, $record->roles)){
+                continue;
+            }
+
+            $role = \App\Role::find($roleId);
+            $record->attachRole($role);
+        }
+
         return response([
             'status' => 'success',
             'message' => 'ユーザの追加・編集が完了しました。'

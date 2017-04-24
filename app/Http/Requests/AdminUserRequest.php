@@ -24,6 +24,7 @@ class AdminUserRequest extends FormRequest
             'username' => 'required|regex:/^[a-zA-Z0-9]+$/|unique:users,username,' . $this['id'],
             'display_name' => 'required',
             'email' => 'required|email|unique:users,email,' . $this['id'],
+            'roles' => 'required|array|min:1',
         ];
 
         if ($this['id'] === '') {
@@ -54,6 +55,7 @@ class AdminUserRequest extends FormRequest
             'email.required' => 'メールアドレスは必ず入力して下さい。',
             'email.unique' => '入力されたメールアドレスはすでに登録されています。別のメールアドレスを入力してください。',
             'email.email' => 'メールアドレスはメールアドレスの形式で入力して下さい。',
+            'roles.required' => '所属ロールは必ず選択して下さい。',
             'password.required' => 'パスワードは必ず入力して下さい。',
             'password.min' => 'パスワードは6文字以上入力して下さい。',
             'password.confirmed' => 'パスワードと新しいパスワード(確認)が一致しません。',

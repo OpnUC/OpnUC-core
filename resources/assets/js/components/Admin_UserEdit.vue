@@ -80,6 +80,26 @@
                                 </div>
                             </div>
 
+                            <div class="form-group" :class="errors.roles ? 'has-error' : ''">
+                                <label class="control-label col-xs-3" for="inputRoles">所属ロール</label>
+                                <div class="col-xs-7">
+                                    <el-select id="inputRoles" v-model="selectItem.roles" multiple placeholder="所属ロール">
+                                        <el-option
+                                                v-for="role in roles"
+                                                :label="role.display_name"
+                                                :value="role.id">
+                                        </el-option>
+                                    </el-select>
+                                    <span class="help-block" v-if="errors.roles">
+                                        <ul>
+                                            <li v-for="item in errors.roles">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
+                                </div>
+                            </div>
+
                             <div class="form-group" :class="errors.password ? 'has-error' : ''">
                                 <label class="control-label col-xs-3" for="inputPassword">パスワード</label>
                                 <div class="col-xs-7">
@@ -139,6 +159,7 @@
                 errors: [],
                 // 読み込み中かどうか
                 isLoading: true,
+                roles: [],
             }
         },
         methods: {
@@ -208,7 +229,16 @@
             }
         },
         created() {
+            var _this = this
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar)
+
+            axios.get('/admin/roles')
+                .then(function (response) {
+                    _this.roles = response.data
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
     }
 </script>
