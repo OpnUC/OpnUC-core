@@ -36,7 +36,51 @@
                           detail-row-id="id"
                           :per-page="perPage"
                           @vuetable:pagination-data="onPaginationData"
-                          pagination-path=""></vuetable>
+                          pagination-path="">
+                    <template slot="avatar" scope="props">
+                        <div class="image">
+                            <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm&amp;s=60"
+                                 class="img-circle"
+                                 alt="User Image">
+                        </div>
+                    </template>
+                    <template slot="name" scope="props">
+                        <div>
+                            <div v-if="props.rowData.position">
+                                <small>{{ props.rowData.position }}</small>
+                            </div>
+                            <a href="" v-on:click.prevent="showDetail(props.rowData)" :title="props.rowData.name_kana">{{
+                                props.rowData.name }}</a>
+                        </div>
+                    </template>
+                    <template slot="contact" scope="props">
+                        <div>
+                            <tel-contact :number="props.rowData.tel1" :status="props.rowData.tel1_status">
+                            </tel-contact>
+                            <tel-contact :number="props.rowData.tel2" :status="props.rowData.tel2_status">
+                            </tel-contact>
+                            <tel-contact :number="props.rowData.tel3" :status="props.rowData.tel3_status">
+                            </tel-contact>
+                            <div v-if="props.rowData.email">
+                                <i class="fa fa-envelope"></i> <a :href="`mailto:${props.rowData.email}`">{{
+                                props.rowData.email }}</a>
+                            </div>
+                        </div>
+                    </template>
+                    <template slot="actions" scope="props">
+                        <div>
+                            <router-link v-if="$auth.check('addressbook-admin')"
+                                         :to="{ name: 'AddressBookEdit', params: { id: props.rowData.id }}"
+                                         class="btn btn-default btn-xs">
+                                <i class="fa fa-edit"></i> 編集
+                            </router-link>
+                            <button v-if="$auth.check('addressbook-admin')" type="button" class="btn btn-default btn-xs"
+                                    v-on:click.prevent="onDelete(props.rowData)">
+                                <i class="fa fa-times"></i> 削除
+                            </button>
+                        </div>
+                    </template>
+                </vuetable>
                 <div class="vuetable-pagination ui basic segment grid">
                     <vuetable-pagination-info ref="paginationInfo"
                                               info-class="pull-left">
@@ -100,7 +144,8 @@
                         電話番号1
                     </th>
                     <td>
-                        <tel-contact :number="detailDialog.selectItem.tel1" :status="detailDialog.selectItem.tel1_status">
+                        <tel-contact :number="detailDialog.selectItem.tel1"
+                                     :status="detailDialog.selectItem.tel1_status">
                         </tel-contact>
                     </td>
                 </tr>
@@ -109,7 +154,8 @@
                         電話番号2
                     </th>
                     <td>
-                        <tel-contact :number="detailDialog.selectItem.tel2" :status="detailDialog.selectItem.tel2_status">
+                        <tel-contact :number="detailDialog.selectItem.tel2"
+                                     :status="detailDialog.selectItem.tel2_status">
                         </tel-contact>
                     </td>
                 </tr>
@@ -118,7 +164,8 @@
                         電話番号3
                     </th>
                     <td>
-                        <tel-contact :number="detailDialog.selectItem.tel3" :status="detailDialog.selectItem.tel3_status">
+                        <tel-contact :number="detailDialog.selectItem.tel3"
+                                     :status="detailDialog.selectItem.tel3_status">
                         </tel-contact>
                     </td>
                 </tr>
@@ -152,15 +199,6 @@
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
-    import columnAvatar from './AddressBook_ColumnAvatar.vue'
-    import columnName from './AddressBook_ColumnName.vue'
-    import columnContact from './AddressBook_ColumnContact.vue'
-    import columnAction from './AddressBook_ColumnAction.vue'
-
-    Vue.component('columnAvatar', columnAvatar)
-    Vue.component('columnName', columnName)
-    Vue.component('columnContact', columnContact)
-    Vue.component('columnAction', columnAction)
 
     export default {
         data() {
@@ -169,7 +207,7 @@
                 // Vuetableのパラメタ
                 sortOrder: [
                     {
-                        field: '__component:columnName',
+                        field: '__slot:name',
                         sortField: 'name_kana',
                         direction: 'asc'
                     }
@@ -196,19 +234,19 @@
                 },
                 fields: [
                     {
-                        name: '__component:columnAvatar',
+                        name: '__slot:avatar',
                         title: '',
                         titleClass: 'columnAvatar',
                         dataClass: 'text-center',
                     },
                     {
-                        name: '__component:columnName',
+                        name: '__slot:name',
                         title: '役職/名前',
                         sortField: 'name_kana',
                         titleClass: 'columnName',
                     },
                     {
-                        name: '__component:columnContact',
+                        name: '__slot:contact',
                         title: '連絡先',
                         sortField: 'tel1',
                         titleClass: 'columnContact',
@@ -218,7 +256,7 @@
                         title: '備考',
                     },
                     {
-                        name: '__component:columnAction',
+                        name: '__slot:actions',
                         title: '操作',
                         titleClass: 'columnAction',
                     },
@@ -248,6 +286,42 @@
             VuetablePaginationInfo
         },
         methods: {
+            // 詳細の表示
+            showDetail(item) {
+                this.detailDialog.visible = true
+                this.detailDialog.selectItem = item
+            },
+            // 削除
+            onDelete(item) {
+                var _this = this
+
+                this.$confirm('選択された連絡先を削除しても良いですか？', '確認', {
+                    confirmButtonText: '削除',
+                    cancelButtonText: 'キャンセル',
+                    type: 'warning'
+                }).then(() => {
+                    axios.post('/addressbook/delete',
+                        {
+                            id: item.id
+                        })
+                        .then(function (response) {
+                            _this.$message({
+                                type: 'success',
+                                message: '削除が完了しました。'
+                            });
+
+                            _this.$refs.vuetable.refresh()
+                        })
+                        .catch(function (error) {
+                            _this.$message({
+                                type: 'error',
+                                message: '削除に失敗しました。'
+                            });
+                        });
+                }).catch(function (error) {
+                    console.log(error.message);
+                });
+            },
             onPaginationData (paginationData) {
                 this.$refs.pagination.setPaginationData(paginationData)
                 this.$refs.paginationInfo.setPaginationData(paginationData)
@@ -321,45 +395,9 @@
             },
         },
         events: {
-             // グループ情報が更新された場合
+            // グループ情報が更新された場合
             'AddressBook:updateGroup': function (group) {
                 this.addressBookGroup = group
-            },
-            // 詳細の表示(ColumNameからのイベント)
-            'AddressBook:showDetail': function (item) {
-                this.detailDialog.visible = true
-                this.detailDialog.selectItem = item
-            },
-            // 削除(ColumnActionからのイベント)
-            'AddressBook:delete': function (item) {
-                var _this = this
-
-                this.$confirm('選択された連絡先を削除しても良いですか？', '確認', {
-                    confirmButtonText: '削除',
-                    cancelButtonText: 'キャンセル',
-                    type: 'warning'
-                }).then(() => {
-                    axios.post('/addressbook/delete',
-                        {
-                            id: item.id
-                        })
-                        .then(function (response) {
-                            _this.$message({
-                                type: 'success',
-                                message: '削除が完了しました。'
-                            });
-
-                            _this.$refs.vuetable.refresh()
-                        })
-                        .catch(function (error) {
-                            _this.$message({
-                                type: 'error',
-                                message: '削除に失敗しました。'
-                            });
-                        });
-                }).catch(function (error) {
-                    console.log(error.message);
-                });
             },
         }
     }

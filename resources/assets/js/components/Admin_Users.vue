@@ -35,7 +35,20 @@
                           detail-row-id="id"
                           :per-page="perPage"
                           @vuetable:pagination-data="onPaginationData"
-                          pagination-path=""></vuetable>
+                          pagination-path="">
+                    <template slot="actions" scope="props">
+                        <div>
+                            <router-link :to="{ name: 'AdminUserEdit', params: { id: props.rowData.id }}"
+                                         class="btn btn-default btn-xs">
+                                <i class="fa fa-edit"></i> 編集
+                            </router-link>
+                            <button type="button" class="btn btn-default btn-xs"
+                                    v-on:click.prevent="onDelete(props.rowData)">
+                                <i class="fa fa-times"></i> 削除
+                            </button>
+                        </div>
+                    </template>
+                </vuetable>
                 <div class="vuetable-pagination ui basic segment grid">
                     <vuetable-pagination-info ref="paginationInfo"
                                               info-class="pull-left">
@@ -50,16 +63,11 @@
         </div>
     </section>
 </template>
-
 <script>
-
     import Vue from 'vue'
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
-    import columnAction from './Admin_Users_ColumnAction.vue'
-
-    Vue.component('columnAction', columnAction)
 
     export default {
         data() {
@@ -118,7 +126,7 @@
                         titleClass: 'columnRole',
                     },
                     {
-                        name: '__component:columnAction',
+                        name: '__slot:actions',
                         title: '操作',
                         titleClass: 'columnAction',
                     },
@@ -148,6 +156,37 @@
                 })
 
                 return buffer
+            },
+            // 削除
+            onDelete(item) {
+                var _this = this
+
+                this.$confirm('選択されたユーザを削除しても良いですか？', '確認', {
+                    confirmButtonText: '削除',
+                    cancelButtonText: 'キャンセル',
+                    type: 'warning'
+                }).then(() => {
+                    axios.post('/admin/userDelete',
+                        {
+                            id: item.id
+                        })
+                        .then(function (response) {
+                            _this.$message({
+                                type: 'success',
+                                message: '削除が完了しました。'
+                            });
+
+                            _this.$refs.vuetable.refresh()
+                        })
+                        .catch(function (error) {
+                            _this.$message({
+                                type: 'error',
+                                message: '削除に失敗しました。'
+                            });
+                        });
+                }).catch(function (error) {
+                    console.log(error.message);
+                });
             },
             onPaginationData (paginationData) {
                 this.$refs.pagination.setPaginationData(paginationData)
@@ -180,6 +219,7 @@
             var _this = this
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar)
 
+            // ロール一覧を取得
             axios.get('/admin/roles')
                 .then(function (response) {
                     $.each(response.data, function (index, val) {
@@ -190,44 +230,6 @@
                     console.log(error);
                 });
         },
-        events: {
-            // 詳細の表示(ColumNameからのイベント)
-            'AdminUser:showDetail': function (item) {
-                this.detailDialog.visible = true
-                this.detailDialog.selectItem = item
-            },
-            // 削除(ColumnActionからのイベント)
-            'AdminUser:delete': function (item) {
-                var _this = this
-
-                this.$confirm('選択されたユーザを削除しても良いですか？', '確認', {
-                    confirmButtonText: '削除',
-                    cancelButtonText: 'キャンセル',
-                    type: 'warning'
-                }).then(() => {
-                    axios.post('/admin/userDelete',
-                        {
-                            id: item.id
-                        })
-                        .then(function (response) {
-                            _this.$message({
-                                type: 'success',
-                                message: '削除が完了しました。'
-                            });
-
-                            _this.$refs.vuetable.refresh()
-                        })
-                        .catch(function (error) {
-                            _this.$message({
-                                type: 'error',
-                                message: '削除に失敗しました。'
-                            });
-                        });
-                }).catch(function (error) {
-                    console.log(error.message);
-                });
-            },
-        }
     }
 </script>
 <style>
