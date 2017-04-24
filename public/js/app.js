@@ -4197,7 +4197,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         } else {
-            _this.selectItem = {};
+            _this.selectItem = {
+                // selectは配列として初期化する必要あり
+                roles: []
+            };
 
             _this.isLoading = false;
         }

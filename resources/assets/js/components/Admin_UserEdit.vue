@@ -223,6 +223,8 @@
                     });
             } else {
                 _this.selectItem = {
+                    // selectは配列として初期化する必要あり
+                    roles: [],
                 }
 
                 _this.isLoading = false

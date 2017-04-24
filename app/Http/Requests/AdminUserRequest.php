@@ -27,7 +27,7 @@ class AdminUserRequest extends FormRequest
             'roles' => 'required|array|min:1',
         ];
 
-        if ($this['id'] === '') {
+        if (!isset($this['id']) || $this['id'] === '') {
             // 新規なのでパスワード必須
             $rules += [
                 'password' => 'required|min:6|confirmed',
