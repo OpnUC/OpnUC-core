@@ -58,10 +58,8 @@
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
     import columnAction from './Admin_Users_ColumnAction.vue'
-    import columnRole from './Admin_Users_ColumnRole.vue'
 
     Vue.component('columnAction', columnAction)
-    Vue.component('columnRole', columnRole)
 
     export default {
         data() {
@@ -114,7 +112,8 @@
                         sortField: 'display_name',
                     },
                     {
-                        name: '__component:columnRole',
+                        name: 'roles',
+                        callback: 'formatRoles',
                         title: 'ロール',
                         titleClass: 'columnRole',
                     },
@@ -131,6 +130,7 @@
                 },
                 // 読み込み中かどうか
                 isLoading: true,
+                roles: [],
             }
         },
         components: {
@@ -139,6 +139,16 @@
             VuetablePaginationInfo
         },
         methods: {
+            formatRoles: function (value) {
+                var _this = this
+                var buffer = ''
+
+                $.each(value, function (index, val) {
+                    buffer += '<span class="badge bg-aqua">' + _this.roles[val] + '</span> ';
+                })
+
+                return buffer
+            },
             onPaginationData (paginationData) {
                 this.$refs.pagination.setPaginationData(paginationData)
                 this.$refs.paginationInfo.setPaginationData(paginationData)
@@ -167,7 +177,18 @@
             this.regEvent()
         },
         created() {
-            this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);
+            var _this = this
+            this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar)
+
+            axios.get('/admin/roles')
+                .then(function (response) {
+                    $.each(response.data, function (index, val) {
+                        Vue.set(_this.roles, val.id, val.display_name)
+                    });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
         events: {
             // 詳細の表示(ColumNameからのイベント)

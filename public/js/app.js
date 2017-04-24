@@ -4221,7 +4221,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuetable_2_src_components_Vuetable__ = __webpack_require__(23);
@@ -4232,8 +4232,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Admin_Users_ColumnAction_vue__ = __webpack_require__(299);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Admin_Users_ColumnAction_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Admin_Users_ColumnAction_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Admin_Users_ColumnRole_vue__ = __webpack_require__(300);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Admin_Users_ColumnRole_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Admin_Users_ColumnRole_vue__);
 //
 //
 //
@@ -4287,7 +4285,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
 
 
 
@@ -4297,7 +4294,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnAction', __WEBPACK_IMPORTED_MODULE_4__Admin_Users_ColumnAction_vue___default.a);
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnRole', __WEBPACK_IMPORTED_MODULE_5__Admin_Users_ColumnRole_vue___default.a);
 
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
@@ -4344,7 +4340,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnRole', __WEBPACK_IM
                 title: '表示名',
                 sortField: 'display_name'
             }, {
-                name: '__component:columnRole',
+                name: 'roles',
+                callback: 'formatRoles',
                 title: 'ロール',
                 titleClass: 'columnRole'
             }, {
@@ -4358,7 +4355,8 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnRole', __WEBPACK_IM
                 selectItem: null
             },
             // 読み込み中かどうか
-            isLoading: true
+            isLoading: true,
+            roles: []
         };
     },
 
@@ -4368,6 +4366,16 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnRole', __WEBPACK_IM
         VuetablePaginationInfo: __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo___default.a
     },
     methods: {
+        formatRoles: function formatRoles(value) {
+            var _this = this;
+            var buffer = '';
+
+            $.each(value, function (index, val) {
+                buffer += '<span class="badge bg-aqua">' + _this.roles[val] + '</span> ';
+            });
+
+            return buffer;
+        },
         onPaginationData: function onPaginationData(paginationData) {
             this.$refs.pagination.setPaginationData(paginationData);
             this.$refs.paginationInfo.setPaginationData(paginationData);
@@ -4396,8 +4404,17 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnRole', __WEBPACK_IM
         this.regEvent();
     },
     created: function created() {
+        var _this = this;
         this.$root.sidebar = this.$route.matched.some(function (record) {
             return record.components.sidebar;
+        });
+
+        axios.get('/admin/roles').then(function (response) {
+            $.each(response.data, function (index, val) {
+                __WEBPACK_IMPORTED_MODULE_0_vue___default.a.set(_this.roles, val.id, val.display_name);
+            });
+        }).catch(function (error) {
+            console.log(error);
         });
     },
 
@@ -4437,6 +4454,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('columnRole', __WEBPACK_IM
         }
     }
 };
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(4)))
 
 /***/ }),
 /* 223 */
@@ -4471,54 +4489,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 224 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-    data: function data() {
-        return {
-            roles: []
-        };
-    },
-
-    props: {
-        rowData: {
-            type: Object,
-            required: true
-        }
-    },
-    created: function created() {
-        var _this = this;
-
-        axios.get('/admin/roles').then(function (response) {
-            $.each(response.data, function (index, val) {
-                __WEBPACK_IMPORTED_MODULE_0_vue___default.a.set(_this.roles, val.id, val.display_name);
-            });
-            // ゴミをセットして更新させる
-            // ToDo 見直し必要
-            __WEBPACK_IMPORTED_MODULE_0_vue___default.a.set(_this.roles, []);
-        }).catch(function (error) {
-            console.log(error);
-        });
-    }
-};
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(4)))
-
-/***/ }),
+/* 224 */,
 /* 225 */
 /***/ (function(module, exports) {
 
@@ -35250,40 +35221,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 300 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(224),
-  /* template */
-  __webpack_require__(339),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\OpnUC-core\\resources\\assets\\js\\components\\Admin_Users_ColumnRole.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Admin_Users_ColumnRole.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-82636fd0", Component.options)
-  } else {
-    hotAPI.reload("data-v-82636fd0", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 300 */,
 /* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -39241,25 +39179,7 @@ if (false) {
 }
 
 /***/ }),
-/* 339 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', _vm._l((_vm.rowData.roles), function(role) {
-    return _c('span', [_c('span', {
-      staticClass: "badge bg-aqua"
-    }, [_vm._v(_vm._s(_vm.roles[role]))])])
-  }))
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-82636fd0", module.exports)
-  }
-}
-
-/***/ }),
+/* 339 */,
 /* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
