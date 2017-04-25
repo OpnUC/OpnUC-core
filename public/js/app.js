@@ -37939,7 +37939,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('el-select', {
     attrs: {
       "filterable": "",
-      "clearable": "true",
+      "clearable": "",
       "placeholder": "所有ユーザ"
     },
     model: {

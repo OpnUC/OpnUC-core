@@ -199,7 +199,7 @@
                                     <el-select
                                             v-model="selectItem.owner_userid"
                                             filterable
-                                            clearable="true"
+                                            clearable
                                             placeholder="所有ユーザ">
                                         <el-option
                                                 v-for="item in selOwnerItems"
