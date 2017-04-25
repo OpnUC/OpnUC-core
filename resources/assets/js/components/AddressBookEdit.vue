@@ -339,7 +339,13 @@
             var _this = this
 
             // ユーザ一覧を取得
-            axios.get('/admin/users')
+            axios.get('/admin/users',
+                {
+                    params: {
+                        per_page: 65535
+                    }
+                }
+            )
                 .then(function (response) {
                     _this.selOwnerLoading = false;
                     _this.selOwnerItems = response.data.data;
