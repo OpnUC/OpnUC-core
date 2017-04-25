@@ -2946,7 +2946,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.updateSearchParam();
     },
     created: function created() {
+        // アドレス帳 種別とグループの初期値
         this.addressBookType = this.$parent.$data.addressBookType;
+        this.addressBookGroup = this.$parent.$data.addressBookGroup;
+
         this.$root.sidebar = this.$route.matched.some(function (record) {
             return record.components.sidebar;
         });
