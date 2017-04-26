@@ -307,7 +307,7 @@
                 })
                     .then(function (response) {
                         // UIが崩れるため、0の場合は空白とする
-                        if (response.data.owner_userid === 0) {
+                        if (parseInt(response.data.owner_userid) === 0) {
                             response.data.owner_userid = ''
                         }
 

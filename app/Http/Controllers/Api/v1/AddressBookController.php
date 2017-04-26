@@ -34,11 +34,11 @@ class AddressBookController extends Controller
         $item = \App\AddressBook::find($id);
 
         if ($item) {
-            return \Response::json($item, 200, [], JSON_NUMERIC_CHECK);
+            return \Response::json($item);
         } else {
             return response([
                 'status' => 'error',
-                'message' => '404 Not Found。'
+                'message' => '404 Not Found'
             ], 404);
         }
 
