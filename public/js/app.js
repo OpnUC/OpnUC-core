@@ -5726,6 +5726,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -37017,7 +37018,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('section', {
     staticClass: "content"
-  }, [_c('div', {
+  }, [(_vm.selectItem) ? _c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-md-3"
@@ -37033,9 +37034,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('h3', {
     staticClass: "profile-username text-center"
-  }, [_vm._v("\n                        " + _vm._s(_vm.$auth.user().address_book.name) + "\n                    ")]), _vm._v(" "), _c('p', {
+  }, [_vm._v("\n                        " + _vm._s(_vm.selectItem.name) + "\n                    ")]), _vm._v(" "), _c('p', {
     staticClass: "text-muted text-center"
-  }, [_vm._v("\n                        " + _vm._s(_vm.$auth.user().address_book.position) + "\n                    ")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                        " + _vm._s(_vm.selectItem.position) + "\n                    ")])])])]), _vm._v(" "), _c('div', {
     staticClass: "col-md-8"
   }, [_c('form', {
     staticClass: "form-horizontal",
@@ -37051,7 +37052,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "overlay"
   }, [_c('i', {
     staticClass: "fa fa-refresh fa-spin"
-  })]) : _vm._e(), _vm._v(" "), _vm._m(0), _vm._v(" "), (_vm.selectItem) ? _c('div', {
+  })]) : _vm._e(), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "box-body"
   }, [(_vm.status == 'success') ? _c('div', {
     staticClass: "alert alert-success"
@@ -37387,7 +37388,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "help-block"
   }, [_c('ul', _vm._l((_vm.errors.comment), function(item) {
     return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
-  }))]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), _vm._m(1)])])])])])
+  }))]) : _vm._e()])])]), _vm._v(" "), _vm._m(1)])])])]) : _vm._e()])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box-header with-border"

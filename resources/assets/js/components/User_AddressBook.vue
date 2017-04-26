@@ -1,6 +1,6 @@
 <template>
     <section class="content">
-        <div class="row">
+        <div class="row" v-if="selectItem">
             <div class="col-md-3">
                 <div class="box box-primary">
                     <div class="box-body box-profile">
@@ -8,11 +8,11 @@
                              src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm" alt="User profile picture">
 
                         <h3 class="profile-username text-center">
-                            {{ $auth.user().address_book.name }}
+                            {{ selectItem.name }}
                         </h3>
 
                         <p class="text-muted text-center">
-                            {{ $auth.user().address_book.position }}
+                            {{selectItem.position }}
                         </p>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                                 内線電話帳情報
                             </h3>
                         </div>
-                        <div class="box-body" v-if="selectItem">
+                        <div class="box-body">
                             <div v-if="status == 'success'" class="alert alert-success">
                                 {{message}}
                             </div>
