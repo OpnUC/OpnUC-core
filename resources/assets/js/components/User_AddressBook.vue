@@ -1,22 +1,6 @@
 <template>
     <section class="content">
         <div class="row" v-if="selectItem">
-            <div class="col-md-3">
-                <div class="box box-primary">
-                    <div class="box-body box-profile">
-                        <img class="profile-user-img img-responsive img-circle"
-                             src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm" alt="User profile picture">
-
-                        <h3 class="profile-username text-center">
-                            {{ selectItem.name }}
-                        </h3>
-
-                        <p class="text-muted text-center">
-                            {{selectItem.position }}
-                        </p>
-                    </div>
-                </div>
-            </div>
             <div class="col-md-8">
                 <form class="form-horizontal" v-on:submit.prevent="onSave">
                     <div class="box box-primary">

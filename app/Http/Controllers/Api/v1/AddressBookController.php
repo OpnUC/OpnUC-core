@@ -56,7 +56,7 @@ class AddressBookController extends Controller
             abort(403);
         }
 
-        $column = ['id', 'type', 'groupid', 'position', 'name_kana', 'name', 'tel1', 'tel2', 'tel3', 'email', 'comment', 'avatar_type', 'avatar_filename'];
+        $column = ['id', 'type', 'owner_userid', 'groupid', 'position', 'name_kana', 'name', 'tel1', 'tel2', 'tel3', 'email', 'comment'];
         $typeId = intval($req['typeId']) ? intval($req['typeId']) : -1;
 
         $items = \App\AddressBook::select($column)

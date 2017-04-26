@@ -27,15 +27,15 @@
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                    aria-expanded="false">
-                                    <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"
-                                         class="user-image" alt="User Image">
+                                    <img v-bind:src="$auth.user().avatar_path"
+                                         class="user-image" alt="Avatar">
                                     {{ $auth.user().display_name }}
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
-                                        <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"
-                                             class="img-circle" alt="User Image">
+                                        <img v-bind:src="$auth.user().avatar_path"
+                                             class="img-circle" alt="Avatar">
                                         <p>
                                             {{ $auth.user().display_name }}
                                         </p>

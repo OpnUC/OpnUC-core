@@ -23,6 +23,7 @@ class UserRequest extends FormRequest
             'username' => 'required|unique:users,username,' . \Auth::user()->id,
             'display_name' => 'required',
             'email' => 'required|email',
+            'avatar_type' => 'required|in:1,2',
         ];
     }
 
@@ -32,6 +33,7 @@ class UserRequest extends FormRequest
             'display_name.required' => '表示名は必ず入力してください。',
             'email.required' => 'メールアドレスは必ず入力して下さい。',
             'email.email' => 'メールアドレスはメールアドレスの形式で入力して下さい。',
+            'avatar_type.required' => 'アバタータイプが必ず選択して下さい。',
         ];
     }
 

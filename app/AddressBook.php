@@ -16,6 +16,7 @@ class AddressBook extends Model
         'tel1_status',
         'tel2_status',
         'tel3_status',
+        'avatar_path',
     );
 
     /**
@@ -80,6 +81,27 @@ class AddressBook extends Model
         }
 
         return null;
+    }
+
+    /**
+     * アバター
+     * @return string
+     */
+    public function getAvatarPathAttribute()
+    {
+
+        // 初期値
+        $path = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm';
+
+        // 所有者がいる場合はアバターを表示
+        if($this->owner_userid != 0){
+            $user = \App\User::find($this->owner_userid);
+
+            $path = $user->getAvatarPathAttribute();
+        }
+
+        return $path;
+
     }
 
 }

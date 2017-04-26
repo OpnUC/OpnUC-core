@@ -1,6 +1,18 @@
 <template>
     <section class="content">
-        <div class="row">
+        <div class="row" v-if="selectItem">
+            <div class="col-md-3">
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <img class="profile-user-img img-responsive img-circle"
+                             v-bind:src="selectItem.avatar_path" alt="Avatar">
+
+                        <h3 class="profile-username text-center">
+                            {{ selectItem.display_name }}
+                        </h3>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-8">
                 <form class="form-horizontal" v-on:submit.prevent="onSave">
                     <div class="box box-primary">
@@ -79,6 +91,47 @@
                                     </span>
                                 </div>
                             </div>
+
+                            <div class="form-group" :class="errors.avatar_type ? 'has-error' : ''">
+                                <label class="control-label col-xs-3">アバタータイプ</label>
+                                <div class="col-xs-7">
+                                    <input type="radio" name="avatar_type" id="inputAvatarType1" value="1"
+                                           v-model="selectItem.avatar_type"/>
+                                    <label for="inputAvatarType1">標準(アップロードした画像が優先されます)</label>
+                                    <br/>
+                                    <input type="radio" name="avatar_type" id="inputAvatarType2" value="2"
+                                           v-model="selectItem.avatar_type"/>
+                                    <label for="inputAvatarType2">Gravatarを利用</label>
+                                    <span class="help-block" v-if="errors.avatar_type">
+                                        <ul>
+                                            <li v-for="item in errors.avatar_type">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group" :class="errors.avatar_file ? 'has-error' : ''">
+                                <label class="control-label col-xs-3" for="inputAvatarFile">アバター画像</label>
+                                <div class="col-xs-7">
+                                    <input type="file" id="inputAvatarFile" name="inputAvatarFile"
+                                           v-on:change.prevent="onAvatarUpload"/>
+                                    <span class="help-block">
+                                        ※ 現在の画像から変更する場合のみ、選択してください。<br/>
+                                        ※ 横 640ピクセル 縦 480ピクセル以下の<br/>
+                                        jpeg/gif/pngファイルのみがアップロード出来ます。
+                                    </span>
+                                    <span class="help-block" v-if="errors.avatar_file">
+                                        <ul>
+                                            <li v-for="item in errors.avatar_file">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary pull-right">保存</button>
@@ -106,6 +159,59 @@
             }
         },
         methods: {
+            onAvatarUpload: function (e) {
+                // アバター画像のアップロード
+
+                if (e.target.files.length === 0) {
+                    // ファイルが選択されていない場合は処理しない
+                    return;
+                }
+
+                var _this = this
+
+                _this.isLoading = true
+
+                // 初期化
+                _this.status = null
+                _this.message = null
+                _this.errors = []
+
+                var formData = new FormData();
+                formData.append('avatar_file', e.target.files[0]);
+
+                axios.post('/user/uploadAvatar',
+                    formData, {
+                        headers: {
+                            'content-type': 'multipart/form-data'
+                        }
+                    })
+                    .then(function (response) {
+                        _this.isLoading = false
+
+                        _this.selectItem.avatar_path = response.data.path
+
+                        _this.$message({
+                            type: response.data.status,
+                            message: response.data.message,
+                        });
+                    })
+                    .catch(function (error) {
+                        _this.isLoading = false
+                        _this.status = 'error'
+
+                        if (error.response.status === 422) {
+                            // 422 - Validation Error
+                            _this.message = '入力に問題があります。'
+
+                            _this.errors = error.response.data
+                        } else {
+                            _this.$message({
+                                type: error.response.data.status,
+                                message: error.response.data.message,
+                            });
+                        }
+                    })
+            },
             onSave(){
                 var _this = this
 
@@ -157,7 +263,6 @@
 
                     _this.isLoading = false
                 });
-
         },
         created() {
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);

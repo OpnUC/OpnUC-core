@@ -36,6 +36,7 @@ class User extends Authenticatable
         'address_book',
         'roles',
         'permissions',
+        'avatar_path',
     );
 
     /**
@@ -90,6 +91,34 @@ class User extends Authenticatable
         }
 
         return $result;
+
+    }
+
+    /**
+     * アバター
+     * @return string
+     */
+    public function getAvatarPathAttribute()
+    {
+
+        // 初期値
+        $path = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm';
+
+        switch ($this->avatar_type) {
+            case 1:
+                // 標準(アップロード優先)
+                if(\Storage::exists('public/avatars/' . $this->avatar_filename)){
+                    // ファイルが存在している事をチェック
+                    $path = \Storage::url('public/avatars/' . $this->avatar_filename);
+                }
+                break;
+            case 2:
+                // Gravatar
+                $path = 'https://www.gravatar.com/avatar/' . md5(strtolower(trim($this->email))) . '?d=' . urlencode('mm') . '&s=80';
+                break;
+        }
+
+        return $path;
 
     }
 

@@ -37,6 +37,7 @@ class UserController extends Controller
         $record = \App\User::firstOrNew(['id' => $id]);
         $record->display_name = $request['display_name'];
         $record->email = $request['email'];
+        $record->avatar_type = $request['avatar_type'];
         $record->save();
 
         return response([
@@ -63,7 +64,7 @@ class UserController extends Controller
                 'status' => 'success',
                 'message' => 'パスワードの変更が完了しました。'
             ]);
-        }else{
+        } else {
             return response([
                 'status' => 'error',
                 'message' => '現在のパスワードが正しくありません。'
@@ -71,4 +72,41 @@ class UserController extends Controller
         }
 
     }
+
+    /**
+     * アバター画像のアップロード
+     * @param Requests\UserUploadAvatarRequest $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function uploadAvatar(\App\Http\Requests\UserUploadAvatarRequest $request)
+    {
+
+        if ($request->file('avatar_file')->isValid([])) {
+            $filename = $request->avatar_file->store('public/avatars');
+
+            $user = \App\User::find(\Auth::user()->id);
+
+            // 既存の画像ファイルを削除
+            if ($user->avatar_filename != '' && \Storage::exists('public/avatars/' . $user->avatar_filename)) {
+                \Storage::delete('public/avatars/' . $user->avatar_filename);
+            }
+
+            $user->avatar_filename = basename($filename);
+            $user->save();
+
+            return response([
+                'status' => 'success',
+                'path' => \Storage::url('public/avatars/' . $user->avatar_filename),
+                'message' => 'アバター画像のアップロードが完了しました。'
+            ]);
+        } else {
+            return response([
+                'status' => 'error',
+                'message' => 'アバター画像のアップロードに失敗しました。'
+            ],400);
+        }
+
+
+    }
+
 }

@@ -42,6 +42,7 @@ Route::group([
 
         Route::post('/user/edit', 'UserController@edit');
         Route::post('/user/passwordChange', 'UserController@passwordChange');
+        Route::post('/user/uploadAvatar', 'UserController@uploadAvatar');
 
         Route::post('/click2call/originate', 'Click2CallController@originate');
 

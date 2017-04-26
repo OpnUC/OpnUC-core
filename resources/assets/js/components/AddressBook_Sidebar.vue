@@ -3,8 +3,8 @@
         <div class="sidebar">
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm" class="img-circle"
-                         alt="User Image">
+                    <img v-bind:src="$auth.user().avatar_path" class="img-circle"
+                         alt="Avatar">
                 </div>
                 <div class="pull-left info">
                     <p>{{ $auth.user().display_name }}</p>
