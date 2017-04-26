@@ -107,7 +107,7 @@ class User extends Authenticatable
         switch ($this->avatar_type) {
             case 1:
                 // 標準(アップロード優先)
-                if(\Storage::exists('public/avatars/' . $this->avatar_filename)){
+                if($this->avatar_filename != '' && \Storage::exists('public/avatars/' . $this->avatar_filename)){
                     // ファイルが存在している事をチェック
                     $path = \Storage::url('public/avatars/' . $this->avatar_filename);
                 }

@@ -5512,6 +5512,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -5577,6 +5581,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         message: error.response.data.message
                     });
                 }
+            });
+        },
+        onAvatarDelete: function onAvatarDelete() {
+            // アバター画像の削除
+            var _this = this;
+
+            this.$confirm('アバター画像を削除してもよろしいですか？', '確認', {
+                confirmButtonText: '削除',
+                cancelButtonText: 'キャンセル',
+                type: 'warning'
+            }).then(function () {
+                _this.isLoading = true;
+
+                axios.post('/user/deleteAvatar').then(function (response) {
+                    _this.isLoading = false;
+
+                    _this.selectItem.avatar_path = response.data.path;
+                    // 削除ボタンを非表示にするため、nullを代入
+                    _this.selectItem.avatar_filename = null;
+
+                    _this.$message({
+                        type: response.data.status,
+                        message: response.data.message
+                    });
+                }).catch(function (error) {
+                    _this.isLoading = false;
+                    _this.status = 'error';
+
+                    _this.$message({
+                        type: error.response.data.status,
+                        message: error.response.data.message
+                    });
+                });
+            }).catch(function (error) {
+                console.log(error.message);
             });
         },
         onSave: function onSave() {
@@ -35849,7 +35888,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "help-block"
   }, [_c('ul', _vm._l((_vm.errors.avatar_file), function(item) {
     return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
-  }))]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), _vm._m(2)])])])]) : _vm._e()])
+  }))]) : _vm._e(), _vm._v(" "), (_vm.selectItem.avatar_filename) ? _c('button', {
+    staticClass: "btn btn-default",
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.onAvatarDelete($event)
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-times-circle"
+  }), _vm._v("\n                                    アバター画像を削除する\n                                ")]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), _vm._m(2)])])])]) : _vm._e()])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box-header with-border"

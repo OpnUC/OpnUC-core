@@ -53,7 +53,7 @@ class UserController extends Controller
     public function passwordChange(\App\Http\Requests\UserPasswordChangeRequest $request)
     {
 
-        $user = \Auth::User();
+        $user = \App\User::find(\Auth::user()->id);
 
         if (\Hash::check($request->password, $user->password)) {
             $user->fill([
@@ -96,14 +96,45 @@ class UserController extends Controller
 
             return response([
                 'status' => 'success',
-                'path' => \Storage::url('public/avatars/' . $user->avatar_filename),
+                'path' => $user->getAvatarPathAttribute(),
                 'message' => 'アバター画像のアップロードが完了しました。'
             ]);
         } else {
             return response([
                 'status' => 'error',
                 'message' => 'アバター画像のアップロードに失敗しました。'
-            ],400);
+            ], 400);
+        }
+
+    }
+
+    /**
+     * アバター画像の削除
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteAvatar(Request $request)
+    {
+
+        $user = \App\User::find(\Auth::user()->id);
+
+        // 既存の画像ファイルを削除
+        if ($user->avatar_filename != '' && \Storage::exists('public/avatars/' . $user->avatar_filename)) {
+            \Storage::delete('public/avatars/' . $user->avatar_filename);
+
+            $user->avatar_filename = NULL;
+            $user->save();
+
+            return response([
+                'status' => 'success',
+                'path' => $user->getAvatarPathAttribute(),
+                'message' => 'アバター画像の削除が完了しました。'
+            ]);
+        } else {
+            return response([
+                'status' => 'error',
+                'message' => 'アバター画像の削除に失敗しました。'
+            ], 400);
         }
 
 

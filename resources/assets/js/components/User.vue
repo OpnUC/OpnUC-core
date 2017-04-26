@@ -129,6 +129,10 @@
                                             </li>
                                         </ul>
                                     </span>
+                                    <button v-if="selectItem.avatar_filename" class="btn btn-default" v-on:click.prevent="onAvatarDelete">
+                                        <i class="fa fa-times-circle"></i>
+                                        アバター画像を削除する
+                                    </button>
                                 </div>
                             </div>
 
@@ -211,6 +215,43 @@
                             });
                         }
                     })
+            },
+            onAvatarDelete() {
+                // アバター画像の削除
+                var _this = this
+
+                this.$confirm('アバター画像を削除してもよろしいですか？', '確認', {
+                    confirmButtonText: '削除',
+                    cancelButtonText: 'キャンセル',
+                    type: 'warning'
+                }).then(() => {
+                    _this.isLoading = true
+
+                    axios.post('/user/deleteAvatar')
+                        .then(function (response) {
+                            _this.isLoading = false
+
+                            _this.selectItem.avatar_path = response.data.path
+                            // 削除ボタンを非表示にするため、nullを代入
+                            _this.selectItem.avatar_filename = null
+
+                            _this.$message({
+                                type: response.data.status,
+                                message: response.data.message,
+                            });
+                        })
+                        .catch(function (error) {
+                            _this.isLoading = false
+                            _this.status = 'error'
+
+                            _this.$message({
+                                type: error.response.data.status,
+                                message: error.response.data.message,
+                            });
+                        })
+                }).catch(function (error) {
+                    console.log(error.message);
+                });
             },
             onSave(){
                 var _this = this
