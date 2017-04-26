@@ -21,7 +21,7 @@ class AdminUserRequest extends FormRequest
 
         $rules = [
             'id' => 'numeric',
-            'username' => 'required|regex:/^[a-zA-Z0-9]+$/|unique:users,username,' . $this['id'],
+            'username' => 'required|regex:/^[a-zA-Z0-9\-_]+$/|unique:users,username,' . $this['id'],
             'display_name' => 'required',
             'email' => 'required|email|unique:users,email,' . $this['id'],
             'roles' => 'required|array|min:1',
@@ -49,7 +49,7 @@ class AdminUserRequest extends FormRequest
     {
         return [
             'username.required' => 'ユーザ名は必ず入力してください。',
-            'username.regex' => 'ユーザ名は半角英数字で入力してください。',
+            'username.regex' => 'ユーザ名は半角英数字/-/_で入力してください。',
             'username.unique' => '入力されたユーザ名はすでに登録されています。別のユーザ名を入力してください。',
             'display_name.required' => '表示名は必ず入力してください。',
             'email.required' => 'メールアドレスは必ず入力して下さい。',
