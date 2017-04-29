@@ -89,10 +89,35 @@ const app = new Vue({
     },
     events: {
         'LaravelEcho:init': function () {
+            var _this = this
             if (!window.echo) {
+                // ToDo
+                _this.$message({
+                    type: 'error',
+                    message: 'WebSocketサーバに接続出来ませんでした。'
+                });
                 return;
             }
 
+            // 初回は接続しているものとする
+            this.$events.$emit('LaravelEcho:connect')
+
+            // 切断時
+            window.echo.connector.socket.on('disconnect', function () {
+                _this.$events.$emit('LaravelEcho:disconnect')
+            });
+
+            // 接続時
+            window.echo.connector.socket.on('connect', function () {
+                _this.$events.$emit('LaravelEcho:connect')
+            });
+
+            // 再接続時
+            window.echo.connector.socket.on('reconnect', function () {
+                _this.$events.$emit('LaravelEcho:reconnect')
+            });
+
+            // Broadcast Channel
             window.echo.channel('BroadcastChannel')
                 .listen('MessageCreateBroadcastEvent', (e) => {
                     this.$events.$emit('LaravelEcho:Broadcast', e)
@@ -101,6 +126,7 @@ const app = new Vue({
                     this.$events.$emit('LaravelEcho:PresenceUpdated', e)
                 });
 
+            // 認証に通っている場合はPrivateChannel
             if (this.$auth.check()) {
                 window.echo.private('PrivateChannel.' + this.$auth.user().id)
                     .listen('MessageCreatePrivateEvent', (e) => {

@@ -21,7 +21,8 @@
                         <template v-if="$auth.check()">
                             <li class="notifications-menu">
                                 <a>
-                                    <i id="laravelEchoStatus" class="fa fa-bell-slash-o"></i>
+                                    <i v-if="isConnectLaravelEcho" class="fa fa-bell-o"></i>
+                                    <i v-else class="fa fa-bell-slash-o"></i>
                                 </a>
                             </li>
                             <li class="dropdown user user-menu">
@@ -100,6 +101,11 @@
 
 <script>
     export default {
+        data() {
+            return {
+                isConnectLaravelEcho: false,
+            }
+        },
         computed: {
             year: function () {
                 var y = new Date()
@@ -118,7 +124,16 @@
                     })
                     .addClass(window.extStatus[status]['statusClass'])
                     .attr('title', window.extStatus[status]['statusText']);
-            }
+            },
+            'LaravelEcho:connect': function (e) {
+                this.isConnectLaravelEcho = true
+            },
+            'LaravelEcho:disconnect': function (e) {
+                this.isConnectLaravelEcho = false
+            },
+            'LaravelEcho:reconnect': function (e) {
+                this.isConnectLaravelEcho = true
+            },
         },
         mounted(){
             this.$events.$emit('LaravelEcho:init')
@@ -144,6 +159,3 @@
         }
     }
 </script>
-
-<style>
-</style>
