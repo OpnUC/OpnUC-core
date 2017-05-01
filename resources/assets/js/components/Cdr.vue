@@ -213,7 +213,7 @@
                     loadingClass: 'loading',
                     ascendingIcon: 'glyphicon glyphicon-chevron-up',
                     descendingIcon: 'glyphicon glyphicon-chevron-down',
-                    sortHandleIcon: 'glyphicon glyphicon-menu-hamburger',
+                    handleIcon: 'glyphicon glyphicon-menu-hamburger',
                 },
                 cssPagination: {
                     wrapperClass: 'pagination pull-right',
@@ -221,6 +221,12 @@
                     disabledClass: 'disabled',
                     pageClass: 'btn btn-border',
                     linkClass: 'btn btn-border',
+                    icons: {
+                        first: '',
+                        prev: '',
+                        next: '',
+                        last: '',
+                    },
                 },
                 icons: {
                     first: '',
