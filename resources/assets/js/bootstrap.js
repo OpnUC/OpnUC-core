@@ -31,15 +31,18 @@ window.axios.defaults.headers.common = {
 
 import Echo from "laravel-echo"
 
-window.echo = new Echo({
-    broadcaster: 'socket.io',
-    host: window.location.hostname + ':6001',
-    auth: {
-        headers: {
-            'Authorization': 'Bearer ' + localStorage.getItem('default-auth-token')
+if (typeof(io) != "undefined") {
+    // ioが定義されていない場合は、実行しない
+    window.echo = new Echo({
+        broadcaster: 'socket.io',
+        host: window.location.hostname + ':6001',
+        auth: {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('default-auth-token')
+            }
         }
-    }
-});
+    });
+}
 
 window.extStatus = {
     'unknown': {

@@ -34,6 +34,19 @@ Route::group([
         Route::get('/auth/user', 'AuthController@user');
         Route::post('/auth/logout', 'AuthController@logout');
 
+        Route::get('/admin/roles', 'AdminController@roles');
+        Route::get('/admin/users', 'AdminController@users');
+        Route::get('/admin/user', 'AdminController@user');
+        Route::post('/admin/userEdit', 'AdminController@userEdit');
+        Route::post('/admin/userDelete', 'AdminController@userDelete');
+
+        Route::post('/user/edit', 'UserController@edit');
+        Route::post('/user/passwordChange', 'UserController@passwordChange');
+        Route::post('/user/uploadAvatar', 'UserController@uploadAvatar');
+        Route::post('/user/deleteAvatar', 'UserController@deleteAvatar');
+
+        Route::post('/click2call/originate', 'Click2CallController@originate');
+
         Route::get('/cdr/search', 'CdrController@search');
         Route::get('/cdr/download', 'CdrController@download');
 

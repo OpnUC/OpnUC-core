@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>OpenUC</title>
+    <title>OpnUC</title>
     <link href="{{mix('/css/app.css')}}" rel="stylesheet" type="text/css">
     <link href="{{mix('/css/vendor.css')}}" rel="stylesheet" type="text/css">
 </head>
@@ -14,9 +14,18 @@
 <div id="root"></div>
 
 <script>
-    window.Laravel = <?php echo json_encode([
+    window.opnucConfig = <?php
+    echo json_encode([
+        'enable_c2c' => \Config::get('opnuc.enable_c2c'),
+        'enable_tel_presence' => \Config::get('opnuc.enable_tel_presence'),
+    ]);
+    ?>
+
+    window.Laravel = <?php
+    echo json_encode([
         'csrfToken' => csrf_token(),
-    ]); ?>
+    ]);
+    ?>
 </script>
 <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
 <script src="{{mix('/js/manifest.js')}}" type="text/javascript"></script>

@@ -12,8 +12,8 @@
                 </a>
 
                 <ul class="nav navbar-nav">
-                    <router-link tag="li" to="/cdr"><a>発着信履歴</a></router-link>
-                    <router-link tag="li" to="/AddressBook"><a>Web電話帳</a></router-link>
+                    <router-link tag="li" to="/cdr" v-if="$auth.check('cdr-user')"><a>発着信履歴</a></router-link>
+                    <router-link tag="li" to="/AddressBook" v-if="$auth.check('addressbook-user')"><a>Web電話帳</a></router-link>
                 </ul>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
@@ -27,28 +27,32 @@
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                    aria-expanded="false">
-                                    <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"
-                                         class="user-image" alt="User Image">
+                                    <img v-bind:src="$auth.user().avatar_path"
+                                         class="user-image" alt="Avatar">
                                     {{ $auth.user().display_name }}
                                     <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
-                                        <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mm"
-                                             class="img-circle" alt="User Image">
+                                        <img v-bind:src="$auth.user().avatar_path"
+                                             class="img-circle" alt="Avatar">
                                         <p>
                                             {{ $auth.user().display_name }}
                                         </p>
                                     </li>
-                                    <li class="user-body">
+                                    <li class="user-body" v-if="$auth.check('system-admin')">
                                         <div class="col-xs-12 text-center">
-                                            <a href="">ユーザ管理</a>
+                                            <router-link to="/Admin">
+                                                <i class="fa fa-cog"></i>
+                                                システム管理
+                                            </router-link>
                                         </div>
                                     </li>
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href=""
-                                               class="btn btn-default btn-flat">ユーザ情報</a>
+                                            <router-link to="/User" class="btn btn-default btn-flat">
+                                                ユーザ情報
+                                            </router-link>
                                         </div>
                                         <div class="pull-right">
                                             <button type="submit" class="btn btn-default btn-flat" v-on:click="signout">
@@ -80,7 +84,7 @@
                     <small>{{ $route.meta.description }}</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="javascript:;"><i class="fa fa-home"></i>Home</a></li>
+                    <li><router-link to="/"><i class="fa fa-home"></i>Home</router-link></li>
                     <li class="active">{{ $route.meta.title }}</li>
                 </ol>
             </section>
@@ -114,22 +118,6 @@
                     })
                     .addClass(window.extStatus[status]['statusClass'])
                     .attr('title', window.extStatus[status]['statusText']);
-            },
-            'LaravelEcho:init': function () {
-                window.echo.channel('BroadcastChannel')
-                    .listen('MessageCreateBroadcastEvent', (e) => {
-                        this.$events.$emit('LaravelEcho:Broadcast', e)
-                    })
-                    .listen('PresenceUpdated', (e) => {
-                        this.$events.$emit('LaravelEcho:PresenceUpdated', e)
-                    });
-
-                if (this.$auth.check()) {
-                    window.echo.private('PrivateChannel.' + this.$auth.user().id)
-                        .listen('MessageCreatePrivateEvent', (e) => {
-                            this.$events.$emit('LaravelEcho:Private', e)
-                        });
-                }
             }
         },
         mounted(){

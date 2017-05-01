@@ -1,6 +1,6 @@
 <template>
     <section class="content">
-        <div class="row">
+        <div class="row" v-if="selectItem">
             <div class="col-md-8">
                 <form class="form-horizontal" v-on:submit.prevent="onSave">
                     <div class="box box-primary">
@@ -9,30 +9,15 @@
                         </div>
                         <div class="box-header with-border">
                             <h3 class="box-title">
-                                連絡先 追加・編集
+                                内線電話帳情報
                             </h3>
                         </div>
-                        <div class="box-body" v-if="selectItem">
+                        <div class="box-body">
                             <div v-if="status == 'success'" class="alert alert-success">
                                 {{message}}
                             </div>
                             <div v-else-if="status == 'error'" class="alert alert-error">
                                 {{message}}
-                            </div>
-
-                            <div class="form-group" :class="errors.id ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputId">アドレス帳ID</label>
-                                <div class="col-xs-7">
-                                    <input type="text" class="form-control input-sm" id="inputId"
-                                           placeholder="アドレス帳ID" readonly="readonly" v-model="selectItem.id">
-                                    <span class="help-block" v-if="errors.id">
-                                        <ul>
-                                            <li v-for="item in errors.id">
-                                                {{ item }}
-                                            </li>
-                                        </ul>
-                                    </span>
-                                </div>
                             </div>
 
                             <div class="form-group" :class="errors.position ? 'has-error' : ''">
@@ -73,24 +58,6 @@
                                     <span class="help-block" v-if="errors.name">
                                         <ul>
                                             <li v-for="item in errors.name">
-                                                {{ item }}
-                                            </li>
-                                        </ul>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group" :class="errors.type ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputType">電話帳種別</label>
-                                <div class="col-xs-7">
-                                    <select class="form-control input-sm" id="inputType" v-model="selectItem.type">
-                                        <option v-for="(value, key) in addressBookType" v-bind:value="key">
-                                            {{ value }}
-                                        </option>
-                                    </select>
-                                    <span class="help-block" v-if="errors.type">
-                                        <ul>
-                                            <li v-for="item in errors.type">
                                                 {{ item }}
                                             </li>
                                         </ul>
@@ -192,31 +159,6 @@
                                     </span>
                                 </div>
                             </div>
-
-                            <div class="form-group" :class="errors.owner_userid ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputOwnerUserId">所有ユーザ</label>
-                                <div class="col-xs-7">
-                                    <el-select
-                                            v-model="selectItem.owner_userid"
-                                            filterable
-                                            clearable
-                                            placeholder="所有ユーザ">
-                                        <el-option
-                                                v-for="item in selOwnerItems"
-                                                :label="item.display_name + ' / ' + item.username"
-                                                :value="item.id">
-                                        </el-option>
-                                    </el-select>
-                                    <span class="help-block" v-if="errors.owner_userid">
-                                        <ul>
-                                            <li v-for="item in errors.owner_userid">
-                                                {{ item }}
-                                            </li>
-                                        </ul>
-                                    </span>
-                                </div>
-                            </div>
-
                         </div>
                         <div class="box-footer">
                             <button type="submit" class="btn btn-primary pull-right">保存</button>
@@ -227,6 +169,7 @@
         </div>
     </section>
 </template>
+
 <script>
     import Vue from 'vue'
 
@@ -240,10 +183,6 @@
                 errors: [],
                 // 読み込み中かどうか
                 isLoading: true,
-                selOwnerLoading: false,
-                selOwnerItems: [],
-                // ページ上のデータ
-                addressBookType: [],
                 addressBookGroup: [],
             }
         },
@@ -263,20 +202,10 @@
                     .then(function (response) {
                         _this.isLoading = false
 
-                        // 一覧ページに戻す
-                        _this.$router.push({
-                            path: '/AddressBook',
-                            query: {
-                                typeId: _this.selectItem.type,
-                                groupId: _this.selectItem.groupid,
-                            }
-                        })
-
                         _this.$message({
                             type: response.data.status,
                             message: response.data.message,
                         });
-
                     })
                     .catch(function (error) {
                         _this.isLoading = false
@@ -291,70 +220,36 @@
                             _this.message = 'エラーが発生しました。'
                         }
                     });
-            }
+            },
         },
         mounted() {
             var _this = this
 
             _this.isLoading = true
 
-            if (this.$route.params.id) {
-                // Read
-                axios.get('/addressbook/detail', {
-                    params: {
-                        id: this.$route.params.id
-                    }
-                })
-                    .then(function (response) {
-                        // UIが崩れるため、0の場合は空白とする
-                        if (parseInt(response.data.owner_userid) === 0) {
-                            response.data.owner_userid = ''
-                        }
-
-                        _this.selectItem = response.data
-
-                        _this.isLoading = false
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            } else {
-                _this.selectItem = {
-                    type: 1
-                }
-
-                _this.isLoading = false
-            }
-        },
-        events: {
-            'AddressBook:updateGroup': function (group) {
-                this.addressBookGroup = group
-            },
-        },
-        created() {
-            this.addressBookGroup = this.$parent.$data.addressBookGroup
-            this.addressBookType = this.$parent.$data.addressBookType
-            this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar)
-
-            var _this = this
-
-            // ユーザ一覧を取得
-            axios.get('/admin/users',
-                {
-                    params: {
-                        per_page: 65535
-                    }
-                }
-            )
+            axios.get('/addressbook/groupList')
                 .then(function (response) {
-                    _this.selOwnerLoading = false;
-                    _this.selOwnerItems = response.data.data;
+                    _this.addressBookGroup = response.data
                 })
                 .catch(function (error) {
                     console.log(error);
                 });
+
+            axios.get('/auth/user')
+                .then(function (response) {
+                    _this.selectItem = response.data.data.address_book
+
+                    _this.isLoading = false
+                })
+                .catch(function (error) {
+                    console.log(error);
+
+                    _this.isLoading = false
+                });
+
+        },
+        created() {
+            this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);
         },
     }
 </script>
-<style>
-</style>

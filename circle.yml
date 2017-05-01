@@ -1,0 +1,24 @@
+machine:
+  environment:
+    APP_ENV: testing
+    APP_DEBUG: true
+    DB_HOST: 127.0.0.1
+    DB_DATABASE: circle_test
+    DB_USERNAME: ubuntu
+    DB_PASSWORD:
+    CACHE_DRIVER: array
+  php:
+    version: 5.6.22
+
+database:
+  override:
+    - php artisan migrate
+
+test:
+  pre:
+    - cp .env.example .env
+    - php artisan key:generate
+    - php artisan migrate
+    - php artisan db:seed
+  override:
+    - vendor/bin/phpunit -d memory_limit=512M

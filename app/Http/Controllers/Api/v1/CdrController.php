@@ -30,6 +30,11 @@ class CdrController extends Controller
     public function search(Request $request)
     {
 
+        // 権限チェック
+        if (!\Entrust::can('cdr-user')) {
+            abort(403);
+        }
+
         $per_page = intval($request['per_page']) ? $request['per_page'] : 10;
 
         $items = $this->_getItems($request)->paginate($per_page);
@@ -43,7 +48,13 @@ class CdrController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function download(Request $request){
+    public function download(Request $request)
+    {
+
+        // 権限チェック
+        if (!\Entrust::can('cdr-user')) {
+            abort(403);
+        }
 
         $items = $this->_getItems($request)->get()->toArray();
 
@@ -74,7 +85,8 @@ class CdrController extends Controller
      * @param Request $req
      * @return mixed
      */
-    private function _getItems(Request $request){
+    private function _getItems(Request $request)
+    {
 
         $column = ['id', 'start_datetime', 'duration', 'type', 'sender', 'destination'];
 

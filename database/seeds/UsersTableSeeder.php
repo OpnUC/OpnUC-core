@@ -15,23 +15,43 @@ class UsersTableSeeder extends Seeder
         Model::unguard();
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        DB::table('roles')->truncate();
         DB::table('permissions')->truncate();
+        DB::table('permission_role')->truncate();
+        DB::table('roles')->truncate();
+        DB::table('role_user')->truncate();
 
+        /////
         $adminRole = new \App\Role();
         $adminRole->name = 'admin';
-        $adminRole->display_name = '管理者';
+        $adminRole->display_name = '管理者ロール';
         $adminRole->save();
 
         $operatorRole = new \App\Role();
         $operatorRole->name = 'operator';
-        $operatorRole->display_name = '担当者';
+        $operatorRole->display_name = '担当者ロール';
         $operatorRole->save();
 
-        $editAddressBook = new \App\Permission();
-        $editAddressBook->name = 'edit-addressbook';
-        $editAddressBook->display_name = 'アドレス帳 編集者';
-        $editAddressBook->save();
+        /////
+        $adminPerm = new \App\Permission();
+        $adminPerm->name = 'system-admin';
+        $adminPerm->display_name = 'システム管理';
+        $adminPerm->save();
+
+        $abUserPerm = new \App\Permission();
+        $abUserPerm->name = 'addressbook-user';
+        $abUserPerm->display_name = 'Web電話帳 表示';
+        $abUserPerm->save();
+
+        $abAdminPerm = new \App\Permission();
+        $abAdminPerm->name = 'addressbook-admin';
+        $abAdminPerm->display_name = 'Web電話帳 管理';
+        $abAdminPerm->save();
+
+        $cdrUserPerm = new \App\Permission();
+        $cdrUserPerm->name = 'cdr-user';
+        $cdrUserPerm->display_name = '発着信履歴 表示';
+        $cdrUserPerm->save();
+        /////
 
         DB::table('users')->truncate();
 
@@ -42,8 +62,16 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt('adminadmin'),
         ]);
 
-        $adminRole->attachPermission($editAddressBook);
-        $operatorRole->attachPermission($editAddressBook);
+        // 管理ロール
+        $adminRole->attachPermission($adminRole);
+        $adminRole->attachPermission($abUserPerm);
+        $adminRole->attachPermission($abAdminPerm);
+        $adminRole->attachPermission($cdrUserPerm);
+
+        // オペレータロール
+        $operatorRole->attachPermission($abUserPerm);
+        $operatorRole->attachPermission($abAdminPerm);
+        $operatorRole->attachPermission($cdrUserPerm);
 
         $user = \App\User::where('username', '=', 'admin')->first();
 

@@ -43,7 +43,9 @@ var myBearer = {
             token = token.split(/Bearer\:?\s?/i);
 
             // for LaravelEcho
-            window.echo.options.auth.headers.Authorization = 'Bearer ' + token
+            if (window.echo) {
+                window.echo.options.auth.headers.Authorization = 'Bearer ' + token
+            }
 
             return token[token.length > 1 ? 1 : 0].trim();
         }
@@ -55,13 +57,15 @@ Vue.use(VueAuth, {
     auth: myBearer,
     http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
-    rolesVar: 'roles',
+    rolesVar: 'permissions',
     tokenExpired: function (item) {
         return true;
     }
 })
 
 //export {router};
+
+Vue.component('tel-contact', require('./components/common_TelContact.vue'))
 
 const app = new Vue({
     router: Vue.router,
@@ -82,6 +86,54 @@ const app = new Vue({
                 $('.sidebar-toggle').hide();
             }
         }
+    },
+    events: {
+        'LaravelEcho:init': function () {
+            if (!window.echo) {
+                return;
+            }
+
+            window.echo.channel('BroadcastChannel')
+                .listen('MessageCreateBroadcastEvent', function(e){
+                    this.$events.$emit('LaravelEcho:Broadcast', e)
+                })
+                .listen('PresenceUpdated', function(e){
+                    this.$events.$emit('LaravelEcho:PresenceUpdated', e)
+                });
+
+            if (this.$auth.check()) {
+                window.echo.private('PrivateChannel.' + this.$auth.user().id)
+                    .listen('MessageCreatePrivateEvent', function(e){
+                        this.$events.$emit('LaravelEcho:Private', e)
+                    });
+            }
+        },
+        // Click to Callの発信処理
+        'Click2Call': function(number){
+            var _this = this
+
+            this.$confirm(number + 'に発信します。よろしいですか？', '確認', {
+                confirmButtonText: '発信',
+                cancelButtonText: 'キャンセル',
+            }).then(function(){
+                axios.post('/click2call/originate',
+                    {
+                        number: number
+                    })
+                    .then(function (response) {
+                        _this.$message({
+                            type: 'info',
+                            message: '発信中です。しばらくお待ちください。'
+                        });
+                    })
+                    .catch(function (error) {
+                        _this.$message({
+                            type: 'error',
+                            message: '発信に失敗しました。'
+                        });
+                    });
+            });
+        },
     },
     render: function (h) {
         return h(AppView);
