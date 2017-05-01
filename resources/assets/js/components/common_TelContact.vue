@@ -1,14 +1,17 @@
 <template>
-   <div v-if="number">
-       <i class="fa fa-phone"></i> <a :href="`tel:${number}`" v-on:click="onCall(number, $event)">{{ number }}</a>
-       <i v-if="number.lastIndexOf('0', 0) != 0"
-          class="extStatus" :class="`ext${number} ${number_class}`" :title="number_title"></i>
-   </div>
+    <div v-if="number">
+        <i class="fa fa-phone"></i> <a :href="`tel:${number}`" v-on:click="onCall(number, $event)">{{ number }}</a>
+        <i v-if="enable_tel_presence && number.lastIndexOf('0', 0) != 0"
+           class="extStatus" :class="`ext${number} ${number_class}`" :title="number_title"></i>
+    </div>
 </template>
 <script>
     export default {
         props: ['number', 'status'],
         computed: {
+            enable_tel_presence(){
+                return window.opnucConfig.enable_tel_presence;
+            },
             number_title: function () {
                 return window.extStatus[this.status]['statusText']
             },
@@ -16,8 +19,12 @@
                 return window.extStatus[this.status]['statusClass']
             },
         },
-        methods:{
+        methods: {
             onCall(number, event) {
+                // Click 2 Callが有効で無い場合は処理しない
+                if (!window.opnucConfig.enable_c2c) {
+                    return;
+                }
 
                 // OpnUC上で処理する場合、ブラウザ側のイベント処理を無効にする
                 event.preventDefault();
