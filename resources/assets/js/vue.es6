@@ -94,16 +94,16 @@ const app = new Vue({
             }
 
             window.echo.channel('BroadcastChannel')
-                .listen('MessageCreateBroadcastEvent', (e) => {
+                .listen('MessageCreateBroadcastEvent', function(e){
                     this.$events.$emit('LaravelEcho:Broadcast', e)
                 })
-                .listen('PresenceUpdated', (e) => {
+                .listen('PresenceUpdated', function(e){
                     this.$events.$emit('LaravelEcho:PresenceUpdated', e)
                 });
 
             if (this.$auth.check()) {
                 window.echo.private('PrivateChannel.' + this.$auth.user().id)
-                    .listen('MessageCreatePrivateEvent', (e) => {
+                    .listen('MessageCreatePrivateEvent', function(e){
                         this.$events.$emit('LaravelEcho:Private', e)
                     });
             }
@@ -112,12 +112,10 @@ const app = new Vue({
         'Click2Call': function(number){
             var _this = this
 
-            console.log(number)
-
             this.$confirm(number + 'に発信します。よろしいですか？', '確認', {
                 confirmButtonText: '発信',
                 cancelButtonText: 'キャンセル',
-            }).then(() => {
+            }).then(function(){
                 axios.post('/click2call/originate',
                     {
                         number: number
