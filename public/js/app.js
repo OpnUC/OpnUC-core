@@ -6097,6 +6097,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = {
     props: ['number', 'status'],
     computed: {
+        enable_tel_presence: function enable_tel_presence() {
+            return window.opnucConfig.enable_tel_presence;
+        },
+
         number_title: function number_title() {
             return window.extStatus[this.status]['statusText'];
         },
@@ -6106,6 +6110,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         onCall: function onCall(number, event) {
+            // Click 2 Callが有効で無い場合は処理しない
+            if (!window.opnucConfig.enable_c2c) {
+                return;
+            }
 
             // OpnUC上で処理する場合、ブラウザ側のイベント処理を無効にする
             event.preventDefault();
@@ -38633,7 +38641,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.onCall(_vm.number, $event)
       }
     }
-  }, [_vm._v(_vm._s(_vm.number))]), _vm._v(" "), (_vm.number.lastIndexOf('0', 0) != 0) ? _c('i', {
+  }, [_vm._v(_vm._s(_vm.number))]), _vm._v(" "), (_vm.enable_tel_presence && _vm.number.lastIndexOf('0', 0) != 0) ? _c('i', {
     staticClass: "extStatus",
     class: ("ext" + _vm.number + " " + _vm.number_class),
     attrs: {
