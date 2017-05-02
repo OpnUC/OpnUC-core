@@ -36,7 +36,42 @@ class DemoSeeder extends Seeder
             $cdrItem->save();
         }
 
-        // アドレス帳グループ
+        // アドレス帳グループ（内線)
+        $grpExtParent1 = new \App\AddressBookGroup();
+        $grpExtParent1->type = 1;
+        $grpExtParent1->parent_groupid = 0;
+        $grpExtParent1->owner_userid = 0;
+        $grpExtParent1->group_name = '内線 親テスト1';
+
+        $grpExtParent1->save();
+
+        $grpExtChild1_1 = new \App\AddressBookGroup();
+        $grpExtChild1_1->type = 1;
+        $grpExtChild1_1->parent_groupid = $grpExtParent1->id;
+        $grpExtChild1_1->owner_userid = 0;
+        $grpExtChild1_1->group_name = '内線 子テスト1';
+
+        $grpExtChild1_1->save();
+
+        // 10件分のデータを作成
+        for ($i = 0; $i < 10; $i++) {
+            $abItem = new \App\AddressBook();
+
+            $abItem->type = 1;
+            $abItem->owner_userid = 0;
+            $abItem->groupid = $grpExtChild1_1->id;
+            $abItem->position = $faker->realText(10);
+            $abItem->name_kana =  $faker->realText(10);
+            $abItem->name = $faker->name();
+            $abItem->tel1 = rand(300, 399);
+            $abItem->tel2 = str_replace('-', '', $faker->phoneNumber());
+            $abItem->email = $faker->email();
+            $abItem->comment = $faker->realText(20);
+
+            $abItem->save();
+        }
+
+        // アドレス帳グループ(共通)
         $grpParent1 = new \App\AddressBookGroup();
         $grpParent1->type = 2;
         $grpParent1->parent_groupid = 0;
@@ -71,7 +106,8 @@ class DemoSeeder extends Seeder
 
         $abGroupID = [$grpChild1_1_1->id, $grpParent2->id];
 
-        for ($i = 0; $i < 1000; $i++) {
+        // 100件分のデータを作成
+        for ($i = 0; $i < 100; $i++) {
             $abItem = new \App\AddressBook();
 
             $abItem->type = 2;
@@ -80,16 +116,13 @@ class DemoSeeder extends Seeder
             $abItem->position = $faker->realText(10);
             $abItem->name_kana =  $faker->realText(10);
             $abItem->name = $faker->name();
-            $abItem->tel1 = $faker->phoneNumber();
-            $abItem->tel2 = $faker->phoneNumber();
-            $abItem->tel3 = $faker->phoneNumber();
+            $abItem->tel1 = str_replace('-', '', $faker->phoneNumber());
+            $abItem->tel2 = str_replace('-', '', $faker->phoneNumber());
+            $abItem->tel3 = str_replace('-', '', $faker->phoneNumber());
             $abItem->email = $faker->email();
             $abItem->comment = $faker->realText(20);
-            $abItem->avatar_type = 2;
-            $abItem->avatar_filename = '';
 
             $abItem->save();
-
         }
 
     }
