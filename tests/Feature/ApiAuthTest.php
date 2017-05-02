@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ApiUserTest extends TestCase
+class ApiAuthTest extends TestCase
 {
     /**
      * Login Test
@@ -15,8 +15,6 @@ class ApiUserTest extends TestCase
     public function testLogin()
     {
         $user = factory(\App\User::class)->create();
-
-        $this->actingAs($user);
 
         $this->post('/api/v1/auth/login', [
             'username' => 'user01',
@@ -27,6 +25,26 @@ class ApiUserTest extends TestCase
             ->assertStatus(200)
             ->assertJson([
                 'status' => 'success',
+            ]);
+    }
+
+    /**
+     * Login Test on Fail
+     */
+    public function testLoginFail()
+    {
+        $user = factory(\App\User::class)->create();
+
+        $this->post('/api/v1/auth/login', [
+            'username' => 'user01_',
+            'password' => 'password01',
+        ], [
+            'Accept' => 'application/json'
+        ])
+            ->assertStatus(400)
+            ->assertJson([
+                'status' => 'error',
+                'error' => 'invalid.credentials',
             ]);
     }
 
@@ -47,6 +65,17 @@ class ApiUserTest extends TestCase
     }
 
     /**
+     * Logout Test on Fail
+     */
+    public function testLogoutFail()
+    {
+        $user = factory(\App\User::class)->create();
+
+        $this->post('/api/v1/auth/logout')
+            ->assertStatus(400);
+    }
+
+    /**
      * Refresh Test
      */
     public function testRefresh()
@@ -59,6 +88,20 @@ class ApiUserTest extends TestCase
             ->assertStatus(200)
             ->assertJson([
                 'status' => 'success',
+            ]);
+    }
+
+    /**
+     * Refresh Test on Fail
+     */
+    public function testRefreshFail()
+    {
+        $user = factory(\App\User::class)->create();
+
+        $this->get('/api/v1/auth/refresh')
+            ->assertStatus(400)
+            ->assertJson([
+                'error' => 'token_invalid',
             ]);
     }
 
@@ -83,5 +126,15 @@ class ApiUserTest extends TestCase
             ]);
     }
 
+    /**
+     * Get User Data Test on Fail
+     */
+    public function testUserDataFail()
+    {
+        $user = factory(\App\User::class)->create();
+
+        $this->get('/api/v1/auth/user')
+            ->assertStatus(400);
+    }
 
 }
