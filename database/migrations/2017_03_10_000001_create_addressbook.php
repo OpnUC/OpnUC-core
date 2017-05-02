@@ -47,6 +47,6 @@ class CreateAddressbook extends Migration
      */
     public function down()
     {
-        Schema::drop('addressbooks');
+        Schema::drop('address_books');
     }
 }
