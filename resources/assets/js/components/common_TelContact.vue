@@ -21,14 +21,6 @@
         },
         methods: {
             onCall(number, event) {
-                // Click 2 Callが有効で無い場合は処理しない
-                if (!window.opnucConfig.enable_c2c) {
-                    return;
-                }
-
-                // OpnUC上で処理する場合、ブラウザ側のイベント処理を無効にする
-                event.preventDefault();
-
                 this.$events.$emit('Click2Call', number)
             },
         },

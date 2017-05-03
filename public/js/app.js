@@ -748,28 +748,37 @@ const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
             // Broadcast Channel
             window.echo.channel('BroadcastChannel')
-                .listen('MessageCreateBroadcastEvent', function(e){
+                .listen('MessageCreateBroadcastEvent', function (e) {
                     _this.$events.$emit('LaravelEcho:Broadcast', e)
                 })
-                .listen('PresenceUpdated', function(e){
+                .listen('PresenceUpdated', function (e) {
                     _this.$events.$emit('LaravelEcho:PresenceUpdated', e)
                 });
 
+            // 認証に通っている場合はPrivateChannel
             if (this.$auth.check()) {
                 window.echo.private('PrivateChannel.' + this.$auth.user().id)
-                    .listen('MessageCreatePrivateEvent', function(e){
+                    .listen('MessageCreatePrivateEvent', function (e) {
                         _this.$events.$emit('LaravelEcho:Private', e)
                     });
             }
         },
         // Click to Callの発信処理
-        'Click2Call': function(number){
+        'Click2Call': function (number) {
             var _this = this
 
-            this.$confirm(number + 'に発信します。よろしいですか？', '確認', {
+            // Click 2 Callが有効で無い場合は処理しない
+            if (!window.opnucConfig.enable_c2c || !this.$auth.user().address_book.tel1) {
+                return;
+            }
+
+            // OpnUC上で処理する場合、ブラウザ側のイベント処理を無効にする
+            event.preventDefault();
+
+            this.$confirm(this.$auth.user().address_book.tel1 + ' から ' + number + ' に発信します。よろしいですか？', '確認', {
                 confirmButtonText: '発信',
                 cancelButtonText: 'キャンセル',
-            }).then(function(){
+            }).then(function () {
                 __WEBPACK_IMPORTED_MODULE_6_axios___default.a.post('/click2call/originate',
                     {
                         number: number
@@ -781,9 +790,16 @@ const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                         });
                     })
                     .catch(function (error) {
+                        var message = '発信に失敗しました。'
+
+                        if (error.response.status === 422 || error.response.status === 403) {
+                            // 422 - Validation Error
+                            message = error.response.data.message
+                        }
+
                         _this.$message({
                             type: 'error',
-                            message: '発信に失敗しました。'
+                            message: message,
                         });
                     });
             });
@@ -6164,14 +6180,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     methods: {
         onCall: function onCall(number, event) {
-            // Click 2 Callが有効で無い場合は処理しない
-            if (!window.opnucConfig.enable_c2c) {
-                return;
-            }
-
-            // OpnUC上で処理する場合、ブラウザ側のイベント処理を無効にする
-            event.preventDefault();
-
             this.$events.$emit('Click2Call', number);
         }
     }
