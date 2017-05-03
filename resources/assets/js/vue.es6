@@ -120,17 +120,17 @@ const app = new Vue({
             // Broadcast Channel
             window.echo.channel('BroadcastChannel')
                 .listen('MessageCreateBroadcastEvent', function(e){
-                    this.$events.$emit('LaravelEcho:Broadcast', e)
+                    _this.$events.$emit('LaravelEcho:Broadcast', e)
                 })
                 .listen('PresenceUpdated', function(e){
-                    this.$events.$emit('LaravelEcho:PresenceUpdated', e)
+                    _this.$events.$emit('LaravelEcho:PresenceUpdated', e)
                 });
 
             // 認証に通っている場合はPrivateChannel
             if (this.$auth.check()) {
                 window.echo.private('PrivateChannel.' + this.$auth.user().id)
                     .listen('MessageCreatePrivateEvent', function(e){
-                        this.$events.$emit('LaravelEcho:Private', e)
+                        _this.$events.$emit('LaravelEcho:Private', e)
                     });
             }
         },
