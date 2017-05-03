@@ -50,12 +50,5 @@ class EventServiceProvider extends ServiceProvider
             //Session::save();
         });
 
-        // Click to Callのイベントが発火した場合
-        \Event::listen(\App\Events\Click2Call::class, function ($event) {
-
-            \App\Facades\PbxLinker::originate($event->number);
-
-        });
-
     }
 }

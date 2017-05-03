@@ -19,8 +19,7 @@ class PbxLinkerManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return 'Asterisk';
-//        return $this->app['config']['auth.defaults.guard'];
+        return $this->app['config']['opnuc.pbx_linker.type'];
     }
 
     /**
@@ -30,7 +29,7 @@ class PbxLinkerManager extends Manager
      */
     public function setDefaultDriver($name)
     {
-//        $this->app['config']['auth.defaults.guard'] = $name;
+        $this->app['config']['opnuc.pbx_linker.type'] = $name;
     }
 
     /**
@@ -51,18 +50,32 @@ class PbxLinkerManager extends Manager
     /**
      * PBXとの接続を行う
      * @param  string $name
-     * @return \Illuminate\Database\Connection
+     * @return mixed
      */
     public function connection($name = null)
     {
         $name = $name ?: $this->getDefaultDriver();
 
         if (!isset($this->connections[$name])) {
-            $instance = new AsteriskLinker();
-            $this->connections[$name] = $instance;
+            $driverMethod = 'create'.ucfirst($name).'Driver';
+
+            if (method_exists($this, $driverMethod)) {
+                $this->connections[$name] = $this->{$driverMethod}();
+            } else {
+                throw new InvalidArgumentException("Driver [$name] is not supported.");
+            }
         }
 
         return $this->connections[$name];
+    }
+
+    /**
+     * @return AsteriskLinker
+     */
+    protected function createAsteriskDriver(){
+
+        return new AsteriskLinker();
+
     }
 
     /**
