@@ -760,6 +760,9 @@ const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 window.echo.private('PrivateChannel.' + this.$auth.user().id)
                     .listen('MessageCreatePrivateEvent', function (e) {
                         _this.$events.$emit('LaravelEcho:Private', e)
+                    })
+                    .listen('IncomingCallEvent', function (e) {
+                        _this.$events.$emit('LaravelEcho:IncomingCall', e)
                     });
             }
         },
@@ -793,7 +796,6 @@ const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                         var message = '発信に失敗しました。'
 
                         if (error.response.status === 422 || error.response.status === 403) {
-                            // 422 - Validation Error
                             message = error.response.data.message
                         }
 

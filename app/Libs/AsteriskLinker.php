@@ -84,7 +84,16 @@ class AsteriskLinker
         // 着信中
         $this->client->registerEventListener(
             function (EventMessage $event) {
-                var_dump($event);
+                // Click 2 Callの場合はDialStringを見ないと判断出来ない
+
+                // 着信イベント
+                event(new \App\Events\IncomingCallEvent(
+                        $event->getKey('destcalleridnum'),
+                        true,
+                        $event->getKey('calleridnum'),
+                        $event->getKey('calleridname')
+                    )
+                );
             },
             function (EventMessage $event) {
                 return $event instanceof DialBeginEvent
@@ -95,7 +104,12 @@ class AsteriskLinker
         // 着信完了
         $this->client->registerEventListener(
             function (EventMessage $event) {
-                var_dump($event);
+                // 着信イベント
+                event(new \App\Events\IncomingCallEvent(
+                        $event->getKey('destcalleridnum'),
+                        false
+                    )
+                );
             },
             function (EventMessage $event) {
                 return $event instanceof DialEndEvent
@@ -111,16 +125,8 @@ class AsteriskLinker
                 \Log::debug('  Device:' . $event->getKey('device'));
                 \Log::debug('  State:' . $event->getKey('state'));
 
-                // 設定値を正規表現で利用するため、メタ文字をパース
-                $prefix = preg_quote(config('opnuc.pbx_linker.asterisk.device_name_prefix'), '/');
-
-                // Device名に数値が含まれているか
-                if (!preg_match('/' . $prefix . '(\d+)/', $event->getKey('device'), $matches)) {
-                    return;
-                }
-
-                // 含まれている場合は、数値を内線番号として扱う
-                $ext = $matches[1];
+                // DeviceNameから内線番号を取得
+                $ext = $this->_getExtFromDeviceName($event->getKey('device'));
                 // 初期ステータス
                 $state = 'unknown';
 
@@ -182,6 +188,27 @@ class AsteriskLinker
         $result = $this->client->send($action);
 
         return $result->isSuccess();
+
+    }
+
+    /**
+     * DeviceNameから内線番号を取得
+     * @param $device_name string
+     * @return null|string
+     */
+    private function _getExtFromDeviceName($device_name)
+    {
+
+        // 設定値を正規表現で利用するため、メタ文字をパース
+        $prefix = preg_quote(config('opnuc.pbx_linker.asterisk.device_name_prefix'), '/');
+
+        // Device名に数値が含まれているか
+        if (!preg_match('/' . $prefix . '(\d+)/', $device_name, $matches)) {
+            return null;
+        }
+
+        // 含まれている場合は、数値を内線番号として扱う
+        return $matches[1];
 
     }
 

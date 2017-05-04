@@ -131,6 +131,9 @@ const app = new Vue({
                 window.echo.private('PrivateChannel.' + this.$auth.user().id)
                     .listen('MessageCreatePrivateEvent', function (e) {
                         _this.$events.$emit('LaravelEcho:Private', e)
+                    })
+                    .listen('IncomingCallEvent', function (e) {
+                        _this.$events.$emit('LaravelEcho:IncomingCall', e)
                     });
             }
         },
