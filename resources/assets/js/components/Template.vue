@@ -148,7 +148,7 @@
                             body: e.caller_name + '<' + e.caller_id + '> から着信中です。',
                             requireInteraction: true,
                             icon: {
-                                x32: window.assetPath + 'images/iconmonstr-phone-7-32.png',
+                                x32: window.appUrl + 'images/iconmonstr-phone-7-32.png',
                             },
                             tag: 'incomingcall',
                         }

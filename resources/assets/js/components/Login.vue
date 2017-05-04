@@ -2,7 +2,7 @@
     <section class="content">
         <div class="col-md-4 col-md-offset-4">
             <div class="box box-solid box-info">
-                <div id="resultLoading" style="visibility: hidden;" class="overlay">
+                <div class="overlay" v-if="isLoading">
                     <i class="fa fa-refresh fa-spin"></i>
                 </div>
                 <div class="box-header">ログイン</div>
@@ -25,14 +25,31 @@
                                    v-model="password"
                                    placeholder="パスワード" required>
                         </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="remember" v-model="remember"> ログインを維持する
-                            </label>
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" value="remember" v-model="remember"> ログインを維持する
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <button class="btn btn-primary btn-block" type="submit">
+                                    <i class="fa fa-sign-in"></i>
+                                    ログイン
+                                </button>
+                            </div>
                         </div>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">ログイン</button>
-                        <a href="/saml2/login" class="btn btn-primary btn-block">SAML2でログイン</a>
-                        <br/>
+
+                        <div class="text-center" v-if="enable_saml2_auth">
+                            <p></p>
+                            <a href="/saml2/login" class="btn btn-primary btn-block">
+                                SAML2でログイン
+                            </a>
+                        </div>
+
+                        <p></p>
+
                         <div class="text-center">
                             <router-link to="/PasswordResetEmail">パスワードをお忘れですか？</router-link>
                         </div>
@@ -44,11 +61,17 @@
 </template>
 <script>
     export default {
+        computed: {
+            enable_saml2_auth(){
+                return window.opnucConfig.enable_saml2_auth;
+            },
+        },
         created() {
             this.$root.sidebar = false;
         },
         data() {
             return {
+                isLoading: false,
                 username: null,
                 password: null,
                 remember: false,
@@ -57,46 +80,46 @@
         },
         mounted(){
             // mode が restore の場合は、渡されたTokenで認証を試みる
-            if(this.$route.query.mode === 'restore' && this.$route.query.token){
-                $('#resultLoading').css('visibility', 'visible');
+            if (this.$route.query.mode === 'restore' && this.$route.query.token) {
+                this.isLoading = true
 
                 var redirect = this.$auth.redirect();
 
                 this.$auth.login({
-                    params:{
+                    params: {
                         'mode': 'restore',
                         'token': this.$route.query.token,
                     },
                     rememberMe: false,
                     redirect: redirect ? redirect.from.fullPath : '/',
                     error(res) {
-                        $('#resultLoading').css('visibility', 'hidden');
-                        this.error = res.response.data;
+                        _this.isLoading = false
+                        _this.error = res.response.data;
                     }
                 });
             }
         },
         methods: {
             signin() {
-                $('#resultLoading').css('visibility', 'visible');
+                var _this = this
+
+                this.isLoading = true
 
                 var redirect = this.$auth.redirect();
 
                 this.$auth.login({
-                    params:{
+                    params: {
                         'username': this.username,
                         'password': this.password,
                     },
                     rememberMe: this.remember,
                     redirect: redirect ? redirect.from.fullPath : '/',
                     error(res) {
-                        $('#resultLoading').css('visibility', 'hidden');
-                        this.error = res.response.data;
+                        _this.isLoading = false
+                        _this.error = res.response.data;
                     }
                 });
             }
         }
     }
 </script>
-<style>
-</style>

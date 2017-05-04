@@ -4936,7 +4936,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4983,11 +5000,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = {
+    computed: {
+        enable_saml2_auth: function enable_saml2_auth() {
+            return window.opnucConfig.enable_saml2_auth;
+        }
+    },
     created: function created() {
         this.$root.sidebar = false;
     },
     data: function data() {
         return {
+            isLoading: false,
             username: null,
             password: null,
             remember: false,
@@ -4997,7 +5020,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     mounted: function mounted() {
         // mode が restore の場合は、渡されたTokenで認証を試みる
         if (this.$route.query.mode === 'restore' && this.$route.query.token) {
-            $('#resultLoading').css('visibility', 'visible');
+            this.isLoading = true;
 
             var redirect = this.$auth.redirect();
 
@@ -5009,8 +5032,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 rememberMe: false,
                 redirect: redirect ? redirect.from.fullPath : '/',
                 error: function error(res) {
-                    $('#resultLoading').css('visibility', 'hidden');
-                    this.error = res.response.data;
+                    _this.isLoading = false;
+                    _this.error = res.response.data;
                 }
             });
         }
@@ -5018,7 +5041,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         signin: function signin() {
-            $('#resultLoading').css('visibility', 'visible');
+            var _this = this;
+
+            this.isLoading = true;
 
             var redirect = this.$auth.redirect();
 
@@ -5030,14 +5055,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 rememberMe: this.remember,
                 redirect: redirect ? redirect.from.fullPath : '/',
                 error: function error(res) {
-                    $('#resultLoading').css('visibility', 'hidden');
-                    this.error = res.response.data;
+                    _this.isLoading = false;
+                    _this.error = res.response.data;
                 }
             });
         }
     }
 };
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(4)))
 
 /***/ }),
 /* 231 */
@@ -5419,7 +5443,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     body: e.caller_name + '<' + e.caller_id + '> から着信中です。',
                     requireInteraction: true,
                     icon: {
-                        x32: window.assetPath + 'images/iconmonstr-phone-7-32.png'
+                        x32: window.appUrl + 'images/iconmonstr-phone-7-32.png'
                     },
                     tag: 'incomingcall'
                 });
@@ -6585,13 +6609,7 @@ exports = module.exports = __webpack_require__(6)();
 exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
-/* 248 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-/***/ }),
+/* 248 */,
 /* 249 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -35975,10 +35993,6 @@ module.exports = Component.exports
 /* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
-
-/* styles */
-__webpack_require__(345)
-
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(230),
@@ -39084,7 +39098,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "col-md-4 col-md-offset-4"
   }, [_c('div', {
     staticClass: "box box-solid box-info"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
+  }, [(_vm.isLoading) ? _c('div', {
+    staticClass: "overlay"
+  }, [_c('i', {
+    staticClass: "fa fa-refresh fa-spin"
+  })]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "box-header"
   }, [_vm._v("ログイン")]), _vm._v(" "), _c('div', {
     staticClass: "box-body"
@@ -39167,6 +39185,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-xs-8"
+  }, [_c('div', {
     staticClass: "checkbox"
   }, [_c('label', [_c('input', {
     directives: [{
@@ -39200,36 +39222,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }
-  }), _vm._v(" ログインを維持する\n                        ")])]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-lg btn-primary btn-block",
+  }), _vm._v(" ログインを維持する\n                                ")])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-4"
+  }, [_c('button', {
+    staticClass: "btn btn-primary btn-block",
     attrs: {
       "type": "submit"
     }
-  }, [_vm._v("ログイン")]), _vm._v(" "), _c('a', {
+  }, [_c('i', {
+    staticClass: "fa fa-sign-in"
+  }), _vm._v("\n                                ログイン\n                            ")])])]), _vm._v(" "), (_vm.enable_saml2_auth) ? _c('div', {
+    staticClass: "text-center"
+  }, [_c('p'), _vm._v(" "), _c('a', {
     staticClass: "btn btn-primary btn-block",
     attrs: {
       "href": "/saml2/login"
     }
-  }, [_vm._v("SAML2でログイン")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                            SAML2でログイン\n                        ")])]) : _vm._e(), _vm._v(" "), _c('p'), _vm._v(" "), _c('div', {
     staticClass: "text-center"
   }, [_c('router-link', {
     attrs: {
       "to": "/PasswordResetEmail"
     }
   }, [_vm._v("パスワードをお忘れですか？")])], 1)])])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "overlay",
-    staticStyle: {
-      "visibility": "hidden"
-    },
-    attrs: {
-      "id": "resultLoading"
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-refresh fa-spin"
-  })])
-}]}
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -40419,32 +40435,7 @@ if(false) {
 }
 
 /***/ }),
-/* 345 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(248);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(7)("0124eeea", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-5f426d94!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Login.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-5f426d94!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Login.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
+/* 345 */,
 /* 346 */
 /***/ (function(module, exports, __webpack_require__) {
 
