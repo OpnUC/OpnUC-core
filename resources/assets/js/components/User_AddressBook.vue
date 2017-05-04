@@ -1,6 +1,6 @@
 <template>
     <section class="content">
-        <div class="row" v-if="selectItem">
+        <div class="row">
             <div class="col-md-8">
                 <form class="form-horizontal" v-on:submit.prevent="onSave">
                     <div class="box box-primary">
@@ -12,7 +12,7 @@
                                 内線電話帳情報
                             </h3>
                         </div>
-                        <div class="box-body">
+                        <div class="box-body" v-if="selectItem">
                             <div v-if="status == 'success'" class="alert alert-success">
                                 {{message}}
                             </div>
@@ -161,7 +161,10 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary pull-right">保存</button>
+                            <button type="submit" class="btn btn-primary pull-right">
+                                <i class="fa fa-save"></i>
+                                保存
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -169,7 +172,6 @@
         </div>
     </section>
 </template>
-
 <script>
     import Vue from 'vue'
 

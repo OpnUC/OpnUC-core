@@ -5973,6 +5973,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -37985,7 +37987,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('section', {
     staticClass: "content"
-  }, [(_vm.selectItem) ? _c('div', {
+  }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-md-8"
@@ -38003,7 +38005,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "overlay"
   }, [_c('i', {
     staticClass: "fa fa-refresh fa-spin"
-  })]) : _vm._e(), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
+  })]) : _vm._e(), _vm._v(" "), _vm._m(0), _vm._v(" "), (_vm.selectItem) ? _c('div', {
     staticClass: "box-body"
   }, [(_vm.status == 'success') ? _c('div', {
     staticClass: "alert alert-success"
@@ -38339,7 +38341,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "help-block"
   }, [_c('ul', _vm._l((_vm.errors.comment), function(item) {
     return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
-  }))]) : _vm._e()])])]), _vm._v(" "), _vm._m(1)])])])]) : _vm._e()])
+  }))]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), _vm._m(1)])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box-header with-border"
@@ -38354,7 +38356,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "submit"
     }
-  }, [_vm._v("保存")])])
+  }, [_c('i', {
+    staticClass: "fa fa-save"
+  }), _vm._v("\n                            保存\n                        ")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
