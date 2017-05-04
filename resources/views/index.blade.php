@@ -14,6 +14,8 @@
 <div id="root"></div>
 
 <script>
+    window.assetPath = '{{ asset('') }}';
+
     window.opnucConfig = <?php
     echo json_encode([
         'enable_c2c' => \Config::get('opnuc.enable_c2c'),

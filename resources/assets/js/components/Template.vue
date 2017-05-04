@@ -13,7 +13,8 @@
 
                 <ul class="nav navbar-nav">
                     <router-link tag="li" to="/cdr" v-if="$auth.check('cdr-user')"><a>発着信履歴</a></router-link>
-                    <router-link tag="li" to="/AddressBook" v-if="$auth.check('addressbook-user')"><a>Web電話帳</a></router-link>
+                    <router-link tag="li" to="/AddressBook" v-if="$auth.check('addressbook-user')"><a>Web電話帳</a>
+                    </router-link>
                 </ul>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
@@ -85,7 +86,9 @@
                     <small>{{ $route.meta.description }}</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><router-link to="/"><i class="fa fa-home"></i>Home</router-link></li>
+                    <li>
+                        <router-link to="/"><i class="fa fa-home"></i>Home</router-link>
+                    </li>
                     <li class="active">{{ $route.meta.title }}</li>
                 </ol>
             </section>
@@ -100,6 +103,9 @@
 </template>
 
 <script>
+
+    import pushjs from 'push.js'
+
     export default {
         data() {
             return {
@@ -133,6 +139,24 @@
             },
             'LaravelEcho:reconnect': function (e) {
                 this.isConnectLaravelEcho = true
+            },
+            'LaravelEcho:IncomingCall': function (e) {
+                if (e.state) {
+                    // start
+                    pushjs.create('着信中...',
+                        {
+                            body: e.caller_name + '<' + e.caller_id + '> から着信中です。',
+                            requireInteraction: true,
+                            icon: {
+                                x32: window.assetPath + 'images/iconmonstr-phone-7-32.png',
+                            },
+                            tag: 'incomingcall',
+                        }
+                    )
+                } else {
+                    // end
+                    pushjs.clear('incomingcall')
+                }
             },
         },
         mounted(){
