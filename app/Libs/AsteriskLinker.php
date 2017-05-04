@@ -91,7 +91,8 @@ class AsteriskLinker
                         $event->getKey('destcalleridnum'),
                         true,
                         $event->getKey('calleridnum'),
-                        $event->getKey('calleridname')
+                        // unknownの場合は空白とする
+                        $event->getKey('calleridname') === '<unknown>' ? '' : $event->getKey('calleridname')
                     )
                 );
             },

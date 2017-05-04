@@ -14,8 +14,8 @@ class IncomingCallEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $caller_id;
-    public $caller_name;
+    public $callerid_num;
+    public $callerid_name;
     public $state;
     private $userid;
 
@@ -27,12 +27,12 @@ class IncomingCallEvent implements ShouldBroadcast
      * @param $caller_id string
      * @param $caller_name string
      */
-    public function __construct($ext, $state, $caller_id = null, $caller_name = null)
+    public function __construct($ext, $state, $callerid_num = null, $callerid_name = '')
     {
 
         $this->state = $state;
-        $this->caller_id = $caller_id;
-        $this->caller_name = $caller_name;
+        $this->callerid_num = $callerid_num;
+        $this->callerid_name = $callerid_name;
 
         $record = AddressBook::select('owner_userid')
             // 内線電話帳
@@ -47,6 +47,17 @@ class IncomingCallEvent implements ShouldBroadcast
         }
 
         $this->userid = $record->owner_userid;
+
+        // Caller ID Nameが無い場合は、電話帳から検索する
+        if(!$this->callerid_name){
+            $record = AddressBook::select('name')
+                ->orWhere('tel1', $this->callerid_num)
+                ->orWhere('tel2', $this->callerid_num)
+                ->orWhere('tel3', $this->callerid_num)
+                ->get()
+                ->first();
+            $this->callerid_name = $record->name;
+        }
 
     }
 

@@ -145,7 +145,7 @@
                     // start
                     pushjs.create('着信中...',
                         {
-                            body: e.caller_name + '<' + e.caller_id + '> から着信中です。',
+                            body: e.callerid_name + ' <' + e.callerid_num + '> から着信中です。',
                             requireInteraction: true,
                             icon: {
                                 x32: window.appUrl + 'images/iconmonstr-phone-7-32.png',
