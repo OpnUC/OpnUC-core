@@ -86,6 +86,11 @@ class AsteriskLinker
             function (EventMessage $event) {
                 // Click 2 Callの場合はDialStringを見ないと判断出来ない
 
+                // Caller ID Numが取得できない場合は処理しない
+                if($event->getKey('calleridnum') === null){
+                    return;
+                }
+
                 // 着信イベント
                 event(new \App\Events\IncomingCallEvent(
                         $event->getKey('destcalleridnum'),

@@ -49,14 +49,18 @@ class IncomingCallEvent implements ShouldBroadcast
         $this->userid = $record->owner_userid;
 
         // Caller ID Nameが無い場合は、電話帳から検索する
-        if(!$this->callerid_name){
+        if(!$this->callerid_name && $this->callerid_num){
             $record = AddressBook::select('name')
                 ->orWhere('tel1', $this->callerid_num)
                 ->orWhere('tel2', $this->callerid_num)
                 ->orWhere('tel3', $this->callerid_num)
                 ->get()
                 ->first();
-            $this->callerid_name = $record->name;
+
+            if(!$record){
+                // レコードが無い場合は、セットしない
+                $this->callerid_name = $record->name;
+            }
         }
 
     }
