@@ -5485,8 +5485,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 //
 //
 //
@@ -5636,8 +5634,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-
-
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
@@ -6062,7 +6068,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-//
 //
 //
 //
@@ -36349,13 +36354,17 @@ module.exports = Component.exports
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('section', {
     staticClass: "content"
-  }, [(_vm.selectItem) ? _c('div', {
+  }, [_c('div', {
     staticClass: "row"
   }, [_c('div', {
     staticClass: "col-md-3"
   }, [_c('div', {
     staticClass: "box box-primary"
-  }, [_c('div', {
+  }, [(_vm.isLoading) ? _c('div', {
+    staticClass: "overlay"
+  }, [_c('i', {
+    staticClass: "fa fa-refresh fa-spin"
+  })]) : _vm._e(), _vm._v(" "), _vm._m(0), _vm._v(" "), (_vm.selectItem) ? _c('div', {
     staticClass: "box-body box-profile"
   }, [_c('img', {
     staticClass: "profile-user-img img-responsive img-circle",
@@ -36365,7 +36374,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), _c('h3', {
     staticClass: "profile-username text-center"
-  }, [_vm._v("\n                        " + _vm._s(_vm.selectItem.display_name) + "\n                    ")])])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("\n                        " + _vm._s(_vm.selectItem.display_name) + "\n                    ")])]) : _vm._e()])]), _vm._v(" "), _c('div', {
     staticClass: "col-md-8"
   }, [_c('form', {
     staticClass: "form-horizontal",
@@ -36381,7 +36390,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "overlay"
   }, [_c('i', {
     staticClass: "fa fa-refresh fa-spin"
-  })]) : _vm._e(), _vm._v(" "), _vm._m(0), _vm._v(" "), (_vm.selectItem) ? _c('div', {
+  })]) : _vm._e(), _vm._v(" "), _vm._m(1), _vm._v(" "), (_vm.selectItem) ? _c('div', {
     staticClass: "box-body"
   }, [(_vm.status == 'success') ? _c('div', {
     staticClass: "alert alert-success"
@@ -36616,7 +36625,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.onAvatarUpload($event)
       }
     }
-  }), _vm._v(" "), _vm._m(1), _vm._v(" "), (_vm.errors.avatar_file) ? _c('span', {
+  }), _vm._v(" "), _vm._m(2), _vm._v(" "), (_vm.errors.avatar_file) ? _c('span', {
     staticClass: "help-block"
   }, [_c('ul', _vm._l((_vm.errors.avatar_file), function(item) {
     return _c('li', [_vm._v("\n                                            " + _vm._s(item) + "\n                                        ")])
@@ -36630,8 +36639,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-times-circle"
-  }), _vm._v("\n                                    アバター画像を削除する\n                                ")]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), _vm._m(2)])])])]) : _vm._e()])
+  }), _vm._v("\n                                    アバター画像を削除する\n                                ")]) : _vm._e()])])]) : _vm._e(), _vm._v(" "), _vm._m(3)])])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "box-header with-border"
+  }, [_c('h3', {
+    staticClass: "box-title"
+  }, [_vm._v("\n                        アバター\n                    ")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "box-header with-border"
   }, [_c('h3', {
@@ -36649,7 +36664,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "submit"
     }
-  }, [_vm._v("保存")])])
+  }, [_c('i', {
+    staticClass: "fa fa-save"
+  }), _vm._v("\n                            保存\n                        ")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
