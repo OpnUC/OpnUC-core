@@ -6139,6 +6139,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -37663,7 +37666,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-group",
     class: _vm.errors.password ? 'has-error' : ''
   }, [_c('label', {
-    staticClass: "control-label col-xs-3",
+    staticClass: "control-label col-xs-4",
     attrs: {
       "for": "inputPassword"
     }
@@ -37699,7 +37702,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-group",
     class: _vm.errors.newPassword ? 'has-error' : ''
   }, [_c('label', {
-    staticClass: "control-label col-xs-3",
+    staticClass: "control-label col-xs-4",
     attrs: {
       "for": "inputNewPassword"
     }
@@ -37735,7 +37738,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-group",
     class: _vm.errors.newPassword_confirmation ? 'has-error' : ''
   }, [_c('label', {
-    staticClass: "control-label col-xs-3",
+    staticClass: "control-label col-xs-4",
     attrs: {
       "for": "inputNewPasswordConfirm"
     }
@@ -37782,7 +37785,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "submit"
     }
-  }, [_vm._v("保存")])])
+  }, [_c('i', {
+    staticClass: "fa fa-save"
+  }), _vm._v("\n                            保存\n                        ")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
