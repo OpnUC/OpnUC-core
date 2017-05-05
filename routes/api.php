@@ -40,6 +40,7 @@ Route::group([
         Route::post('/admin/userEdit', 'AdminController@userEdit');
         Route::post('/admin/userDelete', 'AdminController@userDelete');
 
+        Route::get('/user/users', 'UserController@users');
         Route::post('/user/edit', 'UserController@edit');
         Route::post('/user/passwordChange', 'UserController@passwordChange');
         Route::post('/user/uploadAvatar', 'UserController@uploadAvatar');

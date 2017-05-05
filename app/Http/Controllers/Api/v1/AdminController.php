@@ -29,8 +29,7 @@ class AdminController extends Controller
     {
 
         // 権限チェック
-        // アドレス帳の中でも利用するため、権限を開ける
-        if (!\Entrust::can('system-admin') || !\Entrust::can('addressbook-admin')) {
+        if (!\Entrust::can('system-admin')) {
             abort(403);
         }
 
