@@ -15,6 +15,8 @@
                     <router-link tag="li" to="/cdr" v-if="$auth.check('cdr-user')"><a>発着信履歴</a></router-link>
                     <router-link tag="li" to="/AddressBook" v-if="$auth.check('addressbook-user')"><a>Web電話帳</a>
                     </router-link>
+                    <router-link tag="li" to="/Messenger" v-if="$auth.check('messenger-user')"><a>Messenger</a>
+                    </router-link>
                 </ul>
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">

@@ -16,6 +16,11 @@ import User from './components/User.vue'
 import User_PasswordChange from './components/User_PasswordChange.vue'
 import User_AddressBook from './components/User_AddressBook.vue'
 
+import Messenger_Template from './components/Messenger_Template.vue'
+import Messenger_Sidebar from './components/Messenger_Sidebar.vue'
+import Messenger from './components/Messenger.vue'
+import Messenger_Channel from './components/Messenger_Channel.vue'
+
 import Admin_Template from './components/Admin_Template.vue'
 import Admin_Sidebar from './components/Admin_Sidebar.vue'
 import Admin from './components/Admin.vue'
@@ -95,6 +100,35 @@ const routes = [
                         meta: {
                             title: 'Web電話帳',
                             description: 'Web Address Book',
+                            auth: true
+                        },
+                    },
+                ],
+            },
+            {
+                path: '/Messenger',
+                components: {
+                    default: Messenger_Template,
+                    sidebar: Messenger_Sidebar
+                },
+                children: [
+                    {
+                        path: '',
+                        name: 'Messenger',
+                        component: Messenger,
+                        meta: {
+                            title: 'Messenger',
+                            description: 'Messenger',
+                            auth: true
+                        },
+                    },
+                    {
+                        path: 'Channel/:id?',
+                        name: 'MessengerChannel',
+                        component: Messenger_Channel,
+                        meta: {
+                            title: 'Messenger',
+                            description: 'Messenger',
                             auth: true
                         },
                     },

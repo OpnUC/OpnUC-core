@@ -47,6 +47,13 @@ Route::group([
 
         Route::post('/click2call/originate', 'Click2CallController@originate');
 
+        Route::post('/messenger/joinChannel', 'MessengerController@joinChannel');
+        Route::post('/messenger/leaveChannel', 'MessengerController@leaveChannel');
+        Route::get('/messenger/joinedChannels', 'MessengerController@joinedChannles');
+        Route::get('/messenger/channel', 'MessengerController@channel');
+        Route::get('/messenger/channels', 'MessengerController@channels');
+        Route::post('/messenger/message', 'MessengerController@message');
+
         Route::get('/cdr/search', 'CdrController@search');
         Route::get('/cdr/download', 'CdrController@download');
 

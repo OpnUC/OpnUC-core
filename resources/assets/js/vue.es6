@@ -6,6 +6,7 @@ import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/ja'
 import 'element-ui/lib/theme-default/index.css'
 import AppView from './components/App.vue'
+import moment from 'moment'
 
 import axios from 'axios'
 import VueAxios from 'vue-axios'
@@ -51,6 +52,12 @@ var myBearer = {
         }
     }
 }
+
+Vue.filter('formatDatetime', function(value) {
+    if (value) {
+        return moment(String(value)).format('YYYY/MM/DD HH:mm:ss')
+    }
+});
 
 Vue.use(VueAuth, {
     // auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),

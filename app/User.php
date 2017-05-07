@@ -39,6 +39,11 @@ class User extends Authenticatable
         'avatar_path',
     );
 
+    public function messengerChannels()
+    {
+        return $this->belongsToMany(MessengerChannel::class);
+    }
+
     /**
      * アドレス帳情報を取得
      * @return AddressBook
