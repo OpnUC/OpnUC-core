@@ -50,6 +50,25 @@ class MessengerController extends Controller
 
     }
 
+    /**
+     * チャンネルの追加
+     * @param Requests\MessengerNewChannelRequest $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function newChannel(Requests\MessengerNewChannelRequest $request)
+    {
+
+        $channel = new MessengerChannel();
+        $channel->name = $request['name'];
+        $channel->topic = $request['topic'];
+        $channel->save();
+
+        return response([
+            'status' => 'success'
+        ]);
+
+    }
+
     public function joinChannel(Request $request)
     {
 

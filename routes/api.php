@@ -47,6 +47,7 @@ Route::group([
 
         Route::post('/click2call/originate', 'Click2CallController@originate');
 
+        Route::post('/messenger/newChannel', 'MessengerController@newChannel');
         Route::post('/messenger/joinChannel', 'MessengerController@joinChannel');
         Route::post('/messenger/leaveChannel', 'MessengerController@leaveChannel');
         Route::get('/messenger/joinedChannels', 'MessengerController@joinedChannles');

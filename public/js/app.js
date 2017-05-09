@@ -5129,6 +5129,59 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5195,7 +5248,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }],
             // ここまで：Vuetableのパラメタ
             channels: [],
-            isLoading: true
+            isLoading: true,
+            isShowDialog: false,
+            isPosting: false,
+            status: null,
+            errors: [],
+            message: null,
+            newChannel: []
         };
     },
 
@@ -5206,6 +5265,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         onChangePage: function onChangePage(page) {
             this.$refs.vuetable.changePage(page);
+        },
+        onCreateChannel: function onCreateChannel() {
+            var self = this;
+
+            self.isPosting = true;
+
+            axios.post('/messenger/newChannel', {
+                name: self.newChannel.name,
+                topic: self.newChannel.topic
+            }).then(function (response) {
+                self.isPosting = false;
+                self.isShowDialog = false;
+
+                self.$message({
+                    message: 'チャンネルを作成しました。'
+                });
+
+                self.$refs.vuetable.refresh();
+            }).catch(function (error) {
+                console.log(error);
+
+                self.isPosting = false;
+                self.status = 'error';
+
+                if (error.response.status === 422) {
+                    // 422 - Validation Error
+                    self.message = '入力に問題があります。';
+
+                    self.errors = error.response.data;
+                } else {
+                    self.message = 'エラーが発生しました。';
+                }
+            });
         },
         regEvent: function regEvent() {
             var _this = this;
@@ -41687,7 +41779,131 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fa fa-refresh fa-spin"
   })]) : _vm._e(), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "box-body"
-  }, [_c('vuetable', {
+  }, [_c('div', {
+    staticClass: "pull-left"
+  }, [_c('button', {
+    staticClass: "btn btn-default btn-sm",
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.isShowDialog = true
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-plus"
+  }), _vm._v("\n                    新しいチャンネル\n                ")])]), _vm._v(" "), _c('form', {
+    staticClass: "form-horizontal",
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.onCreateChannel($event)
+      }
+    }
+  }, [_c('el-dialog', {
+    attrs: {
+      "title": "新しいチャンネルの作成"
+    },
+    model: {
+      value: (_vm.isShowDialog),
+      callback: function($$v) {
+        _vm.isShowDialog = $$v
+      },
+      expression: "isShowDialog"
+    }
+  }, [(_vm.status == 'success') ? _c('div', {
+    staticClass: "alert alert-success"
+  }, [_vm._v("\n                        " + _vm._s(_vm.message) + "\n                    ")]) : (_vm.status == 'error') ? _c('div', {
+    staticClass: "alert alert-error"
+  }, [_vm._v("\n                        " + _vm._s(_vm.message) + "\n                    ")]) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.name ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputName"
+    }
+  }, [_vm._v("チャンネル名")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.newChannel.name),
+      expression: "newChannel.name"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputName",
+      "placeholder": "チャンネル名"
+    },
+    domProps: {
+      "value": (_vm.newChannel.name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.newChannel.name = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.name) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.name), function(item) {
+    return _c('li', [_vm._v("\n                                        " + _vm._s(item) + "\n                                    ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group",
+    class: _vm.errors.topic ? 'has-error' : ''
+  }, [_c('label', {
+    staticClass: "control-label col-xs-3",
+    attrs: {
+      "for": "inputTopic"
+    }
+  }, [_vm._v("トピック")]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-7"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.newChannel.topic),
+      expression: "newChannel.topic"
+    }],
+    staticClass: "form-control input-sm",
+    attrs: {
+      "type": "text",
+      "id": "inputTopic",
+      "placeholder": "トピック"
+    },
+    domProps: {
+      "value": (_vm.newChannel.topic)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.newChannel.topic = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.errors.topic) ? _c('span', {
+    staticClass: "help-block"
+  }, [_c('ul', _vm._l((_vm.errors.topic), function(item) {
+    return _c('li', [_vm._v("\n                                        " + _vm._s(item) + "\n                                    ")])
+  }))]) : _vm._e()])]), _vm._v(" "), _c('span', {
+    staticClass: "dialog-footer",
+    slot: "footer"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.isShowDialog = false
+      }
+    }
+  }, [_vm._v("キャンセル")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "submit",
+      "disabled": _vm.isPosting
+    }
+  }, [_vm._v("作成")])])])], 1), _vm._v(" "), _c('vuetable', {
     ref: "vuetable",
     staticClass: "table table-striped",
     attrs: {
