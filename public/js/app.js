@@ -5507,6 +5507,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
@@ -5528,12 +5531,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     events: {
-        'Messenger:RecieveMessage': function MessengerRecieveMessage(channelId, e) {
+        'Messenger:RecieveMessage': function MessengerRecieveMessage(channelId, message) {
             if (channelId != this.channelId) {
                 return;
             }
 
-            this.onPushMessage(e.userId, e.username, e.avatarUrl, e.datetime, e.message);
+            this.messages.push(message);
+
+            // 最後にスクロール
+            var el = this.$el.getElementsByClassName('direct-chat-messages')[0];
+            this.$nextTick(function () {
+                el.scrollTop = el.scrollHeight;
+            });
+        },
+        'Messenger:PostedMessage': function MessengerPostedMessage(channelId, messageId) {
+            if (channelId != this.channelId) {
+                return;
+            }
+
+            // チャンネルを返す
+            var message = this.messages.filter(function (item) {
+                return item.messageId == messageId;
+            })[0];
+
+            message.isPosted = true;
         },
         'Messenger:UpdateMemberList': function MessengerUpdateMemberList(channelId, members) {
             if (channelId != this.channelId) {
@@ -5549,14 +5570,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
 
-            this.onPushMessage(joiningUser.id, joiningUser.name, joiningUser.avatar_path, new Date(), 'チャンネルに参加しました。(システム)');
+            //this.onPushMessage(joiningUser.id, joiningUser.name, joiningUser.avatar_path, new Date(), 'チャンネルに参加しました。(システム)')
         },
         'Messenger:LeavingUser': function MessengerLeavingUser(channelId, leavingUser) {
             if (channelId != this.channelId) {
                 return;
             }
 
-            this.onPushMessage(leavingUser.id, leavingUser.name, leavingUser.avatar_path, new Date(), 'チャンネルから退室しました。(システム)');
+            //this.onPushMessage(leavingUser.id, leavingUser.name, leavingUser.avatar_path, new Date(), 'チャンネルから退室しました。(システム)')
         },
         'Messenger:RecieveTyping': function MessengerRecieveTyping(channelId, username) {
             var self = this;
@@ -5574,21 +5595,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
-        onPushMessage: function onPushMessage(userId, username, avatarUrl, datetime, message) {
-            this.messages.push({
-                userId: userId,
-                username: username,
-                avatarUrl: avatarUrl,
-                datetime: datetime,
-                message: message
-            });
-
-            // 最後にスクロール
-            var el = this.$el.getElementsByClassName('direct-chat-messages')[0];
-            this.$nextTick(function () {
-                el.scrollTop = el.scrollHeight;
-            });
-        },
         onTyping: function onTyping() {
             var self = this;
 
@@ -5610,28 +5616,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         onPost: function onPost() {
-            var self = this;
-            var message = self.postMessage;
+            this.$events.$emit('Messenger:onPost', this.channelId, this.postMessage);
 
-            if (!message) {
-                return;
-            }
-
-            self.isPosting = true;
-
-            axios.post('/messenger/message', {
-                channelId: self.channelId,
-                message: message
-            }).then(function (response) {
-                // todo: thenで処理すると遅いので、先に描画して送信済みかどうか表示する？
-                self.onPushMessage(self.$auth.user().id, self.$auth.user().display_name, self.$auth.user().avatar_path, new Date(), message);
-
-                self.postMessage = null;
-                self.isPosting = false;
-            }).catch(function (error) {
-                self.isPosting = false;
-                console.log(error);
-            });
+            this.postMessage = null;
         },
         onInitView: function onInitView() {
             var self = this;
@@ -5741,6 +5728,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     events: {
+        'Messenger:onPost': function MessengerOnPost(channelId, message) {
+            var self = this;
+
+            if (!message) {
+                return;
+            }
+
+            var messageId = '' + _.now() + Math.floor(Math.random() * 65535);
+
+            self.postMessage(channelId, message, messageId);
+
+            axios.post('/messenger/message', {
+                channelId: channelId,
+                message: message
+            }).then(function (response) {
+                self.$events.$emit('Messenger:PostedMessage', channelId, messageId);
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
         'Messenger:onTyping': function MessengerOnTyping(channelId) {
             // 入力中のイベントが発生した場合
 
@@ -5796,25 +5803,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         self.$events.$emit('Messenger:RecieveTyping', channelId, e.username);
                     }).listen('MessengerNewMessage', function (e) {
                         // メッセージを受信した場合
-                        var channel = self.getChannel(channelId);
-
-                        var message = {
-                            userId: e.ownerUserId,
-                            username: e.ownerUserName,
-                            avatarUrl: e.ownerAvatarUrl,
-                            datetime: e.datetime,
-                            message: e.message
-                        };
-
-                        // メッセージを保存
-                        channel.messages.push(message);
-
-                        // 最大件数は100件
-                        while (channel.messages.length > 100) {
-                            channel.messages.shift();
-                        }
-
-                        self.$events.$emit('Messenger:RecieveMessage', channelId, message);
+                        self.postMessage(channelId, e.message, '', // MessageId
+                        e.ownerUserId, e.ownerUserName, e.ownerAvatarUrl, e.datetime);
                     });
                 }
 
@@ -5895,6 +5885,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.joinChannels.filter(function (item) {
                 return item.channelId == channelId;
             })[0];
+        },
+
+        /**
+         * メッセージの流し込み
+         * @param channelId
+         * @param message
+         * @param messageId
+         * @param userId
+         * @param username
+         * @param avatarUrl
+         * @param datetime
+         */
+        postMessage: function postMessage(channelId, message, messageId) {
+            var userId = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+            var username = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
+            var avatarUrl = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
+            var datetime = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : null;
+
+            var channel = this.getChannel(channelId);
+
+            var objMessage = {
+                message: message,
+                messageId: messageId,
+                userId: userId === null ? this.$auth.user().id : userId,
+                username: username === null ? this.$auth.user().display_name : username,
+                avatarUrl: avatarUrl === null ? this.$auth.user().avatar_path : avatarUrl,
+                datetime: datetime === null ? new Date() : datetime,
+                isPosted: false
+            };
+
+            // メッセージを保存
+            channel.messages.push(objMessage);
+
+            // 最大件数は100件
+            while (channel.messages.length > 100) {
+                channel.messages.shift();
+            }
+
+            this.$events.$emit('Messenger:RecieveMessage', channelId, objMessage);
         }
     },
     mounted: function mounted() {
@@ -38796,9 +38825,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "treeview"
   }, [_c('router-link', {
     attrs: {
-      "to": "/User/PasswordChange"
+      "to": "/"
     }
-  }, [_c('span', [_vm._v("パスワードの変更")])])], 1)], 2)])])
+  }, [_c('span', [_vm._v("Dummy")])])], 1)], 2)])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -39105,7 +39134,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v(_vm._s(message.username))]), _vm._v(" "), _c('span', {
       staticClass: "direct-chat-timestamp",
       class: message.userId == _vm.$auth.user().id ? 'pull-left' : 'pull-right'
-    }, [_vm._v(_vm._s(_vm._f("formatDatetime")(message.datetime)))])]), _vm._v(" "), _c('img', {
+    }, [_vm._v("\n                            " + _vm._s(_vm._f("formatDatetime")(message.datetime)) + "\n                            "), (message.isPosted) ? _c('i', {
+      staticClass: "fa fa-check-circle",
+      attrs: {
+        "title": "配信済み"
+      }
+    }) : _vm._e()])]), _vm._v(" "), _c('img', {
       staticClass: "direct-chat-img",
       attrs: {
         "src": message.avatarUrl,

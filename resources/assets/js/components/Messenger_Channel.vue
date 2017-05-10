@@ -30,7 +30,10 @@
                             <span class="direct-chat-name"
                                   v-bind:class="message.userId == $auth.user().id ? 'pull-right' : 'pull-left'">{{ message.username }}</span>
                             <span class="direct-chat-timestamp"
-                                  v-bind:class="message.userId == $auth.user().id ? 'pull-left' : 'pull-right'">{{ message.datetime | formatDatetime }}</span>
+                                  v-bind:class="message.userId == $auth.user().id ? 'pull-left' : 'pull-right'">
+                                {{ message.datetime | formatDatetime }}
+                                <i class="fa fa-check-circle" title="配信済み" v-if="message.isPosted"></i>
+                            </span>
                         </div>
                         <img class="direct-chat-img" v-bind:src="message.avatarUrl"
                              alt="message user image">
@@ -95,12 +98,30 @@
             }
         },
         events: {
-            'Messenger:RecieveMessage': function (channelId, e) {
+            'Messenger:RecieveMessage': function (channelId, message) {
                 if (channelId != this.channelId) {
                     return;
                 }
 
-                this.onPushMessage(e.userId, e.username, e.avatarUrl, e.datetime, e.message)
+                this.messages.push(message)
+
+                // 最後にスクロール
+                var el = this.$el.getElementsByClassName('direct-chat-messages')[0]
+                this.$nextTick(() => {
+                    el.scrollTop = el.scrollHeight
+                })
+            },
+            'Messenger:PostedMessage': function (channelId, messageId) {
+                if (channelId != this.channelId) {
+                    return;
+                }
+
+                // チャンネルを返す
+                var message =  this.messages.filter(function (item) {
+                    return item.messageId == messageId
+                })[0]
+
+                message.isPosted = true
             },
             'Messenger:UpdateMemberList': function (channelId, members) {
                 if (channelId != this.channelId) {
@@ -116,14 +137,14 @@
                     return;
                 }
 
-                this.onPushMessage(joiningUser.id, joiningUser.name, joiningUser.avatar_path, new Date(), 'チャンネルに参加しました。(システム)')
+                //this.onPushMessage(joiningUser.id, joiningUser.name, joiningUser.avatar_path, new Date(), 'チャンネルに参加しました。(システム)')
             },
             'Messenger:LeavingUser': function (channelId, leavingUser) {
                 if (channelId != this.channelId) {
                     return;
                 }
 
-                this.onPushMessage(leavingUser.id, leavingUser.name, leavingUser.avatar_path, new Date(), 'チャンネルから退室しました。(システム)')
+                //this.onPushMessage(leavingUser.id, leavingUser.name, leavingUser.avatar_path, new Date(), 'チャンネルから退室しました。(システム)')
             },
             'Messenger:RecieveTyping': function (channelId, username) {
                 var self = this
@@ -141,21 +162,6 @@
             },
         },
         methods: {
-            onPushMessage(userId, username, avatarUrl, datetime, message){
-                this.messages.push({
-                    userId: userId,
-                    username: username,
-                    avatarUrl: avatarUrl,
-                    datetime: datetime,
-                    message: message
-                })
-
-                // 最後にスクロール
-                var el = this.$el.getElementsByClassName('direct-chat-messages')[0]
-                this.$nextTick(() => {
-                    el.scrollTop = el.scrollHeight
-                })
-            },
             onTyping(){
                 var self = this
 
@@ -175,31 +181,9 @@
                 });
             },
             onPost(){
-                var self = this
-                var message = self.postMessage
+                this.$events.$emit('Messenger:onPost', this.channelId, this.postMessage)
 
-                if (!message) {
-                    return
-                }
-
-                self.isPosting = true
-
-                axios.post('/messenger/message',
-                    {
-                        channelId: self.channelId,
-                        message: message,
-                    })
-                    .then(function (response) {
-                        // todo: thenで処理すると遅いので、先に描画して送信済みかどうか表示する？
-                        self.onPushMessage(self.$auth.user().id, self.$auth.user().display_name, self.$auth.user().avatar_path, new Date(), message)
-
-                        self.postMessage = null
-                        self.isPosting = false
-                    })
-                    .catch(function (error) {
-                        self.isPosting = false
-                        console.log(error)
-                    });
+                this.postMessage = null
             },
             onInitView(){
                 var self = this

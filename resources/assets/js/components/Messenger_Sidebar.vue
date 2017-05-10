@@ -30,8 +30,8 @@
                     ダイレクトメッセージ
                 </li>
                 <li class="treeview">
-                    <router-link to="/User/PasswordChange">
-                        <span>パスワードの変更</span>
+                    <router-link to="/">
+                        <span>Dummy</span>
                     </router-link>
                 </li>
             </ul>
@@ -46,6 +46,33 @@
             }
         },
         events: {
+            'Messenger:onPost': function (channelId, message) {
+                var self = this
+
+                if (!message) {
+                    return
+                }
+
+                var messageId = '' + _.now() + Math.floor(Math.random() * 65535)
+
+                self.postMessage(
+                    channelId,
+                    message,
+                    messageId, // MessageeID track
+                )
+
+                axios.post('/messenger/message',
+                    {
+                        channelId: channelId,
+                        message: message,
+                    })
+                    .then(function (response) {
+                        self.$events.$emit('Messenger:PostedMessage', channelId, messageId)
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+                    });
+            },
             'Messenger:onTyping': function (channelId) {
                 // 入力中のイベントが発生した場合
 
@@ -108,25 +135,15 @@
                                 })
                                 .listen('MessengerNewMessage', (e) => {
                                     // メッセージを受信した場合
-                                    var channel = self.getChannel(channelId)
-
-                                    var message = {
-                                        userId: e.ownerUserId,
-                                        username: e.ownerUserName,
-                                        avatarUrl: e.ownerAvatarUrl,
-                                        datetime: e.datetime,
-                                        message: e.message,
-                                    }
-
-                                    // メッセージを保存
-                                    channel.messages.push(message)
-
-                                    // 最大件数は100件
-                                    while (channel.messages.length > 100) {
-                                        channel.messages.shift();
-                                    }
-
-                                    self.$events.$emit('Messenger:RecieveMessage', channelId, message)
+                                    self.postMessage(
+                                        channelId,
+                                        e.message,
+                                        '', // MessageId
+                                        e.ownerUserId,
+                                        e.ownerUserName,
+                                        e.ownerAvatarUrl,
+                                        e.datetime,
+                                    )
                                 });
                         }
 
@@ -210,6 +227,39 @@
                 return this.joinChannels.filter(function (item) {
                     return item.channelId == channelId
                 })[0]
+            },
+            /**
+             * メッセージの流し込み
+             * @param channelId
+             * @param message
+             * @param messageId
+             * @param userId
+             * @param username
+             * @param avatarUrl
+             * @param datetime
+             */
+            postMessage(channelId, message, messageId, userId = null, username = null, avatarUrl = null, datetime = null){
+                var channel = this.getChannel(channelId)
+
+                var objMessage = {
+                    message: message,
+                    messageId: messageId,
+                    userId: userId === null ? this.$auth.user().id : userId,
+                    username: username === null ? this.$auth.user().display_name : username,
+                    avatarUrl: avatarUrl === null ? this.$auth.user().avatar_path : avatarUrl,
+                    datetime: datetime === null ? new Date() : datetime,
+                    isPosted: false,
+                }
+
+                // メッセージを保存
+                channel.messages.push(objMessage)
+
+                // 最大件数は100件
+                while (channel.messages.length > 100) {
+                    channel.messages.shift();
+                }
+
+                this.$events.$emit('Messenger:RecieveMessage', channelId, objMessage)
             },
         },
         mounted()
