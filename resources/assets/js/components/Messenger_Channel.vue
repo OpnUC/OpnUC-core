@@ -88,7 +88,6 @@
                 channelName: null,
                 channelTopic: null,
                 members: [],
-
                 messages: [],
 
                 isPosting: false,
@@ -108,7 +107,7 @@
                     return;
                 }
 
-                this.members = members.filter(function(item){
+                this.members = members.filter(function (item) {
                     return true
                 })
             },
@@ -192,7 +191,7 @@
                     })
                     .then(function (response) {
                         // todo: thenで処理すると遅いので、先に描画して送信済みかどうか表示する？
-                        self.onPushMessage(self.$auth.user().id, self.$auth.user().display_name, self.$auth.user().avatar_path,  new Date(), message)
+                        self.onPushMessage(self.$auth.user().id, self.$auth.user().display_name, self.$auth.user().avatar_path, new Date(), message)
 
                         self.postMessage = null
                         self.isPosting = false
@@ -213,8 +212,11 @@
                     }
                 })
                     .then(function (response) {
+                        // チャンネルが変更されたので、いったんクリア
                         self.channelName = response.data.name
                         self.channelTopic = response.data.topic
+                        self.members = []
+                        self.messages = []
 
                         self.$events.$emit('Messenger:joinChannel', self.channelId, self.channelName)
 
@@ -232,6 +234,9 @@
                     this.channelId = null
                     this.channelName = null
                     this.channelTopic = null
+                    this.members = []
+                    this.message = []
+
                     this.isLoading = true
                 }
             },

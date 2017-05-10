@@ -71,60 +71,68 @@
                     .then(function (response) {
                         var channel = self.getChannel(channelId)
 
-                        channel.echo = window.echo
-                        // チャンネルに参加
-                            .join('MessengerChannel.' + channelId)
-                            .here(function (members) {
-                                // Join時にメンバーリストを取得
-                                var channel = self.getChannel(channelId)
-                                channel.members = members
+                        // LaravelEchoが初期化されていない場合のみ、初期化
+                        // 2度 初期化すると、イベントが2回登録されてしまうため
+                        if (channel.echo === null) {
+                            channel.echo = window.echo
+                            // チャンネルに参加
+                                .join('MessengerChannel.' + channelId)
+                                .here(function (members) {
+                                    // Join時にメンバーリストを取得
+                                    var channel = self.getChannel(channelId)
+                                    channel.members = members
 
-                                self.$events.$emit('Messenger:UpdateMemberList', channelId, channel.members)
-                            })
-                            .joining(function (joiningMember) {
-                                var channel = self.getChannel(channelId)
-                                channel.members.push(joiningMember)
-
-                                self.$events.$emit('Messenger:UpdateMemberList', channelId, channel.members)
-                            })
-                            .leaving(function (leavingMember, members) {
-                                var channel = self.getChannel(channelId)
-
-                                channel.members = channel.members.filter(function (item) {
-                                    return item.id != leavingMember.id
+                                    self.$events.$emit('Messenger:UpdateMemberList', channelId, channel.members)
                                 })
+                                .joining(function (joiningMember) {
+                                    var channel = self.getChannel(channelId)
 
-                                self.$events.$emit('Messenger:UpdateMemberList', channelId, channel.members)
-                            })
-                            .listenForWhisper('typing', (e) => {
-                                // 他のユーザが入力中の場合
-                                self.$events.$emit('Messenger:RecieveTyping', channelId, e.username)
-                            })
-                            .listen('MessengerNewMessage', (e) => {
-                                // メッセージを受信した場合
-                                var channel = self.getChannel(channelId)
+                                    // メンバーリストに入室したメンバーを追加
+                                    channel.members.push(joiningMember)
 
-                                var message = {
-                                    userId: e.ownerUserId,
-                                    username: e.ownerUserName,
-                                    avatarUrl: e.ownerAvatarUrl,
-                                    datetime: e.datetime,
-                                    message: e.message,
-                                }
+                                    self.$events.$emit('Messenger:UpdateMemberList', channelId, channel.members)
+                                })
+                                .leaving(function (leavingMember, members) {
+                                    var channel = self.getChannel(channelId)
 
-                                // メッセージを保存
-                                channel.messages.push(message)
+                                    // メンバーリストから退室したメンバーを削除
+                                    channel.members = channel.members.filter(function (item) {
+                                        return item.id != leavingMember.id
+                                    })
 
-                                // 最大件数は100件
-                                while (channel.messages.length > 100) {
-                                    channel.messages.shift();
-                                }
+                                    self.$events.$emit('Messenger:UpdateMemberList', channelId, channel.members)
+                                })
+                                .listenForWhisper('typing', (e) => {
+                                    // 他のユーザが入力中の場合
+                                    self.$events.$emit('Messenger:RecieveTyping', channelId, e.username)
+                                })
+                                .listen('MessengerNewMessage', (e) => {
+                                    // メッセージを受信した場合
+                                    var channel = self.getChannel(channelId)
 
-                                self.$events.$emit('Messenger:RecieveMessage', channelId, message)
-                            });
+                                    var message = {
+                                        userId: e.ownerUserId,
+                                        username: e.ownerUserName,
+                                        avatarUrl: e.ownerAvatarUrl,
+                                        datetime: e.datetime,
+                                        message: e.message,
+                                    }
+
+                                    // メッセージを保存
+                                    channel.messages.push(message)
+
+                                    // 最大件数は100件
+                                    while (channel.messages.length > 100) {
+                                        channel.messages.shift();
+                                    }
+
+                                    self.$events.$emit('Messenger:RecieveMessage', channelId, message)
+                                });
+                        }
 
                         // Webアプリ側で参加済みかどうか
                         if (response.data.channels.attached.length === 1) {
+                            // 参加済みで無い
                             var channel = self.getChannel(channelId)
                             channel.name = channelName
 
@@ -135,7 +143,7 @@
                             var channel = self.getChannel(channelId)
 
                             // 保存していたメッセージを流す
-                            channel.messages.forEach(function(val,index,ar){
+                            channel.messages.forEach(function (val, index, ar) {
                                 self.$events.$emit('Messenger:RecieveMessage', channelId, val)
                             });
 
