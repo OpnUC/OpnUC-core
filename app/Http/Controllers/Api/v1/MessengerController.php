@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Message;
 use App\MessengerChannel;
 use App\User;
 use Illuminate\Http\Request;
@@ -33,6 +34,13 @@ class MessengerController extends Controller
     {
 
         $channelId = intval($request['channelId']);
+
+        $message = new Message();
+        $message->from_user_id = \Auth::user()->id;
+        $message->channel_id = $channelId;
+        $message->message = $request['message'];
+
+        $message->save();
 
         broadcast(new \App\Events\MessengerNewMessage(
                 $channelId,
