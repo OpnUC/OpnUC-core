@@ -26,14 +26,14 @@
                     </router-link>
                 </li>
 
-                <li class="header">
-                    ダイレクトメッセージ
-                </li>
-                <li class="treeview">
-                    <router-link to="/">
-                        <span>Dummy</span>
-                    </router-link>
-                </li>
+                <!--<li class="header">-->
+                    <!--ダイレクトメッセージ-->
+                <!--</li>-->
+                <!--<li class="treeview">-->
+                    <!--<router-link to="/">-->
+                        <!--<span>Dummy</span>-->
+                    <!--</router-link>-->
+                <!--</li>-->
             </ul>
         </div>
     </div>
@@ -46,45 +46,6 @@
             }
         },
         events: {
-            'Messenger:onPost': function (channelId, message) {
-                var self = this
-
-                if (!message) {
-                    return
-                }
-
-                var messageId = '' + _.now() + Math.floor(Math.random() * 65535)
-
-                self.postMessage(
-                    channelId,
-                    message,
-                    messageId, // MessageeID track
-                )
-
-                axios.post('/messenger/message',
-                    {
-                        channelId: channelId,
-                        message: message,
-                    })
-                    .then(function (response) {
-                        self.$events.$emit('Messenger:PostedMessage', channelId, messageId)
-                    })
-                    .catch(function (error) {
-                        console.log(error)
-                    });
-            },
-            'Messenger:onTyping': function (channelId) {
-                // 入力中のイベントが発生した場合
-
-                var channel = this.getChannel(channelId)
-
-                // WebSocketで通知する
-                channel.echo
-                    .whisper('typing', {
-                        channelId: channelId,
-                        username: this.$auth.user().display_name
-                    });
-            },
             'Messenger:joinChannel': function (channelId, channelName) {
                 // チャンネルに参加するイベントが発生した場合
 
@@ -134,36 +95,21 @@
                                     self.$events.$emit('Messenger:RecieveTyping', channelId, e.username)
                                 })
                                 .listen('MessengerNewMessage', (e) => {
-                                    // メッセージを受信した場合
-                                    self.postMessage(
-                                        channelId,
-                                        e.message,
-                                        '', // MessageId
-                                        e.ownerUserId,
-                                        e.ownerUserName,
-                                        e.ownerAvatarUrl,
-                                        e.datetime,
-                                    )
+                                    self.$events.$emit('Messenger:RecieveMessage', channelId, e)
                                 });
                         }
+
+                        var channel = self.getChannel(channelId)
 
                         // Webアプリ側で参加済みかどうか
                         if (response.data.channels.attached.length === 1) {
                             // 参加済みで無い
-                            var channel = self.getChannel(channelId)
                             channel.name = channelName
 
                             self.$message({
                                 message: 'チャンネルに参加しました。'
                             });
                         } else {
-                            var channel = self.getChannel(channelId)
-
-                            // 保存していたメッセージを流す
-                            channel.messages.forEach(function (val, index, ar) {
-                                self.$events.$emit('Messenger:RecieveMessage', channelId, val)
-                            });
-
                             self.$events.$emit('Messenger:UpdateMemberList', channelId, channel.members)
                         }
                     })
@@ -199,6 +145,23 @@
                         console.log(error);
                     });
             },
+            'Messenger:onTyping': function (channelId) {
+                // 入力中のイベントが発生した場合
+
+                var channel = this.getChannel(channelId)
+
+                // WebSocketが初期化されていない場合は処理しない
+                if (!channel.echo) {
+                    return;
+                }
+
+                // WebSocketで通知する
+                channel.echo
+                    .whisper('typing', {
+                        channelId: channelId,
+                        username: this.$auth.user().display_name
+                    });
+            },
         },
         methods: {
             /**
@@ -219,7 +182,6 @@
                         channelName: null,
                         echo: null,
                         members: [],
-                        messages: [],
                     })
                 }
 
@@ -227,39 +189,6 @@
                 return this.joinChannels.filter(function (item) {
                     return item.channelId == channelId
                 })[0]
-            },
-            /**
-             * メッセージの流し込み
-             * @param channelId
-             * @param message
-             * @param messageId
-             * @param userId
-             * @param username
-             * @param avatarUrl
-             * @param datetime
-             */
-            postMessage(channelId, message, messageId, userId = null, username = null, avatarUrl = null, datetime = null){
-                var channel = this.getChannel(channelId)
-
-                var objMessage = {
-                    message: message,
-                    messageId: messageId,
-                    userId: userId === null ? this.$auth.user().id : userId,
-                    username: username === null ? this.$auth.user().display_name : username,
-                    avatarUrl: avatarUrl === null ? this.$auth.user().avatar_path : avatarUrl,
-                    datetime: datetime === null ? new Date() : datetime,
-                    isPosted: false,
-                }
-
-                // メッセージを保存
-                channel.messages.push(objMessage)
-
-                // 最大件数は100件
-                while (channel.messages.length > 100) {
-                    channel.messages.shift();
-                }
-
-                this.$events.$emit('Messenger:RecieveMessage', channelId, objMessage)
             },
         },
         mounted()

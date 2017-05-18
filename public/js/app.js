@@ -5293,6 +5293,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+// ToDo: チャンネル作成のダイアログでエンターを入力すると、ダイアログが閉じてしまう
 /* harmony default export */ __webpack_exports__["default"] = {
     components: {
         Vuetable: __WEBPACK_IMPORTED_MODULE_1_vuetable_2_src_components_Vuetable___default.a,
@@ -5430,6 +5431,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5511,11 +5559,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = {
+    computed: {
+        uploadPath: function uploadPath() {
+            return this.axios.defaults.baseURL + '/messenger/upload';
+        },
+        uploadHeader: function uploadHeader() {
+            // JWT Auth
+            return {
+                Authorization: 'Bearer ' + this.$auth.token()
+            };
+        },
+        uploadData: function uploadData() {
+            return {
+                channelId: this.channelId
+            };
+        }
+    },
     data: function data() {
         return {
             isLoading: true,
-            isDialogVisible: false,
+            isUploading: false,
+            isMemberListDialogVisible: false,
+            isUploadDialogVisible: false,
+
+            uploadFileList: [],
 
             typingUsername: null,
 
@@ -5531,30 +5601,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     events: {
+        // WebScoketからメッセージを受信した場合
         'Messenger:RecieveMessage': function MessengerRecieveMessage(channelId, message) {
             if (channelId != this.channelId) {
                 return;
             }
 
-            this.messages.push(message);
-
-            // 最後にスクロール
-            var el = this.$el.getElementsByClassName('direct-chat-messages')[0];
-            this.$nextTick(function () {
-                el.scrollTop = el.scrollHeight;
-            });
-        },
-        'Messenger:PostedMessage': function MessengerPostedMessage(channelId, messageId) {
-            if (channelId != this.channelId) {
-                return;
-            }
-
-            // チャンネルを返す
-            var message = this.messages.filter(function (item) {
-                return item.messageId == messageId;
-            })[0];
-
-            message.isPosted = true;
+            this.messages.push(message.message);
         },
         'Messenger:UpdateMemberList': function MessengerUpdateMemberList(channelId, members) {
             if (channelId != this.channelId) {
@@ -5595,6 +5648,69 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        onDownload: function onDownload(messageId) {
+            var self = this;
+
+            self.$message({
+                type: 'info',
+                message: 'ダウンロードを開始しました。'
+            });
+
+            axios.get('/messenger/download', {
+                // Binaryでダウンロードする場合はこれが必要
+                responseType: 'arraybuffer',
+                params: {
+                    id: messageId
+                }
+            }).then(function (response) {
+                var headers = response.headers;
+                var blob = new Blob([response.data], { type: headers['content-type'] });
+                var link = document.createElement('a');
+                var contentDisposition = response.headers['content-disposition'] || '';
+                var filename = contentDisposition.split('filename=')[1];
+                filename = filename ? filename.replace(/"/g, "") : 'download';
+
+                link.href = window.URL.createObjectURL(blob);
+                link.download = filename;
+                link.click();
+            }).catch(function (error) {
+                var msg = '';
+
+                switch (error.response.status) {
+                    case 404:
+                        msg = 'メッセージが削除されているか、添付ファイルがすでに削除されています。';
+                        break;
+                    case 400:
+                        msg = 'メッセージに添付ファイルがありませんでした。';
+                        break;
+                    default:
+                        msg = 'エラーが発生しました。';
+                        break;
+                }
+
+                self.$message({
+                    type: 'error',
+                    message: msg
+                });
+            });
+        },
+        onUploadError: function onUploadError(err, file, fileList) {
+            this.isUploading = false;
+
+            this.$message({
+                type: 'error',
+                message: 'アップロードに失敗しました。'
+            });
+        },
+        onUploadSuccess: function onUploadSuccess(response, file, fileList) {
+            this.isUploading = false;
+            this.$refs.upload.clearFiles();
+            this.isUploadDialogVisible = false;
+
+            this.$message({
+                message: 'アップロードしました。'
+            });
+        },
         onTyping: function onTyping() {
             var self = this;
 
@@ -5615,15 +5731,54 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error.message);
             });
         },
-        onPost: function onPost() {
-            this.$events.$emit('Messenger:onPost', this.channelId, this.postMessage);
 
-            this.postMessage = null;
+        /**
+         * メッセージの投稿処理
+         */
+        onPost: function onPost() {
+            var self = this;
+
+            // メッセージが入力されていない場合は処理しない
+            if (!self.postMessage) {
+                return;
+            }
+
+            var objMessage = {
+                message: self.postMessage,
+                from_user_id: self.$auth.user().id,
+                display_name: self.$auth.user().display_name,
+                avatar_url: self.$auth.user().avatar_path,
+                updated_at: __WEBPACK_IMPORTED_MODULE_0_moment___default()().toISOString(),
+                is_posted: false
+            };
+
+            this.messages.push(objMessage);
+
+            // APIに投げる
+            axios.post('/messenger/message', {
+                channelId: self.channelId,
+                message: self.postMessage
+            }).then(function (response) {
+                objMessage.is_posted = true;
+            }).catch(function (error) {
+                console.log(error);
+            });
+
+            // メッセージをクリア
+            self.postMessage = null;
         },
         onInitView: function onInitView() {
             var self = this;
 
             self.isLoading = true;
+
+            if (!window.echo) {
+                self.$message({
+                    type: 'error',
+                    message: 'WebSocketが接続されていないため、参加出来ません。'
+                });
+                return;
+            }
 
             axios.get('/messenger/channel', {
                 params: {
@@ -5636,7 +5791,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 self.members = [];
                 self.messages = [];
 
+                // サイドバー更新のため
                 self.$events.$emit('Messenger:joinChannel', self.channelId, self.channelName);
+
+                // APIで取得したメッセージを流す
+                _.forEachRight(response.data.recently_post, function (val, index, ar) {
+                    self.messages.push(val);
+                });
 
                 self.isLoading = false;
             }).catch(function (error) {
@@ -5661,6 +5822,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     watch: {
         '$route': function $route(to, from) {
             this.updateSearchParam();
+        },
+        'messages': function messages(to, from) {
+            // メッセージが更新された場合
+
+            // 最後にスクロール
+            var el = this.$el.getElementsByClassName('direct-chat-messages')[0];
+            this.$nextTick(function () {
+                el.scrollTop = el.scrollHeight;
+            });
         }
     },
     mounted: function mounted() {
@@ -5728,37 +5898,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     events: {
-        'Messenger:onPost': function MessengerOnPost(channelId, message) {
-            var self = this;
-
-            if (!message) {
-                return;
-            }
-
-            var messageId = '' + _.now() + Math.floor(Math.random() * 65535);
-
-            self.postMessage(channelId, message, messageId);
-
-            axios.post('/messenger/message', {
-                channelId: channelId,
-                message: message
-            }).then(function (response) {
-                self.$events.$emit('Messenger:PostedMessage', channelId, messageId);
-            }).catch(function (error) {
-                console.log(error);
-            });
-        },
-        'Messenger:onTyping': function MessengerOnTyping(channelId) {
-            // 入力中のイベントが発生した場合
-
-            var channel = this.getChannel(channelId);
-
-            // WebSocketで通知する
-            channel.echo.whisper('typing', {
-                channelId: channelId,
-                username: this.$auth.user().display_name
-            });
-        },
         'Messenger:joinChannel': function MessengerJoinChannel(channelId, channelName) {
             // チャンネルに参加するイベントが発生した場合
 
@@ -5802,29 +5941,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         // 他のユーザが入力中の場合
                         self.$events.$emit('Messenger:RecieveTyping', channelId, e.username);
                     }).listen('MessengerNewMessage', function (e) {
-                        // メッセージを受信した場合
-                        self.postMessage(channelId, e.message, '', // MessageId
-                        e.ownerUserId, e.ownerUserName, e.ownerAvatarUrl, e.datetime);
+                        self.$events.$emit('Messenger:RecieveMessage', channelId, e);
                     });
                 }
+
+                var channel = self.getChannel(channelId);
 
                 // Webアプリ側で参加済みかどうか
                 if (response.data.channels.attached.length === 1) {
                     // 参加済みで無い
-                    var channel = self.getChannel(channelId);
                     channel.name = channelName;
 
                     self.$message({
                         message: 'チャンネルに参加しました。'
                     });
                 } else {
-                    var channel = self.getChannel(channelId);
-
-                    // 保存していたメッセージを流す
-                    channel.messages.forEach(function (val, index, ar) {
-                        self.$events.$emit('Messenger:RecieveMessage', channelId, val);
-                    });
-
                     self.$events.$emit('Messenger:UpdateMemberList', channelId, channel.members);
                 }
             }).catch(function (error) {
@@ -5856,6 +5987,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (error) {
                 console.log(error);
             });
+        },
+        'Messenger:onTyping': function MessengerOnTyping(channelId) {
+            // 入力中のイベントが発生した場合
+
+            var channel = this.getChannel(channelId);
+
+            // WebSocketが初期化されていない場合は処理しない
+            if (!channel.echo) {
+                return;
+            }
+
+            // WebSocketで通知する
+            channel.echo.whisper('typing', {
+                channelId: channelId,
+                username: this.$auth.user().display_name
+            });
         }
     },
     methods: {
@@ -5876,8 +6023,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     channelId: channelId,
                     channelName: null,
                     echo: null,
-                    members: [],
-                    messages: []
+                    members: []
                 });
             }
 
@@ -5885,45 +6031,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.joinChannels.filter(function (item) {
                 return item.channelId == channelId;
             })[0];
-        },
-
-        /**
-         * メッセージの流し込み
-         * @param channelId
-         * @param message
-         * @param messageId
-         * @param userId
-         * @param username
-         * @param avatarUrl
-         * @param datetime
-         */
-        postMessage: function postMessage(channelId, message, messageId) {
-            var userId = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
-            var username = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
-            var avatarUrl = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
-            var datetime = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : null;
-
-            var channel = this.getChannel(channelId);
-
-            var objMessage = {
-                message: message,
-                messageId: messageId,
-                userId: userId === null ? this.$auth.user().id : userId,
-                username: username === null ? this.$auth.user().display_name : username,
-                avatarUrl: avatarUrl === null ? this.$auth.user().avatar_path : avatarUrl,
-                datetime: datetime === null ? new Date() : datetime,
-                isPosted: false
-            };
-
-            // メッセージを保存
-            channel.messages.push(objMessage);
-
-            // 最大件数は100件
-            while (channel.messages.length > 100) {
-                channel.messages.shift();
-            }
-
-            this.$events.$emit('Messenger:RecieveMessage', channelId, objMessage);
         }
     },
     mounted: function mounted() {
@@ -38819,15 +38926,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_c('span', [_vm._v("#" + _vm._s(channel.name))])])], 1)
-  }), _vm._v(" "), _c('li', {
-    staticClass: "header"
-  }, [_vm._v("\n                ダイレクトメッセージ\n            ")]), _vm._v(" "), _c('li', {
-    staticClass: "treeview"
-  }, [_c('router-link', {
-    attrs: {
-      "to": "/"
-    }
-  }, [_c('span', [_vm._v("Dummy")])])], 1)], 2)])])
+  })], 2)])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -39097,7 +39196,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "btn btn-xs btn-primary",
     on: {
       "click": function($event) {
-        _vm.isDialogVisible = true
+        _vm.isMemberListDialogVisible = true
       }
     }
   }, [_c('i', {
@@ -39114,7 +39213,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('i', {
     staticClass: "fa fa-sign-out"
   }), _vm._v("\n                    退室\n                ")])])]), _vm._v(" "), (_vm.channelId) ? _c('div', {
-    staticClass: "box-body"
+    staticClass: "box-body chat"
   }, [_c('div', {
     staticClass: "direct-chat-messages"
   }, [(_vm.messages.length == 0) ? _c('div', {
@@ -39124,30 +39223,48 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                    まだ、このチャンネルにはメッセージがありません。\n                ")]) : _vm._l((_vm.messages), function(message) {
     return _c('div', {
-      staticClass: "direct-chat-msg",
-      class: message.userId == _vm.$auth.user().id ? 'right' : ''
-    }, [_c('div', {
-      staticClass: "direct-chat-info clearfix"
-    }, [_c('span', {
-      staticClass: "direct-chat-name",
-      class: message.userId == _vm.$auth.user().id ? 'pull-right' : 'pull-left'
-    }, [_vm._v(_vm._s(message.username))]), _vm._v(" "), _c('span', {
-      staticClass: "direct-chat-timestamp",
-      class: message.userId == _vm.$auth.user().id ? 'pull-left' : 'pull-right'
-    }, [_vm._v("\n                            " + _vm._s(_vm._f("formatDatetime")(message.datetime)) + "\n                            "), (message.isPosted) ? _c('i', {
+      staticClass: "item"
+    }, [_c('img', {
+      staticClass: "online",
+      attrs: {
+        "src": message.avatar_url,
+        "alt": "Avatar"
+      }
+    }), _vm._v(" "), _c('p', {
+      staticClass: "message"
+    }, [_c('a', {
+      staticClass: "name",
+      attrs: {
+        "href": "#"
+      }
+    }, [_vm._v("\n                            " + _vm._s(message.display_name) + "\n                        ")]), _vm._v(" "), _c('small', {
+      staticClass: "text-muted pull-right"
+    }, [_c('i', {
+      staticClass: "fa fa-clock-o"
+    }), _vm._v(" " + _vm._s(_vm._f("formatDatetime")(message.updated_at)) + "\n                            "), (message.is_posted && message.from_user_id == _vm.$auth.user().id) ? _c('i', {
       staticClass: "fa fa-check-circle",
       attrs: {
         "title": "配信済み"
       }
-    }) : _vm._e()])]), _vm._v(" "), _c('img', {
-      staticClass: "direct-chat-img",
+    }) : _vm._e()]), _vm._v("\n                        " + _vm._s(message.message) + "\n                    ")]), _vm._v(" "), (message.attach_file) ? _c('div', {
+      staticClass: "attachment"
+    }, [_c('h4', [_vm._v("添付ファイル:")]), _vm._v(" "), _c('p', {
+      staticClass: "filename"
+    }, [_c('ul', _vm._l((message.attach_file), function(value, key) {
+      return _c('li', [_vm._v("\n                                " + _vm._s(value) + "\n                            ")])
+    }))]), _vm._v(" "), _c('div', {
+      staticClass: "pull-right"
+    }, [_c('button', {
+      staticClass: "btn btn-primary btn-sm btn-flat",
       attrs: {
-        "src": message.avatarUrl,
-        "alt": "message user image"
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.onDownload(message.id)
+        }
       }
-    }), _vm._v(" "), _c('div', {
-      staticClass: "direct-chat-text"
-    }, [_vm._v("\n                        " + _vm._s(message.message) + "\n                    ")])])
+    }, [_vm._v("開く\n                            ")])])]) : _vm._e()])
   })], 2)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "box-footer"
   }, [_c('form', {
@@ -39169,7 +39286,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "form-control",
     attrs: {
       "type": "text",
-      "placeholder": "Type Message ...",
+      "placeholder": "メッセージ",
       "readonly": _vm.isPosting
     },
     domProps: {
@@ -39185,6 +39302,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }), _vm._v(" "), _c('span', {
     staticClass: "input-group-btn"
   }, [_c('button', {
+    staticClass: "btn btn-default btn-flat",
+    attrs: {
+      "type": "button",
+      "disabled": _vm.isPosting
+    },
+    on: {
+      "click": function($event) {
+        _vm.isUploadDialogVisible = true
+      }
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-paperclip"
+  })]), _vm._v(" "), _c('button', {
     staticClass: "btn btn-danger btn-flat",
     attrs: {
       "type": "submit",
@@ -39205,15 +39335,73 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("\n                        " + _vm._s(_vm.typingUsername) + "が入力中...\n            ")])])]), _vm._v(" "), _c('el-dialog', {
     attrs: {
+      "title": "アップロード"
+    },
+    model: {
+      value: (_vm.isUploadDialogVisible),
+      callback: function($$v) {
+        _vm.isUploadDialogVisible = $$v
+      },
+      expression: "isUploadDialogVisible"
+    }
+  }, [_c('div', {
+    staticClass: "text-center"
+  }, [_c('el-upload', {
+    ref: "upload",
+    staticClass: "upload-demo",
+    attrs: {
+      "drag": "",
+      "headers": _vm.uploadHeader,
+      "data": _vm.uploadData,
+      "action": _vm.uploadPath,
+      "on-success": _vm.onUploadSuccess,
+      "on-error": _vm.onUploadError,
+      "file-list": _vm.uploadFileList,
+      "auto-upload": false,
+      "mutiple": ""
+    }
+  }, [_c('i', {
+    staticClass: "el-icon-upload"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "el-upload__text"
+  }, [_vm._v("ファイルをドラッグ＆ドロップ")]), _vm._v(" "), _c('div', {
+    staticClass: "el-upload__tip",
+    slot: "tip"
+  }, [_vm._v("jpg/png files with a size less than 500kb")])])], 1), _vm._v(" "), _c('span', {
+    staticClass: "dialog-footer",
+    slot: "footer"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    attrs: {
+      "disabled": _vm.isUploading
+    },
+    on: {
+      "click": function($event) {
+        _vm.isUploading = true;
+        _vm.$refs.upload.submit()
+      }
+    }
+  }, [_vm._v("アップロード")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "disabled": _vm.isUploading
+    },
+    on: {
+      "click": function($event) {
+        _vm.isUploadDialogVisible = false
+      }
+    }
+  }, [_vm._v("閉じる")])])]), _vm._v(" "), _c('el-dialog', {
+    attrs: {
       "title": "参加者一覧",
       "size": "tiny"
     },
     model: {
-      value: (_vm.isDialogVisible),
+      value: (_vm.isMemberListDialogVisible),
       callback: function($$v) {
-        _vm.isDialogVisible = $$v
+        _vm.isMemberListDialogVisible = $$v
       },
-      expression: "isDialogVisible"
+      expression: "isMemberListDialogVisible"
     }
   }, [_c('ul', {
     staticClass: "users-list clearfix"
@@ -39233,7 +39421,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "btn btn-primary",
     on: {
       "click": function($event) {
-        _vm.isDialogVisible = false
+        _vm.isMemberListDialogVisible = false
       }
     }
   }, [_vm._v("閉じる")])])])], 1)

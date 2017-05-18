@@ -54,6 +54,8 @@ Route::group([
         Route::get('/messenger/channel', 'MessengerController@channel');
         Route::get('/messenger/channels', 'MessengerController@channels');
         Route::post('/messenger/message', 'MessengerController@message');
+        Route::post('/messenger/upload', 'MessengerController@upload');
+        Route::get('/messenger/download', 'MessengerController@download');
 
         Route::get('/cdr/search', 'CdrController@search');
         Route::get('/cdr/download', 'CdrController@download');

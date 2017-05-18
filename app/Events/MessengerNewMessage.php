@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -13,25 +14,17 @@ class MessengerNewMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $channelId;
-    public $ownerUserId;
-    public $ownerUserName;
-    public $ownerAvatarUrl;
-    public $datetime;
+    /**
+     * @var Message Message
+     */
     public $message;
 
     /**
      * Create a new event instance.
-     *
-     * @return void
+     * @param $message Message
      */
-    public function __construct($channelId, $ownerUserId, $ownerUserName, $ownerAvatarUrl, $datetime, $message)
+    public function __construct($message)
     {
-        $this->channelId = $channelId;
-        $this->ownerUserId = $ownerUserId;
-        $this->ownerUserName = $ownerUserName;
-        $this->ownerAvatarUrl = $ownerAvatarUrl;
-        $this->datetime = $datetime;
         $this->message = $message;
     }
 
@@ -42,6 +35,6 @@ class MessengerNewMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('MessengerChannel.' . $this->channelId);
+        return new PresenceChannel('MessengerChannel.' . $this->message->channel_id);
     }
 }

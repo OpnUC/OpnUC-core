@@ -100,6 +100,7 @@
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 
+    // ToDo: チャンネル作成のダイアログでエンターを入力すると、ダイアログが閉じてしまう
     export default {
         components: {
             Vuetable,
@@ -171,6 +172,7 @@
                 isLoading: true,
                 isShowDialog: false,
                 isPosting: false,
+                // validation
                 status: null,
                 errors: [],
                 message: null,
