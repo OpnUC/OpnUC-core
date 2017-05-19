@@ -35,6 +35,18 @@ class ModifyMessage extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('messages', function (Blueprint $table) {
+            $table->dropForeign(['from_user_id']);
+            $table->dropForeign(['to_user_id']);
+
+            $table->integer('to_user_id')->unsigned()->change();
+
+            $table->dropForeign(['channel_id']);
+            $table->dropColumn('channel_id');
+
+            $table->string('message')->change();
+
+            $table->dropColumn('attach_file');
+        });
     }
 }
