@@ -5357,6 +5357,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             isLoading: true,
             isShowDialog: false,
             isPosting: false,
+            // validation
             status: null,
             errors: [],
             message: null,
@@ -5413,6 +5414,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.$refs.vuetable.$on('vuetable:loaded', function () {
                 _this.isLoading = false;
             });
+        }
+    },
+    watch: {
+        'isShowDialog': function isShowDialog(after, before) {
+            // ダイアログを閉じた場合
+            if (after == false) {
+                // ダイアログ内のデータを初期化
+                this.newChannel.name = '';
+                this.newChannel.topic = '';
+
+                this.status = '';
+                this.message = '';
+                this.errors = [];
+            }
         }
     },
     mounted: function mounted() {
@@ -42235,7 +42250,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }))]) : _vm._e()])]), _vm._v(" "), _c('span', {
     staticClass: "dialog-footer",
     slot: "footer"
-  }, [_c('button', {
+  }, [_c('a', {
     staticClass: "btn btn-default",
     on: {
       "click": function($event) {

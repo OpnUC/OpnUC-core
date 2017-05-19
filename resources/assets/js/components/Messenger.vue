@@ -54,7 +54,7 @@
                             </div>
                         </div>
                         <span slot="footer" class="dialog-footer">
-                            <button class="btn btn-default" v-on:click.prevent="isShowDialog = false">キャンセル</button>
+                            <a class="btn btn-default" v-on:click.prevent="isShowDialog = false">キャンセル</a>
                             <button class="btn btn-primary" type="submit"
                                     v-bind:disabled="isPosting">作成</button>
                         </span>
@@ -231,6 +231,20 @@
                 this.$refs.vuetable.$on('vuetable:loaded', () => {
                     _this.isLoading = false
                 })
+            },
+        },
+        watch: {
+            'isShowDialog' (after, before){
+                // ダイアログを閉じた場合
+                if (after == false) {
+                    // ダイアログ内のデータを初期化
+                    this.newChannel.name = ''
+                    this.newChannel.topic = ''
+
+                    this.status = ''
+                    this.message = ''
+                    this.errors = []
+                }
             },
         },
         mounted() {
