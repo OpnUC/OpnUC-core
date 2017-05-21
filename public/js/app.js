@@ -353,7 +353,7 @@ var Component = __webpack_require__(1)(
   /* template */
   __webpack_require__(329),
   /* scopeId */
-  "data-v-3b6e44a9",
+  null,
   /* cssModules */
   null
 )
@@ -620,7 +620,7 @@ __webpack_require__(241);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_App_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_axios__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_axios__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_vue_axios__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_vue_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_vue_axios__);
@@ -1792,9 +1792,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _axios = __webpack_require__(12);
+var _vue = __webpack_require__(2);
 
-var _axios2 = _interopRequireDefault(_axios);
+var _vue2 = _interopRequireDefault(_vue);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1811,16 +1811,6 @@ exports.default = {
     apiUrl: {
       type: String,
       default: ''
-    },
-    apiMode: {
-      type: Boolean,
-      default: true
-    },
-    data: {
-      type: Array,
-      default: function _default() {
-        return null;
-      }
     },
     dataPath: {
       type: String,
@@ -1875,13 +1865,8 @@ exports.default = {
       type: String,
       default: 'alt'
     },
-
     rowClassCallback: {
-      type: [String, Function],
-      default: ''
-    },
-    rowClass: {
-      type: [String, Function],
+      type: String,
       default: ''
     },
     detailRowComponent: {
@@ -1896,10 +1881,6 @@ exports.default = {
       type: String,
       default: 'id'
     },
-    renderIcon: {
-      type: Function,
-      default: null
-    },
     css: {
       type: Object,
       default: function _default() {
@@ -1909,13 +1890,9 @@ exports.default = {
           ascendingIcon: 'blue chevron up icon',
           descendingIcon: 'blue chevron down icon',
           detailRowClass: 'vuetable-detail-row',
-          handleIcon: 'grey sidebar icon'
+          sortHandleIcon: 'grey sidebar icon'
         };
       }
-    },
-    minRows: {
-      type: Number,
-      default: 0
     },
     silent: {
       type: Boolean,
@@ -1925,7 +1902,6 @@ exports.default = {
   data: function data() {
     return {
       eventPrefix: 'vuetable:',
-      tableFields: [],
       tableData: null,
       tablePagination: null,
       currentPage: 1,
@@ -1935,48 +1911,23 @@ exports.default = {
   },
   created: function created() {
     this.normalizeFields();
-    this.$nextTick(function () {
-      this.fireEvent('initialized', this.tableFields);
-    });
-
-    if (this.apiMode && this.loadOnStart) {
+    if (this.loadOnStart) {
       this.loadData();
     }
-    if (this.apiMode == false && this.data.length > 0) {
-      this.setData(this.data);
-    }
   },
-
   computed: {
     useDetailRow: function useDetailRow() {
-      if (this.tableData && this.tableData[0] && this.detailRowComponent !== '' && typeof this.tableData[0][this.trackBy] === 'undefined') {
-        this.warn('You need to define unique row identifier in order for detail-row feature to work. Use `track-by` prop to define one!');
+      if (this.tableData && this.tableData[0] && typeof this.tableData[0][this.trackBy] === 'undefined') {
+        this.warn('You need to define "detail-row-id" in order for detail-row feature to work!');
         return false;
       }
 
       return this.detailRowComponent !== '';
     },
     countVisibleFields: function countVisibleFields() {
-      return this.tableFields.filter(function (field) {
+      return this.fields.filter(function (field) {
         return field.visible;
       }).length;
-    },
-
-    lessThanMinRows: function lessThanMinRows() {
-      if (this.tableData === null || this.tableData.length === 0) {
-        return true;
-      }
-      return this.tableData.length < this.minRows;
-    },
-    blankRows: function blankRows() {
-      if (this.tableData === null || this.tableData.length === 0) {
-        return this.minRows;
-      }
-      if (this.tableData.length >= this.minRows) {
-        return 0;
-      }
-
-      return this.minRows - this.tableData.length;
     }
   },
   methods: {
@@ -1986,7 +1937,6 @@ exports.default = {
         return;
       }
 
-      this.tableFields = [];
       var self = this;
       var obj = void 0;
       this.fields.forEach(function (field, i) {
@@ -2010,12 +1960,8 @@ exports.default = {
             visible: field.visible === undefined ? true : field.visible
           };
         }
-        self.tableFields.push(obj);
+        _vue2.default.set(self.fields, i, obj);
       });
-    },
-    setData: function setData(data) {
-      this.apiMode = false;
-      this.tableData = data;
     },
     setTitle: function setTitle(str) {
       if (this.isSpecialField(str)) {
@@ -2024,15 +1970,12 @@ exports.default = {
 
       return this.titleCase(str);
     },
-    renderTitle: function renderTitle(field) {
-      var title = typeof field.title === 'undefined' ? field.name.replace('.', ' ') : field.title;
-
-      if (title.length > 0 && this.isInCurrentSortGroup(field)) {
-        var style = 'opacity:' + this.sortIconOpacity(field) + ';position:relative;float:right';
-        return title + ' ' + this.renderIconTag(['sort-icon', this.sortIcon(field)], 'style="' + style + '"');
+    getTitle: function getTitle(field) {
+      if (typeof field.title === 'undefined') {
+        return field.name.replace('.', ' ');
       }
 
-      return title;
+      return field.title;
     },
     isSpecialField: function isSpecialField(fieldName) {
       return fieldName.slice(0, 2) === '__';
@@ -2057,13 +2000,11 @@ exports.default = {
       var success = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.loadSuccess;
       var failed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.loadFailed;
 
-      if (!this.apiMode) return;
-
       this.fireEvent('loading');
 
       this.httpOptions['params'] = this.getAllQueryParams();
 
-      _axios2.default.get(this.apiUrl, this.httpOptions).then(success, failed);
+      axios.get(this.apiUrl, this.httpOptions).then(success, failed);
     },
     loadSuccess: function loadSuccess(response) {
       this.fireEvent('load-success', response);
@@ -2074,7 +2015,7 @@ exports.default = {
       this.tablePagination = this.getObjectValue(body, this.paginationPath, null);
 
       if (this.tablePagination === null) {
-        this.warn('vuetable: pagination-path "' + this.paginationPath + '" not found. ' + 'It looks like the data returned from the sever does not have pagination information ' + "or you may have set it incorrectly.\n" + 'You can explicitly suppress this warning by setting pagination-path="".');
+        this.warn('vuetable: pagination-path "' + this.paginationPath + '" not found. ' + 'It looks like the data returned from the sever does not have pagination information ' + 'or you may have set it incorrectly.');
       }
 
       this.$nextTick(function () {
@@ -2083,7 +2024,6 @@ exports.default = {
       });
     },
     loadFailed: function loadFailed(response) {
-      console.error('load-error', response);
       this.fireEvent('load-error', response);
       this.fireEvent('loaded');
     },
@@ -2098,15 +2038,6 @@ exports.default = {
     },
     parentFunctionExists: function parentFunctionExists(func) {
       return func !== '' && typeof this.$parent[func] === 'function';
-    },
-    callParentFunction: function callParentFunction(func, args) {
-      var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-
-      if (this.parentFunctionExists(func)) {
-        return this.$parent[func].call(this.$parent, args);
-      }
-
-      return defaultValue;
     },
     fireEvent: function fireEvent(eventName, args) {
       this.$emit(this.eventPrefix + eventName, args);
@@ -2178,8 +2109,9 @@ exports.default = {
     fieldIsInSortOrderPosition: function fieldIsInSortOrderPosition(field, i) {
       return this.sortOrder[i].field === field.name && this.sortOrder[i].sortField === field.sortField;
     },
+
     orderBy: function orderBy(field, event) {
-      if (!this.isSortable(field) || !this.apiMode) return;
+      if (!this.isSortable(field)) return;
 
       var key = this.multiSortKey.toLowerCase() + 'Key';
 
@@ -2232,11 +2164,15 @@ exports.default = {
       });
     },
     sortIcon: function sortIcon(field) {
-      var cls = '';
+      var cls = {};
       var i = this.currentSortOrderPosition(field);
 
       if (i !== false) {
-        cls = this.sortOrder[i].direction == 'asc' ? this.css.ascendingIcon : this.css.descendingIcon;
+        if (this.sortOrder[i].direction == 'asc') {
+          cls[this.css.ascendingIcon] = true;
+        } else {
+          cls[this.css.descendingIcon] = true;
+        }
       }
 
       return cls;
@@ -2339,10 +2275,6 @@ exports.default = {
       var selector = 'th.vuetable-th-checkbox-' + idColumn + ' input[type=checkbox]';
       var els = document.querySelectorAll(selector);
 
-      if (els.forEach === undefined) els.forEach = function (cb) {
-        [].forEach.call(els, cb);
-      };
-
       var selected = this.tableData.filter(function (item) {
         return self.selectedTo.indexOf(item[idColumn]) >= 0;
       });
@@ -2418,37 +2350,13 @@ exports.default = {
         this.showDetailRow(rowId);
       }
     },
-    showField: function showField(index) {
-      if (index < 0 || index > this.tableFields.length) return;
-
-      this.tableFields[index].visible = true;
-    },
-    hideField: function hideField(index) {
-      if (index < 0 || index > this.tableFields.length) return;
-
-      this.tableFields[index].visible = false;
-    },
-    toggleField: function toggleField(index) {
-      if (index < 0 || index > this.tableFields.length) return;
-
-      this.tableFields[index].visible = !this.tableFields[index].visible;
-    },
-    renderIconTag: function renderIconTag(classes) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-
-      return this.renderIcon === null ? '<i class="' + classes.join(' ') + '" ' + options + '></i>' : this.renderIcon(classes, options);
-    },
     onRowClass: function onRowClass(dataItem, index) {
-      if (this.rowClassCallback !== '') {
-        this.warn('"row-class-callback" prop is deprecated, please use "row-class" prop instead.');
-        return;
-      }
+      var func = this.rowClassCallback.trim();
 
-      if (typeof this.rowClass === 'function') {
-        return this.rowClass(dataItem, index);
+      if (func !== '' && typeof this.$parent[func] === 'function') {
+        return this.$parent[func].call(this.$parent, dataItem, index);
       }
-
-      return this.rowClass;
+      return '';
     },
     onRowChanged: function onRowChanged(dataItem) {
       this.fireEvent('row-changed', dataItem);
@@ -2470,6 +2378,7 @@ exports.default = {
     onCellDoubleClicked: function onCellDoubleClicked(dataItem, field, event) {
       this.$emit(this.eventPrefix + 'cell-dblclicked', dataItem, field, event);
     },
+
     changePage: function changePage(page) {
       if (page === 'prev') {
         this.gotoPreviousPage();
@@ -2485,11 +2394,6 @@ exports.default = {
     refresh: function refresh() {
       this.currentPage = 1;
       this.loadData();
-    },
-    resetData: function resetData() {
-      this.tableData = null;
-      this.tablePagination = null;
-      this.fireEvent('data-reset');
     }
   },
   watch: {
@@ -2498,10 +2402,6 @@ exports.default = {
         this.sortOrder.splice(1);
         this.loadData();
       }
-    },
-
-    'apiUrl': function apiUrl(newVal, oldVal) {
-      if (newVal !== oldVal) this.refresh();
     }
   }
 };
@@ -2545,7 +2445,26 @@ var _VuetablePaginationInfoMixin2 = _interopRequireDefault(_VuetablePaginationIn
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  mixins: [_VuetablePaginationInfoMixin2.default]
+  mixins: [_VuetablePaginationInfoMixin2.default],
+  computed: {
+    paginationInfo: function paginationInfo() {
+      if (this.tablePagination == null || this.tablePagination.total == 0) {
+        return this.noDataTemplate;
+      }
+
+      return this.infoTemplate.replace('{from}', this.tablePagination.from || 0).replace('{to}', this.tablePagination.to || 0).replace('{total}', this.tablePagination.total || 0);
+    }
+  },
+  data: function data() {
+    return {
+      tablePagination: null
+    };
+  },
+  methods: {
+    setPaginationData: function setPaginationData(tablePagination) {
+      this.tablePagination = tablePagination;
+    }
+  }
 };
 
 /***/ }),
@@ -2560,12 +2479,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   props: {
-    css: {
-      type: Object,
+    infoClass: {
+      type: String,
       default: function _default() {
-        return {
-          infoClass: 'left floated left aligned six wide column'
-        };
+        return 'left floated left aligned six wide column';
       }
     },
     infoTemplate: {
@@ -2579,28 +2496,6 @@ exports.default = {
       default: function _default() {
         return 'No relevant data';
       }
-    }
-  },
-  data: function data() {
-    return {
-      tablePagination: null
-    };
-  },
-  computed: {
-    paginationInfo: function paginationInfo() {
-      if (this.tablePagination == null || this.tablePagination.total == 0) {
-        return this.noDataTemplate;
-      }
-
-      return this.infoTemplate.replace('{from}', this.tablePagination.from || 0).replace('{to}', this.tablePagination.to || 0).replace('{total}', this.tablePagination.total || 0);
-    }
-  },
-  methods: {
-    setPaginationData: function setPaginationData(tablePagination) {
-      this.tablePagination = tablePagination;
-    },
-    resetData: function resetData() {
-      this.tablePagination = null;
     }
   }
 };
@@ -2627,14 +2522,18 @@ exports.default = {
           pageClass: 'item',
           linkClass: 'icon item',
           paginationClass: 'ui bottom attached segment grid',
-          paginationInfoClass: 'left floated left aligned six wide column',
-          dropdownClass: 'ui search dropdown',
-          icons: {
-            first: 'angle double left icon',
-            prev: 'left chevron icon',
-            next: 'right chevron icon',
-            last: 'angle double right icon'
-          }
+          paginationInfoClass: 'left floated left aligned six wide column'
+        };
+      }
+    },
+    icons: {
+      type: Object,
+      default: function _default() {
+        return {
+          first: 'angle double left icon',
+          prev: 'left chevron icon',
+          next: 'right chevron icon',
+          last: 'angle double right icon'
         };
       }
     },
@@ -2647,7 +2546,6 @@ exports.default = {
   },
   data: function data() {
     return {
-      eventPrefix: 'vuetable-pagination:',
       tablePagination: null
     };
   },
@@ -2679,16 +2577,13 @@ exports.default = {
   },
   methods: {
     loadPage: function loadPage(page) {
-      this.$emit(this.eventPrefix + 'change-page', page);
+      this.$emit('vuetable-pagination:change-page', page);
     },
     isCurrentPage: function isCurrentPage(page) {
       return page === this.tablePagination.current_page;
     },
     setPaginationData: function setPaginationData(tablePagination) {
       this.tablePagination = tablePagination;
-    },
-    resetData: function resetData() {
-      this.tablePagination = null;
     }
   }
 };
@@ -5448,6 +5343,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_autolinker__ = __webpack_require__(371);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_autolinker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_autolinker__);
 //
 //
 //
@@ -5573,6 +5470,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -5663,6 +5561,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        AutoLinker: function AutoLinker(value) {
+            // 自動リンク
+            return __WEBPACK_IMPORTED_MODULE_1_autolinker___default.a.link(value, {
+                stripPrefix: false
+            });
+        },
         onDownload: function onDownload(messageId) {
             var self = this;
 
@@ -5758,8 +5662,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return;
             }
 
+            // メッセージをエスケープして、タグを無効化
+            var message = _.escape(self.postMessage);
+
+            // メッセージをクリア
+            self.postMessage = null;
+
             var objMessage = {
-                message: self.postMessage,
+                message: message,
                 from_user_id: self.$auth.user().id,
                 display_name: self.$auth.user().display_name,
                 avatar_url: self.$auth.user().avatar_path,
@@ -5772,15 +5682,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             // APIに投げる
             axios.post('/messenger/message', {
                 channelId: self.channelId,
-                message: self.postMessage
+                message: message
             }).then(function (response) {
                 objMessage.is_posted = true;
             }).catch(function (error) {
                 console.log(error);
             });
-
-            // メッセージをクリア
-            self.postMessage = null;
         },
         onInitView: function onInitView() {
             var self = this;
@@ -7285,7 +7192,7 @@ __webpack_require__(171);
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(12);
+window.axios = __webpack_require__(17);
 
 window.axios.defaults.headers.common = {
     'X-CSRF-TOKEN': window.Laravel.csrfToken,
@@ -7613,7 +7520,7 @@ var routes = [{
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "@charset \"UTF-8\";.el-breadcrumb:after,.el-breadcrumb:before,.el-button-group:after,.el-button-group:before,.el-form-item:after,.el-form-item:before,.el-form-item__content:after,.el-form-item__content:before{display:table;content:\"\"}.el-dialog__headerbtn,.el-pagination__rightwrapper{float:right}.el-checkbox__original,.el-pagination--small .arrow.disabled,.el-table td.is-hidden>*,.el-table th.is-hidden>*{visibility:hidden}.el-form-item__content:after{clear:both}.el-form-item:after{clear:both}.el-breadcrumb:after{clear:both}.el-button-group:after{clear:both}.el-autocomplete-suggestion.is-loading li:after{display:inline-block;content:\"\";height:100%;vertical-align:middle}@font-face{font-family:element-icons;src:url("+__webpack_require__(276)+") format('woff'),url("+__webpack_require__(275)+") format('truetype');font-weight:400;font-style:normal}[class*=\" el-icon-\"],[class^=el-icon-]{font-family:element-icons!important;speak:none;font-style:normal;font-weight:400;font-variant:normal;text-transform:none;line-height:1;vertical-align:baseline;display:inline-block;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.el-icon-arrow-down:before{content:\"\\e600\"}.el-icon-arrow-left:before{content:\"\\e601\"}.el-icon-arrow-right:before{content:\"\\e602\"}.el-icon-arrow-up:before{content:\"\\e603\"}.el-icon-caret-bottom:before{content:\"\\e604\"}.el-icon-caret-left:before{content:\"\\e605\"}.el-icon-caret-right:before{content:\"\\e606\"}.el-icon-caret-top:before{content:\"\\e607\"}.el-icon-check:before{content:\"\\e608\"}.el-icon-circle-check:before{content:\"\\e609\"}.el-icon-circle-close:before{content:\"\\e60a\"}.el-icon-circle-cross:before{content:\"\\e60b\"}.el-icon-close:before{content:\"\\e60c\"}.el-icon-upload:before{content:\"\\e60d\"}.el-icon-d-arrow-left:before{content:\"\\e60e\"}.el-icon-d-arrow-right:before{content:\"\\e60f\"}.el-icon-d-caret:before{content:\"\\e610\"}.el-icon-date:before{content:\"\\e611\"}.el-icon-delete:before{content:\"\\e612\"}.el-icon-document:before{content:\"\\e613\"}.el-icon-edit:before{content:\"\\e614\"}.el-icon-information:before{content:\"\\e615\"}.el-icon-loading:before{content:\"\\e616\"}.el-icon-menu:before{content:\"\\e617\"}.el-icon-message:before{content:\"\\e618\"}.el-icon-minus:before{content:\"\\e619\"}.el-icon-more:before{content:\"\\e61a\"}.el-icon-picture:before{content:\"\\e61b\"}.el-icon-plus:before{content:\"\\e61c\"}.el-icon-search:before{content:\"\\e61d\"}.el-icon-setting:before{content:\"\\e61e\"}.el-icon-share:before{content:\"\\e61f\"}.el-icon-star-off:before{content:\"\\e620\"}.el-icon-star-on:before{content:\"\\e621\"}.el-icon-time:before{content:\"\\e622\"}.el-icon-warning:before{content:\"\\e623\"}.el-icon-delete2:before{content:\"\\e624\"}.el-icon-upload2:before{content:\"\\e627\"}.el-icon-view:before{content:\"\\e626\"}.el-icon-loading{animation:rotating 1s linear infinite}.el-icon--right{margin-left:5px}.el-icon--left{margin-right:5px}@keyframes rotating{0%{transform:rotateZ(0)}100%{transform:rotateZ(360deg)}}.el-pagination{white-space:nowrap;padding:2px 5px;color:#48576a}.el-pagination:after,.el-pagination:before{display:table;content:\"\"}.el-pagination:after{clear:both}.el-pagination button,.el-pagination span{display:inline-block;font-size:13px;min-width:28px;height:28px;line-height:28px;vertical-align:top;box-sizing:border-box}.el-pagination .el-select .el-input{width:110px}.el-pagination .el-select .el-input input{padding-right:25px;border-radius:2px;height:28px}.el-pagination button{border:none;padding:0 6px;background:0 0}.el-pagination button:focus{outline:0}.el-pagination button:hover{color:#20a0ff}.el-pagination button.disabled{color:#e4e4e4;background-color:#fff;cursor:not-allowed}.el-pager li,.el-pager li.btn-quicknext:hover,.el-pager li.btn-quickprev:hover{cursor:pointer}.el-pagination .btn-next,.el-pagination .btn-prev{background:center center no-repeat #fff;background-size:16px;border:1px solid #d1dbe5;cursor:pointer;margin:0;color:#97a8be}.el-pagination .btn-next .el-icon,.el-pagination .btn-prev .el-icon{display:block;font-size:12px}.el-pagination .btn-prev{border-radius:2px 0 0 2px;border-right:0}.el-pagination .btn-next{border-radius:0 2px 2px 0;border-left:0}.el-pagination--small .btn-next,.el-pagination--small .btn-prev,.el-pagination--small .el-pager li,.el-pagination--small .el-pager li:last-child{border-color:transparent;font-size:12px;line-height:22px;height:22px;min-width:22px}.el-pagination--small .el-pager li{border-radius:2px}.el-pagination__sizes{margin:0 10px 0 0}.el-pagination__sizes .el-input .el-input__inner{font-size:13px;border-color:#d1dbe5}.el-pagination__sizes .el-input .el-input__inner:hover{border-color:#20a0ff}.el-pagination__jump{margin-left:10px}.el-pagination__total{margin:0 10px}.el-pagination__editor{border:1px solid #d1dbe5;border-radius:2px;line-height:18px;padding:4px 2px;width:30px;text-align:center;margin:0 6px;box-sizing:border-box;transition:border .3s}.el-pager,.el-pager li{vertical-align:top;display:inline-block;margin:0}.el-pagination__editor::-webkit-inner-spin-button,.el-pagination__editor::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.el-pagination__editor:focus{outline:0;border-color:#20a0ff}.el-autocomplete-suggestion__wrap,.el-pager li{border:1px solid #d1dbe5;box-sizing:border-box}.el-pager{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;list-style:none;font-size:0;padding:0}.el-radio,.el-switch__label{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.el-pager li{padding:0 4px;border-right:0;background:#fff;font-size:13px;min-width:28px;height:28px;line-height:28px;text-align:center}.el-pager li:last-child{border-right:1px solid #d1dbe5}.el-pager li.btn-quicknext,.el-pager li.btn-quickprev{line-height:28px;color:#97a8be}.el-pager li.active+li{border-left:0;padding-left:5px}.el-pager li:hover{color:#20a0ff}.el-pager li.active{border-color:#20a0ff;background-color:#20a0ff;color:#fff;cursor:default}.el-dialog{position:absolute;left:50%;-ms-transform:translateX(-50%);transform:translateX(-50%);background:#fff;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.3);box-sizing:border-box;margin-bottom:50px}.el-dialog--tiny{width:30%}.el-dialog--small{width:50%}.el-dialog--large{width:90%}.el-dialog--full{width:100%;top:0;margin-bottom:0;height:100%;overflow:auto}.el-dialog__wrapper{top:0;right:0;bottom:0;left:0;position:fixed;overflow:auto;margin:0}.el-autocomplete,.el-dropdown{display:inline-block;position:relative}.el-dialog__header{padding:20px 20px 0}.el-dialog__close{cursor:pointer;color:#bfcbd9}.el-dialog__close:hover{color:#20a0ff}.el-dialog__title{line-height:1;font-size:16px;font-weight:700;color:#1f2d3d}.el-dialog__body{padding:30px 20px;color:#48576a;font-size:14px}.el-dialog__footer{padding:10px 20px 15px;text-align:right;box-sizing:border-box}.dialog-fade-enter-active{animation:dialog-fade-in .3s}.dialog-fade-leave-active{animation:dialog-fade-out .3s}@keyframes dialog-fade-in{0%{transform:translate3d(0,-20px,0);opacity:0}100%{transform:translate3d(0,0,0);opacity:1}}@keyframes dialog-fade-out{0%{transform:translate3d(0,0,0);opacity:1}100%{transform:translate3d(0,-20px,0);opacity:0}}.el-autocomplete-suggestion{margin:5px 0;box-shadow:0 0 6px 0 rgba(0,0,0,.04),0 2px 4px 0 rgba(0,0,0,.12)}.el-autocomplete-suggestion li{list-style:none;line-height:36px;padding:0 10px;margin:0;cursor:pointer;color:#48576a;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.el-autocomplete-suggestion li:hover{background-color:#e4e8f1}.el-autocomplete-suggestion li.highlighted{background-color:#20a0ff;color:#fff}.el-autocomplete-suggestion li:active{background-color:#0082e6}.el-autocomplete-suggestion.is-loading li:hover,.el-dropdown-menu{background-color:#fff}.el-autocomplete-suggestion li.divider{margin-top:6px;border-top:1px solid #d1dbe5}.el-autocomplete-suggestion li.divider:last-child{margin-bottom:-6px}.el-autocomplete-suggestion.is-loading li{text-align:center;height:100px;line-height:100px;font-size:20px;color:#999}.el-autocomplete-suggestion.is-loading .el-icon-loading{vertical-align:middle}.el-autocomplete-suggestion__wrap{max-height:280px;overflow:auto;background-color:#fff;padding:6px 0;border-radius:2px}.el-autocomplete-suggestion__list{margin:0;padding:0}.el-dropdown{color:#48576a;font-size:14px}.el-dropdown .el-button-group{display:block}.el-dropdown .el-dropdown__caret-button{padding-right:5px;padding-left:5px}.el-dropdown .el-dropdown__caret-button .el-dropdown__icon{padding-left:0}.el-dropdown__icon{font-size:12px;margin:0 3px}.el-dropdown-menu{margin:5px 0;border:1px solid #d1dbe5;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.12);padding:6px 0;z-index:10;position:absolute;top:0;left:0;min-width:100px}.el-dropdown-menu__item{list-style:none;line-height:36px;padding:0 10px;margin:0;cursor:pointer}.el-dropdown-menu__item:not(.is-disabled):hover{background-color:#e4e8f1;color:#48576a}.el-dropdown-menu__item.is-disabled{cursor:default;color:#bfcbd9;pointer-events:none}.el-dropdown-menu__item--divided{position:relative;margin-top:6px;border-top:1px solid #d1dbe5}.el-dropdown-menu__item--divided:before{content:'';height:6px;display:block;margin:0 -10px;background-color:#fff}.el-menu-item,.el-submenu__title{height:56px;line-height:56px;font-size:14px;color:#48576a;padding:0 20px;cursor:pointer;position:relative;transition:border-color .3s,background-color .3s,color .3s;box-sizing:border-box;white-space:nowrap}.el-menu{border-radius:2px;list-style:none;position:relative;margin:0;padding-left:0;background-color:#eef1f6}.el-menu:after,.el-menu:before{display:table;content:\"\"}.el-menu:after{clear:both}.el-menu li{list-style:none}.el-menu--dark{background-color:#324157}.el-menu--dark .el-menu-item,.el-menu--dark .el-submenu__title{color:#bfcbd9}.el-menu--dark .el-menu-item:hover,.el-menu--dark .el-submenu__title:hover{background-color:#48576a}.el-menu--dark .el-submenu .el-menu{background-color:#1f2d3d}.el-menu--dark .el-submenu .el-menu .el-menu-item:hover{background-color:#48576a}.el-menu--horizontal .el-menu-item{float:left;height:60px;line-height:60px;margin:0;cursor:pointer;position:relative;box-sizing:border-box;border-bottom:5px solid transparent}.el-menu--horizontal .el-menu-item a,.el-menu--horizontal .el-menu-item a:hover{color:inherit}.el-menu--horizontal .el-submenu{float:left;position:relative}.el-menu--horizontal .el-submenu>.el-menu{position:absolute;top:65px;left:0;border:1px solid #d1dbe5;padding:5px 0;background-color:#fff;z-index:100;min-width:100%;box-shadow:0 2px 4px 0 rgba(0,0,0,.12),0 0 6px 0 rgba(0,0,0,.04)}.el-menu--horizontal .el-submenu .el-submenu__title{height:60px;line-height:60px;border-bottom:5px solid transparent}.el-menu--horizontal .el-submenu .el-menu-item{background-color:#fff;float:none;height:36px;line-height:36px;padding:0 10px}.el-menu--horizontal .el-submenu .el-submenu__icon-arrow{position:static;vertical-align:middle;margin-left:5px;color:#97a8be;margin-top:-3px}.el-menu--horizontal .el-menu-item:hover,.el-menu--horizontal .el-submenu__title:hover{background-color:#eef1f6}.el-menu--horizontal>.el-menu-item:hover,.el-menu--horizontal>.el-submenu.is-active .el-submenu__title,.el-menu--horizontal>.el-submenu:hover .el-submenu__title{border-bottom:5px solid #20a0ff}.el-menu--horizontal.el-menu--dark .el-menu-item:hover,.el-menu--horizontal.el-menu--dark .el-submenu__title:hover{background-color:#324157}.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item:hover,.el-menu--horizontal.el-menu--dark .el-submenu .el-submenu-title:hover,.el-menu-item:hover{background-color:#d1dbe5}.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item,.el-menu--horizontal.el-menu--dark .el-submenu .el-submenu-title{color:#48576a}.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active,.el-menu-item.is-active{color:#20a0ff}.el-menu-item [class^=el-icon-]{vertical-align:baseline;margin-right:10px}.el-menu-item:first-child{margin-left:0}.el-menu-item:last-child{margin-right:0}.el-submenu [class^=el-icon-]{vertical-align:baseline;margin-right:10px}.el-submenu .el-menu{background-color:#e4e8f1}.el-submenu .el-menu-item:hover,.el-submenu__title:hover{background-color:#d1dbe5}.el-submenu .el-menu-item{height:50px;line-height:50px;padding:0 45px}.el-submenu.is-opened>.el-submenu__title .el-submenu__icon-arrow{-ms-transform:rotate(180deg);transform:rotateZ(180deg)}.el-submenu.is-active .el-submenu__title{border-bottom-color:#20a0ff}.el-submenu__title{position:relative}.el-submenu__icon-arrow{position:absolute;top:50%;right:20px;margin-top:-7px;transition:transform .3s;font-size:12px}.el-radio,.el-radio__inner,.el-radio__input{position:relative;display:inline-block}.el-menu-item-group>ul{padding:0}.el-menu-item-group__title{padding-top:15px;line-height:normal;font-size:14px;padding-left:20px;color:#97a8be}.el-radio{color:#1f2d3d;cursor:pointer;white-space:nowrap}.el-radio+.el-radio{margin-left:15px}.el-radio__input{white-space:nowrap;cursor:pointer;outline:0;line-height:1;vertical-align:middle}.el-radio__input.is-focus .el-radio__inner{border-color:#20a0ff}.el-radio__input.is-checked .el-radio__inner{border-color:#20a0ff;background:#20a0ff}.el-radio__input.is-checked .el-radio__inner::after{-ms-transform:translate(-50%,-50%) scale(1);transform:translate(-50%,-50%) scale(1)}.el-radio__input.is-disabled .el-radio__inner{background-color:#eef1f6;border-color:#d1dbe5;cursor:not-allowed}.el-radio__input.is-disabled .el-radio__inner::after{cursor:not-allowed;background-color:#eef1f6}.el-radio__input.is-disabled .el-radio__inner+.el-radio__label{cursor:not-allowed}.el-radio__input.is-disabled.is-checked .el-radio__inner{background-color:#d1dbe5;border-color:#d1dbe5}.el-radio__inner,.el-radio__input.is-disabled.is-checked .el-radio__inner::after{background-color:#fff}.el-radio__input.is-disabled+.el-radio__label{color:#bbb;cursor:not-allowed}.el-radio__inner{border:1px solid #bfcbd9;width:18px;height:18px;border-radius:50%;cursor:pointer;box-sizing:border-box}.el-radio__inner:hover{border-color:#20a0ff}.el-radio__inner::after{width:6px;height:6px;border-radius:50%;background-color:#fff;content:\"\";position:absolute;left:50%;top:50%;-ms-transform:translate(-50%,-50%) scale(0);transform:translate(-50%,-50%) scale(0);transition:transform .15s cubic-bezier(.71,-.46,.88,.6)}.el-switch__core,.el-switch__label{width:46px;height:22px;cursor:pointer}.el-radio__original{opacity:0;outline:0;position:absolute;z-index:-1;top:0;left:0;right:0;bottom:0;margin:0}.el-radio-button,.el-radio-button__inner{position:relative;display:inline-block}.el-radio__label{font-size:14px;padding-left:5px}.el-radio-group{display:inline-block;font-size:0;line-height:1}.el-radio-group .el-radio{font-size:14px}.el-radio-button:first-child .el-radio-button__inner{border-left:1px solid #bfcbd9;border-radius:4px 0 0 4px;box-shadow:none!important}.el-radio-button:last-child .el-radio-button__inner{border-radius:0 4px 4px 0}.el-radio-button__inner{line-height:1;white-space:nowrap;vertical-align:middle;background:#fff;border:1px solid #bfcbd9;border-left:0;color:#1f2d3d;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:0;margin:0;cursor:pointer;transition:all .3s cubic-bezier(.645,.045,.355,1);padding:10px 15px;font-size:14px;border-radius:0}.el-radio-button__inner:hover{color:#20a0ff}.el-radio-button__inner [class*=el-icon-]{line-height:.9}.el-radio-button__inner [class*=el-icon-]+span{margin-left:5px}.el-radio-button__orig-radio{opacity:0;outline:0;position:absolute;z-index:-1;left:-999px}.el-radio-button__orig-radio:checked+.el-radio-button__inner{color:#fff;background-color:#20a0ff;border-color:#20a0ff;box-shadow:-1px 0 0 0 #20a0ff}.el-radio-button__orig-radio:disabled+.el-radio-button__inner{color:#bfcbd9;cursor:not-allowed;background-image:none;background-color:#eef1f6;border-color:#d1dbe5;box-shadow:none}.el-radio-button--large .el-radio-button__inner{padding:11px 19px;font-size:16px;border-radius:0}.el-radio-button--small .el-radio-button__inner{padding:7px 9px;font-size:12px;border-radius:0}.el-radio-button--mini .el-radio-button__inner{padding:4px;font-size:12px;border-radius:0}.el-switch{display:inline-block;position:relative;font-size:14px;line-height:22px;height:22px;vertical-align:middle}.el-switch__label,.el-switch__label *{position:absolute;font-size:14px;display:inline-block}.el-switch .label-fade-enter,.el-switch .label-fade-leave-active{opacity:0}.el-switch.is-disabled .el-switch__core{border-color:#e4e8f1!important;background:#e4e8f1!important}.el-switch.is-disabled .el-switch__core span{background-color:#fbfdff!important}.el-switch.is-disabled .el-switch__core~.el-switch__label *{color:#fbfdff!important}.el-switch.is-disabled .el-switch__input:checked+.el-switch__core{border-color:#e4e8f1;background-color:#e4e8f1}.el-switch.is-disabled .el-switch__core,.el-switch.is-disabled .el-switch__label{cursor:not-allowed}.el-switch__label{transition:.2s;left:0;top:0;user-select:none}.el-checkbox,.el-date-table,.el-time-panel{-webkit-user-select:none;-ms-user-select:none}.el-switch__label *{line-height:1;top:4px;color:#fff}.el-switch__label--left i{left:6px}.el-switch__label--right i{right:6px}.el-switch__input{display:none}.el-switch__input:checked+.el-switch__core{border-color:#20a0ff;background-color:#20a0ff}.el-switch__core{margin:0;display:inline-block;position:relative;border:1px solid #bfcbd9;outline:0;border-radius:12px;box-sizing:border-box;background:#bfcbd9;transition:border-color .3s,background-color .3s}.el-switch__core .el-switch__button{top:0;left:0;position:absolute;border-radius:100%;transition:transform .3s;width:16px;height:16px;background-color:#fff}.el-switch--wide .el-switch__label.el-switch__label--left span{left:10px}.el-switch--wide .el-switch__label.el-switch__label--right span{right:10px}.el-select-dropdown{position:absolute;z-index:1001;border:1px solid #d1dbe5;border-radius:2px;background-color:#fff;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);box-sizing:border-box;margin:5px 0}.el-select-dropdown .el-scrollbar.is-empty .el-select-dropdown__list{padding:0}.el-select-dropdown.is-multiple .el-select-dropdown__item.selected{color:#20a0ff;background-color:#fff}.el-select-dropdown.is-multiple .el-select-dropdown__item.selected.hover,.el-select-dropdown__item.hover{background-color:#e4e8f1}.el-select-dropdown.is-multiple .el-select-dropdown__item.selected::after{position:absolute;right:10px;font-family:element-icons;content:\"\\E608\";font-size:11px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.el-select-dropdown__empty{padding:10px 0;margin:0;text-align:center;color:#999;font-size:14px}.el-select-dropdown__wrap{max-height:274px}.el-select-dropdown__list{list-style:none;padding:6px 0;margin:0;box-sizing:border-box}.el-select-dropdown__item{font-size:14px;padding:8px 10px;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#48576a;height:36px;line-height:1.5;box-sizing:border-box;cursor:pointer}.el-select-dropdown__item.selected{color:#fff;background-color:#20a0ff}.el-select-dropdown__item.selected.hover{background-color:#1c8de0}.el-select-dropdown__item span{line-height:1.5!important}.el-select-dropdown__item.is-disabled{color:#bfcbd9;cursor:not-allowed}.el-select-dropdown__item.is-disabled:hover{background-color:#fff}.el-select-group{margin:0;padding:0}.el-select-group .el-select-dropdown__item{padding-left:20px}.el-select-group__wrap{list-style:none;margin:0;padding:0}.el-select-group__title{padding-left:10px;font-size:12px;color:#999;height:30px;line-height:30px}.el-select{display:inline-block;position:relative}.el-select:hover .el-input__inner{border-color:#8391a5}.el-select .el-input__inner{cursor:pointer;padding-right:35px}.el-select .el-input__inner:focus{border-color:#20a0ff}.el-select .el-input .el-input__icon{color:#bfcbd9;font-size:12px;transition:transform .3s;-ms-transform:translateY(-50%) rotate(180deg);transform:translateY(-50%) rotateZ(180deg);line-height:16px;top:50%;cursor:pointer}.el-select .el-input .el-input__icon.is-show-close{transition:0s;width:16px;height:16px;font-size:14px;right:8px;text-align:center;-ms-transform:translateY(-50%) rotate(180deg);transform:translateY(-50%) rotateZ(180deg);border-radius:100%;color:#bfcbd9}.el-select .el-input .el-input__icon.is-show-close:hover{color:#97a8be}.el-select .el-input .el-input__icon.is-reverse{-ms-transform:translateY(-50%);transform:translateY(-50%)}.el-select .el-input.is-disabled .el-input__inner{cursor:not-allowed}.el-select .el-input.is-disabled .el-input__inner:hover{border-color:#d1dbe5}.el-select>.el-input{display:block}.el-select .el-tag__close{margin-top:-2px}.el-select .el-tag{height:24px;line-height:24px;box-sizing:border-box;margin:3px 0 3px 6px}.el-select__input{border:none;outline:0;padding:0;margin-left:10px;color:#666;font-size:14px;vertical-align:baseline;-webkit-appearance:none;-moz-appearance:none;appearance:none;height:28px;background-color:transparent}.el-select__input.is-mini{height:14px}.el-select__close{cursor:pointer;position:absolute;top:8px;z-index:1000;right:25px;color:#bfcbd9;line-height:18px;font-size:12px}.el-select__close:hover{color:#97a8be}.el-select__tags{position:absolute;line-height:normal;white-space:normal;z-index:1;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}.el-table,.el-table td,.el-table th{box-sizing:border-box;position:relative}.el-table .el-tooltip.cell,.el-table th,.el-table th>div{white-space:nowrap}.el-select__tag{display:inline-block;height:24px;line-height:24px;font-size:14px;border-radius:4px;color:#fff;background-color:#20a0ff}.el-select__tag .el-icon-close{font-size:12px}.el-table{overflow:hidden;width:100%;max-width:100%;background-color:#fff;border:1px solid #dfe6ec;font-size:14px;color:#1f2d3d}.el-table td,.el-table th{height:40px;min-width:0;text-overflow:ellipsis;vertical-align:middle}.el-table::after,.el-table::before{content:'';position:absolute;background-color:#dfe6ec;z-index:1}.el-table td.is-right,.el-table th.is-right{text-align:right}.el-table td.is-left,.el-table th.is-left{text-align:left}.el-table td.is-center,.el-table th.is-center{text-align:center}.el-table td,.el-table th.is-leaf{border-bottom:1px solid #dfe6ec}.el-table td.gutter,.el-table th.gutter{width:15px;border-right-width:0;border-bottom-width:0;padding:0}.el-table .cell,.el-table th>div{padding-left:18px;padding-right:18px;box-sizing:border-box;text-overflow:ellipsis}.el-table::before{left:0;bottom:0;width:100%;height:1px}.el-table::after{top:0;right:0;width:1px;height:100%}.el-table .caret-wrapper,.el-table th>.cell{position:relative;display:inline-block;vertical-align:middle}.el-table th{overflow:hidden;background-color:#eef1f6;text-align:left}.el-table th>div{display:inline-block;line-height:40px;overflow:hidden}.el-table td>div{box-sizing:border-box}.el-table th.required>div::before{display:inline-block;content:\"\";width:8px;height:8px;border-radius:50%;background:#ff4d51;margin-right:5px;vertical-align:middle}.el-table th>.cell{word-wrap:normal;text-overflow:ellipsis;line-height:20px;width:100%;box-sizing:border-box}.el-table th>.cell.highlight{color:#20a0ff}.el-table .caret-wrapper{cursor:pointer;margin-left:5px;margin-top:-2px;width:16px;height:34px;overflow:visible;overflow:initial}.el-table .cell,.el-table__header-wrapper{overflow:hidden}.el-table .sort-caret{display:inline-block;width:0;height:0;border:0;content:\"\";position:absolute;left:3px;z-index:2}.el-table .sort-caret.ascending,.el-table .sort-caret.descending{border-right:5px solid transparent;border-left:5px solid transparent}.el-table .sort-caret.ascending{top:11px;border-top:none;border-bottom:5px solid #97a8be}.el-table .sort-caret.descending{bottom:11px;border-top:5px solid #97a8be;border-bottom:none}.el-table .ascending .sort-caret.ascending{border-bottom-color:#48576a}.el-table .descending .sort-caret.descending{border-top-color:#48576a}.el-table td.gutter{width:0}.el-table .cell{white-space:normal;word-break:break-all;line-height:24px}.el-table tr input[type=checkbox]{margin:0}.el-table tr{background-color:#fff}.el-table .hidden-columns{visibility:hidden;position:absolute;z-index:-1}.el-table__empty-block{position:relative;min-height:60px;text-align:center;width:100%;height:100%}.el-table__empty-text{position:absolute;left:50%;top:50%;-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);color:#5e7382}.el-table__expand-column .cell{padding:0;text-align:center}.el-table__expand-icon{position:relative;cursor:pointer;color:#666;font-size:12px;transition:transform .2s ease-in-out;height:40px}.el-table__fixed-header-wrapper thead div,.el-table__header-wrapper thead div{color:#1f2d3d;background-color:#eef1f6}.el-table__expand-icon>.el-icon{position:absolute;left:50%;top:50%;margin-left:-5px;margin-top:-5px}.el-table__expand-icon--expanded{-ms-transform:rotate(90deg);transform:rotate(90deg)}.el-table__expanded-cell{padding:20px 50px;background-color:#fbfdff;box-shadow:inset 0 2px 0 #f4f4f4}.el-table__expanded-cell:hover{background-color:#fbfdff!important}.el-table--fit{border-right:0;border-bottom:0}.el-table--border th,.el-table__fixed-right-patch{border-bottom:1px solid #dfe6ec}.el-table--fit td.gutter,.el-table--fit th.gutter{border-right-width:1px}.el-table--border td,.el-table--border th{border-right:1px solid #dfe6ec}.el-table__fixed,.el-table__fixed-right{position:absolute;top:0;left:0;box-shadow:1px 0 8px #d3d4d6;overflow-x:hidden}.el-table__fixed-right::before,.el-table__fixed::before{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background-color:#dfe6ec;z-index:4}.el-table__fixed-right-patch{position:absolute;top:-1px;right:0;background-color:#eef1f6}.el-table__fixed-right{top:0;left:auto;right:0;box-shadow:-1px 0 8px #d3d4d6}.el-table__fixed-right .el-table__fixed-body-wrapper,.el-table__fixed-right .el-table__fixed-header-wrapper{left:auto;right:0}.el-table__fixed-header-wrapper{position:absolute;left:0;top:0;z-index:3}.el-table__fixed-body-wrapper{position:absolute;left:0;top:37px;overflow:hidden;z-index:3}.el-table__body-wrapper,.el-table__header-wrapper{width:100%}.el-table__body,.el-table__header{table-layout:fixed}.el-table__body-wrapper{overflow:auto;position:relative}.el-table--striped .el-table__body tr:nth-child(2n) td{background:#FAFAFA;background-clip:padding-box}.el-table--striped .el-table__body tr:nth-child(2n).current-row td{background:#edf7ff}.el-table__body tr.hover-row>td{background-color:#eef1f6}.el-table__body tr.current-row>td{background:#edf7ff}.el-table__column-resize-proxy{position:absolute;left:200px;top:0;bottom:0;width:0;border-left:1px solid #dfe6ec;z-index:10}.el-checkbox,.el-checkbox__input{cursor:pointer;display:inline-block;position:relative;white-space:nowrap}.el-table__column-filter-trigger{display:inline-block;line-height:34px;margin-left:5px;cursor:pointer}.el-table__column-filter-trigger i{color:#97a8be}.el-table--enable-row-transition .el-table__body td{transition:background-color .25s ease}.el-table--enable-row-hover .el-table__body tr:hover>td{background-color:#eef1f6;background-clip:padding-box}.el-table--fluid-height .el-table__fixed,.el-table--fluid-height .el-table__fixed-right{bottom:0;overflow:hidden}.el-checkbox{color:#1f2d3d;-moz-user-select:none}.el-checkbox+.el-checkbox{margin-left:15px}.el-checkbox__input{outline:0;line-height:1;vertical-align:middle}.el-checkbox__input.is-indeterminate .el-checkbox__inner{background-color:#20a0ff;border-color:#0190fe}.el-checkbox__input.is-indeterminate .el-checkbox__inner::before{content:'';position:absolute;display:block;border:1px solid #fff;margin-top:-1px;left:3px;right:3px;top:50%}.el-checkbox__input.is-indeterminate .el-checkbox__inner::after{display:none}.el-checkbox__input.is-focus .el-checkbox__inner{border-color:#20a0ff}.el-checkbox__input.is-checked .el-checkbox__inner{background-color:#20a0ff;border-color:#0190fe}.el-checkbox__input.is-checked .el-checkbox__inner::after{-ms-transform:rotate(45deg) scaleY(1);transform:rotate(45deg) scaleY(1)}.el-checkbox__input.is-disabled .el-checkbox__inner{background-color:#eef1f6;border-color:#d1dbe5;cursor:not-allowed}.el-checkbox__input.is-disabled .el-checkbox__inner::after{cursor:not-allowed;border-color:#eef1f6}.el-checkbox__input.is-disabled .el-checkbox__inner+.el-checkbox__label{cursor:not-allowed}.el-checkbox__input.is-disabled.is-checked .el-checkbox__inner{background-color:#d1dbe5;border-color:#d1dbe5}.el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after{border-color:#fff}.el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner{background-color:#d1dbe5;border-color:#d1dbe5}.el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner::before{border-color:#fff}.el-checkbox__input.is-disabled+.el-checkbox__label{color:#bbb;cursor:not-allowed}.el-checkbox__inner{display:inline-block;position:relative;border:1px solid #bfcbd9;border-radius:4px;box-sizing:border-box;width:18px;height:18px;background-color:#fff;z-index:1;transition:border-color .25s cubic-bezier(.71,-.46,.29,1.46),background-color .25s cubic-bezier(.71,-.46,.29,1.46)}.el-checkbox__inner:hover{border-color:#20a0ff}.el-checkbox__inner::after{box-sizing:content-box;content:\"\";border:2px solid #fff;border-left:0;border-top:0;height:8px;left:5px;position:absolute;top:1px;-ms-transform:rotate(45deg) scaleY(0);transform:rotate(45deg) scaleY(0);width:4px;transition:transform .15s cubic-bezier(.71,-.46,.88,.6) .05s;-ms-transform-origin:center;transform-origin:center}.el-checkbox__original{opacity:0;outline:0;position:absolute;margin:0;left:-999px}.el-checkbox__label{font-size:14px;padding-left:5px}.el-table-column--selection .cell{padding-left:14px;padding-right:14px}.el-table-filter{border:1px solid #d1dbe5;border-radius:2px;background-color:#fff;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.12);box-sizing:border-box;margin:2px 0}.el-table-filter__list{padding:5px 0;margin:0;list-style:none;min-width:100px}.el-table-filter__list-item{line-height:36px;padding:0 10px;cursor:pointer;font-size:14px}.el-table-filter__list-item:hover{background-color:#e4e8f1;color:#48576a}.el-table-filter__list-item.is-active{background-color:#20a0ff;color:#fff}.el-table-filter__content{min-width:100px}.el-table-filter__bottom{border-top:1px solid #d1dbe5;padding:8px}.el-table-filter__bottom button{background:0 0;border:none;color:#8391a5;cursor:pointer;font-size:14px;padding:0 3px}.el-table-filter__bottom button:hover{color:#20a0ff}.el-table-filter__bottom button:focus{outline:0}.el-table-filter__bottom button.is-disabled{color:#bfcbd9;cursor:not-allowed}.el-table-filter__checkbox-group{padding:10px}.el-table-filter__checkbox-group .el-checkbox{display:block;margin-bottom:8px;margin-left:5px}.el-table-filter__checkbox-group .el-checkbox:last-child{margin-bottom:0}.el-date-table{font-size:12px;min-width:224px;-moz-user-select:none;user-select:none}.el-date-table td{width:32px;height:32px;box-sizing:border-box;text-align:center;cursor:pointer}.el-date-table td.next-month,.el-date-table td.prev-month{color:#ddd}.el-date-table td.today{color:#20a0ff;position:relative}.el-date-table td.today:before{content:\" \";position:absolute;top:0;right:0;width:0;height:0;border-top:.5em solid #20a0ff;border-left:.5em solid transparent}.el-month-table td .cell,.el-year-table td .cell{width:48px;height:32px;display:block;line-height:32px}.el-date-table td.available:hover{background-color:#e4e8f1}.el-date-table td.in-range{background-color:#d2ecff}.el-date-table td.in-range:hover{background-color:#afddff}.el-date-table td.current:not(.disabled),.el-date-table td.end-date,.el-date-table td.start-date{background-color:#20a0ff!important;color:#fff}.el-date-table td.disabled{background-color:#f4f4f4;opacity:1;cursor:not-allowed;color:#ccc}.el-fade-in-enter,.el-fade-in-leave-active,.fade-in-linear-enter,.fade-in-linear-leave,.fade-in-linear-leave-active{opacity:0}.el-date-table td.week{font-size:80%;color:#8391a5}.el-month-table,.el-year-table{font-size:12px;margin:-1px;border-collapse:collapse}.el-date-table th{padding:5px;color:#8391a5;font-weight:400}.el-date-table.is-week-mode .el-date-table__row:hover{background-color:#e4e8f1}.el-date-table.is-week-mode .el-date-table__row.current{background-color:#d2ecff}.el-month-table td{text-align:center;padding:20px 3px;cursor:pointer}.el-month-table td .cell{color:#48576a}.el-month-table td .cell:hover{background-color:#e4e8f1}.el-month-table td.disabled .cell{background-color:#f4f4f4;cursor:not-allowed;color:#ccc}.el-month-table td.current:not(.disabled) .cell{background-color:#20a0ff!important;color:#fff}.el-year-table .el-icon{color:#97a8be}.el-year-table td{text-align:center;padding:20px 3px;cursor:pointer}.el-year-table td .cell{color:#48576a}.el-year-table td .cell:hover{background-color:#e4e8f1}.el-year-table td.disabled .cell{background-color:#f4f4f4;cursor:not-allowed;color:#ccc}.el-year-table td.current:not(.disabled) .cell{background-color:#20a0ff!important;color:#fff}.el-date-range-picker{min-width:520px}.el-date-range-picker table{table-layout:fixed;width:100%}.el-date-range-picker .el-picker-panel__body{min-width:513px}.el-date-range-picker .el-picker-panel__content{margin:0}.el-date-range-picker.has-sidebar.has-time{min-width:766px}.el-date-range-picker.has-sidebar{min-width:620px}.el-date-range-picker.has-time{min-width:660px}.el-date-range-picker__header{position:relative;text-align:center;height:28px}.el-date-range-picker__header button{float:left}.el-date-range-picker__header div{font-size:14px;margin-right:50px}.el-date-range-picker__content{float:left;width:50%;box-sizing:border-box;margin:0;padding:16px}.el-date-range-picker__content.is-right .el-date-range-picker__header button{float:right}.el-date-range-picker__content.is-right .el-date-range-picker__header div{margin-left:50px;margin-right:50px}.el-date-range-picker__content.is-left{border-right:1px solid #e4e4e4}.el-date-range-picker__editors-wrap{box-sizing:border-box;display:table-cell}.el-date-range-picker__editors-wrap.is-right{text-align:right}.el-date-range-picker__time-header{position:relative;border-bottom:1px solid #e4e4e4;font-size:12px;padding:8px 5px 5px;display:table;width:100%;box-sizing:border-box}.el-date-range-picker__time-header>.el-icon-arrow-right{font-size:20px;vertical-align:middle;display:table-cell;color:#97a8be}.el-date-range-picker__time-picker-wrap{position:relative;display:table-cell;padding:0 5px}.el-date-range-picker__time-picker-wrap .el-picker-panel{position:absolute;top:13px;right:0;z-index:1;background:#fff}.el-time-range-picker{min-width:354px;overflow:visible}.el-time-range-picker__content{position:relative;text-align:center;padding:10px}.el-time-range-picker__cell{box-sizing:border-box;margin:0;padding:4px 7px 7px;width:50%;display:inline-block}.el-time-range-picker__header{margin-bottom:5px;text-align:center;font-size:14px}.el-time-range-picker__body{border-radius:2px;border:1px solid #d1dbe5}.el-picker-panel{color:#48576a;border:1px solid #d1dbe5;box-shadow:0 2px 6px #ccc;background:#fff;border-radius:2px;line-height:20px;margin:5px 0}.el-picker-panel__body-wrapper::after,.el-picker-panel__body::after{content:\"\";display:table;clear:both}.el-picker-panel__content{position:relative;margin:15px}.el-picker-panel__footer{border-top:1px solid #e4e4e4;padding:4px;text-align:right;background-color:#fff;position:relative}.el-picker-panel__shortcut{display:block;width:100%;border:0;background-color:transparent;line-height:28px;font-size:14px;color:#48576a;padding-left:12px;text-align:left;outline:0;cursor:pointer}.el-picker-panel__shortcut:hover{background-color:#e4e8f1}.el-picker-panel__shortcut.active{background-color:#e6f1fe;color:#20a0ff}.el-picker-panel__btn{border:1px solid #dcdcdc;color:#333;line-height:24px;border-radius:2px;padding:0 20px;cursor:pointer;background-color:transparent;outline:0;font-size:12px}.el-picker-panel__btn[disabled]{color:#ccc;cursor:not-allowed}.el-picker-panel__icon-btn{font-size:12px;color:#97a8be;border:0;background:0 0;cursor:pointer;outline:0;margin-top:3px}.el-date-picker__header-label.active,.el-date-picker__header-label:hover,.el-picker-panel__icon-btn:hover{color:#20a0ff}.el-picker-panel__link-btn{cursor:pointer;color:#20a0ff;text-decoration:none;padding:15px;font-size:12px}.el-picker-panel [slot=sidebar],.el-picker-panel__sidebar{position:absolute;top:0;bottom:0;width:110px;border-right:1px solid #e4e4e4;box-sizing:border-box;padding-top:6px;background-color:#fbfdff}.el-picker-panel [slot=sidebar]+.el-picker-panel__body,.el-picker-panel__sidebar+.el-picker-panel__body{margin-left:110px}.el-date-picker{min-width:254px}.el-date-picker .el-picker-panel__content{min-width:224px}.el-date-picker table{table-layout:fixed;width:100%}.el-date-picker.has-sidebar.has-time{min-width:434px}.el-date-picker.has-sidebar{min-width:370px}.el-date-picker.has-time{min-width:324px}.el-date-picker__editor-wrap{position:relative;display:table-cell;padding:0 5px}.el-date-picker__time-header{position:relative;border-bottom:1px solid #e4e4e4;font-size:12px;padding:8px 5px 5px;display:table;width:100%;box-sizing:border-box}.el-date-picker__header{margin:12px;text-align:center}.el-date-picker__header-label{font-size:14px;padding:0 5px;line-height:22px;text-align:center;cursor:pointer}.el-date-picker__prev-btn{float:left}.el-date-picker__next-btn{float:right}.el-date-picker__time-wrap{padding:10px;text-align:center}.el-date-picker__time-label{float:left;cursor:pointer;line-height:30px;margin-left:10px}.time-select{margin:5px 0;min-width:0}.time-select .el-picker-panel__content{max-height:200px;margin:0}.time-select-item{padding:8px 10px;font-size:14px}.time-select-item.selected:not(.disabled){background-color:#20a0ff;color:#fff}.time-select-item.selected:not(.disabled):hover{background-color:#20a0ff}.time-select-item.disabled{color:#d1dbe5;cursor:not-allowed}.time-select-item:hover{background-color:#e4e8f1;cursor:pointer}.fade-in-linear-enter-active,.fade-in-linear-leave-active{transition:opacity .2s linear}.el-fade-in-enter-active,.el-fade-in-leave-active,.el-zoom-in-center-enter-active,.el-zoom-in-center-leave-active{transition:all .3s cubic-bezier(.55,0,.1,1)}.el-zoom-in-center-enter,.el-zoom-in-center-leave-active{opacity:0;-ms-transform:scaleX(0);transform:scaleX(0)}.el-zoom-in-top-enter-active,.el-zoom-in-top-leave-active{opacity:1;-ms-transform:scaleY(1);transform:scaleY(1);transition:transform .3s cubic-bezier(.23,1,.32,1) .1s,opacity .3s cubic-bezier(.23,1,.32,1) .1s;-ms-transform-origin:center top;transform-origin:center top}.el-zoom-in-top-enter,.el-zoom-in-top-leave-active{opacity:0;-ms-transform:scaleY(0);transform:scaleY(0)}.el-zoom-in-bottom-enter-active,.el-zoom-in-bottom-leave-active{opacity:1;-ms-transform:scaleY(1);transform:scaleY(1);transition:transform .3s cubic-bezier(.23,1,.32,1) .1s,opacity .3s cubic-bezier(.23,1,.32,1) .1s;-ms-transform-origin:center bottom;transform-origin:center bottom}.el-zoom-in-bottom-enter,.el-zoom-in-bottom-leave-active{opacity:0;-ms-transform:scaleY(0);transform:scaleY(0)}.collapse-transition{transition:.3s height ease-in-out,.3s padding-top ease-in-out,.3s padding-bottom ease-in-out}.list-enter-active,.list-leave-active{transition:all 1s}.list-enter,.list-leave-active{opacity:0;-ms-transform:translateY(-30px);transform:translateY(-30px)}.el-date-editor{position:relative;display:inline-block}.el-date-editor .el-picker-panel{position:absolute;min-width:180px;box-sizing:border-box;box-shadow:0 2px 6px #ccc;background:#fff;z-index:10;top:41px}.el-date-editor.el-input{width:193px}.el-date-editor--daterange.el-input{width:220px}.el-date-editor--datetimerange.el-input{width:350px}.el-time-spinner.has-seconds .el-time-spinner__wrapper{width:33%}.el-time-spinner.has-seconds .el-time-spinner__wrapper .el-scrollbar__wrap:not(.el-scrollbar__wrap--hidden-default){padding-bottom:15px}.el-time-spinner.has-seconds .el-time-spinner__wrapper:nth-child(2){margin-left:1%}.el-time-spinner__wrapper{max-height:190px;overflow:auto;display:inline-block;width:50%;vertical-align:top;position:relative}.el-time-spinner__list{padding:0;margin:0;list-style:none;text-align:center}.el-time-spinner__list::after,.el-time-spinner__list::before{content:'';display:block;width:100%;height:80px}.el-time-spinner__item{height:32px;line-height:32px;font-size:12px}.el-time-spinner__item:hover:not(.disabled):not(.active){background:#e4e8f1;cursor:pointer}.el-time-spinner__item.active:not(.disabled){color:#fff}.el-time-spinner__item.disabled{color:#d1dbe5;cursor:not-allowed}.el-time-panel{margin:5px 0;border:1px solid #d1dbe5;background-color:#fff;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius:2px;position:absolute;width:180px;left:0;z-index:1000;-moz-user-select:none;user-select:none}.el-popover,.el-tabs--border-card{box-shadow:0 2px 4px 0 rgba(0,0,0,.12),0 0 6px 0 rgba(0,0,0,.04)}.el-button,.el-slider__button-wrapper{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.el-time-panel__content{font-size:0;position:relative;overflow:hidden}.el-time-panel__content::after,.el-time-panel__content::before{content:\":\";top:50%;color:#fff;position:absolute;font-size:14px;margin-top:-15px;line-height:16px;background-color:#20a0ff;height:32px;z-index:-1;left:0;right:0;box-sizing:border-box;padding-top:6px;text-align:left}.el-time-panel__content::after{left:50%;margin-left:-2px}.el-time-panel__content::before{padding-left:50%;margin-right:-2px}.el-time-panel__content.has-seconds::after{left:66.66667%}.el-time-panel__content.has-seconds::before{padding-left:33.33333%}.el-time-panel__footer{border-top:1px solid #e4e4e4;padding:4px;height:36px;line-height:25px;text-align:right;box-sizing:border-box}.el-time-panel__btn{border:none;line-height:28px;padding:0 5px;margin:0 5px;cursor:pointer;background-color:transparent;outline:0;font-size:12px;color:#8391a5}.el-time-panel__btn.confirm{font-weight:800;color:#20a0ff}.el-popover{position:absolute;background:#fff;min-width:150px;border-radius:2px;border:1px solid #d1dbe5;padding:10px;z-index:2000;font-size:12px}.el-popover .popper__arrow,.el-popover .popper__arrow::after{position:absolute;display:block;width:0;height:0;border-color:transparent;border-style:solid}.el-popover .popper__arrow{border-width:6px}.el-popover .popper__arrow::after{content:\" \";border-width:6px}.el-popover[x-placement^=top]{margin-bottom:12px}.el-popover[x-placement^=top] .popper__arrow{bottom:-6px;left:50%;margin-right:3px;border-top-color:#d1dbe5;border-bottom-width:0}.el-popover[x-placement^=top] .popper__arrow::after{bottom:1px;margin-left:-6px;border-top-color:#fff;border-bottom-width:0}.el-popover[x-placement^=bottom]{margin-top:12px}.el-popover[x-placement^=bottom] .popper__arrow{top:-6px;left:50%;margin-right:3px;border-top-width:0;border-bottom-color:#d1dbe5}.el-popover[x-placement^=bottom] .popper__arrow::after{top:1px;margin-left:-6px;border-top-width:0;border-bottom-color:#fff}.el-popover[x-placement^=right]{margin-left:12px}.el-popover[x-placement^=right] .popper__arrow{top:50%;left:-6px;margin-bottom:3px;border-right-color:#d1dbe5;border-left-width:0}.el-popover[x-placement^=right] .popper__arrow::after{bottom:-6px;left:1px;border-right-color:#fff;border-left-width:0}.el-popover[x-placement^=left]{margin-right:12px}.el-popover[x-placement^=left] .popper__arrow{top:50%;right:-6px;margin-bottom:3px;border-right-width:0;border-left-color:#d1dbe5}.el-popover[x-placement^=left] .popper__arrow::after{right:1px;bottom:-6px;margin-left:-6px;border-right-width:0;border-left-color:#fff}.el-popover__title{color:#1f2d3d;font-size:13px;line-height:1;margin-bottom:9px}.v-modal-enter{animation:v-modal-in .2s ease}.v-modal-leave{animation:v-modal-out .2s ease forwards}@keyframes v-modal-in{0%{opacity:0}}@keyframes v-modal-out{100%{opacity:0}}.v-modal{position:fixed;left:0;top:0;width:100%;height:100%;opacity:.5;background:#000}.el-button{display:inline-block;line-height:1;white-space:nowrap;cursor:pointer;background:#fff;border:1px solid #bfcbd9;color:#1f2d3d;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:0;margin:0;padding:10px 15px;font-size:14px;border-radius:4px}.el-button+.el-button{margin-left:10px}.el-button:focus,.el-button:hover{color:#20a0ff;border-color:#20a0ff}.el-button:active{color:#1d90e6;border-color:#1d90e6;outline:0}.el-button::-moz-focus-inner{border:0}.el-button [class*=el-icon-]+span{margin-left:5px}.el-button.is-loading{position:relative;pointer-events:none}.el-button.is-loading:before{pointer-events:none;content:'';position:absolute;left:-1px;top:-1px;right:-1px;bottom:-1px;border-radius:inherit;background-color:rgba(255,255,255,.35)}.el-button.is-disabled,.el-button.is-disabled:focus,.el-button.is-disabled:hover{color:#bfcbd9;cursor:not-allowed;background-image:none;background-color:#eef1f6;border-color:#d1dbe5}.el-button.is-disabled.el-button--text{background-color:transparent}.el-button.is-disabled.is-plain,.el-button.is-disabled.is-plain:focus,.el-button.is-disabled.is-plain:hover{background-color:#fff;border-color:#d1dbe5;color:#bfcbd9}.el-button.is-active{color:#1d90e6;border-color:#1d90e6}.el-button.is-plain:focus,.el-button.is-plain:hover{background:#fff;border-color:#20a0ff;color:#20a0ff}.el-button.is-plain:active{background:#fff;border-color:#1d90e6;color:#1d90e6;outline:0}.el-button--primary{color:#fff;background-color:#20a0ff;border-color:#20a0ff}.el-button--primary:focus,.el-button--primary:hover{background:#4db3ff;border-color:#4db3ff;color:#fff}.el-button--primary.is-active,.el-button--primary:active{background:#1d90e6;border-color:#1d90e6;color:#fff}.el-button--primary:active{outline:0}.el-button--primary.is-plain{background:#fff;border:1px solid #bfcbd9;color:#1f2d3d}.el-button--primary.is-plain:focus,.el-button--primary.is-plain:hover{background:#fff;border-color:#20a0ff;color:#20a0ff}.el-button--primary.is-plain:active{background:#fff;border-color:#1d90e6;color:#1d90e6;outline:0}.el-button--success{color:#fff;background-color:#13ce66;border-color:#13ce66}.el-button--success:focus,.el-button--success:hover{background:#42d885;border-color:#42d885;color:#fff}.el-button--success.is-active,.el-button--success:active{background:#11b95c;border-color:#11b95c;color:#fff}.el-button--success:active{outline:0}.el-button--success.is-plain{background:#fff;border:1px solid #bfcbd9;color:#1f2d3d}.el-button--success.is-plain:focus,.el-button--success.is-plain:hover{background:#fff;border-color:#13ce66;color:#13ce66}.el-button--success.is-plain:active{background:#fff;border-color:#11b95c;color:#11b95c;outline:0}.el-button--warning{color:#fff;background-color:#f7ba2a;border-color:#f7ba2a}.el-button--warning:focus,.el-button--warning:hover{background:#f9c855;border-color:#f9c855;color:#fff}.el-button--warning.is-active,.el-button--warning:active{background:#dea726;border-color:#dea726;color:#fff}.el-button--warning:active{outline:0}.el-button--warning.is-plain{background:#fff;border:1px solid #bfcbd9;color:#1f2d3d}.el-button--warning.is-plain:focus,.el-button--warning.is-plain:hover{background:#fff;border-color:#f7ba2a;color:#f7ba2a}.el-button--warning.is-plain:active{background:#fff;border-color:#dea726;color:#dea726;outline:0}.el-button--danger{color:#fff;background-color:#ff4949;border-color:#ff4949}.el-button--danger:focus,.el-button--danger:hover{background:#ff6d6d;border-color:#ff6d6d;color:#fff}.el-button--danger.is-active,.el-button--danger:active{background:#e64242;border-color:#e64242;color:#fff}.el-button--danger:active{outline:0}.el-button--danger.is-plain{background:#fff;border:1px solid #bfcbd9;color:#1f2d3d}.el-button--danger.is-plain:focus,.el-button--danger.is-plain:hover{background:#fff;border-color:#ff4949;color:#ff4949}.el-button--danger.is-plain:active{background:#fff;border-color:#e64242;color:#e64242;outline:0}.el-button--info{color:#fff;background-color:#50bfff;border-color:#50bfff}.el-button--info:focus,.el-button--info:hover{background:#73ccff;border-color:#73ccff;color:#fff}.el-button--info.is-active,.el-button--info:active{background:#48ace6;border-color:#48ace6;color:#fff}.el-button--info:active{outline:0}.el-button--info.is-plain{background:#fff;border:1px solid #bfcbd9;color:#1f2d3d}.el-button--info.is-plain:focus,.el-button--info.is-plain:hover{background:#fff;border-color:#50bfff;color:#50bfff}.el-button--info.is-plain:active{background:#fff;border-color:#48ace6;color:#48ace6;outline:0}.el-button--large{padding:11px 19px;font-size:16px;border-radius:4px}.el-button--small{padding:7px 9px;font-size:12px;border-radius:4px}.el-button--mini{padding:4px;font-size:12px;border-radius:4px}.el-button--text{border:none;color:#20a0ff;background:0 0;padding-left:0;padding-right:0}.el-button--text:focus,.el-button--text:hover{color:#4db3ff}.el-button--text:active{color:#1d90e6}.el-button-group{display:inline-block;vertical-align:middle}.el-button-group .el-button--primary:first-child{border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--primary:last-child{border-left-color:rgba(255,255,255,.5)}.el-button-group .el-button--primary:not(:first-child):not(:last-child){border-left-color:rgba(255,255,255,.5);border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--success:first-child{border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--success:last-child{border-left-color:rgba(255,255,255,.5)}.el-button-group .el-button--success:not(:first-child):not(:last-child){border-left-color:rgba(255,255,255,.5);border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--warning:first-child{border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--warning:last-child{border-left-color:rgba(255,255,255,.5)}.el-button-group .el-button--warning:not(:first-child):not(:last-child){border-left-color:rgba(255,255,255,.5);border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--danger:first-child{border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--danger:last-child{border-left-color:rgba(255,255,255,.5)}.el-button-group .el-button--danger:not(:first-child):not(:last-child){border-left-color:rgba(255,255,255,.5);border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--info:first-child{border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--info:last-child{border-left-color:rgba(255,255,255,.5)}.el-button-group .el-button--info:not(:first-child):not(:last-child){border-left-color:rgba(255,255,255,.5);border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button{float:left;position:relative}.el-button-group .el-button+.el-button{margin-left:0}.el-button-group .el-button:first-child{border-top-right-radius:0;border-bottom-right-radius:0}.el-button-group .el-button:last-child{border-top-left-radius:0;border-bottom-left-radius:0}.el-button-group .el-button:not(:first-child):not(:last-child){border-radius:0}.el-button-group .el-button:not(:last-child){margin-right:-1px}.el-button-group .el-button.is-active,.el-button-group .el-button:active,.el-button-group .el-button:focus,.el-button-group .el-button:hover{z-index:1}.el-message-box{text-align:left;display:inline-block;vertical-align:middle;background-color:#fff;width:420px;border-radius:3px;font-size:16px;overflow:hidden;-webkit-backface-visibility:hidden;backface-visibility:hidden}.el-message-box__wrapper{position:fixed;top:0;bottom:0;left:0;right:0;text-align:center}.el-message-box__wrapper::after{content:\"\";display:inline-block;height:100%;width:0;vertical-align:middle}.el-message-box__header{position:relative;padding:20px 20px 0}.el-message-box__content{padding:30px 20px;color:#48576a;font-size:14px;position:relative}.el-message-box__close{display:inline-block;position:absolute;top:19px;right:20px;color:#999;cursor:pointer;line-height:20px;text-align:center}.el-message-box__close:hover{color:#20a0ff}.el-message-box__input{padding-top:15px}.el-message-box__input input.invalid,.el-message-box__input input.invalid:focus{border-color:#ff4949}.el-message-box__errormsg{color:#ff4949;font-size:12px;min-height:18px;margin-top:2px}.el-message-box__title{padding-left:0;margin-bottom:0;font-size:16px;font-weight:700;height:18px;color:#333}.el-message-box__message{margin:0}.el-message-box__message p{margin:0;line-height:1.4}.el-message-box__btns{padding:10px 20px 15px;text-align:right}.el-message-box__btns button:nth-child(2){margin-left:10px}.el-message-box__btns-reverse{-ms-flex-direction:row-reverse;flex-direction:row-reverse}.el-message-box__status{position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%);font-size:36px!important}.el-message-box__status.el-icon-circle-check{color:#13ce66}.el-message-box__status.el-icon-information{color:#50bfff}.el-message-box__status.el-icon-warning{color:#f7ba2a}.el-message-box__status.el-icon-circle-cross{color:#ff4949}.msgbox-fade-enter-active{animation:msgbox-fade-in .3s}.msgbox-fade-leave-active{animation:msgbox-fade-out .3s}@keyframes msgbox-fade-in{0%{transform:translate3d(0,-20px,0);opacity:0}100%{transform:translate3d(0,0,0);opacity:1}}@keyframes msgbox-fade-out{0%{transform:translate3d(0,0,0);opacity:1}100%{transform:translate3d(0,-20px,0);opacity:0}}.el-breadcrumb{font-size:13px;line-height:1}.el-breadcrumb__separator{margin:0 8px;color:#bfcbd9}.el-breadcrumb__item{float:left}.el-breadcrumb__item:last-child .el-breadcrumb__item__inner,.el-breadcrumb__item:last-child .el-breadcrumb__item__inner a,.el-breadcrumb__item:last-child .el-breadcrumb__item__inner a:hover,.el-breadcrumb__item:last-child .el-breadcrumb__item__inner:hover{color:#97a8be;cursor:text}.el-breadcrumb__item:last-child .el-breadcrumb__separator{display:none}.el-breadcrumb__item__inner,.el-breadcrumb__item__inner a{transition:color .15s linear;color:#48576a}.el-breadcrumb__item__inner a:hover,.el-breadcrumb__item__inner:hover{color:#20a0ff;cursor:pointer}.el-form--label-left .el-form-item__label{text-align:left}.el-form--label-top .el-form-item__label{float:none;display:inline-block;text-align:left;padding:0 0 10px}.el-form--inline .el-form-item{display:inline-block;margin-right:10px;vertical-align:top}.el-form--inline .el-form-item__label{float:none;display:inline-block}.el-form--inline .el-form-item__content{display:inline-block;vertical-align:top}.el-form--inline.el-form--label-top .el-form-item__content{display:block}.el-form-item{margin-bottom:22px}.el-form-item .el-form-item{margin-bottom:0}.el-form-item .el-form-item .el-form-item__content{margin-left:0!important}.el-form-item.is-error .el-input-group__append .el-input__inner,.el-form-item.is-error .el-input-group__prepend .el-input__inner,.el-form-item.is-error .el-input__inner{border-color:transparent}.el-form-item.is-error .el-input__inner,.el-form-item.is-error .el-textarea__inner{border-color:#ff4949}.el-form-item.is-required .el-form-item__label:before{content:'*';color:#ff4949;margin-right:4px}.el-form-item__label{text-align:right;vertical-align:middle;float:left;font-size:14px;color:#48576a;line-height:1;padding:11px 12px 11px 0;box-sizing:border-box}.el-form-item__content{line-height:36px;position:relative;font-size:14px}.el-form-item__error{color:#ff4949;font-size:12px;line-height:1;padding-top:4px;position:absolute;top:100%;left:0}.el-tabs__header{border-bottom:1px solid #d1dbe5;padding:0;position:relative;margin:0 0 15px}.el-tabs__active-bar{position:absolute;bottom:0;left:0;height:3px;background-color:#20a0ff;z-index:1;transition:transform .3s cubic-bezier(.645,.045,.355,1);list-style:none}.el-tabs__new-tab{float:right;border:1px solid #d3dce6;height:18px;width:18px;line-height:18px;margin:12px 0 9px 10px;border-radius:3px;text-align:center;font-size:12px;color:#d3dce6;cursor:pointer;transition:all .15s}.el-tabs__new-tab .el-icon-plus{-ms-transform:scale(.8,.8);transform:scale(.8,.8)}.el-tabs__new-tab:hover{color:#20a0ff}.el-tabs__nav-wrap{overflow:hidden;margin-bottom:-1px;position:relative}.el-tabs__nav-wrap.is-scrollable{padding:0 15px}.el-tabs__nav-scroll{overflow:hidden}.el-tabs__nav-next,.el-tabs__nav-prev{position:absolute;cursor:pointer;line-height:44px;font-size:12px;color:#8391a5}.el-tabs__nav-next{right:0}.el-tabs__nav-prev{left:0}.el-tabs__nav{white-space:nowrap;position:relative;transition:transform .3s;float:left}.el-tabs__item{padding:0 16px;height:42px;box-sizing:border-box;line-height:42px;display:inline-block;list-style:none;font-size:14px;color:#8391a5;position:relative}.el-tabs__item .el-icon-close{border-radius:50%;text-align:center;transition:all .3s cubic-bezier(.645,.045,.355,1);margin-left:5px}.el-tabs__item .el-icon-close:before{-ms-transform:scale(.7,.7);transform:scale(.7,.7);display:inline-block}.el-tabs__item .el-icon-close:hover{background-color:#97a8be;color:#fff}.el-tabs__item:hover{color:#1f2d3d;cursor:pointer}.el-tabs__item.is-disabled{color:#bbb;cursor:default}.el-tabs__item.is-active{color:#20a0ff}.el-tabs__content{overflow:hidden;position:relative}.el-tabs--card>.el-tabs__header .el-tabs__active-bar{display:none}.el-tag,.slideInLeft-transition,.slideInRight-transition{display:inline-block}.el-tabs--card>.el-tabs__header .el-tabs__item .el-icon-close{position:relative;font-size:12px;width:0;height:14px;vertical-align:middle;line-height:15px;overflow:hidden;top:-1px;right:-2px;-ms-transform-origin:100% 50%;transform-origin:100% 50%}.el-tabs--card>.el-tabs__header .el-tabs__item.is-active.is-closable .el-icon-close,.el-tabs--card>.el-tabs__header .el-tabs__item.is-closable:hover .el-icon-close{width:14px}.el-tabs--card>.el-tabs__header .el-tabs__item{border:1px solid transparent;transition:all .3s cubic-bezier(.645,.045,.355,1)}.el-tabs--card>.el-tabs__header .el-tabs__item.is-closable:hover{padding-right:9px;padding-left:9px}.el-tabs--card>.el-tabs__header .el-tabs__item.is-active{border:1px solid #d1dbe5;border-bottom-color:#fff;border-radius:4px 4px 0 0}.el-tabs--card>.el-tabs__header .el-tabs__item.is-active.is-closable{padding-right:16px;padding-left:16px}.el-tabs--border-card{background:#fff;border:1px solid #d1dbe5}.el-tabs--border-card>.el-tabs__content{padding:15px}.el-tabs--border-card>.el-tabs__header{background-color:#eef1f6;margin:0}.el-tabs--border-card>.el-tabs__header .el-tabs__item{transition:all .3s cubic-bezier(.645,.045,.355,1);border:1px solid transparent;border-top:0;margin-right:-1px;margin-left:-1px}.el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{background-color:#fff;border-right-color:#d1dbe5;border-left-color:#d1dbe5}.el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active:first-child{border-left-color:#d1dbe5}.el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active:last-child{border-right-color:#d1dbe5}.slideInRight-enter{animation:slideInRight-enter .3s}.slideInRight-leave{position:absolute;left:0;right:0;animation:slideInRight-leave .3s}.slideInLeft-enter{animation:slideInLeft-enter .3s}.slideInLeft-leave{position:absolute;left:0;right:0;animation:slideInLeft-leave .3s}@keyframes slideInRight-enter{0%{opacity:0;transform-origin:0 0;transform:translateX(100%)}to{opacity:1;transform-origin:0 0;transform:translateX(0)}}@keyframes slideInRight-leave{0%{transform-origin:0 0;transform:translateX(0);opacity:1}100%{transform-origin:0 0;transform:translateX(100%);opacity:0}}@keyframes slideInLeft-enter{0%{opacity:0;transform-origin:0 0;transform:translateX(-100%)}to{opacity:1;transform-origin:0 0;transform:translateX(0)}}@keyframes slideInLeft-leave{0%{transform-origin:0 0;transform:translateX(0);opacity:1}100%{transform-origin:0 0;transform:translateX(-100%);opacity:0}}.el-tag{background-color:#8391a5;padding:0 5px;height:24px;line-height:22px;font-size:12px;color:#fff;border-radius:4px;box-sizing:border-box;border:1px solid transparent;white-space:nowrap}.el-tag .el-icon-close{border-radius:50%;text-align:center;position:relative;cursor:pointer;font-size:12px;-ms-transform:scale(.75,.75);transform:scale(.75,.75);height:18px;width:18px;line-height:18px;vertical-align:middle;top:-1px;right:-2px}.el-tag .el-icon-close:hover{background-color:#fff;color:#8391a5}.el-tag--gray{background-color:#e4e8f1;border-color:#e4e8f1;color:#48576a}.el-tag--gray .el-tag__close:hover{background-color:#48576a;color:#fff}.el-tag--gray.is-hit{border-color:#48576a}.el-tag--primary{background-color:rgba(32,160,255,.1);border-color:rgba(32,160,255,.2);color:#20a0ff}.el-tag--primary .el-tag__close:hover{background-color:#20a0ff;color:#fff}.el-tag--primary.is-hit{border-color:#20a0ff}.el-tag--success{background-color:rgba(18,206,102,.1);border-color:rgba(18,206,102,.2);color:#13ce66}.el-tag--success .el-tag__close:hover{background-color:#13ce66;color:#fff}.el-tag--success.is-hit{border-color:#13ce66}.el-tag--warning{background-color:rgba(247,186,41,.1);border-color:rgba(247,186,41,.2);color:#f7ba2a}.el-tag--warning .el-tag__close:hover{background-color:#f7ba2a;color:#fff}.el-tag--warning.is-hit{border-color:#f7ba2a}.el-tag--danger{background-color:rgba(255,73,73,.1);border-color:rgba(255,73,73,.2);color:#ff4949}.el-tag--danger .el-tag__close:hover{background-color:#ff4949;color:#fff}.el-tag--danger.is-hit{border-color:#ff4949}.el-tree{cursor:default;background:#fff;border:1px solid #d1dbe5}.el-tree__empty-block{position:relative;min-height:60px;text-align:center;width:100%;height:100%}.el-tree__empty-text{position:absolute;left:50%;top:50%;-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);color:#5e7382}.el-tree-node{white-space:nowrap}.el-tree-node>.el-tree-node__children{overflow:hidden;background-color:transparent}.el-tree-node.is-expanded>.el-tree-node__children{display:block}.el-tree-node__expand-icon,.el-tree-node__label,.el-tree-node__loading-icon{display:inline-block;vertical-align:middle}.el-tree-node__content{line-height:36px;height:36px;cursor:pointer}.el-tree-node__content>.el-checkbox,.el-tree-node__content>.el-tree-node__expand-icon{margin-right:8px}.el-tree-node__content>.el-checkbox{vertical-align:middle}.el-tree-node__content:hover{background:#e4e8f1}.el-tree-node__expand-icon{cursor:pointer;width:0;height:0;margin-left:10px;border:6px solid transparent;border-right-width:0;border-left-color:#97a8be;border-left-width:7px;-ms-transform:rotate(0);transform:rotate(0);transition:transform .3s ease-in-out}.el-tree-node__expand-icon:hover{border-left-color:#999}.el-tree-node__expand-icon.expanded{-ms-transform:rotate(90deg);transform:rotate(90deg)}.el-tree-node__expand-icon.is-leaf{border-color:transparent;cursor:default}.el-tree-node__label{font-size:14px}.el-tree-node__loading-icon{margin-right:4px;font-size:14px;color:#97a8be}.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content{background-color:#edf7ff}.el-alert{width:100%;padding:8px 16px;margin:0;box-sizing:border-box;border-radius:4px;position:relative;background-color:#fff;overflow:hidden;color:#fff;opacity:1;display:table;transition:opacity .2s}.el-alert .el-alert__description{color:#fff;font-size:12px;margin:5px 0 0}.el-alert--success{background-color:#13ce66}.el-alert--info{background-color:#50bfff}.el-alert--warning{background-color:#f7ba2a}.el-alert--error{background-color:#ff4949}.el-alert__content{display:table-cell;padding:0 8px}.el-alert__icon{font-size:16px;width:16px;display:table-cell;color:#fff;vertical-align:middle}.el-alert__icon.is-big{font-size:28px;width:28px}.el-alert__title{font-size:13px;line-height:18px}.el-alert__title.is-bold{font-weight:700}.el-alert__closebtn{font-size:12px;color:#fff;opacity:1;top:12px;right:15px;position:absolute;cursor:pointer}.el-alert-fade-enter,.el-alert-fade-leave-active,.el-loading-fade-enter,.el-loading-fade-leave-active,.el-notification-fade-leave-active{opacity:0}.el-alert__closebtn.is-customed{font-style:normal;font-size:13px;top:9px}.el-notification{width:330px;padding:20px;box-sizing:border-box;border-radius:2px;position:fixed;right:16px;background-color:#fff;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);transition:opacity .3s,transform .3s,right .3s,top .4s;overflow:hidden}.el-notification .el-icon-circle-check{color:#13ce66}.el-notification .el-icon-circle-cross{color:#ff4949}.el-notification .el-icon-information{color:#50bfff}.el-notification .el-icon-warning{color:#f7ba2a}.el-notification__group{margin-left:0}.el-notification__group.is-with-icon{margin-left:55px}.el-notification__title{font-weight:400;font-size:16px;color:#1f2d3d;margin:0}.el-notification__content{font-size:14px;line-height:21px;margin:10px 0 0;color:#8391a5;text-align:justify}.el-notification__icon{width:40px;height:40px;font-size:40px;float:left;position:relative;top:3px}.el-notification__closeBtn{top:20px;right:20px;position:absolute;cursor:pointer;color:#bfcbd9;font-size:14px}.el-notification__closeBtn:hover{color:#97a8be}.el-notification-fade-enter{-ms-transform:translateX(100%);transform:translateX(100%);right:0}.el-input-number{display:inline-block;overflow:hidden;width:180px;position:relative}.el-input-number .el-input{display:block}.el-input-number .el-input__inner{-webkit-appearance:none;-moz-appearance:none;appearance:none;padding-right:82px}.el-input-number.is-without-controls .el-input__inner{padding-right:10px}.el-input-number.is-disabled .el-input-number__decrease,.el-input-number.is-disabled .el-input-number__increase{border-color:#d1dbe5;color:#d1dbe5}.el-input-number.is-disabled .el-input-number__decrease:hover,.el-input-number.is-disabled .el-input-number__increase:hover{color:#d1dbe5;cursor:not-allowed}.el-input-number__decrease,.el-input-number__increase{height:auto;border-left:1px solid #bfcbd9;width:36px;line-height:34px;top:1px;text-align:center;color:#97a8be;cursor:pointer;position:absolute;z-index:1}.el-input-number__decrease:hover,.el-input-number__increase:hover{color:#20a0ff}.el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled),.el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled){border-color:#20a0ff}.el-input-number__decrease.is-disabled,.el-input-number__increase.is-disabled{color:#d1dbe5;cursor:not-allowed}.el-input-number__increase{right:0}.el-input-number__decrease{right:37px}.el-input-number--large{width:200px}.el-input-number--large .el-input-number__decrease,.el-input-number--large .el-input-number__increase{line-height:42px;width:42px;font-size:16px}.el-input-number--large .el-input-number__decrease{right:43px}.el-input-number--large .el-input__inner{padding-right:94px}.el-input-number--small{width:130px}.el-input-number--small .el-input-number__decrease,.el-input-number--small .el-input-number__increase{line-height:30px;width:30px;font-size:13px}.el-input-number--small .el-input-number__decrease{right:31px}.el-input-number--small .el-input__inner{padding-right:70px}.el-tooltip__popper{position:absolute;border-radius:4px;padding:10px;z-index:2000;font-size:12px;line-height:1.2}.el-tooltip__popper .popper__arrow,.el-tooltip__popper .popper__arrow::after{position:absolute;display:block;width:0;height:0;border-color:transparent;border-style:solid}.el-tooltip__popper .popper__arrow{border-width:6px}.el-tooltip__popper .popper__arrow::after{content:\" \";border-width:5px}.el-progress-bar__inner:after,.el-row:after,.el-row:before,.el-slider:after,.el-slider:before,.el-slider__button-wrapper:after,.el-upload-cover:after{content:\"\"}.el-tooltip__popper[x-placement^=top]{margin-bottom:12px}.el-tooltip__popper[x-placement^=top] .popper__arrow{bottom:-6px;border-top-color:#1f2d3d;border-bottom-width:0}.el-tooltip__popper[x-placement^=top] .popper__arrow::after{bottom:1px;margin-left:-5px;border-top-color:#1f2d3d;border-bottom-width:0}.el-tooltip__popper[x-placement^=bottom]{margin-top:12px}.el-tooltip__popper[x-placement^=bottom] .popper__arrow{top:-6px;border-top-width:0;border-bottom-color:#1f2d3d}.el-tooltip__popper[x-placement^=bottom] .popper__arrow::after{top:1px;margin-left:-5px;border-top-width:0;border-bottom-color:#1f2d3d}.el-tooltip__popper[x-placement^=right]{margin-left:12px}.el-tooltip__popper[x-placement^=right] .popper__arrow{left:-6px;border-right-color:#1f2d3d;border-left-width:0}.el-tooltip__popper[x-placement^=right] .popper__arrow::after{bottom:-5px;left:1px;border-right-color:#1f2d3d;border-left-width:0}.el-tooltip__popper[x-placement^=left]{margin-right:12px}.el-tooltip__popper[x-placement^=left] .popper__arrow{right:-6px;border-right-width:0;border-left-color:#1f2d3d}.el-tooltip__popper[x-placement^=left] .popper__arrow::after{right:1px;bottom:-5px;margin-left:-5px;border-right-width:0;border-left-color:#1f2d3d}.el-tooltip__popper.is-light{background:#fff;border:1px solid #1f2d3d}.el-tooltip__popper.is-light[x-placement^=top] .popper__arrow{border-top-color:#1f2d3d}.el-tooltip__popper.is-light[x-placement^=top] .popper__arrow::after{border-top-color:#fff}.el-tooltip__popper.is-light[x-placement^=bottom] .popper__arrow{border-bottom-color:#1f2d3d}.el-tooltip__popper.is-light[x-placement^=bottom] .popper__arrow::after{border-bottom-color:#fff}.el-tooltip__popper.is-light[x-placement^=left] .popper__arrow{border-left-color:#1f2d3d}.el-tooltip__popper.is-light[x-placement^=left] .popper__arrow::after{border-left-color:#fff}.el-tooltip__popper.is-light[x-placement^=right] .popper__arrow{border-right-color:#1f2d3d}.el-tooltip__popper.is-light[x-placement^=right] .popper__arrow::after{border-right-color:#fff}.el-tooltip__popper.is-dark{background:#1f2d3d;color:#fff}.el-slider:after,.el-slider:before{display:table}.el-slider__button-wrapper .el-tooltip,.el-slider__button-wrapper:after{display:inline-block;vertical-align:middle}.el-slider:after{clear:both}.el-slider__runway{width:100%;height:4px;margin:16px 0;background-color:#e4e8f1;border-radius:3px;position:relative;cursor:pointer;vertical-align:middle}.el-slider__runway.show-input{margin-right:160px;width:auto}.el-slider__runway.disabled{cursor:default}.el-slider__runway.disabled .el-slider__bar,.el-slider__runway.disabled .el-slider__button{background-color:#bfcbd9}.el-slider__runway.disabled .el-slider__button-wrapper.dragging,.el-slider__runway.disabled .el-slider__button-wrapper.hover,.el-slider__runway.disabled .el-slider__button-wrapper:hover{cursor:not-allowed}.el-slider__runway.disabled .el-slider__button.dragging,.el-slider__runway.disabled .el-slider__button.hover,.el-slider__runway.disabled .el-slider__button:hover{-ms-transform:scale(1);transform:scale(1);cursor:not-allowed}.el-slider__input{float:right;margin-top:3px}.el-slider__bar{height:4px;background-color:#20a0ff;border-top-left-radius:3px;border-bottom-left-radius:3px;position:absolute}.el-slider__button-wrapper{width:36px;height:36px;position:absolute;z-index:1001;top:-16px;-ms-transform:translateX(-50%);transform:translateX(-50%);background-color:transparent;text-align:center;user-select:none}.el-slider__button-wrapper:after{height:100%}.el-slider__button-wrapper.hover,.el-slider__button-wrapper:hover{cursor:-webkit-grab;cursor:grab}.el-slider__button-wrapper.dragging{cursor:-webkit-grabbing;cursor:grabbing}.el-slider__button{width:12px;height:12px;background-color:#20a0ff;border-radius:50%;transition:.2s;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.el-slider__button.dragging,.el-slider__button.hover,.el-slider__button:hover{-ms-transform:scale(1.5);transform:scale(1.5);background-color:#1c8de0}.el-slider__button.hover,.el-slider__button:hover{cursor:-webkit-grab;cursor:grab}.el-slider__button.dragging{cursor:-webkit-grabbing;cursor:grabbing}.el-slider__stop{position:absolute;width:4px;height:4px;border-radius:100%;background-color:#bfcbd9;-ms-transform:translateX(-50%);transform:translateX(-50%)}.el-loading-mask{position:absolute;z-index:10000;background-color:rgba(255,255,255,.9);margin:0;top:0;right:0;bottom:0;left:0;transition:opacity .3s}.el-loading-mask.is-fullscreen{position:fixed}.el-loading-mask.is-fullscreen .el-loading-spinner{margin-top:-25px}.el-loading-mask.is-fullscreen .el-loading-spinner .circular{width:50px;height:50px}.el-loading-spinner{top:50%;margin-top:-21px;width:100%;text-align:center;position:absolute}.el-col-pull-0,.el-col-pull-1,.el-col-pull-10,.el-col-pull-11,.el-col-pull-13,.el-col-pull-14,.el-col-pull-15,.el-col-pull-16,.el-col-pull-17,.el-col-pull-18,.el-col-pull-19,.el-col-pull-2,.el-col-pull-20,.el-col-pull-21,.el-col-pull-22,.el-col-pull-23,.el-col-pull-24,.el-col-pull-3,.el-col-pull-4,.el-col-pull-5,.el-col-pull-6,.el-col-pull-7,.el-col-pull-8,.el-col-pull-9,.el-col-push-0,.el-col-push-1,.el-col-push-10,.el-col-push-11,.el-col-push-12,.el-col-push-13,.el-col-push-14,.el-col-push-15,.el-col-push-16,.el-col-push-17,.el-col-push-18,.el-col-push-19,.el-col-push-2,.el-col-push-20,.el-col-push-21,.el-col-push-22,.el-col-push-23,.el-col-push-24,.el-col-push-3,.el-col-push-4,.el-col-push-5,.el-col-push-6,.el-col-push-7,.el-col-push-8,.el-col-push-9,.el-row{position:relative}.el-loading-spinner .el-loading-text{color:#20a0ff;margin:3px 0;font-size:14px}.el-loading-spinner .circular{width:42px;height:42px;animation:loading-rotate 2s linear infinite}.el-loading-spinner .path{animation:loading-dash 1.5s ease-in-out infinite;stroke-dasharray:90,150;stroke-dashoffset:0;stroke-width:2;stroke:#20a0ff;stroke-linecap:round}@keyframes loading-rotate{100%{transform:rotate(360deg)}}@keyframes loading-dash{0%{stroke-dasharray:1,200;stroke-dashoffset:0}50%{stroke-dasharray:90,150;stroke-dashoffset:-40px}100%{stroke-dasharray:90,150;stroke-dashoffset:-120px}}.el-row{box-sizing:border-box}.el-row:after,.el-row:before{display:table}.el-row:after{clear:both}.el-row--flex{display:-ms-flexbox;display:flex}.el-row--flex:after,.el-row--flex:before{display:none}.el-row--flex.is-align-bottom{-ms-flex-align:end;align-items:flex-end}.el-row--flex.is-align-middle{-ms-flex-align:center;align-items:center}.el-row--flex.is-justify-space-around{-ms-flex-pack:distribute;justify-content:space-around}.el-row--flex.is-justify-space-between{-ms-flex-pack:justify;justify-content:space-between}.el-row--flex.is-justify-end{-ms-flex-pack:end;justify-content:flex-end}.el-row--flex.is-justify-center{-ms-flex-pack:center;justify-content:center}.el-col-1,.el-col-10,.el-col-11,.el-col-12,.el-col-13,.el-col-14,.el-col-15,.el-col-16,.el-col-17,.el-col-18,.el-col-19,.el-col-2,.el-col-20,.el-col-21,.el-col-22,.el-col-23,.el-col-24,.el-col-3,.el-col-4,.el-col-5,.el-col-6,.el-col-7,.el-col-8,.el-col-9{float:left;box-sizing:border-box}.el-col-0{width:0}.el-col-offset-0{margin-left:0}.el-col-pull-0{right:0}.el-col-push-0{left:0}.el-col-1{width:4.16667%}.el-col-offset-1{margin-left:4.16667%}.el-col-pull-1{right:4.16667%}.el-col-push-1{left:4.16667%}.el-col-2{width:8.33333%}.el-col-offset-2{margin-left:8.33333%}.el-col-pull-2{right:8.33333%}.el-col-push-2{left:8.33333%}.el-col-3{width:12.5%}.el-col-offset-3{margin-left:12.5%}.el-col-pull-3{right:12.5%}.el-col-push-3{left:12.5%}.el-col-4{width:16.66667%}.el-col-offset-4{margin-left:16.66667%}.el-col-pull-4{right:16.66667%}.el-col-push-4{left:16.66667%}.el-col-5{width:20.83333%}.el-col-offset-5{margin-left:20.83333%}.el-col-pull-5{right:20.83333%}.el-col-push-5{left:20.83333%}.el-col-6{width:25%}.el-col-offset-6{margin-left:25%}.el-col-pull-6{right:25%}.el-col-push-6{left:25%}.el-col-7{width:29.16667%}.el-col-offset-7{margin-left:29.16667%}.el-col-pull-7{right:29.16667%}.el-col-push-7{left:29.16667%}.el-col-8{width:33.33333%}.el-col-offset-8{margin-left:33.33333%}.el-col-pull-8{right:33.33333%}.el-col-push-8{left:33.33333%}.el-col-9{width:37.5%}.el-col-offset-9{margin-left:37.5%}.el-col-pull-9{right:37.5%}.el-col-push-9{left:37.5%}.el-col-10{width:41.66667%}.el-col-offset-10{margin-left:41.66667%}.el-col-pull-10{right:41.66667%}.el-col-push-10{left:41.66667%}.el-col-11{width:45.83333%}.el-col-offset-11{margin-left:45.83333%}.el-col-pull-11{right:45.83333%}.el-col-push-11{left:45.83333%}.el-col-12{width:50%}.el-col-offset-12{margin-left:50%}.el-col-pull-12{position:relative;right:50%}.el-col-push-12{left:50%}.el-col-13{width:54.16667%}.el-col-offset-13{margin-left:54.16667%}.el-col-pull-13{right:54.16667%}.el-col-push-13{left:54.16667%}.el-col-14{width:58.33333%}.el-col-offset-14{margin-left:58.33333%}.el-col-pull-14{right:58.33333%}.el-col-push-14{left:58.33333%}.el-col-15{width:62.5%}.el-col-offset-15{margin-left:62.5%}.el-col-pull-15{right:62.5%}.el-col-push-15{left:62.5%}.el-col-16{width:66.66667%}.el-col-offset-16{margin-left:66.66667%}.el-col-pull-16{right:66.66667%}.el-col-push-16{left:66.66667%}.el-col-17{width:70.83333%}.el-col-offset-17{margin-left:70.83333%}.el-col-pull-17{right:70.83333%}.el-col-push-17{left:70.83333%}.el-col-18{width:75%}.el-col-offset-18{margin-left:75%}.el-col-pull-18{right:75%}.el-col-push-18{left:75%}.el-col-19{width:79.16667%}.el-col-offset-19{margin-left:79.16667%}.el-col-pull-19{right:79.16667%}.el-col-push-19{left:79.16667%}.el-col-20{width:83.33333%}.el-col-offset-20{margin-left:83.33333%}.el-col-pull-20{right:83.33333%}.el-col-push-20{left:83.33333%}.el-col-21{width:87.5%}.el-col-offset-21{margin-left:87.5%}.el-col-pull-21{right:87.5%}.el-col-push-21{left:87.5%}.el-col-22{width:91.66667%}.el-col-offset-22{margin-left:91.66667%}.el-col-pull-22{right:91.66667%}.el-col-push-22{left:91.66667%}.el-col-23{width:95.83333%}.el-col-offset-23{margin-left:95.83333%}.el-col-pull-23{right:95.83333%}.el-col-push-23{left:95.83333%}.el-col-24{width:100%}.el-col-offset-24{margin-left:100%}.el-col-pull-24{right:100%}.el-col-push-24{left:100%}@media (max-width:768px){.el-col-xs-0{width:0}.el-col-xs-offset-0{margin-left:0}.el-col-xs-pull-0{position:relative;right:0}.el-col-xs-push-0{position:relative;left:0}.el-col-xs-1{width:4.16667%}.el-col-xs-offset-1{margin-left:4.16667%}.el-col-xs-pull-1{position:relative;right:4.16667%}.el-col-xs-push-1{position:relative;left:4.16667%}.el-col-xs-2{width:8.33333%}.el-col-xs-offset-2{margin-left:8.33333%}.el-col-xs-pull-2{position:relative;right:8.33333%}.el-col-xs-push-2{position:relative;left:8.33333%}.el-col-xs-3{width:12.5%}.el-col-xs-offset-3{margin-left:12.5%}.el-col-xs-pull-3{position:relative;right:12.5%}.el-col-xs-push-3{position:relative;left:12.5%}.el-col-xs-4{width:16.66667%}.el-col-xs-offset-4{margin-left:16.66667%}.el-col-xs-pull-4{position:relative;right:16.66667%}.el-col-xs-push-4{position:relative;left:16.66667%}.el-col-xs-5{width:20.83333%}.el-col-xs-offset-5{margin-left:20.83333%}.el-col-xs-pull-5{position:relative;right:20.83333%}.el-col-xs-push-5{position:relative;left:20.83333%}.el-col-xs-6{width:25%}.el-col-xs-offset-6{margin-left:25%}.el-col-xs-pull-6{position:relative;right:25%}.el-col-xs-push-6{position:relative;left:25%}.el-col-xs-7{width:29.16667%}.el-col-xs-offset-7{margin-left:29.16667%}.el-col-xs-pull-7{position:relative;right:29.16667%}.el-col-xs-push-7{position:relative;left:29.16667%}.el-col-xs-8{width:33.33333%}.el-col-xs-offset-8{margin-left:33.33333%}.el-col-xs-pull-8{position:relative;right:33.33333%}.el-col-xs-push-8{position:relative;left:33.33333%}.el-col-xs-9{width:37.5%}.el-col-xs-offset-9{margin-left:37.5%}.el-col-xs-pull-9{position:relative;right:37.5%}.el-col-xs-push-9{position:relative;left:37.5%}.el-col-xs-10{width:41.66667%}.el-col-xs-offset-10{margin-left:41.66667%}.el-col-xs-pull-10{position:relative;right:41.66667%}.el-col-xs-push-10{position:relative;left:41.66667%}.el-col-xs-11{width:45.83333%}.el-col-xs-offset-11{margin-left:45.83333%}.el-col-xs-pull-11{position:relative;right:45.83333%}.el-col-xs-push-11{position:relative;left:45.83333%}.el-col-xs-12{width:50%}.el-col-xs-offset-12{margin-left:50%}.el-col-xs-pull-12{position:relative;right:50%}.el-col-xs-push-12{position:relative;left:50%}.el-col-xs-13{width:54.16667%}.el-col-xs-offset-13{margin-left:54.16667%}.el-col-xs-pull-13{position:relative;right:54.16667%}.el-col-xs-push-13{position:relative;left:54.16667%}.el-col-xs-14{width:58.33333%}.el-col-xs-offset-14{margin-left:58.33333%}.el-col-xs-pull-14{position:relative;right:58.33333%}.el-col-xs-push-14{position:relative;left:58.33333%}.el-col-xs-15{width:62.5%}.el-col-xs-offset-15{margin-left:62.5%}.el-col-xs-pull-15{position:relative;right:62.5%}.el-col-xs-push-15{position:relative;left:62.5%}.el-col-xs-16{width:66.66667%}.el-col-xs-offset-16{margin-left:66.66667%}.el-col-xs-pull-16{position:relative;right:66.66667%}.el-col-xs-push-16{position:relative;left:66.66667%}.el-col-xs-17{width:70.83333%}.el-col-xs-offset-17{margin-left:70.83333%}.el-col-xs-pull-17{position:relative;right:70.83333%}.el-col-xs-push-17{position:relative;left:70.83333%}.el-col-xs-18{width:75%}.el-col-xs-offset-18{margin-left:75%}.el-col-xs-pull-18{position:relative;right:75%}.el-col-xs-push-18{position:relative;left:75%}.el-col-xs-19{width:79.16667%}.el-col-xs-offset-19{margin-left:79.16667%}.el-col-xs-pull-19{position:relative;right:79.16667%}.el-col-xs-push-19{position:relative;left:79.16667%}.el-col-xs-20{width:83.33333%}.el-col-xs-offset-20{margin-left:83.33333%}.el-col-xs-pull-20{position:relative;right:83.33333%}.el-col-xs-push-20{position:relative;left:83.33333%}.el-col-xs-21{width:87.5%}.el-col-xs-offset-21{margin-left:87.5%}.el-col-xs-pull-21{position:relative;right:87.5%}.el-col-xs-push-21{position:relative;left:87.5%}.el-col-xs-22{width:91.66667%}.el-col-xs-offset-22{margin-left:91.66667%}.el-col-xs-pull-22{position:relative;right:91.66667%}.el-col-xs-push-22{position:relative;left:91.66667%}.el-col-xs-23{width:95.83333%}.el-col-xs-offset-23{margin-left:95.83333%}.el-col-xs-pull-23{position:relative;right:95.83333%}.el-col-xs-push-23{position:relative;left:95.83333%}.el-col-xs-24{width:100%}.el-col-xs-offset-24{margin-left:100%}.el-col-xs-pull-24{position:relative;right:100%}.el-col-xs-push-24{position:relative;left:100%}}@media (min-width:768px){.el-col-sm-0{width:0}.el-col-sm-offset-0{margin-left:0}.el-col-sm-pull-0{position:relative;right:0}.el-col-sm-push-0{position:relative;left:0}.el-col-sm-1{width:4.16667%}.el-col-sm-offset-1{margin-left:4.16667%}.el-col-sm-pull-1{position:relative;right:4.16667%}.el-col-sm-push-1{position:relative;left:4.16667%}.el-col-sm-2{width:8.33333%}.el-col-sm-offset-2{margin-left:8.33333%}.el-col-sm-pull-2{position:relative;right:8.33333%}.el-col-sm-push-2{position:relative;left:8.33333%}.el-col-sm-3{width:12.5%}.el-col-sm-offset-3{margin-left:12.5%}.el-col-sm-pull-3{position:relative;right:12.5%}.el-col-sm-push-3{position:relative;left:12.5%}.el-col-sm-4{width:16.66667%}.el-col-sm-offset-4{margin-left:16.66667%}.el-col-sm-pull-4{position:relative;right:16.66667%}.el-col-sm-push-4{position:relative;left:16.66667%}.el-col-sm-5{width:20.83333%}.el-col-sm-offset-5{margin-left:20.83333%}.el-col-sm-pull-5{position:relative;right:20.83333%}.el-col-sm-push-5{position:relative;left:20.83333%}.el-col-sm-6{width:25%}.el-col-sm-offset-6{margin-left:25%}.el-col-sm-pull-6{position:relative;right:25%}.el-col-sm-push-6{position:relative;left:25%}.el-col-sm-7{width:29.16667%}.el-col-sm-offset-7{margin-left:29.16667%}.el-col-sm-pull-7{position:relative;right:29.16667%}.el-col-sm-push-7{position:relative;left:29.16667%}.el-col-sm-8{width:33.33333%}.el-col-sm-offset-8{margin-left:33.33333%}.el-col-sm-pull-8{position:relative;right:33.33333%}.el-col-sm-push-8{position:relative;left:33.33333%}.el-col-sm-9{width:37.5%}.el-col-sm-offset-9{margin-left:37.5%}.el-col-sm-pull-9{position:relative;right:37.5%}.el-col-sm-push-9{position:relative;left:37.5%}.el-col-sm-10{width:41.66667%}.el-col-sm-offset-10{margin-left:41.66667%}.el-col-sm-pull-10{position:relative;right:41.66667%}.el-col-sm-push-10{position:relative;left:41.66667%}.el-col-sm-11{width:45.83333%}.el-col-sm-offset-11{margin-left:45.83333%}.el-col-sm-pull-11{position:relative;right:45.83333%}.el-col-sm-push-11{position:relative;left:45.83333%}.el-col-sm-12{width:50%}.el-col-sm-offset-12{margin-left:50%}.el-col-sm-pull-12{position:relative;right:50%}.el-col-sm-push-12{position:relative;left:50%}.el-col-sm-13{width:54.16667%}.el-col-sm-offset-13{margin-left:54.16667%}.el-col-sm-pull-13{position:relative;right:54.16667%}.el-col-sm-push-13{position:relative;left:54.16667%}.el-col-sm-14{width:58.33333%}.el-col-sm-offset-14{margin-left:58.33333%}.el-col-sm-pull-14{position:relative;right:58.33333%}.el-col-sm-push-14{position:relative;left:58.33333%}.el-col-sm-15{width:62.5%}.el-col-sm-offset-15{margin-left:62.5%}.el-col-sm-pull-15{position:relative;right:62.5%}.el-col-sm-push-15{position:relative;left:62.5%}.el-col-sm-16{width:66.66667%}.el-col-sm-offset-16{margin-left:66.66667%}.el-col-sm-pull-16{position:relative;right:66.66667%}.el-col-sm-push-16{position:relative;left:66.66667%}.el-col-sm-17{width:70.83333%}.el-col-sm-offset-17{margin-left:70.83333%}.el-col-sm-pull-17{position:relative;right:70.83333%}.el-col-sm-push-17{position:relative;left:70.83333%}.el-col-sm-18{width:75%}.el-col-sm-offset-18{margin-left:75%}.el-col-sm-pull-18{position:relative;right:75%}.el-col-sm-push-18{position:relative;left:75%}.el-col-sm-19{width:79.16667%}.el-col-sm-offset-19{margin-left:79.16667%}.el-col-sm-pull-19{position:relative;right:79.16667%}.el-col-sm-push-19{position:relative;left:79.16667%}.el-col-sm-20{width:83.33333%}.el-col-sm-offset-20{margin-left:83.33333%}.el-col-sm-pull-20{position:relative;right:83.33333%}.el-col-sm-push-20{position:relative;left:83.33333%}.el-col-sm-21{width:87.5%}.el-col-sm-offset-21{margin-left:87.5%}.el-col-sm-pull-21{position:relative;right:87.5%}.el-col-sm-push-21{position:relative;left:87.5%}.el-col-sm-22{width:91.66667%}.el-col-sm-offset-22{margin-left:91.66667%}.el-col-sm-pull-22{position:relative;right:91.66667%}.el-col-sm-push-22{position:relative;left:91.66667%}.el-col-sm-23{width:95.83333%}.el-col-sm-offset-23{margin-left:95.83333%}.el-col-sm-pull-23{position:relative;right:95.83333%}.el-col-sm-push-23{position:relative;left:95.83333%}.el-col-sm-24{width:100%}.el-col-sm-offset-24{margin-left:100%}.el-col-sm-pull-24{position:relative;right:100%}.el-col-sm-push-24{position:relative;left:100%}}@media (min-width:992px){.el-col-md-0{width:0}.el-col-md-offset-0{margin-left:0}.el-col-md-pull-0{position:relative;right:0}.el-col-md-push-0{position:relative;left:0}.el-col-md-1{width:4.16667%}.el-col-md-offset-1{margin-left:4.16667%}.el-col-md-pull-1{position:relative;right:4.16667%}.el-col-md-push-1{position:relative;left:4.16667%}.el-col-md-2{width:8.33333%}.el-col-md-offset-2{margin-left:8.33333%}.el-col-md-pull-2{position:relative;right:8.33333%}.el-col-md-push-2{position:relative;left:8.33333%}.el-col-md-3{width:12.5%}.el-col-md-offset-3{margin-left:12.5%}.el-col-md-pull-3{position:relative;right:12.5%}.el-col-md-push-3{position:relative;left:12.5%}.el-col-md-4{width:16.66667%}.el-col-md-offset-4{margin-left:16.66667%}.el-col-md-pull-4{position:relative;right:16.66667%}.el-col-md-push-4{position:relative;left:16.66667%}.el-col-md-5{width:20.83333%}.el-col-md-offset-5{margin-left:20.83333%}.el-col-md-pull-5{position:relative;right:20.83333%}.el-col-md-push-5{position:relative;left:20.83333%}.el-col-md-6{width:25%}.el-col-md-offset-6{margin-left:25%}.el-col-md-pull-6{position:relative;right:25%}.el-col-md-push-6{position:relative;left:25%}.el-col-md-7{width:29.16667%}.el-col-md-offset-7{margin-left:29.16667%}.el-col-md-pull-7{position:relative;right:29.16667%}.el-col-md-push-7{position:relative;left:29.16667%}.el-col-md-8{width:33.33333%}.el-col-md-offset-8{margin-left:33.33333%}.el-col-md-pull-8{position:relative;right:33.33333%}.el-col-md-push-8{position:relative;left:33.33333%}.el-col-md-9{width:37.5%}.el-col-md-offset-9{margin-left:37.5%}.el-col-md-pull-9{position:relative;right:37.5%}.el-col-md-push-9{position:relative;left:37.5%}.el-col-md-10{width:41.66667%}.el-col-md-offset-10{margin-left:41.66667%}.el-col-md-pull-10{position:relative;right:41.66667%}.el-col-md-push-10{position:relative;left:41.66667%}.el-col-md-11{width:45.83333%}.el-col-md-offset-11{margin-left:45.83333%}.el-col-md-pull-11{position:relative;right:45.83333%}.el-col-md-push-11{position:relative;left:45.83333%}.el-col-md-12{width:50%}.el-col-md-offset-12{margin-left:50%}.el-col-md-pull-12{position:relative;right:50%}.el-col-md-push-12{position:relative;left:50%}.el-col-md-13{width:54.16667%}.el-col-md-offset-13{margin-left:54.16667%}.el-col-md-pull-13{position:relative;right:54.16667%}.el-col-md-push-13{position:relative;left:54.16667%}.el-col-md-14{width:58.33333%}.el-col-md-offset-14{margin-left:58.33333%}.el-col-md-pull-14{position:relative;right:58.33333%}.el-col-md-push-14{position:relative;left:58.33333%}.el-col-md-15{width:62.5%}.el-col-md-offset-15{margin-left:62.5%}.el-col-md-pull-15{position:relative;right:62.5%}.el-col-md-push-15{position:relative;left:62.5%}.el-col-md-16{width:66.66667%}.el-col-md-offset-16{margin-left:66.66667%}.el-col-md-pull-16{position:relative;right:66.66667%}.el-col-md-push-16{position:relative;left:66.66667%}.el-col-md-17{width:70.83333%}.el-col-md-offset-17{margin-left:70.83333%}.el-col-md-pull-17{position:relative;right:70.83333%}.el-col-md-push-17{position:relative;left:70.83333%}.el-col-md-18{width:75%}.el-col-md-offset-18{margin-left:75%}.el-col-md-pull-18{position:relative;right:75%}.el-col-md-push-18{position:relative;left:75%}.el-col-md-19{width:79.16667%}.el-col-md-offset-19{margin-left:79.16667%}.el-col-md-pull-19{position:relative;right:79.16667%}.el-col-md-push-19{position:relative;left:79.16667%}.el-col-md-20{width:83.33333%}.el-col-md-offset-20{margin-left:83.33333%}.el-col-md-pull-20{position:relative;right:83.33333%}.el-col-md-push-20{position:relative;left:83.33333%}.el-col-md-21{width:87.5%}.el-col-md-offset-21{margin-left:87.5%}.el-col-md-pull-21{position:relative;right:87.5%}.el-col-md-push-21{position:relative;left:87.5%}.el-col-md-22{width:91.66667%}.el-col-md-offset-22{margin-left:91.66667%}.el-col-md-pull-22{position:relative;right:91.66667%}.el-col-md-push-22{position:relative;left:91.66667%}.el-col-md-23{width:95.83333%}.el-col-md-offset-23{margin-left:95.83333%}.el-col-md-pull-23{position:relative;right:95.83333%}.el-col-md-push-23{position:relative;left:95.83333%}.el-col-md-24{width:100%}.el-col-md-offset-24{margin-left:100%}.el-col-md-pull-24{position:relative;right:100%}.el-col-md-push-24{position:relative;left:100%}}@media (min-width:1200px){.el-col-lg-0{width:0}.el-col-lg-offset-0{margin-left:0}.el-col-lg-pull-0{position:relative;right:0}.el-col-lg-push-0{position:relative;left:0}.el-col-lg-1{width:4.16667%}.el-col-lg-offset-1{margin-left:4.16667%}.el-col-lg-pull-1{position:relative;right:4.16667%}.el-col-lg-push-1{position:relative;left:4.16667%}.el-col-lg-2{width:8.33333%}.el-col-lg-offset-2{margin-left:8.33333%}.el-col-lg-pull-2{position:relative;right:8.33333%}.el-col-lg-push-2{position:relative;left:8.33333%}.el-col-lg-3{width:12.5%}.el-col-lg-offset-3{margin-left:12.5%}.el-col-lg-pull-3{position:relative;right:12.5%}.el-col-lg-push-3{position:relative;left:12.5%}.el-col-lg-4{width:16.66667%}.el-col-lg-offset-4{margin-left:16.66667%}.el-col-lg-pull-4{position:relative;right:16.66667%}.el-col-lg-push-4{position:relative;left:16.66667%}.el-col-lg-5{width:20.83333%}.el-col-lg-offset-5{margin-left:20.83333%}.el-col-lg-pull-5{position:relative;right:20.83333%}.el-col-lg-push-5{position:relative;left:20.83333%}.el-col-lg-6{width:25%}.el-col-lg-offset-6{margin-left:25%}.el-col-lg-pull-6{position:relative;right:25%}.el-col-lg-push-6{position:relative;left:25%}.el-col-lg-7{width:29.16667%}.el-col-lg-offset-7{margin-left:29.16667%}.el-col-lg-pull-7{position:relative;right:29.16667%}.el-col-lg-push-7{position:relative;left:29.16667%}.el-col-lg-8{width:33.33333%}.el-col-lg-offset-8{margin-left:33.33333%}.el-col-lg-pull-8{position:relative;right:33.33333%}.el-col-lg-push-8{position:relative;left:33.33333%}.el-col-lg-9{width:37.5%}.el-col-lg-offset-9{margin-left:37.5%}.el-col-lg-pull-9{position:relative;right:37.5%}.el-col-lg-push-9{position:relative;left:37.5%}.el-col-lg-10{width:41.66667%}.el-col-lg-offset-10{margin-left:41.66667%}.el-col-lg-pull-10{position:relative;right:41.66667%}.el-col-lg-push-10{position:relative;left:41.66667%}.el-col-lg-11{width:45.83333%}.el-col-lg-offset-11{margin-left:45.83333%}.el-col-lg-pull-11{position:relative;right:45.83333%}.el-col-lg-push-11{position:relative;left:45.83333%}.el-col-lg-12{width:50%}.el-col-lg-offset-12{margin-left:50%}.el-col-lg-pull-12{position:relative;right:50%}.el-col-lg-push-12{position:relative;left:50%}.el-col-lg-13{width:54.16667%}.el-col-lg-offset-13{margin-left:54.16667%}.el-col-lg-pull-13{position:relative;right:54.16667%}.el-col-lg-push-13{position:relative;left:54.16667%}.el-col-lg-14{width:58.33333%}.el-col-lg-offset-14{margin-left:58.33333%}.el-col-lg-pull-14{position:relative;right:58.33333%}.el-col-lg-push-14{position:relative;left:58.33333%}.el-col-lg-15{width:62.5%}.el-col-lg-offset-15{margin-left:62.5%}.el-col-lg-pull-15{position:relative;right:62.5%}.el-col-lg-push-15{position:relative;left:62.5%}.el-col-lg-16{width:66.66667%}.el-col-lg-offset-16{margin-left:66.66667%}.el-col-lg-pull-16{position:relative;right:66.66667%}.el-col-lg-push-16{position:relative;left:66.66667%}.el-col-lg-17{width:70.83333%}.el-col-lg-offset-17{margin-left:70.83333%}.el-col-lg-pull-17{position:relative;right:70.83333%}.el-col-lg-push-17{position:relative;left:70.83333%}.el-col-lg-18{width:75%}.el-col-lg-offset-18{margin-left:75%}.el-col-lg-pull-18{position:relative;right:75%}.el-col-lg-push-18{position:relative;left:75%}.el-col-lg-19{width:79.16667%}.el-col-lg-offset-19{margin-left:79.16667%}.el-col-lg-pull-19{position:relative;right:79.16667%}.el-col-lg-push-19{position:relative;left:79.16667%}.el-col-lg-20{width:83.33333%}.el-col-lg-offset-20{margin-left:83.33333%}.el-col-lg-pull-20{position:relative;right:83.33333%}.el-col-lg-push-20{position:relative;left:83.33333%}.el-col-lg-21{width:87.5%}.el-col-lg-offset-21{margin-left:87.5%}.el-col-lg-pull-21{position:relative;right:87.5%}.el-col-lg-push-21{position:relative;left:87.5%}.el-col-lg-22{width:91.66667%}.el-col-lg-offset-22{margin-left:91.66667%}.el-col-lg-pull-22{position:relative;right:91.66667%}.el-col-lg-push-22{position:relative;left:91.66667%}.el-col-lg-23{width:95.83333%}.el-col-lg-offset-23{margin-left:95.83333%}.el-col-lg-pull-23{position:relative;right:95.83333%}.el-col-lg-push-23{position:relative;left:95.83333%}.el-col-lg-24{width:100%}.el-col-lg-offset-24{margin-left:100%}.el-col-lg-pull-24{position:relative;right:100%}.el-col-lg-push-24{position:relative;left:100%}}.el-progress-bar__inner:after{display:inline-block;height:100%;vertical-align:middle}.el-upload{display:inline-block;text-align:center;cursor:pointer}.el-upload iframe{position:absolute;z-index:-1;top:0;left:0;opacity:0;filter:alpha(opacity=0)}.el-upload__input{display:none}.el-upload__tip{font-size:12px;color:#8391a5;margin-top:7px}.el-upload--picture-card{background-color:#fbfdff;border:1px dashed #c0ccda;border-radius:6px;box-sizing:border-box;width:148px;height:148px;cursor:pointer;line-height:146px;vertical-align:top}.el-upload--picture-card i{font-size:28px;color:#8c939d}.el-upload--picture-card:hover{border-color:#20a0ff;color:#20a0ff}.el-upload-dragger{background-color:#fff;border:1px dashed #d9d9d9;border-radius:6px;box-sizing:border-box;width:360px;height:180px;text-align:center;cursor:pointer;position:relative;overflow:hidden}.el-upload-dragger .el-upload__text{color:#97a8be;font-size:14px;text-align:center}.el-upload-dragger .el-upload__text em{color:#20a0ff;font-style:normal}.el-upload-dragger .el-icon-upload{font-size:67px;color:#97a8be;margin:40px 0 16px;line-height:50px}.el-upload-dragger+.el-upload__tip{text-align:center}.el-upload-dragger~.el-upload__files{border-top:1px solid rgba(191,203,217,.2);margin-top:7px;padding-top:5px}.el-upload-dragger:hover{border-color:#20a0ff}.el-upload-dragger.is-dragover{background-color:rgba(32,159,255,.06);border:2px dashed #20a0ff}.el-upload-list{margin:0;padding:0;list-style:none}.el-upload-list__item{transition:all .5s cubic-bezier(.55,0,.1,1);font-size:14px;color:#48576a;line-height:1.8;margin-top:5px;box-sizing:border-box;border-radius:4px;width:100%;position:relative}.el-upload-list__item .el-progress-bar{margin-right:0;padding-right:0}.el-upload-list__item .el-progress{position:absolute;bottom:-3px;width:100%}.el-upload-list__item .el-progress__text{position:absolute;top:-10px;right:0}.el-upload-list__item:first-child{margin-top:10px}.el-upload-list__item .el-icon-check,.el-upload-list__item .el-icon-circle-check{color:#13ce66}.el-upload-list__item .el-icon-close{display:none;cursor:pointer;opacity:.75;-ms-transform:scale(.7);transform:scale(.7);color:#48576a}.el-upload-list__item .el-icon-close:hover{opacity:1}.el-upload-list__item:hover{background-color:#eef1f6}.el-upload-list__item:hover .el-icon-close{display:inline-block}.el-upload-list__item.is-success .el-upload-list__item-name:hover{color:#20a0ff;cursor:pointer}.el-upload-list__item.is-success:hover .el-icon-check,.el-upload-list__item.is-success:hover .el-icon-circle-check{display:none}.el-upload-list__item-name{color:#48576a;display:block;margin-right:40px;overflow:hidden;padding-left:4px;text-overflow:ellipsis;transition:color .3s;white-space:nowrap}.el-upload-list__item-name [class^=el-icon]{color:#97a8be;margin-right:7px;height:100%;line-height:inherit}.el-upload-list__item-status-label{position:absolute;right:10px;top:0;line-height:inherit}.el-upload-list__item-delete{position:absolute;right:10px;top:0;font-size:12px;color:#48576a;display:none}.el-upload-list__item-delete:hover{color:#20a0ff}.el-upload-list--picture-card{margin:0;display:inline;vertical-align:top}.el-upload-list--picture-card .el-upload-list__item{overflow:hidden;background-color:#fff;border:1px solid #c0ccda;border-radius:6px;box-sizing:border-box;width:148px;height:148px;margin:0 8px 8px 0;display:inline-block}.el-upload-list--picture-card .el-upload-list__item .el-icon-check,.el-upload-list--picture-card .el-upload-list__item .el-icon-circle-check{color:#fff}.el-upload-list--picture-card .el-upload-list__item-name,.el-upload-list--picture-card .el-upload-list__item:hover .el-upload-list__item-status-label{display:none}.el-upload-list--picture-card .el-upload-list__item-thumbnail{width:100%;height:100%}.el-upload-list--picture-card .el-upload-list__item-status-label{position:absolute;right:-15px;top:-6px;width:40px;height:24px;background:#13ce66;text-align:center;-ms-transform:rotate(45deg);transform:rotate(45deg);box-shadow:0 0 1pc 1px rgba(0,0,0,.2)}.el-upload-list--picture-card .el-upload-list__item-status-label i{font-size:12px;margin-top:11px;-ms-transform:rotate(-45deg) scale(.8);transform:rotate(-45deg) scale(.8)}.el-upload-list--picture-card .el-upload-list__item-actions{position:absolute;width:100%;height:100%;left:0;top:0;cursor:default;text-align:center;color:#fff;opacity:0;font-size:20px;background-color:rgba(0,0,0,.5);transition:opacity .3s}.el-upload-list--picture-card .el-upload-list__item-actions:after{display:inline-block;content:\"\";height:100%;vertical-align:middle}.el-upload-list--picture-card .el-upload-list__item-actions span{display:none;cursor:pointer}.el-upload-list--picture-card .el-upload-list__item-actions span+span{margin-left:15px}.el-upload-list--picture-card .el-upload-list__item-actions .el-upload-list__item-delete{position:static;font-size:inherit;color:inherit}.el-upload-list--picture-card .el-upload-list__item-actions:hover{opacity:1}.el-upload-list--picture-card .el-upload-list__item-actions:hover span{display:inline-block}.el-upload-list--picture-card .el-progress{top:50%;left:50%;-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);bottom:auto;width:126px}.el-upload-list--picture-card .el-progress .el-progress__text{top:50%}.el-upload-list--picture .el-upload-list__item{overflow:hidden;background-color:#fff;border:1px solid #c0ccda;border-radius:6px;box-sizing:border-box;margin-top:10px;padding:10px 10px 10px 90px;height:92px}.el-upload-list--picture .el-upload-list__item .el-icon-check,.el-upload-list--picture .el-upload-list__item .el-icon-circle-check{color:#fff}.el-upload-list--picture .el-upload-list__item:hover .el-upload-list__item-status-label{background:0 0;box-shadow:none;top:-2px;right:-12px}.el-upload-list--picture .el-upload-list__item:hover .el-upload-list__item-status-label .el-icon-close{-ms-transform:rotate(45deg) scale(.7);transform:rotate(45deg) scale(.7)}.el-upload-list--picture .el-upload-list__item.is-success .el-upload-list__item-name{line-height:70px;margin-top:0}.el-upload-list--picture .el-upload-list__item.is-success .el-upload-list__item-name i{display:none}.el-upload-list--picture .el-upload-list__item-thumbnail{vertical-align:middle;display:inline-block;width:70px;height:70px;float:left;margin-left:-80px}.el-upload-list--picture .el-upload-list__item-name{display:block;margin-top:20px}.el-upload-list--picture .el-upload-list__item-name i{font-size:70px;line-height:1;position:absolute;left:9px;top:10px}.el-upload-list--picture .el-upload-list__item-status-label{position:absolute;right:-17px;top:-7px;width:46px;height:26px;background:#13ce66;text-align:center;-ms-transform:rotate(45deg);transform:rotate(45deg);box-shadow:0 1px 1px #ccc}.el-upload-list--picture .el-upload-list__item-status-label i{font-size:12px;margin-top:12px;-ms-transform:rotate(-45deg) scale(.8);transform:rotate(-45deg) scale(.8)}.el-upload-list--picture .el-progress{position:static}.el-upload-cover{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;z-index:10;cursor:default}.el-upload-cover:after{display:inline-block;height:100%;vertical-align:middle}.el-upload-cover img{display:block;width:100%;height:100%}.el-upload-cover+.el-upload__inner{opacity:0;position:relative;z-index:1}.el-upload-cover__label{position:absolute;right:-15px;top:-6px;width:40px;height:24px;background:#13ce66;text-align:center;-ms-transform:rotate(45deg);transform:rotate(45deg);box-shadow:0 0 1pc 1px rgba(0,0,0,.2)}.el-upload-cover__label i{font-size:12px;margin-top:11px;-ms-transform:rotate(-45deg) scale(.8);transform:rotate(-45deg) scale(.8);color:#fff}.el-upload-cover__progress{display:inline-block;vertical-align:middle;position:static;width:243px}.el-upload-cover__progress+.el-upload__inner{opacity:0}.el-upload-cover__content{position:absolute;top:0;left:0;width:100%;height:100%}.el-upload-cover__interact{position:absolute;bottom:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.72);text-align:center}.el-upload-cover__interact .btn{display:inline-block;color:#fff;font-size:14px;cursor:pointer;vertical-align:middle;transition:transform .3s cubic-bezier(.23,1,.32,1) .1s,opacity .3s cubic-bezier(.23,1,.32,1) .1s;margin-top:60px}.el-upload-cover__interact .btn span{opacity:0;transition:opacity .15s linear}.el-upload-cover__interact .btn:not(:first-child){margin-left:35px}.el-upload-cover__interact .btn:hover{-ms-transform:translateY(-13px);transform:translateY(-13px)}.el-upload-cover__interact .btn:hover span{opacity:1}.el-upload-cover__interact .btn i{color:#fff;display:block;font-size:24px;line-height:inherit;margin:0 auto 5px}.el-upload-cover__title{position:absolute;bottom:0;left:0;background-color:#fff;height:36px;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400;text-align:left;padding:0 10px;margin:0;line-height:36px;font-size:14px;color:#48576a}.el-progress{position:relative;line-height:1}.el-progress.is-exception .el-progress-bar__inner{background-color:#ff4949}.el-progress.is-exception .el-progress__text{color:#ff4949}.el-progress.is-success .el-progress-bar__inner{background-color:#13ce66}.el-progress.is-success .el-progress__text{color:#13ce66}.el-progress__text{font-size:14px;color:#48576a;display:inline-block;vertical-align:middle;margin-left:10px;line-height:1}.el-progress__text i{vertical-align:middle;display:block}.el-progress--circle{display:inline-block}.el-progress--circle .el-progress__text{position:absolute;top:50%;left:0;width:100%;text-align:center;margin:0;-ms-transform:translate(0,-50%);transform:translate(0,-50%)}.el-progress--circle .el-progress__text i{vertical-align:middle;display:inline-block}.el-progress--without-text .el-progress__text{display:none}.el-progress--without-text .el-progress-bar{padding-right:0;margin-right:0;display:block}.el-progress-bar,.el-progress-bar__innerText,.el-spinner{display:inline-block;vertical-align:middle}.el-progress--text-inside .el-progress-bar{padding-right:0;margin-right:0}.el-progress-bar{padding-right:50px;width:100%;margin-right:-55px;box-sizing:border-box}.el-progress-bar__outer{height:6px;border-radius:100px;background-color:#e4e8f1;overflow:hidden;position:relative;vertical-align:middle}.el-progress-bar__inner{position:absolute;left:0;top:0;height:100%;background-color:#20a0ff;text-align:right;border-radius:100px;line-height:1}.el-progress-bar__innerText{color:#fff;font-size:12px;margin:0 5px}@keyframes progress{0%{background-position:0 0}100%{background-position:32px 0}}.el-time-spinner{width:100%;white-space:nowrap}.el-spinner-inner{animation:rotate 2s linear infinite;width:50px;height:50px}.el-spinner-inner .path{stroke:#ececec;stroke-linecap:round;animation:dash 1.5s ease-in-out infinite}@keyframes rotate{100%{transform:rotate(360deg)}}@keyframes dash{0%{stroke-dasharray:1,150;stroke-dashoffset:0}50%{stroke-dasharray:90,150;stroke-dashoffset:-35}100%{stroke-dasharray:90,150;stroke-dashoffset:-124}}.el-message{box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);min-width:300px;padding:10px 12px;box-sizing:border-box;border-radius:2px;position:fixed;left:50%;top:20px;-ms-transform:translateX(-50%);transform:translateX(-50%);background-color:#fff;transition:opacity .3s,transform .4s;overflow:hidden}.el-message .el-icon-circle-check{color:#13ce66}.el-message .el-icon-circle-cross{color:#ff4949}.el-message .el-icon-information{color:#50bfff}.el-message .el-icon-warning{color:#f7ba2a}.el-message__group{margin-left:38px;position:relative;height:20px;line-height:20px;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}.el-message__group p{font-size:14px;margin:0 34px 0 0;white-space:nowrap;color:#8391a5;text-align:justify}.el-step__head,.el-steps.is-horizontal.is-center{text-align:center}.el-message__group.is-with-icon{margin-left:0}.el-message__img{width:40px;height:40px;position:absolute;left:0;top:0}.el-message__icon{vertical-align:middle;margin-right:8px}.el-message__closeBtn{top:3px;right:0;position:absolute;cursor:pointer;color:#bfcbd9;font-size:14px}.el-message__closeBtn:hover{color:#97a8be}.el-message-fade-enter,.el-message-fade-leave-active{opacity:0;-ms-transform:translate(-50%,-100%);transform:translate(-50%,-100%)}.el-badge{position:relative;vertical-align:middle;display:inline-block}.el-badge__content{background-color:#ff4949;border-radius:10px;color:#fff;display:inline-block;font-size:12px;height:18px;line-height:18px;padding:0 6px;text-align:center;white-space:nowrap;border:1px solid #fff}.el-badge__content.is-dot{width:8px;height:8px;padding:0;right:0;border-radius:50%}.el-badge__content.is-fixed{top:0;right:10px;position:absolute;-ms-transform:translateY(-50%) translateX(100%);transform:translateY(-50%) translateX(100%)}.el-rate__icon,.el-rate__item{position:relative;display:inline-block}.el-badge__content.is-fixed.is-dot{right:5px}.el-card{border:1px solid #d1dbe5;border-radius:4px;background-color:#fff;overflow:hidden;box-shadow:0 2px 4px 0 rgba(0,0,0,.12),0 0 6px 0 rgba(0,0,0,.04)}.el-card__header{padding:18px 20px;border-bottom:1px solid #d1dbe5;box-sizing:border-box}.el-card__body{padding:20px}.el-rate{height:20px;line-height:1}.el-rate__item{font-size:0;vertical-align:middle}.el-rate__icon{font-size:18px;margin-right:6px;color:#bfcbd9;transition:.3s}.el-rate__decimal,.el-rate__icon .path2{position:absolute;top:0;left:0}.el-rate__icon.hover{-ms-transform:scale(1.15);transform:scale(1.15)}.el-rate__decimal{display:inline-block;overflow:hidden}.el-rate__text{font-size:14px;vertical-align:middle}.el-steps{font-size:0}.el-steps>:last-child .el-step__line{display:none}.el-step.is-horizontal,.el-step.is-vertical .el-step__head,.el-step.is-vertical .el-step__main,.el-step__line{display:inline-block}.el-steps.is-horizontal{white-space:nowrap}.el-step{position:relative;vertical-align:top}.el-step:last-child .el-step__main{padding-right:0}.el-step.is-vertical .el-step__main{padding-left:10px}.el-step__line{position:absolute;border-color:inherit;background-color:#bfcbd9}.el-step__line.is-vertical{width:2px;box-sizing:border-box;top:32px;bottom:0;left:15px}.el-step__line.is-horizontal{top:15px;height:2px;left:32px;right:0}.el-step__line.is-icon.is-horizontal{right:4px}.el-step__line-inner{display:block;border-width:1px;border-style:solid;border-color:inherit;transition:all 150ms;width:0;height:0}.el-step__icon{display:block;line-height:28px}.el-step__icon>*{line-height:inherit;vertical-align:middle}.el-step__head{width:28px;height:28px;border-radius:50%;background-color:transparent;line-height:28px;font-size:28px;vertical-align:top;transition:all 150ms}.el-carousel__arrow,.el-carousel__button{margin:0;transition:.3s;cursor:pointer;outline:0}.el-step__head.is-finish{color:#20a0ff;border-color:#20a0ff}.el-step__head.is-error{color:#ff4949;border-color:#ff4949}.el-step__head.is-success{color:#13ce66;border-color:#13ce66}.el-step__head.is-process,.el-step__head.is-wait{color:#bfcbd9;border-color:#bfcbd9}.el-step__head.is-text{font-size:14px;border-width:2px;border-style:solid}.el-step__head.is-text.is-finish{color:#fff;background-color:#20a0ff;border-color:#20a0ff}.el-step__head.is-text.is-error{color:#fff;background-color:#ff4949;border-color:#ff4949}.el-step__head.is-text.is-success{color:#fff;background-color:#13ce66;border-color:#13ce66}.el-step__head.is-text.is-wait{color:#bfcbd9;background-color:#fff;border-color:#bfcbd9}.el-step__head.is-text.is-process{color:#fff;background-color:#bfcbd9;border-color:#bfcbd9}.el-step__main{white-space:normal;padding-right:10px;text-align:left}.el-step__title{font-size:14px;line-height:32px;display:inline-block}.el-step__title.is-finish{font-weight:700;color:#20a0ff}.el-step__title.is-error{font-weight:700;color:#ff4949}.el-step__title.is-success{font-weight:700;color:#13ce66}.el-step__title.is-wait{font-weight:400;color:#97a8be}.el-step__title.is-process{font-weight:700;color:#48576a}.el-step__description{font-size:12px;font-weight:400;line-height:14px}.el-step__description.is-finish{color:#20a0ff}.el-step__description.is-error{color:#ff4949}.el-step__description.is-success{color:#13ce66}.el-step__description.is-wait{color:#bfcbd9}.el-step__description.is-process{color:#8391a5}.el-carousel{overflow-x:hidden;position:relative}.el-carousel__container{position:relative;height:300px}.el-carousel__arrow{border:none;padding:0;width:36px;height:36px;border-radius:50%;background-color:rgba(31,45,61,.11);color:#fff;position:absolute;top:50%;z-index:10;-ms-transform:translateY(-50%);transform:translateY(-50%);text-align:center;font-size:12px}.el-carousel__arrow:hover{background-color:rgba(31,45,61,.23)}.el-carousel__arrow i{cursor:pointer}.el-carousel__arrow--left{left:16px}.el-carousel__arrow--right{right:16px}.el-carousel__indicators{position:absolute;list-style:none;bottom:0;left:50%;-ms-transform:translateX(-50%);transform:translateX(-50%);margin:0;padding:0;z-index:2}.el-carousel__indicators--outside{bottom:26px;text-align:center;position:static;-ms-transform:none;transform:none}.el-carousel__indicators--outside .el-carousel__indicator:hover button{opacity:.64}.el-carousel__indicators--outside button{background-color:#8391a5;opacity:.24}.el-carousel__indicator{display:inline-block;background-color:transparent;padding:12px 4px;cursor:pointer}.el-carousel__indicator:hover button{opacity:.72}.el-carousel__indicator.is-active button{opacity:1}.el-carousel__button{display:block;opacity:.48;width:30px;height:2px;background-color:#fff;border:none;padding:0}.carousel-arrow-left-enter,.carousel-arrow-left-leave-active{-ms-transform:translateY(-50%) translateX(-10px);transform:translateY(-50%) translateX(-10px);opacity:0}.carousel-arrow-right-enter,.carousel-arrow-right-leave-active{-ms-transform:translateY(-50%) translateX(10px);transform:translateY(-50%) translateX(10px);opacity:0}.el-scrollbar{overflow:hidden;position:relative}.el-scrollbar:active .el-scrollbar__bar,.el-scrollbar:focus .el-scrollbar__bar,.el-scrollbar:hover .el-scrollbar__bar{opacity:1;transition:opacity 340ms ease-out}.el-scrollbar__wrap{overflow:scroll}.el-scrollbar__wrap--hidden-default::-webkit-scrollbar{width:0;height:0}.el-scrollbar__thumb{position:relative;display:block;width:0;height:0;cursor:pointer;border-radius:inherit;background-color:rgba(151,168,190,.3);transition:.3s background-color}.el-scrollbar__thumb:hover{background-color:rgba(151,168,190,.5)}.el-scrollbar__bar{position:absolute;right:2px;bottom:2px;z-index:1;border-radius:4px;opacity:0;transition:opacity 120ms ease-out}.el-scrollbar__bar.is-horizontal{height:6px;left:2px}.el-scrollbar__bar.is-horizontal>div{height:100%}.el-scrollbar__bar.is-vertical{width:6px;top:2px}.el-scrollbar__bar.is-vertical>div{width:100%}.el-carousel__item{position:absolute;top:0;left:0;width:100%;height:100%;display:inline-block;transition:.4s ease-in-out;overflow:hidden;z-index:0}.el-carousel__item.is-active{z-index:2}.el-carousel__item--card{width:50%}.el-carousel__item--card.is-in-stage{cursor:pointer;z-index:1}.el-carousel__item--card.is-active,.el-cascader .el-icon-circle-close,.el-cascader-menus{z-index:2}.el-carousel__item--card.is-in-stage.is-hover .el-carousel__mask,.el-carousel__item--card.is-in-stage:hover .el-carousel__mask{opacity:.12}.el-carousel__mask{position:absolute;width:100%;height:100%;top:0;left:0;background-color:#fff;opacity:.24;transition:.2s}.el-collapse{border:1px solid #dfe6ec;border-radius:0}.el-collapse-item:last-child{margin-bottom:-1px}.el-collapse-item.is-active>.el-collapse-item__header .el-collapse-item__header__arrow{-ms-transform:rotate(90deg);transform:rotate(90deg)}.el-collapse-item__header{height:43px;line-height:43px;padding-left:15px;background-color:#fff;color:#48576a;cursor:pointer;border-bottom:1px solid #dfe6ec;font-size:13px}.el-collapse-item__header__arrow{margin-right:8px;transition:transform .3s}.el-collapse-item__wrap{will-change:height;background-color:#fbfdff;overflow:hidden;box-sizing:border-box;border-bottom:1px solid #dfe6ec}.el-collapse-item__content{padding:10px 15px;font-size:13px;color:#1f2d3d;line-height:1.769230769230769}.el-input{position:relative;font-size:14px;display:inline-block;width:100%}.el-input.is-disabled .el-input__inner{background-color:#eef1f6;border-color:#d1dbe5;color:#bbb;cursor:not-allowed}.el-input.is-disabled .el-input__inner::-webkit-input-placeholder{color:#bfcbd9}.el-input.is-disabled .el-input__inner::-moz-placeholder{color:#bfcbd9}.el-input.is-disabled .el-input__inner:-ms-input-placeholder{color:#bfcbd9}.el-input.is-disabled .el-input__inner::placeholder{color:#bfcbd9}.el-input.is-active .el-input__inner{outline:0;border-color:#20a0ff}.el-input__inner{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:#fff;background-image:none;border-radius:4px;border:1px solid #bfcbd9;box-sizing:border-box;color:#1f2d3d;display:block;font-size:inherit;height:36px;line-height:1;outline:0;padding:3px 10px;transition:border-color .2s cubic-bezier(.645,.045,.355,1);width:100%}.el-input__inner::-webkit-input-placeholder{color:#97a8be}.el-input__inner::-moz-placeholder{color:#97a8be}.el-input__inner:-ms-input-placeholder{color:#97a8be}.el-input__inner::placeholder{color:#97a8be}.el-input__inner:hover{border-color:#8391a5}.el-input__inner:focus{outline:0;border-color:#20a0ff}.el-input__icon{position:absolute;width:35px;height:100%;right:0;top:0;text-align:center;color:#bfcbd9;transition:all .3s}.el-input__icon:after{content:'';height:100%;width:0;display:inline-block;vertical-align:middle}.el-input__icon+.el-input__inner{padding-right:35px}.el-input__icon.is-clickable:hover{cursor:pointer;color:#8391a5}.el-input__icon.is-clickable:hover+.el-input__inner{border-color:#8391a5}.el-input--large{font-size:16px}.el-input--large .el-input__inner{height:42px}.el-input--small{font-size:13px}.el-input--small .el-input__inner{height:30px}.el-input--mini{font-size:12px}.el-input--mini .el-input__inner{height:22px}.el-input-group{line-height:normal;display:inline-table;width:100%;border-collapse:separate}.el-input-group>.el-input__inner{vertical-align:middle;display:table-cell}.el-input-group__append,.el-input-group__prepend{background-color:#fbfdff;color:#97a8be;vertical-align:middle;display:table-cell;position:relative;border:1px solid #bfcbd9;border-radius:4px;padding:0 10px;width:1%;white-space:nowrap}.el-input-group--prepend .el-input__inner,.el-input-group__append{border-top-left-radius:0;border-bottom-left-radius:0}.el-input-group--append .el-input__inner,.el-input-group__prepend{border-top-right-radius:0;border-bottom-right-radius:0}.el-input-group__append .el-button,.el-input-group__append .el-select,.el-input-group__prepend .el-button,.el-input-group__prepend .el-select{display:block;margin:-10px}.el-input-group__append .el-button,.el-input-group__append .el-select .el-input__inner,.el-input-group__append .el-select:hover .el-input__inner,.el-input-group__prepend .el-button,.el-input-group__prepend .el-select .el-input__inner,.el-input-group__prepend .el-select:hover .el-input__inner{border-color:transparent;background-color:transparent;color:inherit;border-top:0;border-bottom:0}.el-input-group__append .el-button,.el-input-group__append .el-input,.el-input-group__prepend .el-button,.el-input-group__prepend .el-input{font-size:inherit}.el-input-group__prepend{border-right:0}.el-input-group__append{border-left:0}.el-textarea{display:inline-block;width:100%;vertical-align:bottom}.el-textarea.is-disabled .el-textarea__inner{background-color:#eef1f6;border-color:#d1dbe5;color:#bbb;cursor:not-allowed}.el-cascader-menu,.el-textarea__inner{background-color:#fff;box-sizing:border-box}.el-textarea.is-disabled .el-textarea__inner::-webkit-input-placeholder{color:#bfcbd9}.el-textarea.is-disabled .el-textarea__inner::-moz-placeholder{color:#bfcbd9}.el-textarea.is-disabled .el-textarea__inner:-ms-input-placeholder{color:#bfcbd9}.el-textarea.is-disabled .el-textarea__inner::placeholder{color:#bfcbd9}.el-textarea__inner{display:block;resize:vertical;padding:5px 7px;line-height:1.5;width:100%;font-size:14px;color:#1f2d3d;background-image:none;border:1px solid #bfcbd9;border-radius:4px;transition:border-color .2s cubic-bezier(.645,.045,.355,1)}.el-textarea__inner::-webkit-input-placeholder{color:#97a8be}.el-textarea__inner::-moz-placeholder{color:#97a8be}.el-textarea__inner:-ms-input-placeholder{color:#97a8be}.el-textarea__inner::placeholder{color:#97a8be}.el-textarea__inner:hover{border-color:#8391a5}.el-textarea__inner:focus{outline:0;border-color:#20a0ff}.el-cascader{display:inline-block;position:relative}.el-cascader .el-input,.el-cascader .el-input__inner{cursor:pointer}.el-cascader .el-input__icon{transition:none}.el-cascader .el-icon-caret-bottom{transition:transform .3s}.el-cascader .el-icon-caret-bottom.is-reverse{-ms-transform:rotate(180deg);transform:rotateZ(180deg)}.el-cascader.is-disabled .el-cascader__label{z-index:2;color:#bbb}.el-cascader__label{position:absolute;left:0;top:0;height:100%;line-height:34px;padding:0 25px 0 10px;color:#1f2d3d;width:100%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;box-sizing:border-box;cursor:pointer;font-size:14px;text-align:left}.el-cascader__label span{color:#97a8be}.el-cascader--large{font-size:16px}.el-cascader--large .el-cascader__label{line-height:40px}.el-cascader--small{font-size:13px}.el-cascader--small .el-cascader__label{line-height:28px}.el-cascader-menus{white-space:nowrap;background:#fff;position:absolute;margin:5px 0;border:1px solid #d1dbe5;border-radius:2px;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04)}.el-cascader-menu{display:inline-block;vertical-align:top;height:204px;overflow:auto;border-right:solid 1px #d1dbe5;margin:0;padding:6px 0;min-width:160px}.el-cascader-menu:last-child{border-right:0}.el-cascader-menu__item{font-size:14px;padding:8px 30px 8px 10px;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#48576a;height:36px;line-height:1.5;box-sizing:border-box;cursor:pointer}.el-cascader-menu__item:hover{background-color:#e4e8f1}.el-cascader-menu__item.selected{color:#fff;background-color:#20a0ff}.el-cascader-menu__item.selected.hover{background-color:#1c8de0}.el-cascader-menu__item.is-active{color:#fff;background-color:#20a0ff}.el-cascader-menu__item.is-active:hover{background-color:#1c8de0}.el-cascader-menu__item.is-disabled{color:#bfcbd9;background-color:#fff;cursor:not-allowed}.el-cascader-menu__item.is-disabled:hover{background-color:#fff}.el-cascader-menu__item__keyword{font-weight:700}.el-cascader-menu__item--extensible:after{font-family:element-icons;content:\"\\e606\";font-size:12px;-ms-transform:scale(.8);transform:scale(.8);color:#bfcbd9;position:absolute;right:10px;margin-top:1px}.el-cascader-menu--flexible{height:auto;max-height:180px;overflow:auto}.el-cascader-menu--flexible .el-cascader-menu__item{overflow:visible}.el-color-hue-slider{position:relative;box-sizing:border-box;width:280px;height:12px;background-color:red;padding:0 2px}.el-color-hue-slider.is-vertical{width:12px;height:180px;padding:2px 0}.el-color-hue-slider.is-vertical .el-color-hue-slider__bar{background:linear-gradient(to bottom,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red 100%)}.el-color-hue-slider.is-vertical .el-color-hue-slider__thumb{left:0;top:0;width:100%;height:4px}.el-color-hue-slider__bar{position:relative;background:linear-gradient(to right,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red 100%);height:100%}.el-color-hue-slider__thumb{position:absolute;cursor:pointer;box-sizing:border-box;left:0;top:0;width:4px;height:100%;border-radius:1px;background:#fff;border:1px solid #f0f0f0;box-shadow:0 0 2px rgba(0,0,0,.6);z-index:1}.el-color-svpanel{position:relative;width:280px;height:180px}.el-color-svpanel__black,.el-color-svpanel__white{position:absolute;top:0;left:0;right:0;bottom:0}.el-color-svpanel__white{background:linear-gradient(to right,#fff,rgba(255,255,255,0))}.el-color-svpanel__black{background:linear-gradient(to top,#000,rgba(0,0,0,0))}.el-color-svpanel__cursor{position:absolute}.el-color-svpanel__cursor>div{cursor:head;width:4px;height:4px;box-shadow:0 0 0 1.5px #fff,inset 0 0 1px 1px rgba(0,0,0,.3),0 0 1px 2px rgba(0,0,0,.4);border-radius:50%;-ms-transform:translate(-2px,-2px);transform:translate(-2px,-2px)}.el-color-alpha-slider{position:relative;box-sizing:border-box;width:280px;height:12px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==)}.el-color-alpha-slider.is-vertical{width:20px;height:180px}.el-color-alpha-slider.is-vertical .el-color-alpha-slider__bar{background:linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,1) 100%)}.el-color-alpha-slider.is-vertical .el-color-alpha-slider__thumb{left:0;top:0;width:100%;height:4px}.el-color-alpha-slider__bar{position:relative;background:linear-gradient(to right,rgba(255,255,255,0) 0,rgba(255,255,255,1) 100%);height:100%}.el-color-alpha-slider__thumb{position:absolute;cursor:pointer;box-sizing:border-box;left:0;top:0;width:4px;height:100%;border-radius:1px;background:#fff;border:1px solid #f0f0f0;box-shadow:0 0 2px rgba(0,0,0,.6);z-index:1}.el-color-dropdown{width:300px}.el-color-dropdown__main-wrapper{margin-bottom:6px}.el-color-dropdown__main-wrapper::after{content:\"\";display:table;clear:both}.el-color-dropdown__btns{margin-top:6px;text-align:right}.el-color-dropdown__value{float:left;line-height:26px;font-size:12px;color:#1f2d3d}.el-color-dropdown__btn{border:1px solid #dcdcdc;color:#333;line-height:24px;border-radius:2px;padding:0 20px;cursor:pointer;background-color:transparent;outline:0;font-size:12px}.el-color-dropdown__btn[disabled]{color:#ccc;cursor:not-allowed}.el-color-dropdown__btn:hover{color:#20a0ff;border-color:#20a0ff}.el-color-dropdown__link-btn{cursor:pointer;color:#20a0ff;text-decoration:none;padding:15px;font-size:12px}.el-color-dropdown__link-btn:hover{color:#4db3ff}.el-color-picker{display:inline-block;position:relative;line-height:normal}.el-color-picker__trigger{display:inline-block;box-sizing:border-box;height:36px;padding:6px;border:1px solid #bfcbd9;border-radius:4px;font-size:0}.el-color-picker__color{position:relative;display:inline-block;box-sizing:border-box;border:1px solid #666;width:22px;height:22px;text-align:center}.el-color-picker__color.is-alpha{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==)}.el-color-picker__color-inner{position:absolute;left:0;top:0;right:0;bottom:0}.el-color-picker__empty{font-size:12px;vertical-align:middle;color:#666;position:absolute;top:4px;left:4px}.el-color-picker__icon{display:inline-block;position:relative;top:-6px;margin-left:8px;width:12px;color:#888;font-size:12px}.el-color-picker__panel{position:absolute;z-index:10;padding:6px;background-color:#fff;border:1px solid #d1dbe5;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.12)}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";.el-breadcrumb:after,.el-breadcrumb:before,.el-button-group:after,.el-button-group:before,.el-form-item:after,.el-form-item:before,.el-form-item__content:after,.el-form-item__content:before{display:table;content:\"\"}.el-dialog__headerbtn,.el-pagination__rightwrapper{float:right}.el-checkbox__original,.el-pagination--small .arrow.disabled,.el-table td.is-hidden>*,.el-table th.is-hidden>*{visibility:hidden}.el-form-item__content:after{clear:both}.el-form-item:after{clear:both}.el-breadcrumb:after{clear:both}.el-button-group:after{clear:both}.el-autocomplete-suggestion.is-loading li:after{display:inline-block;content:\"\";height:100%;vertical-align:middle}@font-face{font-family:element-icons;src:url("+__webpack_require__(276)+") format('woff'),url("+__webpack_require__(275)+") format('truetype');font-weight:400;font-style:normal}[class*=\" el-icon-\"],[class^=el-icon-]{font-family:element-icons!important;speak:none;font-style:normal;font-weight:400;font-variant:normal;text-transform:none;line-height:1;vertical-align:baseline;display:inline-block;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.el-icon-arrow-down:before{content:\"\\e600\"}.el-icon-arrow-left:before{content:\"\\e601\"}.el-icon-arrow-right:before{content:\"\\e602\"}.el-icon-arrow-up:before{content:\"\\e603\"}.el-icon-caret-bottom:before{content:\"\\e604\"}.el-icon-caret-left:before{content:\"\\e605\"}.el-icon-caret-right:before{content:\"\\e606\"}.el-icon-caret-top:before{content:\"\\e607\"}.el-icon-check:before{content:\"\\e608\"}.el-icon-circle-check:before{content:\"\\e609\"}.el-icon-circle-close:before{content:\"\\e60a\"}.el-icon-circle-cross:before{content:\"\\e60b\"}.el-icon-close:before{content:\"\\e60c\"}.el-icon-upload:before{content:\"\\e60d\"}.el-icon-d-arrow-left:before{content:\"\\e60e\"}.el-icon-d-arrow-right:before{content:\"\\e60f\"}.el-icon-d-caret:before{content:\"\\e610\"}.el-icon-date:before{content:\"\\e611\"}.el-icon-delete:before{content:\"\\e612\"}.el-icon-document:before{content:\"\\e613\"}.el-icon-edit:before{content:\"\\e614\"}.el-icon-information:before{content:\"\\e615\"}.el-icon-loading:before{content:\"\\e616\"}.el-icon-menu:before{content:\"\\e617\"}.el-icon-message:before{content:\"\\e618\"}.el-icon-minus:before{content:\"\\e619\"}.el-icon-more:before{content:\"\\e61a\"}.el-icon-picture:before{content:\"\\e61b\"}.el-icon-plus:before{content:\"\\e61c\"}.el-icon-search:before{content:\"\\e61d\"}.el-icon-setting:before{content:\"\\e61e\"}.el-icon-share:before{content:\"\\e61f\"}.el-icon-star-off:before{content:\"\\e620\"}.el-icon-star-on:before{content:\"\\e621\"}.el-icon-time:before{content:\"\\e622\"}.el-icon-warning:before{content:\"\\e623\"}.el-icon-delete2:before{content:\"\\e624\"}.el-icon-upload2:before{content:\"\\e627\"}.el-icon-view:before{content:\"\\e626\"}.el-icon-loading{animation:rotating 1s linear infinite}.el-icon--right{margin-left:5px}.el-icon--left{margin-right:5px}@keyframes rotating{0%{transform:rotateZ(0)}100%{transform:rotateZ(360deg)}}.el-pagination{white-space:nowrap;padding:2px 5px;color:#48576a}.el-pagination:after,.el-pagination:before{display:table;content:\"\"}.el-pagination:after{clear:both}.el-pagination button,.el-pagination span{display:inline-block;font-size:13px;min-width:28px;height:28px;line-height:28px;vertical-align:top;box-sizing:border-box}.el-pagination .el-select .el-input{width:110px}.el-pagination .el-select .el-input input{padding-right:25px;border-radius:2px;height:28px}.el-pagination button{border:none;padding:0 6px;background:0 0}.el-pagination button:focus{outline:0}.el-pagination button:hover{color:#20a0ff}.el-pagination button.disabled{color:#e4e4e4;background-color:#fff;cursor:not-allowed}.el-pager li,.el-pager li.btn-quicknext:hover,.el-pager li.btn-quickprev:hover{cursor:pointer}.el-pagination .btn-next,.el-pagination .btn-prev{background:center center no-repeat #fff;background-size:16px;border:1px solid #d1dbe5;cursor:pointer;margin:0;color:#97a8be}.el-pagination .btn-next .el-icon,.el-pagination .btn-prev .el-icon{display:block;font-size:12px}.el-pagination .btn-prev{border-radius:2px 0 0 2px;border-right:0}.el-pagination .btn-next{border-radius:0 2px 2px 0;border-left:0}.el-pagination--small .btn-next,.el-pagination--small .btn-prev,.el-pagination--small .el-pager li,.el-pagination--small .el-pager li:last-child{border-color:transparent;font-size:12px;line-height:22px;height:22px;min-width:22px}.el-pagination--small .el-pager li{border-radius:2px}.el-pagination__sizes{margin:0 10px 0 0}.el-pagination__sizes .el-input .el-input__inner{font-size:13px;border-color:#d1dbe5}.el-pagination__sizes .el-input .el-input__inner:hover{border-color:#20a0ff}.el-pagination__jump{margin-left:10px}.el-pagination__total{margin:0 10px}.el-pagination__editor{border:1px solid #d1dbe5;border-radius:2px;line-height:18px;padding:4px 2px;width:30px;text-align:center;margin:0 6px;box-sizing:border-box;transition:border .3s}.el-pager,.el-pager li{vertical-align:top;display:inline-block;margin:0}.el-pagination__editor::-webkit-inner-spin-button,.el-pagination__editor::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.el-pagination__editor:focus{outline:0;border-color:#20a0ff}.el-autocomplete-suggestion__wrap,.el-pager li{border:1px solid #d1dbe5;box-sizing:border-box}.el-pager{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;list-style:none;font-size:0;padding:0}.el-radio,.el-radio-button__inner,.el-switch__label{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.el-pager li{padding:0 4px;border-right:0;background:#fff;font-size:13px;min-width:28px;height:28px;line-height:28px;text-align:center}.el-pager li:last-child{border-right:1px solid #d1dbe5}.el-pager li.btn-quicknext,.el-pager li.btn-quickprev{line-height:28px;color:#97a8be}.el-pager li.active+li{border-left:0;padding-left:5px}.el-pager li:hover{color:#20a0ff}.el-pager li.active{border-color:#20a0ff;background-color:#20a0ff;color:#fff;cursor:default}.el-dialog{position:absolute;left:50%;-ms-transform:translateX(-50%);transform:translateX(-50%);background:#fff;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.3);box-sizing:border-box;margin-bottom:50px}.el-dialog--tiny{width:30%}.el-dialog--small{width:50%}.el-dialog--large{width:90%}.el-dialog--full{width:100%;top:0;margin-bottom:0;height:100%;overflow:auto}.el-dialog__wrapper{top:0;right:0;bottom:0;left:0;position:fixed;overflow:auto;margin:0}.el-autocomplete,.el-dropdown{display:inline-block;position:relative}.el-dialog__header{padding:20px 20px 0}.el-dialog__close{cursor:pointer;color:#bfcbd9}.el-dialog__close:hover{color:#20a0ff}.el-dialog__title{line-height:1;font-size:16px;font-weight:700;color:#1f2d3d}.el-dialog__body{padding:30px 20px;color:#48576a;font-size:14px}.el-dialog__footer{padding:10px 20px 15px;text-align:right;box-sizing:border-box}.dialog-fade-enter-active{animation:dialog-fade-in .3s}.dialog-fade-leave-active{animation:dialog-fade-out .3s}@keyframes dialog-fade-in{0%{transform:translate3d(0,-20px,0);opacity:0}100%{transform:translate3d(0,0,0);opacity:1}}@keyframes dialog-fade-out{0%{transform:translate3d(0,0,0);opacity:1}100%{transform:translate3d(0,-20px,0);opacity:0}}.el-autocomplete-suggestion{margin:5px 0;box-shadow:0 0 6px 0 rgba(0,0,0,.04),0 2px 4px 0 rgba(0,0,0,.12)}.el-autocomplete-suggestion li{list-style:none;line-height:36px;padding:0 10px;margin:0;cursor:pointer;color:#48576a;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.el-autocomplete-suggestion li:hover{background-color:#e4e8f1}.el-autocomplete-suggestion li.highlighted{background-color:#20a0ff;color:#fff}.el-autocomplete-suggestion li:active{background-color:#0082e6}.el-autocomplete-suggestion.is-loading li:hover,.el-dropdown-menu{background-color:#fff}.el-autocomplete-suggestion li.divider{margin-top:6px;border-top:1px solid #d1dbe5}.el-autocomplete-suggestion li.divider:last-child{margin-bottom:-6px}.el-autocomplete-suggestion.is-loading li{text-align:center;height:100px;line-height:100px;font-size:20px;color:#999}.el-autocomplete-suggestion.is-loading .el-icon-loading{vertical-align:middle}.el-autocomplete-suggestion__wrap{max-height:280px;overflow:auto;background-color:#fff;padding:6px 0;border-radius:2px}.el-autocomplete-suggestion__list{margin:0;padding:0}.el-dropdown{color:#48576a;font-size:14px}.el-dropdown .el-button-group{display:block}.el-dropdown .el-dropdown__caret-button{padding-right:5px;padding-left:5px}.el-dropdown .el-dropdown__caret-button .el-dropdown__icon{padding-left:0}.el-dropdown__icon{font-size:12px;margin:0 3px}.el-dropdown-menu{margin:5px 0;border:1px solid #d1dbe5;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.12);padding:6px 0;z-index:10;position:absolute;top:0;left:0;min-width:100px}.el-dropdown-menu__item{list-style:none;line-height:36px;padding:0 10px;margin:0;cursor:pointer}.el-dropdown-menu__item:not(.is-disabled):hover{background-color:#e4e8f1;color:#48576a}.el-dropdown-menu__item.is-disabled{cursor:default;color:#bfcbd9;pointer-events:none}.el-dropdown-menu__item--divided{position:relative;margin-top:6px;border-top:1px solid #d1dbe5}.el-dropdown-menu__item--divided:before{content:'';height:6px;display:block;margin:0 -10px;background-color:#fff}.el-menu-item,.el-submenu__title{height:56px;line-height:56px;font-size:14px;color:#48576a;padding:0 20px;cursor:pointer;position:relative;transition:border-color .3s,background-color .3s,color .3s;box-sizing:border-box;white-space:nowrap}.el-menu{border-radius:2px;list-style:none;position:relative;margin:0;padding-left:0;background-color:#eef1f6}.el-menu:after,.el-menu:before{display:table;content:\"\"}.el-menu:after{clear:both}.el-menu li{list-style:none}.el-menu--dark{background-color:#324157}.el-menu--dark .el-menu-item,.el-menu--dark .el-submenu__title{color:#bfcbd9}.el-menu--dark .el-menu-item:hover,.el-menu--dark .el-submenu__title:hover{background-color:#48576a}.el-menu--dark .el-submenu .el-menu{background-color:#1f2d3d}.el-menu--dark .el-submenu .el-menu .el-menu-item:hover{background-color:#48576a}.el-menu--horizontal .el-menu-item{float:left;height:60px;line-height:60px;margin:0;cursor:pointer;position:relative;box-sizing:border-box;border-bottom:5px solid transparent}.el-menu--horizontal .el-menu-item a,.el-menu--horizontal .el-menu-item a:hover{color:inherit}.el-menu--horizontal .el-submenu{float:left;position:relative}.el-menu--horizontal .el-submenu>.el-menu{position:absolute;top:65px;left:0;border:1px solid #d1dbe5;padding:5px 0;background-color:#fff;z-index:100;min-width:100%;box-shadow:0 2px 4px 0 rgba(0,0,0,.12),0 0 6px 0 rgba(0,0,0,.04)}.el-menu--horizontal .el-submenu .el-submenu__title{height:60px;line-height:60px;border-bottom:5px solid transparent}.el-menu--horizontal .el-submenu .el-menu-item{background-color:#fff;float:none;height:36px;line-height:36px;padding:0 10px}.el-menu--horizontal .el-submenu .el-submenu__icon-arrow{position:static;vertical-align:middle;margin-left:5px;color:#97a8be;margin-top:-3px}.el-menu--horizontal .el-menu-item:hover,.el-menu--horizontal .el-submenu__title:hover{background-color:#eef1f6}.el-menu--horizontal>.el-menu-item:hover,.el-menu--horizontal>.el-submenu.is-active .el-submenu__title,.el-menu--horizontal>.el-submenu:hover .el-submenu__title{border-bottom:5px solid #20a0ff}.el-menu--horizontal.el-menu--dark .el-menu-item:hover,.el-menu--horizontal.el-menu--dark .el-submenu__title:hover{background-color:#324157}.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item:hover,.el-menu--horizontal.el-menu--dark .el-submenu .el-submenu-title:hover,.el-menu-item:hover{background-color:#d1dbe5}.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item,.el-menu--horizontal.el-menu--dark .el-submenu .el-submenu-title{color:#48576a}.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active,.el-menu-item.is-active{color:#20a0ff}.el-menu-item [class^=el-icon-]{vertical-align:baseline;margin-right:10px}.el-menu-item:first-child{margin-left:0}.el-menu-item:last-child{margin-right:0}.el-submenu [class^=el-icon-]{vertical-align:baseline;margin-right:10px}.el-submenu .el-menu{background-color:#e4e8f1}.el-submenu .el-menu-item:hover,.el-submenu__title:hover{background-color:#d1dbe5}.el-submenu .el-menu-item{height:50px;line-height:50px;padding:0 45px}.el-submenu.is-opened>.el-submenu__title .el-submenu__icon-arrow{-ms-transform:rotate(180deg);transform:rotateZ(180deg)}.el-submenu.is-active .el-submenu__title{border-bottom-color:#20a0ff}.el-submenu__title{position:relative}.el-submenu__icon-arrow{position:absolute;top:50%;right:20px;margin-top:-7px;transition:transform .3s;font-size:12px}.el-radio,.el-radio__inner,.el-radio__input{position:relative;display:inline-block}.el-menu-item-group>ul{padding:0}.el-menu-item-group__title{padding-top:15px;line-height:normal;font-size:14px;padding-left:20px;color:#97a8be}.el-radio{color:#1f2d3d;cursor:pointer;white-space:nowrap}.el-radio+.el-radio{margin-left:15px}.el-radio__input{white-space:nowrap;cursor:pointer;outline:0;line-height:1;vertical-align:middle}.el-radio__input.is-focus .el-radio__inner{border-color:#20a0ff}.el-radio__input.is-checked .el-radio__inner{border-color:#20a0ff;background:#20a0ff}.el-radio__input.is-checked .el-radio__inner::after{-ms-transform:translate(-50%,-50%) scale(1);transform:translate(-50%,-50%) scale(1)}.el-radio__input.is-disabled .el-radio__inner{background-color:#eef1f6;border-color:#d1dbe5;cursor:not-allowed}.el-radio__input.is-disabled .el-radio__inner::after{cursor:not-allowed;background-color:#eef1f6}.el-radio__input.is-disabled .el-radio__inner+.el-radio__label{cursor:not-allowed}.el-radio__input.is-disabled.is-checked .el-radio__inner{background-color:#d1dbe5;border-color:#d1dbe5}.el-radio__inner,.el-radio__input.is-disabled.is-checked .el-radio__inner::after{background-color:#fff}.el-radio__input.is-disabled+.el-radio__label{color:#bbb;cursor:not-allowed}.el-radio__inner{border:1px solid #bfcbd9;width:18px;height:18px;border-radius:50%;cursor:pointer;box-sizing:border-box}.el-radio__inner:hover{border-color:#20a0ff}.el-radio__inner::after{width:6px;height:6px;border-radius:50%;background-color:#fff;content:\"\";position:absolute;left:50%;top:50%;-ms-transform:translate(-50%,-50%) scale(0);transform:translate(-50%,-50%) scale(0);transition:transform .15s cubic-bezier(.71,-.46,.88,.6)}.el-switch__core,.el-switch__label{width:46px;height:22px;cursor:pointer}.el-radio__original{opacity:0;outline:0;position:absolute;z-index:-1;top:0;left:0;right:0;bottom:0;margin:0}.el-radio-button,.el-radio-button__inner{position:relative;display:inline-block}.el-radio__label{font-size:14px;padding-left:5px}.el-radio-group{display:inline-block;font-size:0;line-height:1}.el-radio-group .el-radio{font-size:14px}.el-radio-button:first-child .el-radio-button__inner{border-left:1px solid #bfcbd9;border-radius:4px 0 0 4px;box-shadow:none!important}.el-radio-button:last-child .el-radio-button__inner{border-radius:0 4px 4px 0}.el-radio-button__inner{line-height:1;white-space:nowrap;vertical-align:middle;background:#fff;border:1px solid #bfcbd9;border-left:0;color:#1f2d3d;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:0;margin:0;cursor:pointer;transition:all .3s cubic-bezier(.645,.045,.355,1);padding:10px 15px;font-size:14px;border-radius:0}.el-radio-button__inner:hover{color:#20a0ff}.el-radio-button__inner [class*=el-icon-]{line-height:.9}.el-radio-button__inner [class*=el-icon-]+span{margin-left:5px}.el-radio-button__orig-radio{opacity:0;outline:0;position:absolute;z-index:-1;left:-999px}.el-radio-button__orig-radio:checked+.el-radio-button__inner{color:#fff;background-color:#20a0ff;border-color:#20a0ff;box-shadow:-1px 0 0 0 #20a0ff}.el-radio-button__orig-radio:disabled+.el-radio-button__inner{color:#bfcbd9;cursor:not-allowed;background-image:none;background-color:#eef1f6;border-color:#d1dbe5;box-shadow:none}.el-radio-button--large .el-radio-button__inner{padding:11px 19px;font-size:16px;border-radius:0}.el-radio-button--small .el-radio-button__inner{padding:7px 9px;font-size:12px;border-radius:0}.el-radio-button--mini .el-radio-button__inner{padding:4px;font-size:12px;border-radius:0}.el-switch{display:inline-block;position:relative;font-size:14px;line-height:22px;height:22px;vertical-align:middle}.el-switch__label,.el-switch__label *{position:absolute;font-size:14px;display:inline-block}.el-switch .label-fade-enter,.el-switch .label-fade-leave-active{opacity:0}.el-switch.is-disabled .el-switch__core{border-color:#e4e8f1!important;background:#e4e8f1!important}.el-switch.is-disabled .el-switch__core span{background-color:#fbfdff!important}.el-switch.is-disabled .el-switch__core~.el-switch__label *{color:#fbfdff!important}.el-switch.is-disabled .el-switch__input:checked+.el-switch__core{border-color:#e4e8f1;background-color:#e4e8f1}.el-switch.is-disabled .el-switch__core,.el-switch.is-disabled .el-switch__label{cursor:not-allowed}.el-switch__label{transition:.2s;z-index:10;left:0;top:0;user-select:none}.el-checkbox,.el-date-table,.el-time-panel{-webkit-user-select:none;-ms-user-select:none}.el-switch__label *{line-height:1;top:4px;color:#fff}.el-switch__label--left i{left:6px}.el-switch__label--right i{right:6px}.el-switch__input{display:none}.el-switch__input:checked+.el-switch__core{border-color:#20a0ff;background-color:#20a0ff}.el-switch__core{margin:0;display:inline-block;position:relative;border:1px solid #bfcbd9;outline:0;border-radius:12px;box-sizing:border-box;background:#bfcbd9;transition:border-color .3s,background-color .3s}.el-switch__core .el-switch__button{top:0;left:0;position:absolute;border-radius:100%;transition:transform .3s;width:16px;height:16px;z-index:20;background-color:#fff}.el-switch--wide .el-switch__label.el-switch__label--left span{left:10px}.el-switch--wide .el-switch__label.el-switch__label--right span{right:10px}.el-select-dropdown{position:absolute;z-index:1001;border:1px solid #d1dbe5;border-radius:2px;background-color:#fff;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);box-sizing:border-box;margin:5px 0}.el-select-dropdown .el-scrollbar.is-empty .el-select-dropdown__list{padding:0}.el-select-dropdown.is-multiple .el-select-dropdown__item.selected{color:#20a0ff;background-color:#fff}.el-select-dropdown.is-multiple .el-select-dropdown__item.selected.hover,.el-select-dropdown__item.hover{background-color:#e4e8f1}.el-select-dropdown.is-multiple .el-select-dropdown__item.selected::after{position:absolute;right:10px;font-family:element-icons;content:\"\\E608\";font-size:11px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.el-select-dropdown__empty{padding:10px 0;margin:0;text-align:center;color:#999;font-size:14px}.el-select-dropdown__wrap{max-height:274px}.el-select-dropdown__list{list-style:none;padding:6px 0;margin:0;box-sizing:border-box}.el-select-dropdown__item{font-size:14px;padding:8px 10px;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#48576a;height:36px;line-height:1.5;box-sizing:border-box;cursor:pointer}.el-select-dropdown__item.selected{color:#fff;background-color:#20a0ff}.el-select-dropdown__item.selected.hover{background-color:#1c8de0}.el-select-dropdown__item span{line-height:1.5!important}.el-select-dropdown__item.is-disabled{color:#bfcbd9;cursor:not-allowed}.el-select-dropdown__item.is-disabled:hover{background-color:#fff}.el-select-group{margin:0;padding:0}.el-select-group .el-select-dropdown__item{padding-left:20px}.el-select-group__wrap{list-style:none;margin:0;padding:0}.el-select-group__title{padding-left:10px;font-size:12px;color:#999;height:30px;line-height:30px}.el-select{display:inline-block;position:relative}.el-select:hover .el-input__inner{border-color:#8391a5}.el-select .el-input__inner{cursor:pointer}.el-select .el-input__inner:focus{border-color:#20a0ff}.el-select .el-input .el-input__icon{color:#bfcbd9;font-size:12px;transition:transform .3s;-ms-transform:translateY(-50%) rotate(180deg);transform:translateY(-50%) rotateZ(180deg);line-height:16px;top:50%;cursor:pointer}.el-select .el-input .el-input__icon.is-show-close{transition:0s;width:16px;height:16px;font-size:14px;right:8px;text-align:center;-ms-transform:translateY(-50%) rotate(180deg);transform:translateY(-50%) rotateZ(180deg);border-radius:100%;color:#bfcbd9}.el-select .el-input .el-input__icon.is-show-close:hover{color:#97a8be}.el-select .el-input .el-input__icon.is-reverse{-ms-transform:translateY(-50%);transform:translateY(-50%)}.el-select .el-input.is-disabled .el-input__inner{cursor:not-allowed}.el-select .el-input.is-disabled .el-input__inner:hover{border-color:#d1dbe5}.el-select>.el-input{display:block}.el-select .el-tag__close{margin-top:-2px}.el-select .el-tag{height:24px;line-height:24px;box-sizing:border-box;margin:3px 0 3px 6px}.el-select__input{border:none;outline:0;padding:0;margin-left:10px;color:#666;font-size:14px;vertical-align:baseline;-webkit-appearance:none;-moz-appearance:none;appearance:none;height:28px;background-color:transparent}.el-select__input.is-mini{height:14px}.el-select__close{cursor:pointer;position:absolute;top:8px;z-index:1000;right:25px;color:#bfcbd9;line-height:18px;font-size:12px}.el-select__close:hover{color:#97a8be}.el-select__tags{position:absolute;line-height:normal;white-space:normal;z-index:1000;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%)}.el-table,.el-table td,.el-table th{box-sizing:border-box;position:relative}.el-table .el-tooltip.cell,.el-table th,.el-table th>div{white-space:nowrap}.el-select__tag{display:inline-block;height:24px;line-height:24px;font-size:14px;border-radius:4px;color:#fff;background-color:#20a0ff}.el-select__tag .el-icon-close{font-size:12px}.el-table{overflow:hidden;width:100%;max-width:100%;background-color:#fff;border:1px solid #dfe6ec;font-size:14px;color:#1f2d3d}.el-table td,.el-table th{height:40px;min-width:0;text-overflow:ellipsis;vertical-align:middle}.el-table::after,.el-table::before{content:'';position:absolute;background-color:#dfe6ec;z-index:1}.el-table td.is-right,.el-table th.is-right{text-align:right}.el-table td.is-left,.el-table th.is-left{text-align:left}.el-table td.is-center,.el-table th.is-center{text-align:center}.el-table td,.el-table th.is-leaf{border-bottom:1px solid #dfe6ec}.el-table td.gutter,.el-table th.gutter{width:15px;border-right-width:0;border-bottom-width:0;padding:0}.el-table .cell,.el-table th>div{padding-left:18px;padding-right:18px;box-sizing:border-box;text-overflow:ellipsis}.el-table::before{left:0;bottom:0;width:100%;height:1px}.el-table::after{top:0;right:0;width:1px;height:100%}.el-table .caret-wrapper,.el-table th>.cell{position:relative;display:inline-block;vertical-align:middle}.el-table th{overflow:hidden;background-color:#eef1f6;text-align:left}.el-table th>div{display:inline-block;line-height:40px;overflow:hidden}.el-table td>div{box-sizing:border-box}.el-table th.required>div::before{display:inline-block;content:\"\";width:8px;height:8px;border-radius:50%;background:#ff4d51;margin-right:5px;vertical-align:middle}.el-table th>.cell{word-wrap:normal;text-overflow:ellipsis;line-height:20px;width:100%;box-sizing:border-box}.el-table th>.cell.highlight{color:#20a0ff}.el-table .caret-wrapper{cursor:pointer;margin-left:5px;margin-top:-2px;width:16px;height:34px;overflow:visible;overflow:initial}.el-table .cell,.el-table__header-wrapper{overflow:hidden}.el-table .sort-caret{display:inline-block;width:0;height:0;border:0;content:\"\";position:absolute;left:3px;z-index:2}.el-table .sort-caret.ascending,.el-table .sort-caret.descending{border-right:5px solid transparent;border-left:5px solid transparent}.el-table .sort-caret.ascending{top:11px;border-top:none;border-bottom:5px solid #97a8be}.el-table .sort-caret.descending{bottom:11px;border-top:5px solid #97a8be;border-bottom:none}.el-table .ascending .sort-caret.ascending{border-bottom-color:#48576a}.el-table .descending .sort-caret.descending{border-top-color:#48576a}.el-table td.gutter{width:0}.el-table .cell{white-space:normal;word-break:break-all;line-height:24px}.el-table tr input[type=checkbox]{margin:0}.el-table tr{background-color:#fff}.el-table .hidden-columns{visibility:hidden;position:absolute;z-index:-1}.el-table__empty-block{position:relative;min-height:60px;text-align:center;width:100%;height:100%}.el-table__empty-text{position:absolute;left:50%;top:50%;-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);color:#5e7382}.el-table__expand-column .cell{padding:0;text-align:center}.el-table__expand-icon{position:relative;cursor:pointer;color:#666;font-size:12px;transition:transform .2s ease-in-out;height:40px}.el-table__fixed-header-wrapper thead div,.el-table__header-wrapper thead div{color:#1f2d3d;background-color:#eef1f6}.el-table__expand-icon>.el-icon{position:absolute;left:50%;top:50%;margin-left:-5px;margin-top:-5px}.el-table__expand-icon--expanded{-ms-transform:rotate(90deg);transform:rotate(90deg)}.el-table__expanded-cell{padding:20px 50px;background-color:#fbfdff;box-shadow:inset 0 2px 0 #f4f4f4}.el-table__expanded-cell:hover{background-color:#fbfdff!important}.el-table--fit{border-right:0;border-bottom:0}.el-table--border th,.el-table__fixed-right-patch{border-bottom:1px solid #dfe6ec}.el-table--fit td.gutter,.el-table--fit th.gutter{border-right-width:1px}.el-table--border td,.el-table--border th{border-right:1px solid #dfe6ec}.el-table__fixed,.el-table__fixed-right{position:absolute;top:0;left:0;box-shadow:1px 0 8px #d3d4d6;overflow-x:hidden}.el-table__fixed-right::before,.el-table__fixed::before{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background-color:#dfe6ec;z-index:4}.el-table__fixed-right-patch{position:absolute;top:-1px;right:0;background-color:#eef1f6}.el-table__fixed-right{top:0;left:auto;right:0;box-shadow:-1px 0 8px #d3d4d6}.el-table__fixed-right .el-table__fixed-body-wrapper,.el-table__fixed-right .el-table__fixed-header-wrapper{left:auto;right:0}.el-table__fixed-header-wrapper{position:absolute;left:0;top:0;z-index:3}.el-table__fixed-body-wrapper{position:absolute;left:0;top:37px;overflow:hidden;z-index:3}.el-table__body-wrapper,.el-table__header-wrapper{width:100%}.el-table__body,.el-table__header{table-layout:fixed}.el-table__body-wrapper{overflow:auto;position:relative}.el-table--striped .el-table__body tr:nth-child(2n) td{background:#FAFAFA}.el-table--striped .el-table__body tr:nth-child(2n).current-row td{background:#edf7ff}.el-table__body tr.hover-row>td{background-color:#eef1f6}.el-table__body tr.current-row>td{background:#edf7ff}.el-table__column-resize-proxy{position:absolute;left:200px;top:0;bottom:0;width:0;border-left:1px solid #dfe6ec;z-index:10}.el-checkbox,.el-checkbox__input{cursor:pointer;display:inline-block;position:relative;white-space:nowrap}.el-table__column-filter-trigger{display:inline-block;line-height:34px;margin-left:5px;cursor:pointer}.el-table__column-filter-trigger i{color:#97a8be}.el-table--enable-row-transition .el-table__body td{transition:background-color .25s ease}.el-table--enable-row-hover tr:hover>td{background-color:#eef1f6}.el-table--fluid-height .el-table__fixed,.el-table--fluid-height .el-table__fixed-right{bottom:0;overflow:hidden}.el-checkbox{color:#1f2d3d;-moz-user-select:none}.el-checkbox+.el-checkbox{margin-left:15px}.el-checkbox__input{outline:0;line-height:1;vertical-align:middle}.el-checkbox__input.is-indeterminate .el-checkbox__inner{background-color:#20a0ff;border-color:#0190fe}.el-checkbox__input.is-indeterminate .el-checkbox__inner::before{content:'';position:absolute;display:block;border:1px solid #fff;margin-top:-1px;left:3px;right:3px;top:50%}.el-checkbox__input.is-indeterminate .el-checkbox__inner::after{display:none}.el-checkbox__input.is-focus .el-checkbox__inner{border-color:#20a0ff}.el-checkbox__input.is-checked .el-checkbox__inner{background-color:#20a0ff;border-color:#0190fe}.el-checkbox__input.is-checked .el-checkbox__inner::after{-ms-transform:rotate(45deg) scaleY(1);transform:rotate(45deg) scaleY(1)}.el-checkbox__input.is-disabled .el-checkbox__inner{background-color:#eef1f6;border-color:#d1dbe5;cursor:not-allowed}.el-checkbox__input.is-disabled .el-checkbox__inner::after{cursor:not-allowed;border-color:#eef1f6}.el-checkbox__input.is-disabled .el-checkbox__inner+.el-checkbox__label{cursor:not-allowed}.el-checkbox__input.is-disabled.is-checked .el-checkbox__inner{background-color:#d1dbe5;border-color:#d1dbe5}.el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after{border-color:#fff}.el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner{background-color:#d1dbe5;border-color:#d1dbe5}.el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner::before{border-color:#fff}.el-checkbox__input.is-disabled+.el-checkbox__label{color:#bbb;cursor:not-allowed}.el-checkbox__inner{display:inline-block;position:relative;border:1px solid #bfcbd9;border-radius:4px;box-sizing:border-box;width:18px;height:18px;background-color:#fff;z-index:1;transition:border-color .25s cubic-bezier(.71,-.46,.29,1.46),background-color .25s cubic-bezier(.71,-.46,.29,1.46)}.el-checkbox__inner:hover{border-color:#20a0ff}.el-checkbox__inner::after{box-sizing:content-box;content:\"\";border:2px solid #fff;border-left:0;border-top:0;height:8px;left:5px;position:absolute;top:1px;-ms-transform:rotate(45deg) scaleY(0);transform:rotate(45deg) scaleY(0);width:4px;transition:transform .15s cubic-bezier(.71,-.46,.88,.6) .05s;-ms-transform-origin:center;transform-origin:center}.el-checkbox__original{opacity:0;outline:0;position:absolute;margin:0;left:-999px}.el-checkbox__label{font-size:14px;padding-left:5px}.el-table-column--selection .cell{padding-left:14px;padding-right:14px}.el-table-filter{border:1px solid #d1dbe5;border-radius:2px;background-color:#fff;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.12);box-sizing:border-box;margin:2px 0}.el-table-filter__list{padding:5px 0;margin:0;list-style:none;min-width:100px}.el-table-filter__list-item{line-height:36px;padding:0 10px;cursor:pointer;font-size:14px}.el-table-filter__list-item:hover{background-color:#e4e8f1;color:#48576a}.el-table-filter__list-item.is-active{background-color:#20a0ff;color:#fff}.el-table-filter__content{min-width:100px}.el-table-filter__bottom{border-top:1px solid #d1dbe5;padding:8px}.el-table-filter__bottom button{background:0 0;border:none;color:#8391a5;cursor:pointer;font-size:14px;padding:0 3px}.el-table-filter__bottom button:hover{color:#20a0ff}.el-table-filter__bottom button:focus{outline:0}.el-table-filter__bottom button.is-disabled{color:#bfcbd9;cursor:not-allowed}.el-table-filter__checkbox-group{padding:10px}.el-table-filter__checkbox-group .el-checkbox{display:block;margin-bottom:8px;margin-left:5px}.el-table-filter__checkbox-group .el-checkbox:last-child{margin-bottom:0}.el-date-table{font-size:12px;min-width:224px;-moz-user-select:none;user-select:none}.el-date-table td{width:32px;height:32px;box-sizing:border-box;text-align:center;cursor:pointer}.el-date-table td.next-month,.el-date-table td.prev-month{color:#ddd}.el-date-table td.today{color:#20a0ff;position:relative}.el-date-table td.today:before{content:\" \";position:absolute;top:0;right:0;width:0;height:0;border-top:.5em solid #20a0ff;border-left:.5em solid transparent}.el-month-table td .cell,.el-year-table td .cell{width:48px;height:32px;display:block;line-height:32px}.el-date-table td.available:hover{background-color:#e4e8f1}.el-date-table td.in-range{background-color:#d2ecff}.el-date-table td.in-range:hover{background-color:#afddff}.el-date-table td.current:not(.disabled),.el-date-table td.end-date,.el-date-table td.start-date{background-color:#20a0ff!important;color:#fff}.el-date-table td.disabled{background-color:#f4f4f4;opacity:1;cursor:not-allowed;color:#ccc}.el-fade-in-enter,.el-fade-in-leave-active,.fade-in-linear-enter,.fade-in-linear-leave,.fade-in-linear-leave-active{opacity:0}.el-date-table td.week{font-size:80%;color:#8391a5}.el-month-table,.el-year-table{font-size:12px;margin:-1px;border-collapse:collapse}.el-date-table th{padding:5px;color:#8391a5;font-weight:400}.el-date-table.is-week-mode .el-date-table__row:hover{background-color:#e4e8f1}.el-date-table.is-week-mode .el-date-table__row.current{background-color:#d2ecff}.el-month-table td{text-align:center;padding:20px 3px;cursor:pointer}.el-month-table td .cell{color:#48576a}.el-month-table td .cell:hover{background-color:#e4e8f1}.el-month-table td.disabled .cell{background-color:#f4f4f4;cursor:not-allowed;color:#ccc}.el-month-table td.current:not(.disabled) .cell{background-color:#20a0ff!important;color:#fff}.el-year-table .el-icon{color:#97a8be}.el-year-table td{text-align:center;padding:20px 3px;cursor:pointer}.el-year-table td .cell{color:#48576a}.el-year-table td .cell:hover{background-color:#e4e8f1}.el-year-table td.disabled .cell{background-color:#f4f4f4;cursor:not-allowed;color:#ccc}.el-year-table td.current:not(.disabled) .cell{background-color:#20a0ff!important;color:#fff}.el-date-range-picker{min-width:520px}.el-date-range-picker table{table-layout:fixed;width:100%}.el-date-range-picker .el-picker-panel__body{min-width:513px}.el-date-range-picker .el-picker-panel__content{margin:0}.el-date-range-picker.has-sidebar.has-time{min-width:766px}.el-date-range-picker.has-sidebar{min-width:620px}.el-date-range-picker.has-time{min-width:660px}.el-date-range-picker__header{position:relative;text-align:center;height:28px}.el-date-range-picker__header button{float:left}.el-date-range-picker__header div{font-size:14px;margin-right:50px}.el-date-range-picker__content{float:left;width:50%;box-sizing:border-box;margin:0;padding:16px}.el-date-range-picker__content.is-right .el-date-range-picker__header button{float:right}.el-date-range-picker__content.is-right .el-date-range-picker__header div{margin-left:50px;margin-right:50px}.el-date-range-picker__content.is-left{border-right:1px solid #e4e4e4}.el-date-range-picker__editors-wrap{box-sizing:border-box;display:table-cell}.el-date-range-picker__editors-wrap.is-right{text-align:right}.el-date-range-picker__time-header{position:relative;border-bottom:1px solid #e4e4e4;font-size:12px;padding:8px 5px 5px;display:table;width:100%;box-sizing:border-box}.el-date-range-picker__time-header>.el-icon-arrow-right{font-size:20px;vertical-align:middle;display:table-cell;color:#97a8be}.el-date-range-picker__time-picker-wrap{position:relative;display:table-cell;padding:0 5px}.el-date-range-picker__time-picker-wrap .el-picker-panel{position:absolute;top:13px;right:0;z-index:1;background:#fff}.el-time-range-picker{min-width:354px;overflow:visible}.el-time-range-picker__content{position:relative;text-align:center;padding:10px}.el-time-range-picker__cell{box-sizing:border-box;margin:0;padding:4px 7px 7px;width:50%;display:inline-block}.el-time-range-picker__header{margin-bottom:5px;text-align:center;font-size:14px}.el-time-range-picker__body{border-radius:2px;border:1px solid #d1dbe5}.el-picker-panel{color:#48576a;border:1px solid #d1dbe5;box-shadow:0 2px 6px #ccc;background:#fff;border-radius:2px;line-height:20px;margin:5px 0}.el-picker-panel__body-wrapper::after,.el-picker-panel__body::after{content:\"\";display:table;clear:both}.el-picker-panel__content{position:relative;margin:15px}.el-picker-panel__footer{border-top:1px solid #e4e4e4;padding:4px;text-align:right;background-color:#fff;position:relative}.el-picker-panel__shortcut{display:block;width:100%;border:0;background-color:transparent;line-height:28px;font-size:14px;color:#48576a;padding-left:12px;text-align:left;outline:0;cursor:pointer}.el-picker-panel__shortcut:hover{background-color:#e4e8f1}.el-picker-panel__shortcut.active{background-color:#e6f1fe;color:#20a0ff}.el-picker-panel__btn{border:1px solid #dcdcdc;color:#333;line-height:24px;border-radius:2px;padding:0 20px;cursor:pointer;background-color:transparent;outline:0;font-size:12px}.el-picker-panel__btn[disabled]{color:#ccc;cursor:not-allowed}.el-picker-panel__icon-btn{font-size:12px;color:#97a8be;border:0;background:0 0;cursor:pointer;outline:0;margin-top:3px}.el-date-picker__header-label.active,.el-date-picker__header-label:hover,.el-picker-panel__icon-btn:hover{color:#20a0ff}.el-picker-panel__link-btn{cursor:pointer;color:#20a0ff;text-decoration:none;padding:15px;font-size:12px}.el-picker-panel [slot=sidebar],.el-picker-panel__sidebar{position:absolute;top:0;bottom:0;width:110px;border-right:1px solid #e4e4e4;box-sizing:border-box;padding-top:6px;background-color:#fbfdff}.el-picker-panel [slot=sidebar]+.el-picker-panel__body,.el-picker-panel__sidebar+.el-picker-panel__body{margin-left:110px}.el-date-picker{min-width:254px}.el-date-picker .el-picker-panel__content{min-width:224px}.el-date-picker table{table-layout:fixed;width:100%}.el-date-picker.has-sidebar.has-time{min-width:434px}.el-date-picker.has-sidebar{min-width:370px}.el-date-picker.has-time{min-width:324px}.el-date-picker__editor-wrap{position:relative;display:table-cell;padding:0 5px}.el-date-picker__time-header{position:relative;border-bottom:1px solid #e4e4e4;font-size:12px;padding:8px 5px 5px;display:table;width:100%;box-sizing:border-box}.el-date-picker__header{margin:12px;text-align:center}.el-date-picker__header-label{font-size:14px;padding:0 5px;line-height:22px;text-align:center;cursor:pointer}.el-date-picker__prev-btn{float:left}.el-date-picker__next-btn{float:right}.el-date-picker__time-wrap{padding:10px;text-align:center}.el-date-picker__time-label{float:left;cursor:pointer;line-height:30px;margin-left:10px}.time-select{margin:5px 0;min-width:0}.time-select .el-picker-panel__content{max-height:200px;margin:0}.time-select-item{padding:8px 10px;font-size:14px}.time-select-item.selected:not(.disabled){background-color:#20a0ff;color:#fff}.time-select-item.selected:not(.disabled):hover{background-color:#20a0ff}.time-select-item.disabled{color:#d1dbe5;cursor:not-allowed}.time-select-item:hover{background-color:#e4e8f1;cursor:pointer}.fade-in-linear-enter-active,.fade-in-linear-leave-active{transition:opacity .2s linear}.el-fade-in-enter-active,.el-fade-in-leave-active,.el-zoom-in-center-enter-active,.el-zoom-in-center-leave-active{transition:all .3s cubic-bezier(.55,0,.1,1)}.el-zoom-in-center-enter,.el-zoom-in-center-leave-active{opacity:0;-ms-transform:scaleX(0);transform:scaleX(0)}.el-zoom-in-top-enter-active,.el-zoom-in-top-leave-active{opacity:1;-ms-transform:scaleY(1);transform:scaleY(1);transition:transform .3s cubic-bezier(.23,1,.32,1) .1s,opacity .3s cubic-bezier(.23,1,.32,1) .1s;-ms-transform-origin:center top;transform-origin:center top}.el-zoom-in-top-enter,.el-zoom-in-top-leave-active{opacity:0;-ms-transform:scaleY(0);transform:scaleY(0)}.el-zoom-in-bottom-enter-active,.el-zoom-in-bottom-leave-active{opacity:1;-ms-transform:scaleY(1);transform:scaleY(1);transition:transform .3s cubic-bezier(.23,1,.32,1) .1s,opacity .3s cubic-bezier(.23,1,.32,1) .1s;-ms-transform-origin:center bottom;transform-origin:center bottom}.el-zoom-in-bottom-enter,.el-zoom-in-bottom-leave-active{opacity:0;-ms-transform:scaleY(0);transform:scaleY(0)}.collapse-transition{transition:.3s height ease-in-out,.3s padding-top ease-in-out,.3s padding-bottom ease-in-out}.list-enter-active,.list-leave-active{transition:all 1s}.list-enter,.list-leave-active{opacity:0;-ms-transform:translateY(-30px);transform:translateY(-30px)}.el-date-editor{position:relative;display:inline-block}.el-date-editor .el-picker-panel{position:absolute;min-width:180px;box-sizing:border-box;box-shadow:0 2px 6px #ccc;background:#fff;z-index:10;top:41px}.el-date-editor.el-input{width:193px}.el-date-editor--daterange.el-input{width:220px}.el-date-editor--datetimerange.el-input{width:350px}.el-time-spinner.has-seconds .el-time-spinner__wrapper{width:33%}.el-time-spinner.has-seconds .el-time-spinner__wrapper .el-scrollbar__wrap:not(.el-scrollbar__wrap--hidden-default){padding-bottom:15px}.el-time-spinner.has-seconds .el-time-spinner__wrapper:nth-child(2){margin-left:1%}.el-time-spinner__wrapper{max-height:190px;overflow:auto;display:inline-block;width:50%;vertical-align:top;position:relative}.el-time-spinner__list{padding:0;margin:0;list-style:none;text-align:center}.el-time-spinner__list::after,.el-time-spinner__list::before{content:'';display:block;width:100%;height:80px}.el-time-spinner__item{height:32px;line-height:32px;font-size:12px}.el-time-spinner__item:hover:not(.disabled):not(.active){background:#e4e8f1;cursor:pointer}.el-time-spinner__item.active:not(.disabled){color:#fff}.el-time-spinner__item.disabled{color:#d1dbe5;cursor:not-allowed}.el-time-panel{margin:5px 0;border:1px solid #d1dbe5;background-color:#fff;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);border-radius:2px;position:absolute;width:180px;left:0;z-index:1000;-moz-user-select:none;user-select:none}.el-popover,.el-tabs--border-card{box-shadow:0 2px 4px 0 rgba(0,0,0,.12),0 0 6px 0 rgba(0,0,0,.04)}.el-button,.el-slider__button-wrapper{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}.el-time-panel__content{font-size:0;position:relative;overflow:hidden}.el-time-panel__content::after,.el-time-panel__content::before{content:\":\";top:50%;color:#fff;position:absolute;font-size:14px;margin-top:-15px;line-height:16px;background-color:#20a0ff;height:32px;z-index:-1;left:0;right:0;box-sizing:border-box;padding-top:6px;text-align:left}.el-time-panel__content::after{left:50%;margin-left:-2px}.el-time-panel__content::before{padding-left:50%;margin-right:-2px}.el-time-panel__content.has-seconds::after{left:66.66667%}.el-time-panel__content.has-seconds::before{padding-left:33.33333%}.el-time-panel__footer{border-top:1px solid #e4e4e4;padding:4px;height:36px;line-height:25px;text-align:right;box-sizing:border-box}.el-time-panel__btn{border:none;line-height:28px;padding:0 5px;margin:0 5px;cursor:pointer;background-color:transparent;outline:0;font-size:12px;color:#8391a5}.el-time-panel__btn.confirm{font-weight:800;color:#20a0ff}.el-popover{position:absolute;background:#fff;min-width:150px;border-radius:2px;border:1px solid #d1dbe5;padding:10px;z-index:2000;font-size:12px}.el-popover .popper__arrow,.el-popover .popper__arrow::after{position:absolute;display:block;width:0;height:0;border-color:transparent;border-style:solid}.el-popover .popper__arrow{border-width:6px}.el-popover .popper__arrow::after{content:\" \";border-width:6px}.el-popover[x-placement^=top]{margin-bottom:12px}.el-popover[x-placement^=top] .popper__arrow{bottom:-6px;left:50%;margin-right:3px;border-top-color:#d1dbe5;border-bottom-width:0}.el-popover[x-placement^=top] .popper__arrow::after{bottom:1px;margin-left:-6px;border-top-color:#fff;border-bottom-width:0}.el-popover[x-placement^=bottom]{margin-top:12px}.el-popover[x-placement^=bottom] .popper__arrow{top:-6px;left:50%;margin-right:3px;border-top-width:0;border-bottom-color:#d1dbe5}.el-popover[x-placement^=bottom] .popper__arrow::after{top:1px;margin-left:-6px;border-top-width:0;border-bottom-color:#fff}.el-popover[x-placement^=right]{margin-left:12px}.el-popover[x-placement^=right] .popper__arrow{top:50%;left:-6px;margin-bottom:3px;border-right-color:#d1dbe5;border-left-width:0}.el-popover[x-placement^=right] .popper__arrow::after{bottom:-6px;left:1px;border-right-color:#fff;border-left-width:0}.el-popover[x-placement^=left]{margin-right:12px}.el-popover[x-placement^=left] .popper__arrow{top:50%;right:-6px;margin-bottom:3px;border-right-width:0;border-left-color:#d1dbe5}.el-popover[x-placement^=left] .popper__arrow::after{right:1px;bottom:-6px;margin-left:-6px;border-right-width:0;border-left-color:#fff}.el-popover__title{color:#1f2d3d;font-size:13px;line-height:1;margin-bottom:9px}.v-modal-enter{animation:v-modal-in .2s ease}.v-modal-leave{animation:v-modal-out .2s ease forwards}@keyframes v-modal-in{0%{opacity:0}}@keyframes v-modal-out{100%{opacity:0}}.v-modal{position:fixed;left:0;top:0;width:100%;height:100%;opacity:.5;background:#000}.el-button{display:inline-block;line-height:1;white-space:nowrap;cursor:pointer;background:#fff;border:1px solid #bfcbd9;color:#1f2d3d;-webkit-appearance:none;text-align:center;box-sizing:border-box;outline:0;margin:0;padding:10px 15px;font-size:14px;border-radius:4px}.el-button+.el-button{margin-left:10px}.el-button:focus,.el-button:hover{color:#20a0ff;border-color:#20a0ff}.el-button:active{color:#1d90e6;border-color:#1d90e6;outline:0}.el-button::-moz-focus-inner{border:0}.el-button [class*=el-icon-]+span{margin-left:5px}.el-button.is-loading{position:relative;pointer-events:none}.el-button.is-loading:before{pointer-events:none;content:'';position:absolute;left:-1px;top:-1px;right:-1px;bottom:-1px;border-radius:inherit;background-color:rgba(255,255,255,.35)}.el-button.is-disabled,.el-button.is-disabled:focus,.el-button.is-disabled:hover{color:#bfcbd9;cursor:not-allowed;background-image:none;background-color:#eef1f6;border-color:#d1dbe5}.el-button.is-disabled.el-button--text{background-color:transparent}.el-button.is-disabled.is-plain,.el-button.is-disabled.is-plain:focus,.el-button.is-disabled.is-plain:hover{background-color:#fff;border-color:#d1dbe5;color:#bfcbd9}.el-button.is-active{color:#1d90e6;border-color:#1d90e6}.el-button.is-plain:focus,.el-button.is-plain:hover{background:#fff;border-color:#20a0ff;color:#20a0ff}.el-button.is-plain:active{background:#fff;border-color:#1d90e6;color:#1d90e6;outline:0}.el-button--primary{color:#fff;background-color:#20a0ff;border-color:#20a0ff}.el-button--primary:focus,.el-button--primary:hover{background:#4db3ff;border-color:#4db3ff;color:#fff}.el-button--primary.is-active,.el-button--primary:active{background:#1d90e6;border-color:#1d90e6;color:#fff}.el-button--primary:active{outline:0}.el-button--primary.is-plain{background:#fff;border:1px solid #bfcbd9;color:#1f2d3d}.el-button--primary.is-plain:focus,.el-button--primary.is-plain:hover{background:#fff;border-color:#20a0ff;color:#20a0ff}.el-button--primary.is-plain:active{background:#fff;border-color:#1d90e6;color:#1d90e6;outline:0}.el-button--success{color:#fff;background-color:#13ce66;border-color:#13ce66}.el-button--success:focus,.el-button--success:hover{background:#42d885;border-color:#42d885;color:#fff}.el-button--success.is-active,.el-button--success:active{background:#11b95c;border-color:#11b95c;color:#fff}.el-button--success:active{outline:0}.el-button--success.is-plain{background:#fff;border:1px solid #bfcbd9;color:#1f2d3d}.el-button--success.is-plain:focus,.el-button--success.is-plain:hover{background:#fff;border-color:#13ce66;color:#13ce66}.el-button--success.is-plain:active{background:#fff;border-color:#11b95c;color:#11b95c;outline:0}.el-button--warning{color:#fff;background-color:#f7ba2a;border-color:#f7ba2a}.el-button--warning:focus,.el-button--warning:hover{background:#f9c855;border-color:#f9c855;color:#fff}.el-button--warning.is-active,.el-button--warning:active{background:#dea726;border-color:#dea726;color:#fff}.el-button--warning:active{outline:0}.el-button--warning.is-plain{background:#fff;border:1px solid #bfcbd9;color:#1f2d3d}.el-button--warning.is-plain:focus,.el-button--warning.is-plain:hover{background:#fff;border-color:#f7ba2a;color:#f7ba2a}.el-button--warning.is-plain:active{background:#fff;border-color:#dea726;color:#dea726;outline:0}.el-button--danger{color:#fff;background-color:#ff4949;border-color:#ff4949}.el-button--danger:focus,.el-button--danger:hover{background:#ff6d6d;border-color:#ff6d6d;color:#fff}.el-button--danger.is-active,.el-button--danger:active{background:#e64242;border-color:#e64242;color:#fff}.el-button--danger:active{outline:0}.el-button--danger.is-plain{background:#fff;border:1px solid #bfcbd9;color:#1f2d3d}.el-button--danger.is-plain:focus,.el-button--danger.is-plain:hover{background:#fff;border-color:#ff4949;color:#ff4949}.el-button--danger.is-plain:active{background:#fff;border-color:#e64242;color:#e64242;outline:0}.el-button--info{color:#fff;background-color:#50bfff;border-color:#50bfff}.el-button--info:focus,.el-button--info:hover{background:#73ccff;border-color:#73ccff;color:#fff}.el-button--info.is-active,.el-button--info:active{background:#48ace6;border-color:#48ace6;color:#fff}.el-button--info:active{outline:0}.el-button--info.is-plain{background:#fff;border:1px solid #bfcbd9;color:#1f2d3d}.el-button--info.is-plain:focus,.el-button--info.is-plain:hover{background:#fff;border-color:#50bfff;color:#50bfff}.el-button--info.is-plain:active{background:#fff;border-color:#48ace6;color:#48ace6;outline:0}.el-button--large{padding:11px 19px;font-size:16px;border-radius:4px}.el-button--small{padding:7px 9px;font-size:12px;border-radius:4px}.el-button--mini{padding:4px;font-size:12px;border-radius:4px}.el-button--text{border:none;color:#20a0ff;background:0 0;padding-left:0;padding-right:0}.el-button--text:focus,.el-button--text:hover{color:#4db3ff}.el-button--text:active{color:#1d90e6}.el-button-group{display:inline-block;vertical-align:middle}.el-button-group .el-button--primary:first-child{border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--primary:last-child{border-left-color:rgba(255,255,255,.5)}.el-button-group .el-button--primary:not(:first-child):not(:last-child){border-left-color:rgba(255,255,255,.5);border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--success:first-child{border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--success:last-child{border-left-color:rgba(255,255,255,.5)}.el-button-group .el-button--success:not(:first-child):not(:last-child){border-left-color:rgba(255,255,255,.5);border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--warning:first-child{border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--warning:last-child{border-left-color:rgba(255,255,255,.5)}.el-button-group .el-button--warning:not(:first-child):not(:last-child){border-left-color:rgba(255,255,255,.5);border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--danger:first-child{border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--danger:last-child{border-left-color:rgba(255,255,255,.5)}.el-button-group .el-button--danger:not(:first-child):not(:last-child){border-left-color:rgba(255,255,255,.5);border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--info:first-child{border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button--info:last-child{border-left-color:rgba(255,255,255,.5)}.el-button-group .el-button--info:not(:first-child):not(:last-child){border-left-color:rgba(255,255,255,.5);border-right-color:rgba(255,255,255,.5)}.el-button-group .el-button{float:left;position:relative}.el-button-group .el-button+.el-button{margin-left:0}.el-button-group .el-button:first-child{border-top-right-radius:0;border-bottom-right-radius:0}.el-button-group .el-button:last-child{border-top-left-radius:0;border-bottom-left-radius:0}.el-button-group .el-button:not(:first-child):not(:last-child){border-radius:0}.el-button-group .el-button:not(:last-child){margin-right:-1px}.el-button-group .el-button.is-active,.el-button-group .el-button:active,.el-button-group .el-button:focus,.el-button-group .el-button:hover{z-index:1}.el-message-box{text-align:left;display:inline-block;vertical-align:middle;background-color:#fff;width:420px;border-radius:3px;font-size:16px;overflow:hidden;-webkit-backface-visibility:hidden;backface-visibility:hidden}.el-message-box__wrapper{position:fixed;top:0;bottom:0;left:0;right:0;text-align:center}.el-message-box__wrapper::after{content:\"\";display:inline-block;height:100%;width:0;vertical-align:middle}.el-message-box__header{position:relative;padding:20px 20px 0}.el-message-box__content{padding:30px 20px;color:#48576a;font-size:14px;position:relative}.el-message-box__close{display:inline-block;position:absolute;top:19px;right:20px;color:#999;cursor:pointer;line-height:20px;text-align:center}.el-message-box__close:hover{color:#20a0ff}.el-message-box__input{padding-top:15px}.el-message-box__input input.invalid,.el-message-box__input input.invalid:focus{border-color:#ff4949}.el-message-box__errormsg{color:#ff4949;font-size:12px;min-height:18px;margin-top:2px}.el-message-box__title{padding-left:0;margin-bottom:0;font-size:16px;font-weight:700;height:18px;color:#333}.el-message-box__message{margin:0}.el-message-box__message p{margin:0;line-height:1.4}.el-message-box__btns{padding:10px 20px 15px;text-align:right}.el-message-box__btns button:nth-child(2){margin-left:10px}.el-message-box__btns-reverse{-ms-flex-direction:row-reverse;flex-direction:row-reverse}.el-message-box__status{position:absolute;top:50%;-ms-transform:translateY(-50%);transform:translateY(-50%);font-size:36px!important}.el-message-box__status.el-icon-circle-check{color:#13ce66}.el-message-box__status.el-icon-information{color:#50bfff}.el-message-box__status.el-icon-warning{color:#f7ba2a}.el-message-box__status.el-icon-circle-cross{color:#ff4949}.msgbox-fade-enter-active{animation:msgbox-fade-in .3s}.msgbox-fade-leave-active{animation:msgbox-fade-out .3s}@keyframes msgbox-fade-in{0%{transform:translate3d(0,-20px,0);opacity:0}100%{transform:translate3d(0,0,0);opacity:1}}@keyframes msgbox-fade-out{0%{transform:translate3d(0,0,0);opacity:1}100%{transform:translate3d(0,-20px,0);opacity:0}}.el-breadcrumb{font-size:13px;line-height:1}.el-breadcrumb__separator{margin:0 8px;color:#bfcbd9}.el-breadcrumb__item{float:left}.el-breadcrumb__item:last-child .el-breadcrumb__item__inner,.el-breadcrumb__item:last-child .el-breadcrumb__item__inner a,.el-breadcrumb__item:last-child .el-breadcrumb__item__inner a:hover,.el-breadcrumb__item:last-child .el-breadcrumb__item__inner:hover{color:#97a8be;cursor:text}.el-breadcrumb__item:last-child .el-breadcrumb__separator{display:none}.el-breadcrumb__item__inner,.el-breadcrumb__item__inner a{transition:color .15s linear;color:#48576a}.el-breadcrumb__item__inner a:hover,.el-breadcrumb__item__inner:hover{color:#20a0ff;cursor:pointer}.el-form--label-left .el-form-item__label{text-align:left}.el-form--label-top .el-form-item__label{float:none;display:inline-block;text-align:left;padding:0 0 10px}.el-form--inline .el-form-item{display:inline-block;margin-right:10px;vertical-align:top}.el-form--inline .el-form-item__label{float:none;display:inline-block}.el-form--inline .el-form-item__content{display:inline-block;vertical-align:top}.el-form--inline.el-form--label-top .el-form-item__content{display:block}.el-form-item{margin-bottom:22px}.el-form-item .el-form-item{margin-bottom:0}.el-form-item .el-form-item .el-form-item__content{margin-left:0!important}.el-form-item.is-error .el-input-group__append .el-input__inner,.el-form-item.is-error .el-input-group__prepend .el-input__inner,.el-form-item.is-error .el-input__inner{border-color:transparent}.el-form-item.is-error .el-input__inner,.el-form-item.is-error .el-textarea__inner{border-color:#ff4949}.el-form-item.is-required .el-form-item__label:before{content:'*';color:#ff4949;margin-right:4px}.el-form-item__label{text-align:right;vertical-align:middle;float:left;font-size:14px;color:#48576a;line-height:1;padding:11px 12px 11px 0;box-sizing:border-box}.el-form-item__content{line-height:36px;position:relative;font-size:14px}.el-form-item__error{color:#ff4949;font-size:12px;line-height:1;padding-top:4px;position:absolute;top:100%;left:0}.el-tabs__header{border-bottom:1px solid #d1dbe5;padding:0;position:relative;margin:0 0 15px}.el-tabs__active-bar{position:absolute;bottom:0;left:0;height:3px;background-color:#20a0ff;z-index:1;transition:transform .3s cubic-bezier(.645,.045,.355,1);list-style:none}.el-tabs__new-tab{float:right;border:1px solid #d3dce6;height:18px;width:18px;line-height:18px;margin:12px 0 9px 10px;border-radius:3px;text-align:center;font-size:12px;color:#d3dce6;cursor:pointer;transition:all .15s}.el-tabs__new-tab .el-icon-plus{-ms-transform:scale(.8,.8);transform:scale(.8,.8)}.el-tabs__new-tab:hover{color:#20a0ff}.el-tabs__nav-wrap{overflow:hidden;margin-bottom:-1px;position:relative}.el-tabs__nav-wrap.is-scrollable{padding:0 15px}.el-tabs__nav-scroll{overflow:hidden}.el-tabs__nav-next,.el-tabs__nav-prev{position:absolute;cursor:pointer;line-height:44px;font-size:12px;color:#8391a5}.el-tabs__nav-next{right:0}.el-tabs__nav-prev{left:0}.el-tabs__nav{white-space:nowrap;position:relative;transition:transform .3s;float:left}.el-tabs__item{padding:0 16px;height:42px;box-sizing:border-box;line-height:42px;display:inline-block;list-style:none;font-size:14px;color:#8391a5;position:relative}.el-tabs__item .el-icon-close{border-radius:50%;text-align:center;transition:all .3s cubic-bezier(.645,.045,.355,1);margin-left:5px}.el-tabs__item .el-icon-close:before{-ms-transform:scale(.7,.7);transform:scale(.7,.7);display:inline-block}.el-tabs__item .el-icon-close:hover{background-color:#97a8be;color:#fff}.el-tabs__item:hover{color:#1f2d3d;cursor:pointer}.el-tabs__item.is-disabled{color:#bbb;cursor:default}.el-tabs__item.is-active{color:#20a0ff}.el-tabs__content{overflow:hidden;position:relative}.el-tabs--card>.el-tabs__header .el-tabs__active-bar{display:none}.el-tag,.slideInLeft-transition,.slideInRight-transition{display:inline-block}.el-tabs--card>.el-tabs__header .el-tabs__item .el-icon-close{position:relative;font-size:12px;width:0;height:14px;vertical-align:middle;line-height:15px;overflow:hidden;top:-1px;right:-2px;-ms-transform-origin:100% 50%;transform-origin:100% 50%}.el-tabs--card>.el-tabs__header .el-tabs__item.is-active.is-closable .el-icon-close,.el-tabs--card>.el-tabs__header .el-tabs__item.is-closable:hover .el-icon-close{width:14px}.el-tabs--card>.el-tabs__header .el-tabs__item{border:1px solid transparent;transition:all .3s cubic-bezier(.645,.045,.355,1)}.el-tabs--card>.el-tabs__header .el-tabs__item.is-closable:hover{padding-right:9px;padding-left:9px}.el-tabs--card>.el-tabs__header .el-tabs__item.is-active{border:1px solid #d1dbe5;border-bottom-color:#fff;border-radius:4px 4px 0 0}.el-tabs--card>.el-tabs__header .el-tabs__item.is-active.is-closable{padding-right:16px;padding-left:16px}.el-tabs--border-card{background:#fff;border:1px solid #d1dbe5}.el-tabs--border-card>.el-tabs__content{padding:15px}.el-tabs--border-card>.el-tabs__header{background-color:#eef1f6;margin:0}.el-tabs--border-card>.el-tabs__header .el-tabs__item{transition:all .3s cubic-bezier(.645,.045,.355,1);border:1px solid transparent;border-top:0;margin-right:-1px;margin-left:-1px}.el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{background-color:#fff;border-right-color:#d1dbe5;border-left-color:#d1dbe5}.el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active:first-child{border-left-color:#d1dbe5}.el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active:last-child{border-right-color:#d1dbe5}.slideInRight-enter{animation:slideInRight-enter .3s}.slideInRight-leave{position:absolute;left:0;right:0;animation:slideInRight-leave .3s}.slideInLeft-enter{animation:slideInLeft-enter .3s}.slideInLeft-leave{position:absolute;left:0;right:0;animation:slideInLeft-leave .3s}@keyframes slideInRight-enter{0%{opacity:0;transform-origin:0 0;transform:translateX(100%)}to{opacity:1;transform-origin:0 0;transform:translateX(0)}}@keyframes slideInRight-leave{0%{transform-origin:0 0;transform:translateX(0);opacity:1}100%{transform-origin:0 0;transform:translateX(100%);opacity:0}}@keyframes slideInLeft-enter{0%{opacity:0;transform-origin:0 0;transform:translateX(-100%)}to{opacity:1;transform-origin:0 0;transform:translateX(0)}}@keyframes slideInLeft-leave{0%{transform-origin:0 0;transform:translateX(0);opacity:1}100%{transform-origin:0 0;transform:translateX(-100%);opacity:0}}.el-tag{background-color:#8391a5;padding:0 5px;height:24px;line-height:22px;font-size:12px;color:#fff;border-radius:4px;box-sizing:border-box;border:1px solid transparent;white-space:nowrap}.el-tag .el-icon-close{border-radius:50%;text-align:center;position:relative;cursor:pointer;font-size:12px;-ms-transform:scale(.75,.75);transform:scale(.75,.75);height:18px;width:18px;line-height:18px;vertical-align:middle;top:-1px;right:-2px}.el-tag .el-icon-close:hover{background-color:#fff;color:#8391a5}.el-tag--gray{background-color:#e4e8f1;border-color:#e4e8f1;color:#48576a}.el-tag--gray .el-tag__close:hover{background-color:#48576a;color:#fff}.el-tag--gray.is-hit{border-color:#48576a}.el-tag--primary{background-color:rgba(32,160,255,.1);border-color:rgba(32,160,255,.2);color:#20a0ff}.el-tag--primary .el-tag__close:hover{background-color:#20a0ff;color:#fff}.el-tag--primary.is-hit{border-color:#20a0ff}.el-tag--success{background-color:rgba(18,206,102,.1);border-color:rgba(18,206,102,.2);color:#13ce66}.el-tag--success .el-tag__close:hover{background-color:#13ce66;color:#fff}.el-tag--success.is-hit{border-color:#13ce66}.el-tag--warning{background-color:rgba(247,186,41,.1);border-color:rgba(247,186,41,.2);color:#f7ba2a}.el-tag--warning .el-tag__close:hover{background-color:#f7ba2a;color:#fff}.el-tag--warning.is-hit{border-color:#f7ba2a}.el-tag--danger{background-color:rgba(255,73,73,.1);border-color:rgba(255,73,73,.2);color:#ff4949}.el-tag--danger .el-tag__close:hover{background-color:#ff4949;color:#fff}.el-tag--danger.is-hit{border-color:#ff4949}.el-tree{cursor:default;background:#fff;border:1px solid #d1dbe5}.el-tree__empty-block{position:relative;min-height:60px;text-align:center;width:100%;height:100%}.el-tree__empty-text{position:absolute;left:50%;top:50%;-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);color:#5e7382}.el-tree-node{white-space:nowrap}.el-tree-node>.el-tree-node__children{overflow:hidden;background-color:transparent}.el-tree-node.is-expanded>.el-tree-node__children{display:block}.el-tree-node__expand-icon,.el-tree-node__label,.el-tree-node__loading-icon{display:inline-block;vertical-align:middle}.el-tree-node__content{line-height:36px;height:36px;cursor:pointer}.el-tree-node__content>.el-checkbox,.el-tree-node__content>.el-tree-node__expand-icon{margin-right:8px}.el-tree-node__content>.el-checkbox{vertical-align:middle}.el-tree-node__content:hover{background:#e4e8f1}.el-tree-node__expand-icon{cursor:pointer;width:0;height:0;margin-left:10px;border:6px solid transparent;border-right-width:0;border-left-color:#97a8be;border-left-width:7px;-ms-transform:rotate(0);transform:rotate(0);transition:transform .3s ease-in-out}.el-tree-node__expand-icon:hover{border-left-color:#999}.el-tree-node__expand-icon.expanded{-ms-transform:rotate(90deg);transform:rotate(90deg)}.el-tree-node__expand-icon.is-leaf{border-color:transparent;cursor:default}.el-tree-node__label{font-size:14px}.el-tree-node__loading-icon{margin-right:4px;font-size:14px;color:#97a8be}.el-tree--highlight-current .el-tree-node.is-current>.el-tree-node__content{background-color:#edf7ff}.el-alert{width:100%;padding:8px 16px;margin:0;box-sizing:border-box;border-radius:4px;position:relative;background-color:#fff;overflow:hidden;color:#fff;opacity:1;display:table;transition:opacity .2s}.el-alert .el-alert__description{color:#fff;font-size:12px;margin:5px 0 0}.el-alert--success{background-color:#13ce66}.el-alert--info{background-color:#50bfff}.el-alert--warning{background-color:#f7ba2a}.el-alert--error{background-color:#ff4949}.el-alert__content{display:table-cell;padding:0 8px}.el-alert__icon{font-size:16px;width:16px;display:table-cell;color:#fff;vertical-align:middle}.el-alert__icon.is-big{font-size:28px;width:28px}.el-alert__title{font-size:13px;line-height:18px}.el-alert__title.is-bold{font-weight:700}.el-alert__closebtn{font-size:12px;color:#fff;opacity:1;top:12px;right:15px;position:absolute;cursor:pointer}.el-alert-fade-enter,.el-alert-fade-leave-active,.el-loading-fade-enter,.el-loading-fade-leave-active,.el-notification-fade-leave-active{opacity:0}.el-alert__closebtn.is-customed{font-style:normal;font-size:13px;top:9px}.el-notification{width:330px;padding:20px;box-sizing:border-box;border-radius:2px;position:fixed;right:16px;background-color:#fff;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);transition:opacity .3s,transform .3s,right .3s,top .4s;overflow:hidden}.el-notification .el-icon-circle-check{color:#13ce66}.el-notification .el-icon-circle-cross{color:#ff4949}.el-notification .el-icon-information{color:#50bfff}.el-notification .el-icon-warning{color:#f7ba2a}.el-notification__group{margin-left:0}.el-notification__group.is-with-icon{margin-left:55px}.el-notification__title{font-weight:400;font-size:16px;color:#1f2d3d;margin:0}.el-notification__content{font-size:14px;line-height:21px;margin:10px 0 0;color:#8391a5;text-align:justify}.el-notification__icon{width:40px;height:40px;font-size:40px;float:left;position:relative;top:3px}.el-notification__closeBtn{top:20px;right:20px;position:absolute;cursor:pointer;color:#bfcbd9;font-size:14px}.el-notification__closeBtn:hover{color:#97a8be}.el-notification-fade-enter{-ms-transform:translateX(100%);transform:translateX(100%);right:0}.el-input-number{display:inline-block;overflow:hidden;width:180px;position:relative}.el-input-number .el-input{display:block}.el-input-number .el-input__inner{-webkit-appearance:none;-moz-appearance:none;appearance:none;padding-right:82px}.el-input-number.is-without-controls .el-input__inner{padding-right:10px}.el-input-number.is-disabled .el-input-number__decrease,.el-input-number.is-disabled .el-input-number__increase{border-color:#d1dbe5;color:#d1dbe5}.el-input-number.is-disabled .el-input-number__decrease:hover,.el-input-number.is-disabled .el-input-number__increase:hover{color:#d1dbe5;cursor:not-allowed}.el-input-number__decrease,.el-input-number__increase{height:auto;border-left:1px solid #bfcbd9;width:36px;line-height:34px;top:1px;text-align:center;color:#97a8be;cursor:pointer;position:absolute;z-index:1}.el-input-number__decrease:hover,.el-input-number__increase:hover{color:#20a0ff}.el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled),.el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled){border-color:#20a0ff}.el-input-number__decrease.is-disabled,.el-input-number__increase.is-disabled{color:#d1dbe5;cursor:not-allowed}.el-input-number__increase{right:0}.el-input-number__decrease{right:37px}.el-input-number--large{width:200px}.el-input-number--large .el-input-number__decrease,.el-input-number--large .el-input-number__increase{line-height:42px;width:42px;font-size:16px}.el-input-number--large .el-input-number__decrease{right:43px}.el-input-number--large .el-input__inner{padding-right:94px}.el-input-number--small{width:130px}.el-input-number--small .el-input-number__decrease,.el-input-number--small .el-input-number__increase{line-height:30px;width:30px;font-size:13px}.el-input-number--small .el-input-number__decrease{right:31px}.el-input-number--small .el-input__inner{padding-right:70px}.el-tooltip__popper{position:absolute;border-radius:4px;padding:10px;z-index:2000;font-size:12px;line-height:1.2}.el-tooltip__popper .popper__arrow,.el-tooltip__popper .popper__arrow::after{position:absolute;display:block;width:0;height:0;border-color:transparent;border-style:solid}.el-tooltip__popper .popper__arrow{border-width:6px}.el-tooltip__popper .popper__arrow::after{content:\" \";border-width:5px}.el-progress-bar__inner:after,.el-row:after,.el-row:before,.el-slider:after,.el-slider:before,.el-slider__button-wrapper:after,.el-upload-cover:after{content:\"\"}.el-tooltip__popper[x-placement^=top]{margin-bottom:12px}.el-tooltip__popper[x-placement^=top] .popper__arrow{bottom:-6px;border-top-color:#1f2d3d;border-bottom-width:0}.el-tooltip__popper[x-placement^=top] .popper__arrow::after{bottom:1px;margin-left:-5px;border-top-color:#1f2d3d;border-bottom-width:0}.el-tooltip__popper[x-placement^=bottom]{margin-top:12px}.el-tooltip__popper[x-placement^=bottom] .popper__arrow{top:-6px;border-top-width:0;border-bottom-color:#1f2d3d}.el-tooltip__popper[x-placement^=bottom] .popper__arrow::after{top:1px;margin-left:-5px;border-top-width:0;border-bottom-color:#1f2d3d}.el-tooltip__popper[x-placement^=right]{margin-left:12px}.el-tooltip__popper[x-placement^=right] .popper__arrow{left:-6px;border-right-color:#1f2d3d;border-left-width:0}.el-tooltip__popper[x-placement^=right] .popper__arrow::after{bottom:-5px;left:1px;border-right-color:#1f2d3d;border-left-width:0}.el-tooltip__popper[x-placement^=left]{margin-right:12px}.el-tooltip__popper[x-placement^=left] .popper__arrow{right:-6px;border-right-width:0;border-left-color:#1f2d3d}.el-tooltip__popper[x-placement^=left] .popper__arrow::after{right:1px;bottom:-5px;margin-left:-5px;border-right-width:0;border-left-color:#1f2d3d}.el-tooltip__popper.is-light{background:#fff;border:1px solid #1f2d3d}.el-tooltip__popper.is-light[x-placement^=top] .popper__arrow{border-top-color:#1f2d3d}.el-tooltip__popper.is-light[x-placement^=top] .popper__arrow::after{border-top-color:#fff}.el-tooltip__popper.is-light[x-placement^=bottom] .popper__arrow{border-bottom-color:#1f2d3d}.el-tooltip__popper.is-light[x-placement^=bottom] .popper__arrow::after{border-bottom-color:#fff}.el-tooltip__popper.is-light[x-placement^=left] .popper__arrow{border-left-color:#1f2d3d}.el-tooltip__popper.is-light[x-placement^=left] .popper__arrow::after{border-left-color:#fff}.el-tooltip__popper.is-light[x-placement^=right] .popper__arrow{border-right-color:#1f2d3d}.el-tooltip__popper.is-light[x-placement^=right] .popper__arrow::after{border-right-color:#fff}.el-tooltip__popper.is-dark{background:#1f2d3d;color:#fff}.el-slider:after,.el-slider:before{display:table}.el-slider__button-wrapper .el-tooltip,.el-slider__button-wrapper:after{display:inline-block;vertical-align:middle}.el-slider:after{clear:both}.el-slider__runway{width:100%;height:4px;margin:16px 0;background-color:#e4e8f1;border-radius:3px;position:relative;cursor:pointer;vertical-align:middle}.el-slider__runway.show-input{margin-right:160px;width:auto}.el-slider__runway.disabled{cursor:default}.el-slider__runway.disabled .el-slider__bar,.el-slider__runway.disabled .el-slider__button{background-color:#bfcbd9}.el-slider__runway.disabled .el-slider__button-wrapper.dragging,.el-slider__runway.disabled .el-slider__button-wrapper.hover,.el-slider__runway.disabled .el-slider__button-wrapper:hover{cursor:not-allowed}.el-slider__runway.disabled .el-slider__button.dragging,.el-slider__runway.disabled .el-slider__button.hover,.el-slider__runway.disabled .el-slider__button:hover{-ms-transform:scale(1);transform:scale(1);cursor:not-allowed}.el-slider__input{float:right;margin-top:3px}.el-slider__bar{height:4px;background-color:#20a0ff;border-top-left-radius:3px;border-bottom-left-radius:3px;position:absolute}.el-slider__button-wrapper{width:36px;height:36px;position:absolute;z-index:1001;top:-16px;-ms-transform:translateX(-50%);transform:translateX(-50%);background-color:transparent;text-align:center;user-select:none}.el-slider__button-wrapper:after{height:100%}.el-slider__button-wrapper.hover,.el-slider__button-wrapper:hover{cursor:-webkit-grab;cursor:grab}.el-slider__button-wrapper.dragging{cursor:-webkit-grabbing;cursor:grabbing}.el-slider__button{width:12px;height:12px;background-color:#20a0ff;border-radius:50%;transition:.2s;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.el-slider__button.dragging,.el-slider__button.hover,.el-slider__button:hover{-ms-transform:scale(1.5);transform:scale(1.5);background-color:#1c8de0}.el-slider__button.hover,.el-slider__button:hover{cursor:-webkit-grab;cursor:grab}.el-slider__button.dragging{cursor:-webkit-grabbing;cursor:grabbing}.el-slider__stop{position:absolute;width:4px;height:4px;border-radius:100%;background-color:#bfcbd9;-ms-transform:translateX(-50%);transform:translateX(-50%)}.el-loading-mask{position:absolute;z-index:10000;background-color:rgba(255,255,255,.9);margin:0;top:0;right:0;bottom:0;left:0;transition:opacity .3s}.el-loading-mask.is-fullscreen{position:fixed}.el-loading-mask.is-fullscreen .el-loading-spinner{margin-top:-25px}.el-loading-mask.is-fullscreen .el-loading-spinner .circular{width:50px;height:50px}.el-loading-spinner{top:50%;margin-top:-21px;width:100%;text-align:center;position:absolute}.el-col-pull-1,.el-col-pull-10,.el-col-pull-11,.el-col-pull-12,.el-col-pull-13,.el-col-pull-14,.el-col-pull-15,.el-col-pull-16,.el-col-pull-17,.el-col-pull-18,.el-col-pull-19,.el-col-pull-2,.el-col-pull-20,.el-col-pull-21,.el-col-pull-22,.el-col-pull-23,.el-col-pull-24,.el-col-pull-3,.el-col-pull-4,.el-col-pull-5,.el-col-pull-6,.el-col-pull-7,.el-col-pull-8,.el-col-pull-9,.el-col-push-1,.el-col-push-10,.el-col-push-11,.el-col-push-13,.el-col-push-14,.el-col-push-15,.el-col-push-16,.el-col-push-17,.el-col-push-18,.el-col-push-19,.el-col-push-2,.el-col-push-20,.el-col-push-21,.el-col-push-22,.el-col-push-23,.el-col-push-24,.el-col-push-3,.el-col-push-4,.el-col-push-5,.el-col-push-6,.el-col-push-7,.el-col-push-8,.el-col-push-9,.el-row{position:relative}.el-loading-spinner .el-loading-text{color:#20a0ff;margin:3px 0;font-size:14px}.el-loading-spinner .circular{width:42px;height:42px;animation:loading-rotate 2s linear infinite}.el-loading-spinner .path{animation:loading-dash 1.5s ease-in-out infinite;stroke-dasharray:90,150;stroke-dashoffset:0;stroke-width:2;stroke:#20a0ff;stroke-linecap:round}@keyframes loading-rotate{100%{transform:rotate(360deg)}}@keyframes loading-dash{0%{stroke-dasharray:1,200;stroke-dashoffset:0}50%{stroke-dasharray:90,150;stroke-dashoffset:-40px}100%{stroke-dasharray:90,150;stroke-dashoffset:-120px}}.el-row{box-sizing:border-box}.el-row:after,.el-row:before{display:table}.el-row:after{clear:both}.el-row--flex{display:-ms-flexbox;display:flex}.el-col-0,.el-row--flex:after,.el-row--flex:before{display:none}.el-row--flex.is-align-bottom{-ms-flex-align:end;align-items:flex-end}.el-row--flex.is-align-middle{-ms-flex-align:center;align-items:center}.el-row--flex.is-justify-space-around{-ms-flex-pack:distribute;justify-content:space-around}.el-row--flex.is-justify-space-between{-ms-flex-pack:justify;justify-content:space-between}.el-row--flex.is-justify-end{-ms-flex-pack:end;justify-content:flex-end}.el-row--flex.is-justify-center{-ms-flex-pack:center;justify-content:center}.el-col-1,.el-col-10,.el-col-11,.el-col-12,.el-col-13,.el-col-14,.el-col-15,.el-col-16,.el-col-17,.el-col-18,.el-col-19,.el-col-2,.el-col-20,.el-col-21,.el-col-22,.el-col-23,.el-col-24,.el-col-3,.el-col-4,.el-col-5,.el-col-6,.el-col-7,.el-col-8,.el-col-9{float:left;box-sizing:border-box}.el-col-1{width:4.16667%}.el-col-offset-1{margin-left:4.16667%}.el-col-pull-1{right:4.16667%}.el-col-push-1{left:4.16667%}.el-col-2{width:8.33333%}.el-col-offset-2{margin-left:8.33333%}.el-col-pull-2{right:8.33333%}.el-col-push-2{left:8.33333%}.el-col-3{width:12.5%}.el-col-offset-3{margin-left:12.5%}.el-col-pull-3{right:12.5%}.el-col-push-3{left:12.5%}.el-col-4{width:16.66667%}.el-col-offset-4{margin-left:16.66667%}.el-col-pull-4{right:16.66667%}.el-col-push-4{left:16.66667%}.el-col-5{width:20.83333%}.el-col-offset-5{margin-left:20.83333%}.el-col-pull-5{right:20.83333%}.el-col-push-5{left:20.83333%}.el-col-6{width:25%}.el-col-offset-6{margin-left:25%}.el-col-pull-6{right:25%}.el-col-push-6{left:25%}.el-col-7{width:29.16667%}.el-col-offset-7{margin-left:29.16667%}.el-col-pull-7{right:29.16667%}.el-col-push-7{left:29.16667%}.el-col-8{width:33.33333%}.el-col-offset-8{margin-left:33.33333%}.el-col-pull-8{right:33.33333%}.el-col-push-8{left:33.33333%}.el-col-9{width:37.5%}.el-col-offset-9{margin-left:37.5%}.el-col-pull-9{right:37.5%}.el-col-push-9{left:37.5%}.el-col-10{width:41.66667%}.el-col-offset-10{margin-left:41.66667%}.el-col-pull-10{right:41.66667%}.el-col-push-10{left:41.66667%}.el-col-11{width:45.83333%}.el-col-offset-11{margin-left:45.83333%}.el-col-pull-11{right:45.83333%}.el-col-push-11{left:45.83333%}.el-col-12{width:50%}.el-col-offset-12{margin-left:50%}.el-col-pull-12{right:50%}.el-col-push-12{position:relative;left:50%}.el-col-13{width:54.16667%}.el-col-offset-13{margin-left:54.16667%}.el-col-pull-13{right:54.16667%}.el-col-push-13{left:54.16667%}.el-col-14{width:58.33333%}.el-col-offset-14{margin-left:58.33333%}.el-col-pull-14{right:58.33333%}.el-col-push-14{left:58.33333%}.el-col-15{width:62.5%}.el-col-offset-15{margin-left:62.5%}.el-col-pull-15{right:62.5%}.el-col-push-15{left:62.5%}.el-col-16{width:66.66667%}.el-col-offset-16{margin-left:66.66667%}.el-col-pull-16{right:66.66667%}.el-col-push-16{left:66.66667%}.el-col-17{width:70.83333%}.el-col-offset-17{margin-left:70.83333%}.el-col-pull-17{right:70.83333%}.el-col-push-17{left:70.83333%}.el-col-18{width:75%}.el-col-offset-18{margin-left:75%}.el-col-pull-18{right:75%}.el-col-push-18{left:75%}.el-col-19{width:79.16667%}.el-col-offset-19{margin-left:79.16667%}.el-col-pull-19{right:79.16667%}.el-col-push-19{left:79.16667%}.el-col-20{width:83.33333%}.el-col-offset-20{margin-left:83.33333%}.el-col-pull-20{right:83.33333%}.el-col-push-20{left:83.33333%}.el-col-21{width:87.5%}.el-col-offset-21{margin-left:87.5%}.el-col-pull-21{right:87.5%}.el-col-push-21{left:87.5%}.el-col-22{width:91.66667%}.el-col-offset-22{margin-left:91.66667%}.el-col-pull-22{right:91.66667%}.el-col-push-22{left:91.66667%}.el-col-23{width:95.83333%}.el-col-offset-23{margin-left:95.83333%}.el-col-pull-23{right:95.83333%}.el-col-push-23{left:95.83333%}.el-col-24{width:100%}.el-col-offset-24{margin-left:100%}.el-col-pull-24{right:100%}.el-col-push-24{left:100%}@media (max-width:768px){.el-col-xs-0{display:none}.el-col-xs-1{width:4.16667%}.el-col-xs-offset-1{margin-left:4.16667%}.el-col-xs-pull-1{position:relative;right:4.16667%}.el-col-xs-push-1{position:relative;left:4.16667%}.el-col-xs-2{width:8.33333%}.el-col-xs-offset-2{margin-left:8.33333%}.el-col-xs-pull-2{position:relative;right:8.33333%}.el-col-xs-push-2{position:relative;left:8.33333%}.el-col-xs-3{width:12.5%}.el-col-xs-offset-3{margin-left:12.5%}.el-col-xs-pull-3{position:relative;right:12.5%}.el-col-xs-push-3{position:relative;left:12.5%}.el-col-xs-4{width:16.66667%}.el-col-xs-offset-4{margin-left:16.66667%}.el-col-xs-pull-4{position:relative;right:16.66667%}.el-col-xs-push-4{position:relative;left:16.66667%}.el-col-xs-5{width:20.83333%}.el-col-xs-offset-5{margin-left:20.83333%}.el-col-xs-pull-5{position:relative;right:20.83333%}.el-col-xs-push-5{position:relative;left:20.83333%}.el-col-xs-6{width:25%}.el-col-xs-offset-6{margin-left:25%}.el-col-xs-pull-6{position:relative;right:25%}.el-col-xs-push-6{position:relative;left:25%}.el-col-xs-7{width:29.16667%}.el-col-xs-offset-7{margin-left:29.16667%}.el-col-xs-pull-7{position:relative;right:29.16667%}.el-col-xs-push-7{position:relative;left:29.16667%}.el-col-xs-8{width:33.33333%}.el-col-xs-offset-8{margin-left:33.33333%}.el-col-xs-pull-8{position:relative;right:33.33333%}.el-col-xs-push-8{position:relative;left:33.33333%}.el-col-xs-9{width:37.5%}.el-col-xs-offset-9{margin-left:37.5%}.el-col-xs-pull-9{position:relative;right:37.5%}.el-col-xs-push-9{position:relative;left:37.5%}.el-col-xs-10{width:41.66667%}.el-col-xs-offset-10{margin-left:41.66667%}.el-col-xs-pull-10{position:relative;right:41.66667%}.el-col-xs-push-10{position:relative;left:41.66667%}.el-col-xs-11{width:45.83333%}.el-col-xs-offset-11{margin-left:45.83333%}.el-col-xs-pull-11{position:relative;right:45.83333%}.el-col-xs-push-11{position:relative;left:45.83333%}.el-col-xs-12{width:50%}.el-col-xs-offset-12{margin-left:50%}.el-col-xs-pull-12{position:relative;right:50%}.el-col-xs-push-12{position:relative;left:50%}.el-col-xs-13{width:54.16667%}.el-col-xs-offset-13{margin-left:54.16667%}.el-col-xs-pull-13{position:relative;right:54.16667%}.el-col-xs-push-13{position:relative;left:54.16667%}.el-col-xs-14{width:58.33333%}.el-col-xs-offset-14{margin-left:58.33333%}.el-col-xs-pull-14{position:relative;right:58.33333%}.el-col-xs-push-14{position:relative;left:58.33333%}.el-col-xs-15{width:62.5%}.el-col-xs-offset-15{margin-left:62.5%}.el-col-xs-pull-15{position:relative;right:62.5%}.el-col-xs-push-15{position:relative;left:62.5%}.el-col-xs-16{width:66.66667%}.el-col-xs-offset-16{margin-left:66.66667%}.el-col-xs-pull-16{position:relative;right:66.66667%}.el-col-xs-push-16{position:relative;left:66.66667%}.el-col-xs-17{width:70.83333%}.el-col-xs-offset-17{margin-left:70.83333%}.el-col-xs-pull-17{position:relative;right:70.83333%}.el-col-xs-push-17{position:relative;left:70.83333%}.el-col-xs-18{width:75%}.el-col-xs-offset-18{margin-left:75%}.el-col-xs-pull-18{position:relative;right:75%}.el-col-xs-push-18{position:relative;left:75%}.el-col-xs-19{width:79.16667%}.el-col-xs-offset-19{margin-left:79.16667%}.el-col-xs-pull-19{position:relative;right:79.16667%}.el-col-xs-push-19{position:relative;left:79.16667%}.el-col-xs-20{width:83.33333%}.el-col-xs-offset-20{margin-left:83.33333%}.el-col-xs-pull-20{position:relative;right:83.33333%}.el-col-xs-push-20{position:relative;left:83.33333%}.el-col-xs-21{width:87.5%}.el-col-xs-offset-21{margin-left:87.5%}.el-col-xs-pull-21{position:relative;right:87.5%}.el-col-xs-push-21{position:relative;left:87.5%}.el-col-xs-22{width:91.66667%}.el-col-xs-offset-22{margin-left:91.66667%}.el-col-xs-pull-22{position:relative;right:91.66667%}.el-col-xs-push-22{position:relative;left:91.66667%}.el-col-xs-23{width:95.83333%}.el-col-xs-offset-23{margin-left:95.83333%}.el-col-xs-pull-23{position:relative;right:95.83333%}.el-col-xs-push-23{position:relative;left:95.83333%}.el-col-xs-24{width:100%}.el-col-xs-offset-24{margin-left:100%}.el-col-xs-pull-24{position:relative;right:100%}.el-col-xs-push-24{position:relative;left:100%}}@media (min-width:768px){.el-col-sm-0{display:none}.el-col-sm-1{width:4.16667%}.el-col-sm-offset-1{margin-left:4.16667%}.el-col-sm-pull-1{position:relative;right:4.16667%}.el-col-sm-push-1{position:relative;left:4.16667%}.el-col-sm-2{width:8.33333%}.el-col-sm-offset-2{margin-left:8.33333%}.el-col-sm-pull-2{position:relative;right:8.33333%}.el-col-sm-push-2{position:relative;left:8.33333%}.el-col-sm-3{width:12.5%}.el-col-sm-offset-3{margin-left:12.5%}.el-col-sm-pull-3{position:relative;right:12.5%}.el-col-sm-push-3{position:relative;left:12.5%}.el-col-sm-4{width:16.66667%}.el-col-sm-offset-4{margin-left:16.66667%}.el-col-sm-pull-4{position:relative;right:16.66667%}.el-col-sm-push-4{position:relative;left:16.66667%}.el-col-sm-5{width:20.83333%}.el-col-sm-offset-5{margin-left:20.83333%}.el-col-sm-pull-5{position:relative;right:20.83333%}.el-col-sm-push-5{position:relative;left:20.83333%}.el-col-sm-6{width:25%}.el-col-sm-offset-6{margin-left:25%}.el-col-sm-pull-6{position:relative;right:25%}.el-col-sm-push-6{position:relative;left:25%}.el-col-sm-7{width:29.16667%}.el-col-sm-offset-7{margin-left:29.16667%}.el-col-sm-pull-7{position:relative;right:29.16667%}.el-col-sm-push-7{position:relative;left:29.16667%}.el-col-sm-8{width:33.33333%}.el-col-sm-offset-8{margin-left:33.33333%}.el-col-sm-pull-8{position:relative;right:33.33333%}.el-col-sm-push-8{position:relative;left:33.33333%}.el-col-sm-9{width:37.5%}.el-col-sm-offset-9{margin-left:37.5%}.el-col-sm-pull-9{position:relative;right:37.5%}.el-col-sm-push-9{position:relative;left:37.5%}.el-col-sm-10{width:41.66667%}.el-col-sm-offset-10{margin-left:41.66667%}.el-col-sm-pull-10{position:relative;right:41.66667%}.el-col-sm-push-10{position:relative;left:41.66667%}.el-col-sm-11{width:45.83333%}.el-col-sm-offset-11{margin-left:45.83333%}.el-col-sm-pull-11{position:relative;right:45.83333%}.el-col-sm-push-11{position:relative;left:45.83333%}.el-col-sm-12{width:50%}.el-col-sm-offset-12{margin-left:50%}.el-col-sm-pull-12{position:relative;right:50%}.el-col-sm-push-12{position:relative;left:50%}.el-col-sm-13{width:54.16667%}.el-col-sm-offset-13{margin-left:54.16667%}.el-col-sm-pull-13{position:relative;right:54.16667%}.el-col-sm-push-13{position:relative;left:54.16667%}.el-col-sm-14{width:58.33333%}.el-col-sm-offset-14{margin-left:58.33333%}.el-col-sm-pull-14{position:relative;right:58.33333%}.el-col-sm-push-14{position:relative;left:58.33333%}.el-col-sm-15{width:62.5%}.el-col-sm-offset-15{margin-left:62.5%}.el-col-sm-pull-15{position:relative;right:62.5%}.el-col-sm-push-15{position:relative;left:62.5%}.el-col-sm-16{width:66.66667%}.el-col-sm-offset-16{margin-left:66.66667%}.el-col-sm-pull-16{position:relative;right:66.66667%}.el-col-sm-push-16{position:relative;left:66.66667%}.el-col-sm-17{width:70.83333%}.el-col-sm-offset-17{margin-left:70.83333%}.el-col-sm-pull-17{position:relative;right:70.83333%}.el-col-sm-push-17{position:relative;left:70.83333%}.el-col-sm-18{width:75%}.el-col-sm-offset-18{margin-left:75%}.el-col-sm-pull-18{position:relative;right:75%}.el-col-sm-push-18{position:relative;left:75%}.el-col-sm-19{width:79.16667%}.el-col-sm-offset-19{margin-left:79.16667%}.el-col-sm-pull-19{position:relative;right:79.16667%}.el-col-sm-push-19{position:relative;left:79.16667%}.el-col-sm-20{width:83.33333%}.el-col-sm-offset-20{margin-left:83.33333%}.el-col-sm-pull-20{position:relative;right:83.33333%}.el-col-sm-push-20{position:relative;left:83.33333%}.el-col-sm-21{width:87.5%}.el-col-sm-offset-21{margin-left:87.5%}.el-col-sm-pull-21{position:relative;right:87.5%}.el-col-sm-push-21{position:relative;left:87.5%}.el-col-sm-22{width:91.66667%}.el-col-sm-offset-22{margin-left:91.66667%}.el-col-sm-pull-22{position:relative;right:91.66667%}.el-col-sm-push-22{position:relative;left:91.66667%}.el-col-sm-23{width:95.83333%}.el-col-sm-offset-23{margin-left:95.83333%}.el-col-sm-pull-23{position:relative;right:95.83333%}.el-col-sm-push-23{position:relative;left:95.83333%}.el-col-sm-24{width:100%}.el-col-sm-offset-24{margin-left:100%}.el-col-sm-pull-24{position:relative;right:100%}.el-col-sm-push-24{position:relative;left:100%}}@media (min-width:992px){.el-col-md-0{display:none}.el-col-md-1{width:4.16667%}.el-col-md-offset-1{margin-left:4.16667%}.el-col-md-pull-1{position:relative;right:4.16667%}.el-col-md-push-1{position:relative;left:4.16667%}.el-col-md-2{width:8.33333%}.el-col-md-offset-2{margin-left:8.33333%}.el-col-md-pull-2{position:relative;right:8.33333%}.el-col-md-push-2{position:relative;left:8.33333%}.el-col-md-3{width:12.5%}.el-col-md-offset-3{margin-left:12.5%}.el-col-md-pull-3{position:relative;right:12.5%}.el-col-md-push-3{position:relative;left:12.5%}.el-col-md-4{width:16.66667%}.el-col-md-offset-4{margin-left:16.66667%}.el-col-md-pull-4{position:relative;right:16.66667%}.el-col-md-push-4{position:relative;left:16.66667%}.el-col-md-5{width:20.83333%}.el-col-md-offset-5{margin-left:20.83333%}.el-col-md-pull-5{position:relative;right:20.83333%}.el-col-md-push-5{position:relative;left:20.83333%}.el-col-md-6{width:25%}.el-col-md-offset-6{margin-left:25%}.el-col-md-pull-6{position:relative;right:25%}.el-col-md-push-6{position:relative;left:25%}.el-col-md-7{width:29.16667%}.el-col-md-offset-7{margin-left:29.16667%}.el-col-md-pull-7{position:relative;right:29.16667%}.el-col-md-push-7{position:relative;left:29.16667%}.el-col-md-8{width:33.33333%}.el-col-md-offset-8{margin-left:33.33333%}.el-col-md-pull-8{position:relative;right:33.33333%}.el-col-md-push-8{position:relative;left:33.33333%}.el-col-md-9{width:37.5%}.el-col-md-offset-9{margin-left:37.5%}.el-col-md-pull-9{position:relative;right:37.5%}.el-col-md-push-9{position:relative;left:37.5%}.el-col-md-10{width:41.66667%}.el-col-md-offset-10{margin-left:41.66667%}.el-col-md-pull-10{position:relative;right:41.66667%}.el-col-md-push-10{position:relative;left:41.66667%}.el-col-md-11{width:45.83333%}.el-col-md-offset-11{margin-left:45.83333%}.el-col-md-pull-11{position:relative;right:45.83333%}.el-col-md-push-11{position:relative;left:45.83333%}.el-col-md-12{width:50%}.el-col-md-offset-12{margin-left:50%}.el-col-md-pull-12{position:relative;right:50%}.el-col-md-push-12{position:relative;left:50%}.el-col-md-13{width:54.16667%}.el-col-md-offset-13{margin-left:54.16667%}.el-col-md-pull-13{position:relative;right:54.16667%}.el-col-md-push-13{position:relative;left:54.16667%}.el-col-md-14{width:58.33333%}.el-col-md-offset-14{margin-left:58.33333%}.el-col-md-pull-14{position:relative;right:58.33333%}.el-col-md-push-14{position:relative;left:58.33333%}.el-col-md-15{width:62.5%}.el-col-md-offset-15{margin-left:62.5%}.el-col-md-pull-15{position:relative;right:62.5%}.el-col-md-push-15{position:relative;left:62.5%}.el-col-md-16{width:66.66667%}.el-col-md-offset-16{margin-left:66.66667%}.el-col-md-pull-16{position:relative;right:66.66667%}.el-col-md-push-16{position:relative;left:66.66667%}.el-col-md-17{width:70.83333%}.el-col-md-offset-17{margin-left:70.83333%}.el-col-md-pull-17{position:relative;right:70.83333%}.el-col-md-push-17{position:relative;left:70.83333%}.el-col-md-18{width:75%}.el-col-md-offset-18{margin-left:75%}.el-col-md-pull-18{position:relative;right:75%}.el-col-md-push-18{position:relative;left:75%}.el-col-md-19{width:79.16667%}.el-col-md-offset-19{margin-left:79.16667%}.el-col-md-pull-19{position:relative;right:79.16667%}.el-col-md-push-19{position:relative;left:79.16667%}.el-col-md-20{width:83.33333%}.el-col-md-offset-20{margin-left:83.33333%}.el-col-md-pull-20{position:relative;right:83.33333%}.el-col-md-push-20{position:relative;left:83.33333%}.el-col-md-21{width:87.5%}.el-col-md-offset-21{margin-left:87.5%}.el-col-md-pull-21{position:relative;right:87.5%}.el-col-md-push-21{position:relative;left:87.5%}.el-col-md-22{width:91.66667%}.el-col-md-offset-22{margin-left:91.66667%}.el-col-md-pull-22{position:relative;right:91.66667%}.el-col-md-push-22{position:relative;left:91.66667%}.el-col-md-23{width:95.83333%}.el-col-md-offset-23{margin-left:95.83333%}.el-col-md-pull-23{position:relative;right:95.83333%}.el-col-md-push-23{position:relative;left:95.83333%}.el-col-md-24{width:100%}.el-col-md-offset-24{margin-left:100%}.el-col-md-pull-24{position:relative;right:100%}.el-col-md-push-24{position:relative;left:100%}}@media (min-width:1200px){.el-col-lg-0{display:none}.el-col-lg-1{width:4.16667%}.el-col-lg-offset-1{margin-left:4.16667%}.el-col-lg-pull-1{position:relative;right:4.16667%}.el-col-lg-push-1{position:relative;left:4.16667%}.el-col-lg-2{width:8.33333%}.el-col-lg-offset-2{margin-left:8.33333%}.el-col-lg-pull-2{position:relative;right:8.33333%}.el-col-lg-push-2{position:relative;left:8.33333%}.el-col-lg-3{width:12.5%}.el-col-lg-offset-3{margin-left:12.5%}.el-col-lg-pull-3{position:relative;right:12.5%}.el-col-lg-push-3{position:relative;left:12.5%}.el-col-lg-4{width:16.66667%}.el-col-lg-offset-4{margin-left:16.66667%}.el-col-lg-pull-4{position:relative;right:16.66667%}.el-col-lg-push-4{position:relative;left:16.66667%}.el-col-lg-5{width:20.83333%}.el-col-lg-offset-5{margin-left:20.83333%}.el-col-lg-pull-5{position:relative;right:20.83333%}.el-col-lg-push-5{position:relative;left:20.83333%}.el-col-lg-6{width:25%}.el-col-lg-offset-6{margin-left:25%}.el-col-lg-pull-6{position:relative;right:25%}.el-col-lg-push-6{position:relative;left:25%}.el-col-lg-7{width:29.16667%}.el-col-lg-offset-7{margin-left:29.16667%}.el-col-lg-pull-7{position:relative;right:29.16667%}.el-col-lg-push-7{position:relative;left:29.16667%}.el-col-lg-8{width:33.33333%}.el-col-lg-offset-8{margin-left:33.33333%}.el-col-lg-pull-8{position:relative;right:33.33333%}.el-col-lg-push-8{position:relative;left:33.33333%}.el-col-lg-9{width:37.5%}.el-col-lg-offset-9{margin-left:37.5%}.el-col-lg-pull-9{position:relative;right:37.5%}.el-col-lg-push-9{position:relative;left:37.5%}.el-col-lg-10{width:41.66667%}.el-col-lg-offset-10{margin-left:41.66667%}.el-col-lg-pull-10{position:relative;right:41.66667%}.el-col-lg-push-10{position:relative;left:41.66667%}.el-col-lg-11{width:45.83333%}.el-col-lg-offset-11{margin-left:45.83333%}.el-col-lg-pull-11{position:relative;right:45.83333%}.el-col-lg-push-11{position:relative;left:45.83333%}.el-col-lg-12{width:50%}.el-col-lg-offset-12{margin-left:50%}.el-col-lg-pull-12{position:relative;right:50%}.el-col-lg-push-12{position:relative;left:50%}.el-col-lg-13{width:54.16667%}.el-col-lg-offset-13{margin-left:54.16667%}.el-col-lg-pull-13{position:relative;right:54.16667%}.el-col-lg-push-13{position:relative;left:54.16667%}.el-col-lg-14{width:58.33333%}.el-col-lg-offset-14{margin-left:58.33333%}.el-col-lg-pull-14{position:relative;right:58.33333%}.el-col-lg-push-14{position:relative;left:58.33333%}.el-col-lg-15{width:62.5%}.el-col-lg-offset-15{margin-left:62.5%}.el-col-lg-pull-15{position:relative;right:62.5%}.el-col-lg-push-15{position:relative;left:62.5%}.el-col-lg-16{width:66.66667%}.el-col-lg-offset-16{margin-left:66.66667%}.el-col-lg-pull-16{position:relative;right:66.66667%}.el-col-lg-push-16{position:relative;left:66.66667%}.el-col-lg-17{width:70.83333%}.el-col-lg-offset-17{margin-left:70.83333%}.el-col-lg-pull-17{position:relative;right:70.83333%}.el-col-lg-push-17{position:relative;left:70.83333%}.el-col-lg-18{width:75%}.el-col-lg-offset-18{margin-left:75%}.el-col-lg-pull-18{position:relative;right:75%}.el-col-lg-push-18{position:relative;left:75%}.el-col-lg-19{width:79.16667%}.el-col-lg-offset-19{margin-left:79.16667%}.el-col-lg-pull-19{position:relative;right:79.16667%}.el-col-lg-push-19{position:relative;left:79.16667%}.el-col-lg-20{width:83.33333%}.el-col-lg-offset-20{margin-left:83.33333%}.el-col-lg-pull-20{position:relative;right:83.33333%}.el-col-lg-push-20{position:relative;left:83.33333%}.el-col-lg-21{width:87.5%}.el-col-lg-offset-21{margin-left:87.5%}.el-col-lg-pull-21{position:relative;right:87.5%}.el-col-lg-push-21{position:relative;left:87.5%}.el-col-lg-22{width:91.66667%}.el-col-lg-offset-22{margin-left:91.66667%}.el-col-lg-pull-22{position:relative;right:91.66667%}.el-col-lg-push-22{position:relative;left:91.66667%}.el-col-lg-23{width:95.83333%}.el-col-lg-offset-23{margin-left:95.83333%}.el-col-lg-pull-23{position:relative;right:95.83333%}.el-col-lg-push-23{position:relative;left:95.83333%}.el-col-lg-24{width:100%}.el-col-lg-offset-24{margin-left:100%}.el-col-lg-pull-24{position:relative;right:100%}.el-col-lg-push-24{position:relative;left:100%}}.el-progress-bar__inner:after{display:inline-block;height:100%;vertical-align:middle}.el-upload{display:inline-block;text-align:center;cursor:pointer}.el-upload-list__item.is-success .el-icon-close,.el-upload__input{display:none}.el-upload iframe{position:absolute;z-index:-1;top:0;left:0;opacity:0;filter:alpha(opacity=0)}.el-upload__tip{font-size:12px;color:#8391a5;margin-top:7px}.el-upload--picture-card{background-color:#fbfdff;border:1px dashed #c0ccda;border-radius:6px;box-sizing:border-box;width:148px;height:148px;cursor:pointer;line-height:146px;vertical-align:top}.el-upload--picture-card i{font-size:28px;color:#8c939d}.el-upload--picture-card:hover{border-color:#20a0ff;color:#20a0ff}.el-upload-dragger{background-color:#fff;border:1px dashed #d9d9d9;border-radius:6px;box-sizing:border-box;width:360px;height:180px;text-align:center;cursor:pointer;position:relative;overflow:hidden}.el-upload-dragger .el-upload__text{color:#97a8be;font-size:14px;text-align:center}.el-upload-dragger .el-upload__text em{color:#20a0ff;font-style:normal}.el-upload-dragger .el-icon-upload{font-size:67px;color:#97a8be;margin:40px 0 16px;line-height:50px}.el-upload-dragger+.el-upload__tip{text-align:center}.el-upload-dragger~.el-upload__files{border-top:1px solid rgba(191,203,217,.2);margin-top:7px;padding-top:5px}.el-upload-dragger:hover{border-color:#20a0ff}.el-upload-dragger.is-dragover{background-color:rgba(32,159,255,.06);border:2px dashed #20a0ff}.el-upload-list{margin:0;padding:0;list-style:none}.el-upload-list__item{transition:all .5s cubic-bezier(.55,0,.1,1);font-size:14px;color:#48576a;line-height:1.8;margin-top:5px;box-sizing:border-box;border-radius:4px;width:100%;position:relative}.el-upload-list__item .el-progress-bar{margin-right:0;padding-right:0}.el-upload-list__item .el-progress{position:absolute;bottom:-3px;width:100%}.el-upload-list__item .el-progress__text{position:absolute;top:-10px;right:0}.el-upload-list__item:first-child{margin-top:10px}.el-upload-list__item:hover{background-color:#eef1f6}.el-upload-list__item.is-success .el-upload-list__item-name:hover{color:#20a0ff;cursor:pointer}.el-upload-list__item.is-success:hover .el-icon-close{display:inline-block;cursor:pointer;opacity:.75;-ms-transform:scale(.7);transform:scale(.7);color:#48576a}.el-upload-list__item.is-success:hover .el-icon-close:hover{opacity:1}.el-upload-list__item.is-success:hover .el-icon-check,.el-upload-list__item.is-success:hover .el-icon-circle-check{display:none}.el-upload-list__item-name{color:#48576a;display:block;margin-right:40px;overflow:hidden;padding-left:4px;text-overflow:ellipsis;transition:color .3s;white-space:nowrap}.el-upload-list__item-name [class^=el-icon]{color:#97a8be;margin-right:7px;height:100%;line-height:inherit}.el-upload-list__item-status-label{position:absolute;right:10px;top:0;line-height:inherit;color:#13ce66}.el-upload-list__item-delete{position:absolute;right:10px;top:0;font-size:12px;color:#48576a;display:none}.el-upload-list__item-delete:hover{color:#20a0ff}.el-upload-list--picture-card{margin:0;display:inline;vertical-align:top}.el-upload-list--picture-card .el-upload-list__item{overflow:hidden;background-color:#fff;border:1px solid #c0ccda;border-radius:6px;box-sizing:border-box;width:148px;height:148px;margin:0 8px 8px 0;display:inline-block}.el-upload-list--picture-card .el-upload-list__item-name,.el-upload-list--picture-card .el-upload-list__item:hover .el-upload-list__item-status-label{display:none}.el-upload-list--picture-card .el-upload-list__item-thumbnail{width:100%;height:100%}.el-upload-list--picture-card .el-upload-list__item-status-label{position:absolute;right:-15px;top:-6px;width:40px;height:24px;background:#13ce66;text-align:center;-ms-transform:rotate(45deg);transform:rotate(45deg);box-shadow:0 0 1pc 1px rgba(0,0,0,.2)}.el-upload-list--picture-card .el-upload-list__item-status-label i{font-size:12px;margin-top:11px;-ms-transform:rotate(-45deg) scale(.8);transform:rotate(-45deg) scale(.8);color:#fff}.el-upload-list--picture-card .el-upload-list__item-actions{position:absolute;width:100%;height:100%;left:0;top:0;cursor:default;text-align:center;color:#fff;opacity:0;font-size:20px;background-color:rgba(0,0,0,.5);transition:opacity .3s}.el-upload-list--picture-card .el-upload-list__item-actions:after{display:inline-block;content:\"\";height:100%;vertical-align:middle}.el-upload-list--picture-card .el-upload-list__item-actions span{display:none;cursor:pointer}.el-upload-list--picture-card .el-upload-list__item-actions span+span{margin-left:15px}.el-upload-list--picture-card .el-upload-list__item-actions .el-upload-list__item-delete{position:static;font-size:inherit;color:inherit}.el-upload-list--picture-card .el-upload-list__item-actions:hover{opacity:1}.el-upload-list--picture-card .el-upload-list__item-actions:hover span{display:inline-block}.el-upload-list--picture-card .el-progress{top:50%;left:50%;-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);bottom:auto;width:126px}.el-upload-list--picture-card .el-progress .el-progress__text{top:50%}.el-upload-list--picture .el-upload-list__item{overflow:hidden;background-color:#fff;border:1px solid #c0ccda;border-radius:6px;box-sizing:border-box;margin-top:10px;padding:10px 10px 10px 90px;height:92px}.el-upload-list--picture .el-upload-list__item:hover .el-upload-list__item-status-label{background:0 0;box-shadow:none;top:-2px;right:-12px}.el-upload-list--picture .el-upload-list__item:hover .el-upload-list__item-status-label .el-icon-close{-ms-transform:rotate(45deg) scale(.7);transform:rotate(45deg) scale(.7)}.el-upload-list--picture .el-upload-list__item.is-success .el-upload-list__item-name{line-height:70px;margin-top:0}.el-upload-list--picture .el-upload-list__item.is-success .el-upload-list__item-name i{display:none}.el-upload-list--picture .el-upload-list__item-thumbnail{vertical-align:middle;display:inline-block;width:70px;height:70px;float:left;margin-left:-80px}.el-upload-list--picture .el-upload-list__item-name{display:block;margin-top:20px}.el-upload-list--picture .el-upload-list__item-name i{font-size:70px;line-height:1;position:absolute;left:9px;top:10px}.el-upload-list--picture .el-upload-list__item-status-label{position:absolute;right:-17px;top:-7px;width:46px;height:26px;background:#13ce66;text-align:center;-ms-transform:rotate(45deg);transform:rotate(45deg);box-shadow:0 1px 1px #ccc}.el-upload-list--picture .el-upload-list__item-status-label i{font-size:12px;margin-top:12px;-ms-transform:rotate(-45deg) scale(.8);transform:rotate(-45deg) scale(.8);color:#fff}.el-upload-list--picture .el-progress{position:static}.el-upload-cover{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;z-index:10;cursor:default}.el-upload-cover:after{display:inline-block;height:100%;vertical-align:middle}.el-upload-cover img{display:block;width:100%;height:100%}.el-upload-cover+.el-upload__inner{opacity:0;position:relative;z-index:1}.el-upload-cover__label{position:absolute;right:-15px;top:-6px;width:40px;height:24px;background:#13ce66;text-align:center;-ms-transform:rotate(45deg);transform:rotate(45deg);box-shadow:0 0 1pc 1px rgba(0,0,0,.2)}.el-upload-cover__label i{font-size:12px;margin-top:11px;-ms-transform:rotate(-45deg) scale(.8);transform:rotate(-45deg) scale(.8);color:#fff}.el-upload-cover__progress{display:inline-block;vertical-align:middle;position:static;width:243px}.el-upload-cover__progress+.el-upload__inner{opacity:0}.el-upload-cover__content{position:absolute;top:0;left:0;width:100%;height:100%}.el-upload-cover__interact{position:absolute;bottom:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,.72);text-align:center}.el-upload-cover__interact .btn{display:inline-block;color:#fff;font-size:14px;cursor:pointer;vertical-align:middle;transition:transform .3s cubic-bezier(.23,1,.32,1) .1s,opacity .3s cubic-bezier(.23,1,.32,1) .1s;margin-top:60px}.el-upload-cover__interact .btn span{opacity:0;transition:opacity .15s linear}.el-upload-cover__interact .btn:not(:first-child){margin-left:35px}.el-upload-cover__interact .btn:hover{-ms-transform:translateY(-13px);transform:translateY(-13px)}.el-upload-cover__interact .btn:hover span{opacity:1}.el-upload-cover__interact .btn i{color:#fff;display:block;font-size:24px;line-height:inherit;margin:0 auto 5px}.el-upload-cover__title{position:absolute;bottom:0;left:0;background-color:#fff;height:36px;width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:400;text-align:left;padding:0 10px;margin:0;line-height:36px;font-size:14px;color:#48576a}.el-progress{position:relative;line-height:1}.el-progress.is-exception .el-progress-bar__inner{background-color:#ff4949}.el-progress.is-exception .el-progress__text{color:#ff4949}.el-progress.is-success .el-progress-bar__inner{background-color:#13ce66}.el-progress.is-success .el-progress__text{color:#13ce66}.el-progress__text{font-size:14px;color:#48576a;display:inline-block;vertical-align:middle;margin-left:10px;line-height:1}.el-progress__text i{vertical-align:middle;display:block}.el-progress--circle{display:inline-block}.el-progress--circle .el-progress__text{position:absolute;top:50%;left:0;width:100%;text-align:center;margin:0;-ms-transform:translate(0,-50%);transform:translate(0,-50%)}.el-progress--circle .el-progress__text i{vertical-align:middle;display:inline-block}.el-progress--without-text .el-progress__text{display:none}.el-progress--without-text .el-progress-bar{padding-right:0;margin-right:0;display:block}.el-badge,.el-badge__content,.el-progress-bar,.el-spinner{display:inline-block}.el-progress--text-inside .el-progress-bar{padding-right:0;margin-right:0}.el-progress-bar{padding-right:50px;vertical-align:middle;width:100%;margin-right:-55px;box-sizing:border-box}.el-progress-bar__outer{height:6px;border-radius:100px;background-color:#e4e8f1;overflow:hidden;position:relative;vertical-align:middle}.el-progress-bar__inner{position:absolute;left:0;top:0;height:100%;background-color:#20a0ff;text-align:right;border-radius:100px;line-height:1}.el-progress-bar__innerText{display:inline-block;vertical-align:middle;color:#fff;font-size:12px;margin:0 5px}@keyframes progress{0%{background-position:0 0}100%{background-position:32px 0}}.el-time-spinner{width:100%;white-space:nowrap}.el-spinner{vertical-align:middle}.el-spinner-inner{animation:rotate 2s linear infinite;width:50px;height:50px}.el-spinner-inner .path{stroke:#ececec;stroke-linecap:round;animation:dash 1.5s ease-in-out infinite}@keyframes rotate{100%{transform:rotate(360deg)}}@keyframes dash{0%{stroke-dasharray:1,150;stroke-dashoffset:0}50%{stroke-dasharray:90,150;stroke-dashoffset:-35}100%{stroke-dasharray:90,150;stroke-dashoffset:-124}}.el-message{box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04);min-width:300px;padding:10px 12px;box-sizing:border-box;border-radius:2px;position:fixed;left:50%;top:20px;-ms-transform:translateX(-50%);transform:translateX(-50%);background-color:#fff;transition:opacity .3s,transform .4s;overflow:hidden}.el-message .el-icon-circle-check{color:#13ce66}.el-message .el-icon-circle-cross{color:#ff4949}.el-message .el-icon-information{color:#50bfff}.el-message .el-icon-warning{color:#f7ba2a}.el-message__group{margin-left:38px;position:relative;height:20px;line-height:20px}.el-message__group p{font-size:14px;margin:0 34px 0 0;white-space:nowrap;color:#8391a5;text-align:justify}.el-step__head,.el-steps.is-horizontal.is-center{text-align:center}.el-message__group.is-with-icon{margin-left:0}.el-message__img{width:40px;height:40px;position:absolute;left:0;top:0}.el-message__icon{vertical-align:middle;margin-right:8px}.el-message__closeBtn{top:3px;right:0;position:absolute;cursor:pointer;color:#bfcbd9;font-size:14px}.el-message__closeBtn:hover{color:#97a8be}.el-message-fade-enter,.el-message-fade-leave-active{opacity:0;-ms-transform:translate(-50%,-100%);transform:translate(-50%,-100%)}.el-badge{position:relative;vertical-align:middle}.el-badge__content{background-color:#ff4949;border-radius:10px;color:#fff;font-size:12px;height:18px;line-height:18px;padding:0 6px;text-align:center;white-space:nowrap;border:1px solid #fff}.el-badge__content.is-dot{width:8px;height:8px;padding:0;right:0;border-radius:50%}.el-badge__content.is-fixed{top:0;right:10px;position:absolute;-ms-transform:translateY(-50%) translateX(100%);transform:translateY(-50%) translateX(100%)}.el-rate__icon,.el-rate__item{position:relative;display:inline-block}.el-badge__content.is-fixed.is-dot{right:5px}.el-card{border:1px solid #d1dbe5;border-radius:4px;background-color:#fff;overflow:hidden;box-shadow:0 2px 4px 0 rgba(0,0,0,.12),0 0 6px 0 rgba(0,0,0,.04)}.el-card__header{padding:18px 20px;border-bottom:1px solid #d1dbe5;box-sizing:border-box}.el-card__body{padding:20px}.el-rate{height:20px;line-height:1}.el-rate__item{font-size:0;vertical-align:middle}.el-rate__icon{font-size:18px;margin-right:6px;color:#bfcbd9;transition:.3s}.el-rate__decimal,.el-rate__icon .path2{position:absolute;top:0;left:0}.el-rate__icon.hover{-ms-transform:scale(1.15);transform:scale(1.15)}.el-rate__decimal{display:inline-block;overflow:hidden}.el-rate__text{font-size:14px;vertical-align:middle}.el-steps{font-size:0}.el-steps>:last-child .el-step__line{display:none}.el-step.is-horizontal,.el-step.is-vertical .el-step__head,.el-step.is-vertical .el-step__main,.el-step__line{display:inline-block}.el-steps.is-horizontal{white-space:nowrap}.el-step{position:relative;vertical-align:top}.el-step.is-vertical .el-step__main{padding-left:10px}.el-step__line{position:absolute;border-color:inherit;background-color:#bfcbd9}.el-step__line.is-vertical{width:2px;box-sizing:border-box;top:32px;bottom:0;left:15px}.el-step__line.is-horizontal{top:15px;height:2px;left:32px;right:0}.el-step__line.is-icon.is-horizontal{right:4px}.el-step__line-inner{display:block;border-width:1px;border-style:solid;border-color:inherit;transition:all 150ms;width:0;height:0}.el-step__icon{display:block;line-height:28px}.el-step__icon>*{line-height:inherit;vertical-align:middle}.el-step__head{width:28px;height:28px;border-radius:50%;background-color:transparent;line-height:28px;font-size:28px;vertical-align:top;transition:all 150ms}.el-carousel__arrow,.el-carousel__button{margin:0;transition:.3s;cursor:pointer;outline:0}.el-step__head.is-finish{color:#20a0ff;border-color:#20a0ff}.el-step__head.is-error{color:#ff4949;border-color:#ff4949}.el-step__head.is-success{color:#13ce66;border-color:#13ce66}.el-step__head.is-process,.el-step__head.is-wait{color:#bfcbd9;border-color:#bfcbd9}.el-step__head.is-text{font-size:14px;border-width:2px;border-style:solid}.el-step__head.is-text.is-finish{color:#fff;background-color:#20a0ff;border-color:#20a0ff}.el-step__head.is-text.is-error{color:#fff;background-color:#ff4949;border-color:#ff4949}.el-step__head.is-text.is-success{color:#fff;background-color:#13ce66;border-color:#13ce66}.el-step__head.is-text.is-wait{color:#bfcbd9;background-color:#fff;border-color:#bfcbd9}.el-step__head.is-text.is-process{color:#fff;background-color:#bfcbd9;border-color:#bfcbd9}.el-step__main{white-space:normal;padding-right:10px;text-align:left}.el-step__title{font-size:14px;line-height:32px;display:inline-block}.el-step__title.is-finish{font-weight:700;color:#20a0ff}.el-step__title.is-error{font-weight:700;color:#ff4949}.el-step__title.is-success{font-weight:700;color:#13ce66}.el-step__title.is-wait{font-weight:400;color:#97a8be}.el-step__title.is-process{font-weight:700;color:#48576a}.el-step__description{font-size:12px;font-weight:400;line-height:14px}.el-step__description.is-finish{color:#20a0ff}.el-step__description.is-error{color:#ff4949}.el-step__description.is-success{color:#13ce66}.el-step__description.is-wait{color:#bfcbd9}.el-step__description.is-process{color:#8391a5}.el-carousel{overflow-x:hidden;position:relative}.el-carousel__container{position:relative;height:300px}.el-carousel__arrow{border:none;padding:0;width:36px;height:36px;border-radius:50%;background-color:rgba(31,45,61,.11);color:#fff;position:absolute;top:50%;z-index:10;-ms-transform:translateY(-50%);transform:translateY(-50%);text-align:center;font-size:12px}.el-carousel__arrow:hover{background-color:rgba(31,45,61,.23)}.el-carousel__arrow i{cursor:pointer}.el-carousel__arrow--left{left:16px}.el-carousel__arrow--right{right:16px}.el-carousel__indicators{position:absolute;list-style:none;bottom:0;left:50%;-ms-transform:translateX(-50%);transform:translateX(-50%);margin:0;padding:0;z-index:2}.el-carousel__indicators--outside{bottom:26px;text-align:center;position:static;-ms-transform:none;transform:none}.el-carousel__indicators--outside .el-carousel__indicator:hover button{opacity:.64}.el-carousel__indicators--outside button{background-color:#8391a5;opacity:.24}.el-carousel__indicator{display:inline-block;background-color:transparent;padding:12px 4px;cursor:pointer}.el-carousel__indicator:hover button{opacity:.72}.el-carousel__indicator.is-active button{opacity:1}.el-carousel__button{display:block;opacity:.48;width:30px;height:2px;background-color:#fff;border:none;padding:0}.carousel-arrow-left-enter,.carousel-arrow-left-leave-active{-ms-transform:translateY(-50%) translateX(-10px);transform:translateY(-50%) translateX(-10px);opacity:0}.carousel-arrow-right-enter,.carousel-arrow-right-leave-active{-ms-transform:translateY(-50%) translateX(10px);transform:translateY(-50%) translateX(10px);opacity:0}.el-scrollbar{overflow:hidden;position:relative}.el-scrollbar:active .el-scrollbar__bar,.el-scrollbar:focus .el-scrollbar__bar,.el-scrollbar:hover .el-scrollbar__bar{opacity:1;transition:opacity 340ms ease-out}.el-scrollbar__wrap{overflow:scroll}.el-scrollbar__wrap--hidden-default::-webkit-scrollbar{width:0;height:0}.el-scrollbar__thumb{position:relative;display:block;width:0;height:0;cursor:pointer;border-radius:inherit;background-color:rgba(151,168,190,.3);transition:.3s background-color}.el-scrollbar__thumb:hover{background-color:rgba(151,168,190,.5)}.el-scrollbar__bar{position:absolute;right:2px;bottom:2px;z-index:1;border-radius:4px;opacity:0;transition:opacity 120ms ease-out}.el-scrollbar__bar.is-horizontal{height:6px;left:2px}.el-scrollbar__bar.is-horizontal>div{height:100%}.el-scrollbar__bar.is-vertical{width:6px;top:2px}.el-scrollbar__bar.is-vertical>div{width:100%}.el-carousel__item{position:absolute;top:0;left:0;width:100%;height:100%;display:inline-block;transition:.4s ease-in-out;overflow:hidden;z-index:0}.el-carousel__item.is-active{z-index:2}.el-carousel__item--card{width:50%}.el-carousel__item--card.is-in-stage{cursor:pointer;z-index:1}.el-carousel__item--card.is-in-stage.is-hover .el-carousel__mask,.el-carousel__item--card.is-in-stage:hover .el-carousel__mask{opacity:.12}.el-carousel__item--card.is-active{z-index:2}.el-carousel__mask{position:absolute;width:100%;height:100%;top:0;left:0;background-color:#fff;opacity:.24;transition:.2s}.el-collapse{border:1px solid #dfe6ec;border-radius:0}.el-collapse-item:last-child{margin-bottom:-1px}.el-collapse-item.is-active>.el-collapse-item__header .el-collapse-item__header__arrow{-ms-transform:rotate(90deg);transform:rotate(90deg)}.el-collapse-item__header{height:43px;line-height:43px;padding-left:15px;background-color:#fff;color:#48576a;cursor:pointer;border-bottom:1px solid #dfe6ec;font-size:13px}.el-collapse-item__header__arrow{margin-right:8px;transition:transform .3s}.el-collapse-item__wrap{will-change:height;background-color:#fbfdff;overflow:hidden;box-sizing:border-box;border-bottom:1px solid #dfe6ec}.el-collapse-item__content{padding:10px 15px;font-size:13px;color:#1f2d3d;line-height:1.769230769230769}.el-input{position:relative;font-size:14px;display:inline-block;width:100%}.el-input.is-disabled .el-input__inner{background-color:#eef1f6;border-color:#d1dbe5;color:#bbb;cursor:not-allowed}.el-input.is-disabled .el-input__inner::-webkit-input-placeholder{color:#bfcbd9}.el-input.is-disabled .el-input__inner::-moz-placeholder{color:#bfcbd9}.el-input.is-disabled .el-input__inner:-ms-input-placeholder{color:#bfcbd9}.el-input.is-disabled .el-input__inner::placeholder{color:#bfcbd9}.el-input.is-active .el-input__inner{outline:0;border-color:#20a0ff}.el-input__inner{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:#fff;background-image:none;border-radius:4px;border:1px solid #bfcbd9;box-sizing:border-box;color:#1f2d3d;display:block;font-size:inherit;height:36px;line-height:1;outline:0;padding:3px 10px;transition:border-color .2s cubic-bezier(.645,.045,.355,1);width:100%}.el-input__inner::-webkit-input-placeholder{color:#97a8be}.el-input__inner::-moz-placeholder{color:#97a8be}.el-input__inner:-ms-input-placeholder{color:#97a8be}.el-input__inner::placeholder{color:#97a8be}.el-input__inner:hover{border-color:#8391a5}.el-input__inner:focus{outline:0;border-color:#20a0ff}.el-input__icon{position:absolute;width:35px;height:100%;right:0;top:0;text-align:center;color:#bfcbd9;transition:all .3s}.el-input__icon:after{content:'';height:100%;width:0;display:inline-block;vertical-align:middle}.el-input__icon+.el-input__inner{padding-right:35px}.el-input__icon.is-clickable:hover{cursor:pointer;color:#8391a5}.el-input__icon.is-clickable:hover+.el-input__inner{border-color:#8391a5}.el-input--large{font-size:16px}.el-input--large .el-input__inner{height:42px}.el-input--small{font-size:13px}.el-input--small .el-input__inner{height:30px}.el-input--mini{font-size:12px}.el-input--mini .el-input__inner{height:22px}.el-input-group{line-height:normal;display:inline-table;width:100%;border-collapse:separate}.el-input-group>.el-input__inner{vertical-align:middle;display:table-cell}.el-input-group__append,.el-input-group__prepend{background-color:#fbfdff;color:#97a8be;vertical-align:middle;display:table-cell;position:relative;border:1px solid #bfcbd9;border-radius:4px;padding:0 10px;width:1%;white-space:nowrap}.el-input-group--prepend .el-input__inner,.el-input-group__append{border-top-left-radius:0;border-bottom-left-radius:0}.el-input-group--append .el-input__inner,.el-input-group__prepend{border-top-right-radius:0;border-bottom-right-radius:0}.el-input-group__append .el-button,.el-input-group__append .el-select,.el-input-group__prepend .el-button,.el-input-group__prepend .el-select{display:block;margin:-10px}.el-input-group__append .el-button,.el-input-group__append .el-select .el-input__inner,.el-input-group__append .el-select:hover .el-input__inner,.el-input-group__prepend .el-button,.el-input-group__prepend .el-select .el-input__inner,.el-input-group__prepend .el-select:hover .el-input__inner{border-color:transparent;background-color:transparent;color:inherit;border-top:0;border-bottom:0}.el-input-group__append .el-button,.el-input-group__append .el-input,.el-input-group__prepend .el-button,.el-input-group__prepend .el-input{font-size:inherit}.el-cascader__label,.el-textarea__inner{width:100%;font-size:14px;box-sizing:border-box}.el-input-group__prepend{border-right:0}.el-input-group__append{border-left:0}.el-textarea{display:inline-block;width:100%;vertical-align:bottom}.el-textarea.is-disabled .el-textarea__inner{background-color:#eef1f6;border-color:#d1dbe5;color:#bbb;cursor:not-allowed}.el-textarea.is-disabled .el-textarea__inner::-webkit-input-placeholder{color:#bfcbd9}.el-textarea.is-disabled .el-textarea__inner::-moz-placeholder{color:#bfcbd9}.el-textarea.is-disabled .el-textarea__inner:-ms-input-placeholder{color:#bfcbd9}.el-textarea.is-disabled .el-textarea__inner::placeholder{color:#bfcbd9}.el-textarea__inner{display:block;resize:vertical;padding:5px 7px;line-height:1.5;color:#1f2d3d;background-color:#fff;background-image:none;border:1px solid #bfcbd9;border-radius:4px;transition:border-color .2s cubic-bezier(.645,.045,.355,1)}.el-textarea__inner::-webkit-input-placeholder{color:#97a8be}.el-textarea__inner::-moz-placeholder{color:#97a8be}.el-textarea__inner:-ms-input-placeholder{color:#97a8be}.el-textarea__inner::placeholder{color:#97a8be}.el-textarea__inner:hover{border-color:#8391a5}.el-textarea__inner:focus{outline:0;border-color:#20a0ff}.el-cascader{display:inline-block;position:relative;background-color:#fff}.el-cascader .el-input,.el-cascader .el-input__inner{cursor:pointer;background-color:transparent;z-index:1}.el-cascader .el-input__icon{transition:none}.el-cascader .el-icon-caret-bottom{transition:transform .3s}.el-cascader .el-icon-caret-bottom.is-reverse{-ms-transform:rotate(180deg);transform:rotateZ(180deg)}.el-cascader.is-disabled .el-cascader__label{z-index:2;color:#bbb}.el-cascader__label{position:absolute;left:0;top:0;height:100%;line-height:34px;padding:0 25px 0 10px;color:#1f2d3d;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;cursor:pointer;text-align:left}.el-cascader__label span{color:#97a8be}.el-cascader--large{font-size:16px}.el-cascader--large .el-cascader__label{line-height:40px}.el-cascader--small{font-size:13px}.el-cascader--small .el-cascader__label{line-height:28px}.el-cascader-menus{white-space:nowrap;background:#fff;position:absolute;margin:5px 0;z-index:2;border:1px solid #d1dbe5;border-radius:2px;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.04)}.el-cascader-menu{display:inline-block;vertical-align:top;height:204px;overflow:auto;border-right:solid 1px #d1dbe5;background-color:#fff;box-sizing:border-box;margin:0;padding:6px 0;min-width:160px}.el-cascader-menu:last-child{border-right:0}.el-cascader-menu__item{font-size:14px;padding:8px 30px 8px 10px;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#48576a;height:36px;line-height:1.5;box-sizing:border-box;cursor:pointer}.el-cascader-menu__item:hover{background-color:#e4e8f1}.el-cascader-menu__item.selected{color:#fff;background-color:#20a0ff}.el-cascader-menu__item.selected.hover{background-color:#1c8de0}.el-cascader-menu__item.is-active{color:#fff;background-color:#20a0ff}.el-cascader-menu__item.is-active:hover{background-color:#1c8de0}.el-cascader-menu__item.is-disabled{color:#bfcbd9;background-color:#fff;cursor:not-allowed}.el-cascader-menu__item.is-disabled:hover{background-color:#fff}.el-cascader-menu__item__keyword{font-weight:700}.el-cascader-menu__item--extensible:after{font-family:element-icons;content:\"\\e606\";font-size:12px;-ms-transform:scale(.8);transform:scale(.8);color:#bfcbd9;position:absolute;right:10px;margin-top:1px}.el-cascader-menu--flexible{height:auto;max-height:180px;overflow:auto}.el-cascader-menu--flexible .el-cascader-menu__item{overflow:visible}.el-color-hue-slider{position:relative;box-sizing:border-box;width:280px;height:12px;background-color:red;padding:0 2px}.el-color-hue-slider.is-vertical{width:12px;height:180px;padding:2px 0}.el-color-hue-slider.is-vertical .el-color-hue-slider__bar{background:linear-gradient(to bottom,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red 100%)}.el-color-hue-slider.is-vertical .el-color-hue-slider__thumb{left:0;top:0;width:100%;height:4px}.el-color-hue-slider__bar{position:relative;background:linear-gradient(to right,red 0,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,red 100%);height:100%}.el-color-hue-slider__thumb{position:absolute;cursor:pointer;box-sizing:border-box;left:0;top:0;width:4px;height:100%;border-radius:1px;background:#fff;border:1px solid #f0f0f0;box-shadow:0 0 2px rgba(0,0,0,.6);z-index:1}.el-color-svpanel{position:relative;width:280px;height:180px}.el-color-svpanel__black,.el-color-svpanel__white{position:absolute;top:0;left:0;right:0;bottom:0}.el-color-svpanel__white{background:linear-gradient(to right,#fff,rgba(255,255,255,0))}.el-color-svpanel__black{background:linear-gradient(to top,#000,rgba(0,0,0,0))}.el-color-svpanel__cursor{position:absolute}.el-color-svpanel__cursor>div{cursor:head;width:4px;height:4px;box-shadow:0 0 0 1.5px #fff,inset 0 0 1px 1px rgba(0,0,0,.3),0 0 1px 2px rgba(0,0,0,.4);border-radius:50%;-ms-transform:translate(-2px,-2px);transform:translate(-2px,-2px)}.el-color-alpha-slider{position:relative;box-sizing:border-box;width:280px;height:12px;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==)}.el-color-alpha-slider.is-vertical{width:20px;height:180px}.el-color-alpha-slider.is-vertical .el-color-alpha-slider__bar{background:linear-gradient(to bottom,rgba(255,255,255,0) 0,rgba(255,255,255,1) 100%)}.el-color-alpha-slider.is-vertical .el-color-alpha-slider__thumb{left:0;top:0;width:100%;height:4px}.el-color-alpha-slider__bar{position:relative;background:linear-gradient(to right,rgba(255,255,255,0) 0,rgba(255,255,255,1) 100%);height:100%}.el-color-alpha-slider__thumb{position:absolute;cursor:pointer;box-sizing:border-box;left:0;top:0;width:4px;height:100%;border-radius:1px;background:#fff;border:1px solid #f0f0f0;box-shadow:0 0 2px rgba(0,0,0,.6);z-index:1}.el-color-dropdown{width:300px}.el-color-dropdown__main-wrapper{margin-bottom:6px}.el-color-dropdown__main-wrapper::after{content:\"\";display:table;clear:both}.el-color-dropdown__btns{margin-top:6px;text-align:right}.el-color-dropdown__value{float:left;line-height:26px;font-size:12px;color:#1f2d3d}.el-color-dropdown__btn{border:1px solid #dcdcdc;color:#333;line-height:24px;border-radius:2px;padding:0 20px;cursor:pointer;background-color:transparent;outline:0;font-size:12px}.el-color-dropdown__btn[disabled]{color:#ccc;cursor:not-allowed}.el-color-dropdown__btn:hover{color:#20a0ff;border-color:#20a0ff}.el-color-dropdown__link-btn{cursor:pointer;color:#20a0ff;text-decoration:none;padding:15px;font-size:12px}.el-color-dropdown__link-btn:hover{color:#4db3ff}.el-color-picker{display:inline-block;position:relative}.el-color-picker__trigger{display:inline-block;box-sizing:border-box;height:36px;padding:6px;border:1px solid #bfcbd9;border-radius:4px;font-size:0}.el-color-picker__color{position:relative;display:inline-block;box-sizing:border-box;vertical-align:middle;border:1px solid #666;width:22px;height:22px;text-align:center}.el-color-picker__color.is-alpha{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==)}.el-color-picker__color-inner{position:absolute;left:0;top:0;right:0;bottom:0}.el-color-picker__empty{font-size:12px;vertical-align:middle;margin-top:4px;color:#666}.el-color-picker__icon{display:inline-block;position:relative;vertical-align:middle;margin-left:8px;width:12px;color:#888;font-size:12px}.el-color-picker__panel{position:absolute;z-index:10;padding:6px;background-color:#fff;border:1px solid #d1dbe5;box-shadow:0 2px 4px rgba(0,0,0,.12),0 0 6px rgba(0,0,0,.12)}", ""]);
 
 /***/ }),
 /* 244 */
@@ -7655,7 +7562,7 @@ exports.push([module.i, "\n.pagination {\n    margin-top: 0;\n}\n.btn.btn-border
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(6)();
-exports.push([module.i, "\n[v-cloak][data-v-3b6e44a9] {\n  display: none;\n}\n.vuetable th.sortable[data-v-3b6e44a9]:hover {\n  color: #2185d0;\n  cursor: pointer;\n}\n.vuetable-actions[data-v-3b6e44a9] {\n  width: 15%;\n  padding: 12px 0px;\n  text-align: center;\n}\n.vuetable-pagination[data-v-3b6e44a9] {\n  background: #f9fafb !important;\n}\n.vuetable-pagination-info[data-v-3b6e44a9] {\n  margin-top: auto;\n  margin-bottom: auto;\n}\n", ""]);
+exports.push([module.i, "\n[v-cloak] {\n  display: none;\n}\n.vuetable th.sortable:hover {\n  color: #2185d0;\n  cursor: pointer;\n}\n.vuetable-actions {\n  width: 15%;\n  padding: 12px 0px;\n  text-align: center;\n}\n.vuetable-pagination {\n  background: #f9fafb !important;\n}\n.vuetable-pagination-info {\n  margin-top: auto;\n  margin-bottom: auto;\n}\n", ""]);
 
 /***/ }),
 /* 250 */
@@ -39261,7 +39168,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "title": "配信済み"
       }
-    }) : _vm._e()]), _vm._v("\n                        " + _vm._s(message.message) + "\n                    ")]), _vm._v(" "), (message.attach_file) ? _c('div', {
+    }) : _vm._e()]), _vm._v(" "), _c('span', {
+      domProps: {
+        "innerHTML": _vm._s(_vm.AutoLinker(message.message))
+      }
+    })]), _vm._v(" "), (message.attach_file) ? _c('div', {
       staticClass: "attachment"
     }, [_c('h4', [_vm._v("添付ファイル:")]), _vm._v(" "), _c('p', {
       staticClass: "filename"
@@ -39920,7 +39831,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('table', {
     class: ['vuetable', _vm.css.tableClass]
-  }, [_c('thead', [_c('tr', [_vm._l((_vm.tableFields), function(field) {
+  }, [_c('thead', [_c('tr', [_vm._l((_vm.fields), function(field) {
     return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.extractName(field.name) == '__checkbox') ? _c('th', {
       class: ['vuetable-th-checkbox-' + _vm.trackBy, field.titleClass]
     }, [_c('input', {
@@ -39939,35 +39850,39 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       class: ['vuetable-th-component-' + _vm.trackBy, field.titleClass, {
         'sortable': _vm.isSortable(field)
       }],
-      domProps: {
-        "innerHTML": _vm._s(_vm.renderTitle(field))
-      },
       on: {
         "click": function($event) {
           _vm.orderBy(field, $event)
         }
       }
-    }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__slot') ? _c('th', {
+    }, [_vm._v("\n                " + _vm._s(field.title || '') + "\n                "), (_vm.isInCurrentSortGroup(field) && field.title) ? _c('i', {
+      class: _vm.sortIcon(field),
+      style: ({
+        opacity: _vm.sortIconOpacity(field)
+      })
+    }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__slot') ? _c('th', {
       class: ['vuetable-th-slot-' + _vm.extractArgs(field.name), field.titleClass, {
         'sortable': _vm.isSortable(field)
       }],
-      domProps: {
-        "innerHTML": _vm._s(_vm.renderTitle(field))
-      },
       on: {
         "click": function($event) {
           _vm.orderBy(field, $event)
         }
       }
-    }) : _vm._e(), _vm._v(" "), (_vm.apiMode && _vm.extractName(field.name) == '__sequence') ? _c('th', {
+    }, [_vm._v("\n                " + _vm._s(field.title || '') + "\n                "), (_vm.isInCurrentSortGroup(field) && field.title) ? _c('i', {
+      class: _vm.sortIcon(field),
+      style: ({
+        opacity: _vm.sortIconOpacity(field)
+      })
+    }) : _vm._e()]) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__sequence') ? _c('th', {
       class: ['vuetable-th-sequence', field.titleClass || ''],
       domProps: {
-        "innerHTML": _vm._s(_vm.renderTitle(field))
+        "innerHTML": _vm._s(field.title || '')
       }
     }) : _vm._e(), _vm._v(" "), (_vm.notIn(_vm.extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])) ? _c('th', {
       class: ['vuetable-th-' + field.name, field.titleClass || ''],
       domProps: {
-        "innerHTML": _vm._s(_vm.renderTitle(field))
+        "innerHTML": _vm._s(field.title || '')
       }
     }) : _vm._e()] : [_c('th', {
       class: ['vuetable-th-' + field.name, field.titleClass, {
@@ -39976,22 +39891,21 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       attrs: {
         "id": '_' + field.name
       },
-      domProps: {
-        "innerHTML": _vm._s(_vm.renderTitle(field))
-      },
       on: {
         "click": function($event) {
           _vm.orderBy(field, $event)
         }
       }
-    })]] : _vm._e()]
-  })], 2)]), _vm._v(" "), _c('tbody', {
-    staticClass: "vuetable-body"
-  }, [_vm._l((_vm.tableData), function(item, index) {
+    }, [_vm._v("\n              " + _vm._s(_vm.getTitle(field)) + " \n              "), (_vm.isInCurrentSortGroup(field)) ? _c('i', {
+      class: _vm.sortIcon(field),
+      style: ({
+        opacity: _vm.sortIconOpacity(field)
+      })
+    }) : _vm._e()])]] : _vm._e()]
+  })], 2)]), _vm._v(" "), _c('tbody', {}, [_vm._l((_vm.tableData), function(item, index) {
     return [_c('tr', {
       class: _vm.onRowClass(item, index),
       attrs: {
-        "item-index": index,
         "render": _vm.onRowChanged(item)
       },
       on: {
@@ -40002,18 +39916,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.onRowClicked(item, $event)
         }
       }
-    }, [_vm._l((_vm.tableFields), function(field) {
-      return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.apiMode && _vm.extractName(field.name) == '__sequence') ? _c('td', {
+    }, [_vm._l((_vm.fields), function(field) {
+      return [(field.visible) ? [(_vm.isSpecialField(field.name)) ? [(_vm.extractName(field.name) == '__sequence') ? _c('td', {
         class: ['vuetable-sequence', field.dataClass],
         domProps: {
           "innerHTML": _vm._s(_vm.tablePagination.from + index)
         }
       }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__handle') ? _c('td', {
-        class: ['vuetable-handle', field.dataClass],
-        domProps: {
-          "innerHTML": _vm._s(_vm.renderIconTag(['handle-icon', _vm.css.handleIcon]))
-        }
-      }) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__checkbox') ? _c('td', {
+        class: ['vuetable-handle', field.dataClass]
+      }, [_c('i', {
+        class: ['sort-handle', _vm.css.sortHandleIcon]
+      })]) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) == '__checkbox') ? _c('td', {
         class: ['vuetable-checkboxes', field.dataClass]
       }, [_c('input', {
         attrs: {
@@ -40033,15 +39946,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         tag: "component",
         attrs: {
           "row-data": item,
-          "row-index": index,
-          "row-field": field.sortField
+          "row-index": index
         }
       })], 1) : _vm._e(), _vm._v(" "), (_vm.extractName(field.name) === '__slot') ? _c('td', {
         class: ['vuetable-slot', field.dataClass]
       }, [_vm._t(_vm.extractArgs(field.name), null, {
         rowData: item,
-        rowIndex: index,
-        rowField: field.sortField
+        rowIndex: index
       })], 2) : _vm._e()] : [(_vm.hasCallback(field)) ? _c('td', {
         class: field.dataClass,
         domProps: {
@@ -40069,16 +39980,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           }
         }
       })]] : _vm._e()]
-    })], 2), _vm._v(" "), (_vm.useDetailRow) ? [(_vm.isVisibleDetailRow(item[_vm.trackBy])) ? _c('tr', {
+    })], 2), _vm._v(" "), (_vm.useDetailRow) ? [_c('transition', {
+      attrs: {
+        "name": _vm.detailRowTransition
+      }
+    }, [(_vm.isVisibleDetailRow(item[_vm.trackBy])) ? _c('tr', {
       class: [_vm.css.detailRowClass],
       on: {
         "click": function($event) {
           _vm.onDetailRowClick(item, $event)
         }
-      }
-    }, [_c('transition', {
-      attrs: {
-        "name": _vm.detailRowTransition
       }
     }, [_c('td', {
       attrs: {
@@ -40090,14 +40001,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         "row-data": item,
         "row-index": index
       }
-    })], 1)])], 1) : _vm._e()] : _vm._e()]
-  }), _vm._v(" "), (_vm.lessThanMinRows) ? _vm._l((_vm.blankRows), function(i) {
-    return _c('tr', {
-      staticClass: "blank-row"
-    }, [_vm._l((_vm.tableFields), function(field) {
-      return [(field.visible) ? _c('td', [_vm._v(" ")]) : _vm._e()]
-    })], 2)
-  }) : _vm._e()], 2)])
+    })], 1)]) : _vm._e()])] : _vm._e()]
+  })], 2)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -40509,8 +40414,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.loadPage(1)
       }
     }
-  }, [(_vm.css.icons.first != '') ? _c('i', {
-    class: [_vm.css.icons.first]
+  }, [(_vm.icons.first != '') ? _c('i', {
+    class: [_vm.icons.first]
   }) : _c('span', [_vm._v("«")])]), _vm._v(" "), _c('a', {
     class: ['btn-nav', _vm.css.linkClass, _vm.isOnFirstPage ? _vm.css.disabledClass : ''],
     on: {
@@ -40518,8 +40423,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.loadPage('prev')
       }
     }
-  }, [(_vm.css.icons.next != '') ? _c('i', {
-    class: [_vm.css.icons.prev]
+  }, [(_vm.icons.next != '') ? _c('i', {
+    class: [_vm.icons.prev]
   }) : _c('span', [_vm._v(" ‹")])]), _vm._v(" "), (_vm.notEnoughPages) ? [_vm._l((_vm.totalPage), function(n) {
     return [_c('a', {
       class: [_vm.css.pageClass, _vm.isCurrentPage(n) ? _vm.css.activeClass : ''],
@@ -40551,8 +40456,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.loadPage('next')
       }
     }
-  }, [(_vm.css.icons.next != '') ? _c('i', {
-    class: [_vm.css.icons.next]
+  }, [(_vm.icons.next != '') ? _c('i', {
+    class: [_vm.icons.next]
   }) : _c('span', [_vm._v("› ")])]), _vm._v(" "), _c('a', {
     class: ['btn-nav', _vm.css.linkClass, _vm.isOnLastPage ? _vm.css.disabledClass : ''],
     on: {
@@ -40560,8 +40465,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.loadPage(_vm.totalPage)
       }
     }
-  }, [(_vm.css.icons.last != '') ? _c('i', {
-    class: [_vm.css.icons.last]
+  }, [(_vm.icons.last != '') ? _c('i', {
+    class: [_vm.icons.last]
   }) : _c('span', [_vm._v("»")])])], 2) : _vm._e()
 },staticRenderFns: []}
 module.exports.render._withStripped = true
@@ -42096,7 +42001,7 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
-    class: ['vuetable-pagination-info', _vm.css.infoClass],
+    class: ['vuetable-pagination-info', _vm.infoClass],
     domProps: {
       "innerHTML": _vm._s(_vm.paginationInfo)
     }
@@ -42732,13 +42637,13 @@ var content = __webpack_require__(249);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(8)("1c712f56", content, false);
+var update = __webpack_require__(8)("fd6769fe", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../../../css-loader/index.js!../../../vue-loader/lib/style-rewriter.js?id=data-v-3b6e44a9&scoped=true!../../../vue-loader/lib/selector.js?type=styles&index=0!./Vuetable.vue", function() {
-     var newContent = require("!!../../../css-loader/index.js!../../../vue-loader/lib/style-rewriter.js?id=data-v-3b6e44a9&scoped=true!../../../vue-loader/lib/selector.js?type=styles&index=0!./Vuetable.vue");
+   module.hot.accept("!!../../../css-loader/index.js!../../../vue-loader/lib/style-rewriter.js?id=data-v-3b6e44a9!../../../vue-loader/lib/selector.js?type=styles&index=0!./Vuetable.vue", function() {
+     var newContent = require("!!../../../css-loader/index.js!../../../vue-loader/lib/style-rewriter.js?id=data-v-3b6e44a9!../../../vue-loader/lib/selector.js?type=styles&index=0!./Vuetable.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -42949,6 +42854,4209 @@ module.exports = function listToStyles (parentId, list) {
 __webpack_require__(161);
 __webpack_require__(163);
 module.exports = __webpack_require__(162);
+
+
+/***/ }),
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * Autolinker.js
+ * 1.4.3
+ *
+ * Copyright(c) 2017 Gregory Jacobs <greg@greg-jacobs.com>
+ * MIT License
+ *
+ * https://github.com/gregjacobs/Autolinker.js
+ */
+;(function(root, factory) {
+  if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root.Autolinker = factory();
+  }
+}(this, function() {
+/**
+ * @class Autolinker
+ * @extends Object
+ *
+ * Utility class used to process a given string of text, and wrap the matches in
+ * the appropriate anchor (&lt;a&gt;) tags to turn them into links.
+ *
+ * Any of the configuration options may be provided in an Object (map) provided
+ * to the Autolinker constructor, which will configure how the {@link #link link()}
+ * method will process the links.
+ *
+ * For example:
+ *
+ *     var autolinker = new Autolinker( {
+ *         newWindow : false,
+ *         truncate  : 30
+ *     } );
+ *
+ *     var html = autolinker.link( "Joe went to www.yahoo.com" );
+ *     // produces: 'Joe went to <a href="http://www.yahoo.com">yahoo.com</a>'
+ *
+ *
+ * The {@link #static-link static link()} method may also be used to inline
+ * options into a single call, which may be more convenient for one-off uses.
+ * For example:
+ *
+ *     var html = Autolinker.link( "Joe went to www.yahoo.com", {
+ *         newWindow : false,
+ *         truncate  : 30
+ *     } );
+ *     // produces: 'Joe went to <a href="http://www.yahoo.com">yahoo.com</a>'
+ *
+ *
+ * ## Custom Replacements of Links
+ *
+ * If the configuration options do not provide enough flexibility, a {@link #replaceFn}
+ * may be provided to fully customize the output of Autolinker. This function is
+ * called once for each URL/Email/Phone#/Hashtag/Mention (Twitter, Instagram)
+ * match that is encountered.
+ *
+ * For example:
+ *
+ *     var input = "...";  // string with URLs, Email Addresses, Phone #s, Hashtags, and Mentions (Twitter, Instagram)
+ *
+ *     var linkedText = Autolinker.link( input, {
+ *         replaceFn : function( match ) {
+ *             console.log( "href = ", match.getAnchorHref() );
+ *             console.log( "text = ", match.getAnchorText() );
+ *
+ *             switch( match.getType() ) {
+ *                 case 'url' :
+ *                     console.log( "url: ", match.getUrl() );
+ *
+ *                     if( match.getUrl().indexOf( 'mysite.com' ) === -1 ) {
+ *                         var tag = match.buildTag();  // returns an `Autolinker.HtmlTag` instance, which provides mutator methods for easy changes
+ *                         tag.setAttr( 'rel', 'nofollow' );
+ *                         tag.addClass( 'external-link' );
+ *
+ *                         return tag;
+ *
+ *                     } else {
+ *                         return true;  // let Autolinker perform its normal anchor tag replacement
+ *                     }
+ *
+ *                 case 'email' :
+ *                     var email = match.getEmail();
+ *                     console.log( "email: ", email );
+ *
+ *                     if( email === "my@own.address" ) {
+ *                         return false;  // don't auto-link this particular email address; leave as-is
+ *                     } else {
+ *                         return;  // no return value will have Autolinker perform its normal anchor tag replacement (same as returning `true`)
+ *                     }
+ *
+ *                 case 'phone' :
+ *                     var phoneNumber = match.getPhoneNumber();
+ *                     console.log( phoneNumber );
+ *
+ *                     return '<a href="http://newplace.to.link.phone.numbers.to/">' + phoneNumber + '</a>';
+ *
+ *                 case 'hashtag' :
+ *                     var hashtag = match.getHashtag();
+ *                     console.log( hashtag );
+ *
+ *                     return '<a href="http://newplace.to.link.hashtag.handles.to/">' + hashtag + '</a>';
+ *
+ *                 case 'mention' :
+ *                     var mention = match.getMention();
+ *                     console.log( mention );
+ *
+ *                     return '<a href="http://newplace.to.link.mention.to/">' + mention + '</a>';
+ *             }
+ *         }
+ *     } );
+ *
+ *
+ * The function may return the following values:
+ *
+ * - `true` (Boolean): Allow Autolinker to replace the match as it normally
+ *   would.
+ * - `false` (Boolean): Do not replace the current match at all - leave as-is.
+ * - Any String: If a string is returned from the function, the string will be
+ *   used directly as the replacement HTML for the match.
+ * - An {@link Autolinker.HtmlTag} instance, which can be used to build/modify
+ *   an HTML tag before writing out its HTML text.
+ *
+ * @constructor
+ * @param {Object} [cfg] The configuration options for the Autolinker instance,
+ *   specified in an Object (map).
+ */
+var Autolinker = function( cfg ) {
+	cfg = cfg || {};
+
+	this.version = Autolinker.version;
+
+	this.urls = this.normalizeUrlsCfg( cfg.urls );
+	this.email = typeof cfg.email === 'boolean' ? cfg.email : true;
+	this.phone = typeof cfg.phone === 'boolean' ? cfg.phone : true;
+	this.hashtag = cfg.hashtag || false;
+	this.mention = cfg.mention || false;
+	this.newWindow = typeof cfg.newWindow === 'boolean' ? cfg.newWindow : true;
+	this.stripPrefix = this.normalizeStripPrefixCfg( cfg.stripPrefix );
+	this.stripTrailingSlash = typeof cfg.stripTrailingSlash === 'boolean' ? cfg.stripTrailingSlash : true;
+
+	// Validate the value of the `mention` cfg
+	var mention = this.mention;
+	if( mention !== false && mention !== 'twitter' && mention !== 'instagram' ) {
+		throw new Error( "invalid `mention` cfg - see docs" );
+	}
+
+	// Validate the value of the `hashtag` cfg
+	var hashtag = this.hashtag;
+	if( hashtag !== false && hashtag !== 'twitter' && hashtag !== 'facebook' && hashtag !== 'instagram' ) {
+		throw new Error( "invalid `hashtag` cfg - see docs" );
+	}
+
+	this.truncate = this.normalizeTruncateCfg( cfg.truncate );
+	this.className = cfg.className || '';
+	this.replaceFn = cfg.replaceFn || null;
+	this.context = cfg.context || this;
+
+	this.htmlParser = null;
+	this.matchers = null;
+	this.tagBuilder = null;
+};
+
+
+
+/**
+ * Automatically links URLs, Email addresses, Phone Numbers, Twitter handles,
+ * Hashtags, and Mentions found in the given chunk of HTML. Does not link URLs
+ * found within HTML tags.
+ *
+ * For instance, if given the text: `You should go to http://www.yahoo.com`,
+ * then the result will be `You should go to &lt;a href="http://www.yahoo.com"&gt;http://www.yahoo.com&lt;/a&gt;`
+ *
+ * Example:
+ *
+ *     var linkedText = Autolinker.link( "Go to google.com", { newWindow: false } );
+ *     // Produces: "Go to <a href="http://google.com">google.com</a>"
+ *
+ * @static
+ * @param {String} textOrHtml The HTML or text to find matches within (depending
+ *   on if the {@link #urls}, {@link #email}, {@link #phone}, {@link #mention},
+ *   {@link #hashtag}, and {@link #mention} options are enabled).
+ * @param {Object} [options] Any of the configuration options for the Autolinker
+ *   class, specified in an Object (map). See the class description for an
+ *   example call.
+ * @return {String} The HTML text, with matches automatically linked.
+ */
+Autolinker.link = function( textOrHtml, options ) {
+	var autolinker = new Autolinker( options );
+	return autolinker.link( textOrHtml );
+};
+
+
+
+/**
+ * Parses the input `textOrHtml` looking for URLs, email addresses, phone
+ * numbers, username handles, and hashtags (depending on the configuration
+ * of the Autolinker instance), and returns an array of {@link Autolinker.match.Match}
+ * objects describing those matches (without making any replacements).
+ *
+ * Note that if parsing multiple pieces of text, it is slightly more efficient
+ * to create an Autolinker instance, and use the instance-level {@link #parse}
+ * method.
+ *
+ * Example:
+ *
+ *     var matches = Autolinker.parse( "Hello google.com, I am asdf@asdf.com", {
+ *         urls: true,
+ *         email: true
+ *     } );
+ *
+ *     console.log( matches.length );           // 2
+ *     console.log( matches[ 0 ].getType() );   // 'url'
+ *     console.log( matches[ 0 ].getUrl() );    // 'google.com'
+ *     console.log( matches[ 1 ].getType() );   // 'email'
+ *     console.log( matches[ 1 ].getEmail() );  // 'asdf@asdf.com'
+ *
+ * @static
+ * @param {String} textOrHtml The HTML or text to find matches within
+ *   (depending on if the {@link #urls}, {@link #email}, {@link #phone},
+ *   {@link #hashtag}, and {@link #mention} options are enabled).
+ * @param {Object} [options] Any of the configuration options for the Autolinker
+ *   class, specified in an Object (map). See the class description for an
+ *   example call.
+ * @return {Autolinker.match.Match[]} The array of Matches found in the
+ *   given input `textOrHtml`.
+ */
+Autolinker.parse = function( textOrHtml, options ) {
+	var autolinker = new Autolinker( options );
+	return autolinker.parse( textOrHtml );
+};
+
+
+/**
+ * @static
+ * @property {String} version (readonly)
+ *
+ * The Autolinker version number in the form major.minor.patch
+ *
+ * Ex: 0.25.1
+ */
+Autolinker.version = '1.4.3';
+
+
+Autolinker.prototype = {
+	constructor : Autolinker,  // fix constructor property
+
+	/**
+	 * @cfg {Boolean/Object} [urls]
+	 *
+	 * `true` if URLs should be automatically linked, `false` if they should not
+	 * be. Defaults to `true`.
+	 *
+	 * Examples:
+	 *
+	 *     urls: true
+	 *
+	 *     // or
+	 *
+	 *     urls: {
+	 *         schemeMatches : true,
+	 *         wwwMatches    : true,
+	 *         tldMatches    : true
+	 *     }
+	 *
+	 * As shown above, this option also accepts an Object form with 3 properties
+	 * to allow for more customization of what exactly gets linked. All default
+	 * to `true`:
+	 *
+	 * @cfg {Boolean} [urls.schemeMatches] `true` to match URLs found prefixed
+	 *   with a scheme, i.e. `http://google.com`, or `other+scheme://google.com`,
+	 *   `false` to prevent these types of matches.
+	 * @cfg {Boolean} [urls.wwwMatches] `true` to match urls found prefixed with
+	 *   `'www.'`, i.e. `www.google.com`. `false` to prevent these types of
+	 *   matches. Note that if the URL had a prefixed scheme, and
+	 *   `schemeMatches` is true, it will still be linked.
+	 * @cfg {Boolean} [urls.tldMatches] `true` to match URLs with known top
+	 *   level domains (.com, .net, etc.) that are not prefixed with a scheme or
+	 *   `'www.'`. This option attempts to match anything that looks like a URL
+	 *   in the given text. Ex: `google.com`, `asdf.org/?page=1`, etc. `false`
+	 *   to prevent these types of matches.
+	 */
+
+	/**
+	 * @cfg {Boolean} [email=true]
+	 *
+	 * `true` if email addresses should be automatically linked, `false` if they
+	 * should not be.
+	 */
+
+	/**
+	 * @cfg {Boolean} [phone=true]
+	 *
+	 * `true` if Phone numbers ("(555)555-5555") should be automatically linked,
+	 * `false` if they should not be.
+	 */
+
+	/**
+	 * @cfg {Boolean/String} [hashtag=false]
+	 *
+	 * A string for the service name to have hashtags (ex: "#myHashtag")
+	 * auto-linked to. The currently-supported values are:
+	 *
+	 * - 'twitter'
+	 * - 'facebook'
+	 * - 'instagram'
+	 *
+	 * Pass `false` to skip auto-linking of hashtags.
+	 */
+
+	/**
+	 * @cfg {String/Boolean} [mention=false]
+	 *
+	 * A string for the service name to have mentions (ex: "@myuser")
+	 * auto-linked to. The currently supported values are:
+	 *
+	 * - 'twitter'
+	 * - 'instagram'
+	 *
+	 * Defaults to `false` to skip auto-linking of mentions.
+	 */
+
+	/**
+	 * @cfg {Boolean} [newWindow=true]
+	 *
+	 * `true` if the links should open in a new window, `false` otherwise.
+	 */
+
+	/**
+	 * @cfg {Boolean/Object} [stripPrefix]
+	 *
+	 * `true` if 'http://' (or 'https://') and/or the 'www.' should be stripped
+	 * from the beginning of URL links' text, `false` otherwise. Defaults to
+	 * `true`.
+	 *
+	 * Examples:
+	 *
+	 *     stripPrefix: true
+	 *
+	 *     // or
+	 *
+	 *     stripPrefix: {
+	 *         scheme : true,
+	 *         www    : true
+	 *     }
+	 *
+	 * As shown above, this option also accepts an Object form with 2 properties
+	 * to allow for more customization of what exactly is prevented from being
+	 * displayed. Both default to `true`:
+	 *
+	 * @cfg {Boolean} [stripPrefix.scheme] `true` to prevent the scheme part of
+	 *   a URL match from being displayed to the user. Example:
+	 *   `'http://google.com'` will be displayed as `'google.com'`. `false` to
+	 *   not strip the scheme. NOTE: Only an `'http://'` or `'https://'` scheme
+	 *   will be removed, so as not to remove a potentially dangerous scheme
+	 *   (such as `'file://'` or `'javascript:'`)
+	 * @cfg {Boolean} [stripPrefix.www] www (Boolean): `true` to prevent the
+	 *   `'www.'` part of a URL match from being displayed to the user. Ex:
+	 *   `'www.google.com'` will be displayed as `'google.com'`. `false` to not
+	 *   strip the `'www'`.
+	 */
+
+	/**
+	 * @cfg {Boolean} [stripTrailingSlash=true]
+	 *
+	 * `true` to remove the trailing slash from URL matches, `false` to keep
+	 *  the trailing slash.
+	 *
+	 *  Example when `true`: `http://google.com/` will be displayed as
+	 *  `http://google.com`.
+	 */
+
+	/**
+	 * @cfg {Number/Object} [truncate=0]
+	 *
+	 * ## Number Form
+	 *
+	 * A number for how many characters matched text should be truncated to
+	 * inside the text of a link. If the matched text is over this number of
+	 * characters, it will be truncated to this length by adding a two period
+	 * ellipsis ('..') to the end of the string.
+	 *
+	 * For example: A url like 'http://www.yahoo.com/some/long/path/to/a/file'
+	 * truncated to 25 characters might look something like this:
+	 * 'yahoo.com/some/long/pat..'
+	 *
+	 * Example Usage:
+	 *
+	 *     truncate: 25
+	 *
+	 *
+	 *  Defaults to `0` for "no truncation."
+	 *
+	 *
+	 * ## Object Form
+	 *
+	 * An Object may also be provided with two properties: `length` (Number) and
+	 * `location` (String). `location` may be one of the following: 'end'
+	 * (default), 'middle', or 'smart'.
+	 *
+	 * Example Usage:
+	 *
+	 *     truncate: { length: 25, location: 'middle' }
+	 *
+	 * @cfg {Number} [truncate.length=0] How many characters to allow before
+	 *   truncation will occur. Defaults to `0` for "no truncation."
+	 * @cfg {"end"/"middle"/"smart"} [truncate.location="end"]
+	 *
+	 * - 'end' (default): will truncate up to the number of characters, and then
+	 *   add an ellipsis at the end. Ex: 'yahoo.com/some/long/pat..'
+	 * - 'middle': will truncate and add the ellipsis in the middle. Ex:
+	 *   'yahoo.com/s..th/to/a/file'
+	 * - 'smart': for URLs where the algorithm attempts to strip out unnecessary
+	 *   parts first (such as the 'www.', then URL scheme, hash, etc.),
+	 *   attempting to make the URL human-readable before looking for a good
+	 *   point to insert the ellipsis if it is still too long. Ex:
+	 *   'yahoo.com/some..to/a/file'. For more details, see
+	 *   {@link Autolinker.truncate.TruncateSmart}.
+	 */
+
+	/**
+	 * @cfg {String} className
+	 *
+	 * A CSS class name to add to the generated links. This class will be added
+	 * to all links, as well as this class plus match suffixes for styling
+	 * url/email/phone/hashtag/mention links differently.
+	 *
+	 * For example, if this config is provided as "myLink", then:
+	 *
+	 * - URL links will have the CSS classes: "myLink myLink-url"
+	 * - Email links will have the CSS classes: "myLink myLink-email", and
+	 * - Phone links will have the CSS classes: "myLink myLink-phone"
+	 * - Hashtag links will have the CSS classes: "myLink myLink-hashtag"
+	 * - Mention links will have the CSS classes: "myLink myLink-mention myLink-[type]"
+	 *   where [type] is either "instagram" or "twitter"
+	 */
+
+	/**
+	 * @cfg {Function} replaceFn
+	 *
+	 * A function to individually process each match found in the input string.
+	 *
+	 * See the class's description for usage.
+	 *
+	 * The `replaceFn` can be called with a different context object (`this`
+	 * reference) using the {@link #context} cfg.
+	 *
+	 * This function is called with the following parameter:
+	 *
+	 * @cfg {Autolinker.match.Match} replaceFn.match The Match instance which
+	 *   can be used to retrieve information about the match that the `replaceFn`
+	 *   is currently processing. See {@link Autolinker.match.Match} subclasses
+	 *   for details.
+	 */
+
+	/**
+	 * @cfg {Object} context
+	 *
+	 * The context object (`this` reference) to call the `replaceFn` with.
+	 *
+	 * Defaults to this Autolinker instance.
+	 */
+
+
+	/**
+	 * @property {String} version (readonly)
+	 *
+	 * The Autolinker version number in the form major.minor.patch
+	 *
+	 * Ex: 0.25.1
+	 */
+
+	/**
+	 * @private
+	 * @property {Autolinker.htmlParser.HtmlParser} htmlParser
+	 *
+	 * The HtmlParser instance used to skip over HTML tags, while finding text
+	 * nodes to process. This is lazily instantiated in the {@link #getHtmlParser}
+	 * method.
+	 */
+
+	/**
+	 * @private
+	 * @property {Autolinker.matcher.Matcher[]} matchers
+	 *
+	 * The {@link Autolinker.matcher.Matcher} instances for this Autolinker
+	 * instance.
+	 *
+	 * This is lazily created in {@link #getMatchers}.
+	 */
+
+	/**
+	 * @private
+	 * @property {Autolinker.AnchorTagBuilder} tagBuilder
+	 *
+	 * The AnchorTagBuilder instance used to build match replacement anchor tags.
+	 * Note: this is lazily instantiated in the {@link #getTagBuilder} method.
+	 */
+
+
+	/**
+	 * Normalizes the {@link #urls} config into an Object with 3 properties:
+	 * `schemeMatches`, `wwwMatches`, and `tldMatches`, all Booleans.
+	 *
+	 * See {@link #urls} config for details.
+	 *
+	 * @private
+	 * @param {Boolean/Object} urls
+	 * @return {Object}
+	 */
+	normalizeUrlsCfg : function( urls ) {
+		if( urls == null ) urls = true;  // default to `true`
+
+		if( typeof urls === 'boolean' ) {
+			return { schemeMatches: urls, wwwMatches: urls, tldMatches: urls };
+
+		} else {  // object form
+			return {
+				schemeMatches : typeof urls.schemeMatches === 'boolean' ? urls.schemeMatches : true,
+				wwwMatches    : typeof urls.wwwMatches === 'boolean'    ? urls.wwwMatches    : true,
+				tldMatches    : typeof urls.tldMatches === 'boolean'    ? urls.tldMatches    : true
+			};
+		}
+	},
+
+
+	/**
+	 * Normalizes the {@link #stripPrefix} config into an Object with 2
+	 * properties: `scheme`, and `www` - both Booleans.
+	 *
+	 * See {@link #stripPrefix} config for details.
+	 *
+	 * @private
+	 * @param {Boolean/Object} stripPrefix
+	 * @return {Object}
+	 */
+	normalizeStripPrefixCfg : function( stripPrefix ) {
+		if( stripPrefix == null ) stripPrefix = true;  // default to `true`
+
+		if( typeof stripPrefix === 'boolean' ) {
+			return { scheme: stripPrefix, www: stripPrefix };
+
+		} else {  // object form
+			return {
+				scheme : typeof stripPrefix.scheme === 'boolean' ? stripPrefix.scheme : true,
+				www    : typeof stripPrefix.www === 'boolean'    ? stripPrefix.www    : true
+			};
+		}
+	},
+
+
+	/**
+	 * Normalizes the {@link #truncate} config into an Object with 2 properties:
+	 * `length` (Number), and `location` (String).
+	 *
+	 * See {@link #truncate} config for details.
+	 *
+	 * @private
+	 * @param {Number/Object} truncate
+	 * @return {Object}
+	 */
+	normalizeTruncateCfg : function( truncate ) {
+		if( typeof truncate === 'number' ) {
+			return { length: truncate, location: 'end' };
+
+		} else {  // object, or undefined/null
+			return Autolinker.Util.defaults( truncate || {}, {
+				length   : Number.POSITIVE_INFINITY,
+				location : 'end'
+			} );
+		}
+	},
+
+
+	/**
+	 * Parses the input `textOrHtml` looking for URLs, email addresses, phone
+	 * numbers, username handles, and hashtags (depending on the configuration
+	 * of the Autolinker instance), and returns an array of {@link Autolinker.match.Match}
+	 * objects describing those matches (without making any replacements).
+	 *
+	 * This method is used by the {@link #link} method, but can also be used to
+	 * simply do parsing of the input in order to discover what kinds of links
+	 * there are and how many.
+	 *
+	 * Example usage:
+	 *
+	 *     var autolinker = new Autolinker( {
+	 *         urls: true,
+	 *         email: true
+	 *     } );
+	 *
+	 *     var matches = autolinker.parse( "Hello google.com, I am asdf@asdf.com" );
+	 *
+	 *     console.log( matches.length );           // 2
+	 *     console.log( matches[ 0 ].getType() );   // 'url'
+	 *     console.log( matches[ 0 ].getUrl() );    // 'google.com'
+	 *     console.log( matches[ 1 ].getType() );   // 'email'
+	 *     console.log( matches[ 1 ].getEmail() );  // 'asdf@asdf.com'
+	 *
+	 * @param {String} textOrHtml The HTML or text to find matches within
+	 *   (depending on if the {@link #urls}, {@link #email}, {@link #phone},
+	 *   {@link #hashtag}, and {@link #mention} options are enabled).
+	 * @return {Autolinker.match.Match[]} The array of Matches found in the
+	 *   given input `textOrHtml`.
+	 */
+	parse : function( textOrHtml ) {
+		var htmlParser = this.getHtmlParser(),
+		    htmlNodes = htmlParser.parse( textOrHtml ),
+		    anchorTagStackCount = 0,  // used to only process text around anchor tags, and any inner text/html they may have;
+		    matches = [];
+
+		// Find all matches within the `textOrHtml` (but not matches that are
+		// already nested within <a> tags)
+		for( var i = 0, len = htmlNodes.length; i < len; i++ ) {
+			var node = htmlNodes[ i ],
+			    nodeType = node.getType();
+
+			if( nodeType === 'element' && node.getTagName() === 'a' ) {  // Process HTML anchor element nodes in the input `textOrHtml` to find out when we're within an <a> tag
+				if( !node.isClosing() ) {  // it's the start <a> tag
+					anchorTagStackCount++;
+				} else {  // it's the end </a> tag
+					anchorTagStackCount = Math.max( anchorTagStackCount - 1, 0 );  // attempt to handle extraneous </a> tags by making sure the stack count never goes below 0
+				}
+
+			} else if( nodeType === 'text' && anchorTagStackCount === 0 ) {  // Process text nodes that are not within an <a> tag
+				var textNodeMatches = this.parseText( node.getText(), node.getOffset() );
+
+				matches.push.apply( matches, textNodeMatches );
+			}
+		}
+
+
+		// After we have found all matches, remove subsequent matches that
+		// overlap with a previous match. This can happen for instance with URLs,
+		// where the url 'google.com/#link' would match '#link' as a hashtag.
+		matches = this.compactMatches( matches );
+
+		// And finally, remove matches for match types that have been turned
+		// off. We needed to have all match types turned on initially so that
+		// things like hashtags could be filtered out if they were really just
+		// part of a URL match (for instance, as a named anchor).
+		matches = this.removeUnwantedMatches( matches );
+
+		return matches;
+	},
+
+
+	/**
+	 * After we have found all matches, we need to remove subsequent matches
+	 * that overlap with a previous match. This can happen for instance with
+	 * URLs, where the url 'google.com/#link' would match '#link' as a hashtag.
+	 *
+	 * @private
+	 * @param {Autolinker.match.Match[]} matches
+	 * @return {Autolinker.match.Match[]}
+	 */
+	compactMatches : function( matches ) {
+		// First, the matches need to be sorted in order of offset
+		matches.sort( function( a, b ) { return a.getOffset() - b.getOffset(); } );
+
+		for( var i = 0; i < matches.length - 1; i++ ) {
+			var match = matches[ i ],
+					offset = match.getOffset(),
+					matchedTextLength = match.getMatchedText().length,
+			    endIdx = offset + matchedTextLength;
+
+			if( i + 1 < matches.length ) {
+				// Remove subsequent matches that equal offset with current match
+				if( matches[ i + 1 ].getOffset() === offset ) {
+					var removeIdx = matches[ i + 1 ].getMatchedText().length > matchedTextLength ? i : i + 1;
+					matches.splice( removeIdx, 1 );
+					continue;
+				}
+
+				// Remove subsequent matches that overlap with the current match
+				if( matches[ i + 1 ].getOffset() <= endIdx ) {
+					matches.splice( i + 1, 1 );
+				}
+			}
+		}
+
+		return matches;
+	},
+
+
+	/**
+	 * Removes matches for matchers that were turned off in the options. For
+	 * example, if {@link #hashtag hashtags} were not to be matched, we'll
+	 * remove them from the `matches` array here.
+	 *
+	 * @private
+	 * @param {Autolinker.match.Match[]} matches The array of matches to remove
+	 *   the unwanted matches from. Note: this array is mutated for the
+	 *   removals.
+	 * @return {Autolinker.match.Match[]} The mutated input `matches` array.
+	 */
+	removeUnwantedMatches : function( matches ) {
+		var remove = Autolinker.Util.remove;
+
+		if( !this.hashtag ) remove( matches, function( match ) { return match.getType() === 'hashtag'; } );
+		if( !this.email )   remove( matches, function( match ) { return match.getType() === 'email'; } );
+		if( !this.phone )   remove( matches, function( match ) { return match.getType() === 'phone'; } );
+		if( !this.mention ) remove( matches, function( match ) { return match.getType() === 'mention'; } );
+		if( !this.urls.schemeMatches ) {
+			remove( matches, function( m ) { return m.getType() === 'url' && m.getUrlMatchType() === 'scheme'; } );
+		}
+		if( !this.urls.wwwMatches ) {
+			remove( matches, function( m ) { return m.getType() === 'url' && m.getUrlMatchType() === 'www'; } );
+		}
+		if( !this.urls.tldMatches ) {
+			remove( matches, function( m ) { return m.getType() === 'url' && m.getUrlMatchType() === 'tld'; } );
+		}
+
+		return matches;
+	},
+
+
+	/**
+	 * Parses the input `text` looking for URLs, email addresses, phone
+	 * numbers, username handles, and hashtags (depending on the configuration
+	 * of the Autolinker instance), and returns an array of {@link Autolinker.match.Match}
+	 * objects describing those matches.
+	 *
+	 * This method processes a **non-HTML string**, and is used to parse and
+	 * match within the text nodes of an HTML string. This method is used
+	 * internally by {@link #parse}.
+	 *
+	 * @private
+	 * @param {String} text The text to find matches within (depending on if the
+	 *   {@link #urls}, {@link #email}, {@link #phone},
+	 *   {@link #hashtag}, and {@link #mention} options are enabled). This must be a non-HTML string.
+	 * @param {Number} [offset=0] The offset of the text node within the
+	 *   original string. This is used when parsing with the {@link #parse}
+	 *   method to generate correct offsets within the {@link Autolinker.match.Match}
+	 *   instances, but may be omitted if calling this method publicly.
+	 * @return {Autolinker.match.Match[]} The array of Matches found in the
+	 *   given input `text`.
+	 */
+	parseText : function( text, offset ) {
+		offset = offset || 0;
+		var matchers = this.getMatchers(),
+		    matches = [];
+
+		for( var i = 0, numMatchers = matchers.length; i < numMatchers; i++ ) {
+			var textMatches = matchers[ i ].parseMatches( text );
+
+			// Correct the offset of each of the matches. They are originally
+			// the offset of the match within the provided text node, but we
+			// need to correct them to be relative to the original HTML input
+			// string (i.e. the one provided to #parse).
+			for( var j = 0, numTextMatches = textMatches.length; j < numTextMatches; j++ ) {
+				textMatches[ j ].setOffset( offset + textMatches[ j ].getOffset() );
+			}
+
+			matches.push.apply( matches, textMatches );
+		}
+		return matches;
+	},
+
+
+	/**
+	 * Automatically links URLs, Email addresses, Phone numbers, Hashtags,
+	 * and Mentions (Twitter, Instagram) found in the given chunk of HTML. Does not link
+	 * URLs found within HTML tags.
+	 *
+	 * For instance, if given the text: `You should go to http://www.yahoo.com`,
+	 * then the result will be `You should go to
+	 * &lt;a href="http://www.yahoo.com"&gt;http://www.yahoo.com&lt;/a&gt;`
+	 *
+	 * This method finds the text around any HTML elements in the input
+	 * `textOrHtml`, which will be the text that is processed. Any original HTML
+	 * elements will be left as-is, as well as the text that is already wrapped
+	 * in anchor (&lt;a&gt;) tags.
+	 *
+	 * @param {String} textOrHtml The HTML or text to autolink matches within
+	 *   (depending on if the {@link #urls}, {@link #email}, {@link #phone}, {@link #hashtag}, and {@link #mention} options are enabled).
+	 * @return {String} The HTML, with matches automatically linked.
+	 */
+	link : function( textOrHtml ) {
+		if( !textOrHtml ) { return ""; }  // handle `null` and `undefined`
+
+		var matches = this.parse( textOrHtml ),
+			newHtml = [],
+			lastIndex = 0;
+
+		for( var i = 0, len = matches.length; i < len; i++ ) {
+			var match = matches[ i ];
+
+			newHtml.push( textOrHtml.substring( lastIndex, match.getOffset() ) );
+			newHtml.push( this.createMatchReturnVal( match ) );
+
+			lastIndex = match.getOffset() + match.getMatchedText().length;
+		}
+		newHtml.push( textOrHtml.substring( lastIndex ) );  // handle the text after the last match
+
+		return newHtml.join( '' );
+	},
+
+
+	/**
+	 * Creates the return string value for a given match in the input string.
+	 *
+	 * This method handles the {@link #replaceFn}, if one was provided.
+	 *
+	 * @private
+	 * @param {Autolinker.match.Match} match The Match object that represents
+	 *   the match.
+	 * @return {String} The string that the `match` should be replaced with.
+	 *   This is usually the anchor tag string, but may be the `matchStr` itself
+	 *   if the match is not to be replaced.
+	 */
+	createMatchReturnVal : function( match ) {
+		// Handle a custom `replaceFn` being provided
+		var replaceFnResult;
+		if( this.replaceFn ) {
+			replaceFnResult = this.replaceFn.call( this.context, match );  // Autolinker instance is the context
+		}
+
+		if( typeof replaceFnResult === 'string' ) {
+			return replaceFnResult;  // `replaceFn` returned a string, use that
+
+		} else if( replaceFnResult === false ) {
+			return match.getMatchedText();  // no replacement for the match
+
+		} else if( replaceFnResult instanceof Autolinker.HtmlTag ) {
+			return replaceFnResult.toAnchorString();
+
+		} else {  // replaceFnResult === true, or no/unknown return value from function
+			// Perform Autolinker's default anchor tag generation
+			var anchorTag = match.buildTag();  // returns an Autolinker.HtmlTag instance
+
+			return anchorTag.toAnchorString();
+		}
+	},
+
+
+	/**
+	 * Lazily instantiates and returns the {@link #htmlParser} instance for this
+	 * Autolinker instance.
+	 *
+	 * @protected
+	 * @return {Autolinker.htmlParser.HtmlParser}
+	 */
+	getHtmlParser : function() {
+		var htmlParser = this.htmlParser;
+
+		if( !htmlParser ) {
+			htmlParser = this.htmlParser = new Autolinker.htmlParser.HtmlParser();
+		}
+
+		return htmlParser;
+	},
+
+
+	/**
+	 * Lazily instantiates and returns the {@link Autolinker.matcher.Matcher}
+	 * instances for this Autolinker instance.
+	 *
+	 * @protected
+	 * @return {Autolinker.matcher.Matcher[]}
+	 */
+	getMatchers : function() {
+		if( !this.matchers ) {
+			var matchersNs = Autolinker.matcher,
+			    tagBuilder = this.getTagBuilder();
+
+			var matchers = [
+				new matchersNs.Hashtag( { tagBuilder: tagBuilder, serviceName: this.hashtag } ),
+				new matchersNs.Email( { tagBuilder: tagBuilder } ),
+				new matchersNs.Phone( { tagBuilder: tagBuilder } ),
+				new matchersNs.Mention( { tagBuilder: tagBuilder, serviceName: this.mention } ),
+				new matchersNs.Url( { tagBuilder: tagBuilder, stripPrefix: this.stripPrefix, stripTrailingSlash: this.stripTrailingSlash } )
+			];
+
+			return ( this.matchers = matchers );
+
+		} else {
+			return this.matchers;
+		}
+	},
+
+
+	/**
+	 * Returns the {@link #tagBuilder} instance for this Autolinker instance, lazily instantiating it
+	 * if it does not yet exist.
+	 *
+	 * This method may be used in a {@link #replaceFn} to generate the {@link Autolinker.HtmlTag HtmlTag} instance that
+	 * Autolinker would normally generate, and then allow for modifications before returning it. For example:
+	 *
+	 *     var html = Autolinker.link( "Test google.com", {
+	 *         replaceFn : function( match ) {
+	 *             var tag = match.buildTag();  // returns an {@link Autolinker.HtmlTag} instance
+	 *             tag.setAttr( 'rel', 'nofollow' );
+	 *
+	 *             return tag;
+	 *         }
+	 *     } );
+	 *
+	 *     // generated html:
+	 *     //   Test <a href="http://google.com" target="_blank" rel="nofollow">google.com</a>
+	 *
+	 * @return {Autolinker.AnchorTagBuilder}
+	 */
+	getTagBuilder : function() {
+		var tagBuilder = this.tagBuilder;
+
+		if( !tagBuilder ) {
+			tagBuilder = this.tagBuilder = new Autolinker.AnchorTagBuilder( {
+				newWindow   : this.newWindow,
+				truncate    : this.truncate,
+				className   : this.className
+			} );
+		}
+
+		return tagBuilder;
+	}
+
+};
+
+
+// Autolinker Namespaces
+
+Autolinker.match = {};
+Autolinker.matcher = {};
+Autolinker.htmlParser = {};
+Autolinker.truncate = {};
+
+/*global Autolinker */
+/*jshint eqnull:true, boss:true */
+/**
+ * @class Autolinker.Util
+ * @singleton
+ *
+ * A few utility methods for Autolinker.
+ */
+Autolinker.Util = {
+
+	/**
+	 * @property {Function} abstractMethod
+	 *
+	 * A function object which represents an abstract method.
+	 */
+	abstractMethod : function() { throw "abstract"; },
+
+
+	/**
+	 * @private
+	 * @property {RegExp} trimRegex
+	 *
+	 * The regular expression used to trim the leading and trailing whitespace
+	 * from a string.
+	 */
+	trimRegex : /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g,
+
+
+	/**
+	 * Assigns (shallow copies) the properties of `src` onto `dest`.
+	 *
+	 * @param {Object} dest The destination object.
+	 * @param {Object} src The source object.
+	 * @return {Object} The destination object (`dest`)
+	 */
+	assign : function( dest, src ) {
+		for( var prop in src ) {
+			if( src.hasOwnProperty( prop ) ) {
+				dest[ prop ] = src[ prop ];
+			}
+		}
+
+		return dest;
+	},
+
+
+	/**
+	 * Assigns (shallow copies) the properties of `src` onto `dest`, if the
+	 * corresponding property on `dest` === `undefined`.
+	 *
+	 * @param {Object} dest The destination object.
+	 * @param {Object} src The source object.
+	 * @return {Object} The destination object (`dest`)
+	 */
+	defaults : function( dest, src ) {
+		for( var prop in src ) {
+			if( src.hasOwnProperty( prop ) && dest[ prop ] === undefined ) {
+				dest[ prop ] = src[ prop ];
+			}
+		}
+
+		return dest;
+	},
+
+
+	/**
+	 * Extends `superclass` to create a new subclass, adding the `protoProps` to the new subclass's prototype.
+	 *
+	 * @param {Function} superclass The constructor function for the superclass.
+	 * @param {Object} protoProps The methods/properties to add to the subclass's prototype. This may contain the
+	 *   special property `constructor`, which will be used as the new subclass's constructor function.
+	 * @return {Function} The new subclass function.
+	 */
+	extend : function( superclass, protoProps ) {
+		var superclassProto = superclass.prototype;
+
+		var F = function() {};
+		F.prototype = superclassProto;
+
+		var subclass;
+		if( protoProps.hasOwnProperty( 'constructor' ) ) {
+			subclass = protoProps.constructor;
+		} else {
+			subclass = function() { superclassProto.constructor.apply( this, arguments ); };
+		}
+
+		var subclassProto = subclass.prototype = new F();  // set up prototype chain
+		subclassProto.constructor = subclass;  // fix constructor property
+		subclassProto.superclass = superclassProto;
+
+		delete protoProps.constructor;  // don't re-assign constructor property to the prototype, since a new function may have been created (`subclass`), which is now already there
+		Autolinker.Util.assign( subclassProto, protoProps );
+
+		return subclass;
+	},
+
+
+	/**
+	 * Truncates the `str` at `len - ellipsisChars.length`, and adds the `ellipsisChars` to the
+	 * end of the string (by default, two periods: '..'). If the `str` length does not exceed
+	 * `len`, the string will be returned unchanged.
+	 *
+	 * @param {String} str The string to truncate and add an ellipsis to.
+	 * @param {Number} truncateLen The length to truncate the string at.
+	 * @param {String} [ellipsisChars=...] The ellipsis character(s) to add to the end of `str`
+	 *   when truncated. Defaults to '...'
+	 */
+	ellipsis : function( str, truncateLen, ellipsisChars ) {
+		var ellipsisLength;
+
+		if( str.length > truncateLen ) {
+			if(ellipsisChars == null) {
+			  ellipsisChars = '&hellip;';
+			  ellipsisLength = 3;
+			} else {
+			  ellipsisLength = ellipsisChars.length;
+			}
+
+			str = str.substring( 0, truncateLen - ellipsisLength ) + ellipsisChars;
+		}
+		return str;
+	},
+
+
+	/**
+	 * Supports `Array.prototype.indexOf()` functionality for old IE (IE8 and below).
+	 *
+	 * @param {Array} arr The array to find an element of.
+	 * @param {*} element The element to find in the array, and return the index of.
+	 * @return {Number} The index of the `element`, or -1 if it was not found.
+	 */
+	indexOf : function( arr, element ) {
+		if( Array.prototype.indexOf ) {
+			return arr.indexOf( element );
+
+		} else {
+			for( var i = 0, len = arr.length; i < len; i++ ) {
+				if( arr[ i ] === element ) return i;
+			}
+			return -1;
+		}
+	},
+
+
+	/**
+	 * Removes array elements based on a filtering function. Mutates the input
+	 * array.
+	 *
+	 * Using this instead of the ES5 Array.prototype.filter() function, to allow
+	 * Autolinker compatibility with IE8, and also to prevent creating many new
+	 * arrays in memory for filtering.
+	 *
+	 * @param {Array} arr The array to remove elements from. This array is
+	 *   mutated.
+	 * @param {Function} fn A function which should return `true` to
+	 *   remove an element.
+	 * @return {Array} The mutated input `arr`.
+	 */
+	remove : function( arr, fn ) {
+		for( var i = arr.length - 1; i >= 0; i-- ) {
+			if( fn( arr[ i ] ) === true ) {
+				arr.splice( i, 1 );
+			}
+		}
+	},
+
+
+	/**
+	 * Performs the functionality of what modern browsers do when `String.prototype.split()` is called
+	 * with a regular expression that contains capturing parenthesis.
+	 *
+	 * For example:
+	 *
+	 *     // Modern browsers:
+	 *     "a,b,c".split( /(,)/ );  // --> [ 'a', ',', 'b', ',', 'c' ]
+	 *
+	 *     // Old IE (including IE8):
+	 *     "a,b,c".split( /(,)/ );  // --> [ 'a', 'b', 'c' ]
+	 *
+	 * This method emulates the functionality of modern browsers for the old IE case.
+	 *
+	 * @param {String} str The string to split.
+	 * @param {RegExp} splitRegex The regular expression to split the input `str` on. The splitting
+	 *   character(s) will be spliced into the array, as in the "modern browsers" example in the
+	 *   description of this method.
+	 *   Note #1: the supplied regular expression **must** have the 'g' flag specified.
+	 *   Note #2: for simplicity's sake, the regular expression does not need
+	 *   to contain capturing parenthesis - it will be assumed that any match has them.
+	 * @return {String[]} The split array of strings, with the splitting character(s) included.
+	 */
+	splitAndCapture : function( str, splitRegex ) {
+		if( !splitRegex.global ) throw new Error( "`splitRegex` must have the 'g' flag set" );
+
+		var result = [],
+		    lastIdx = 0,
+		    match;
+
+		while( match = splitRegex.exec( str ) ) {
+			result.push( str.substring( lastIdx, match.index ) );
+			result.push( match[ 0 ] );  // push the splitting char(s)
+
+			lastIdx = match.index + match[ 0 ].length;
+		}
+		result.push( str.substring( lastIdx ) );
+
+		return result;
+	},
+
+
+	/**
+	 * Trims the leading and trailing whitespace from a string.
+	 *
+	 * @param {String} str The string to trim.
+	 * @return {String}
+	 */
+	trim : function( str ) {
+		return str.replace( this.trimRegex, '' );
+	}
+
+};
+
+/*global Autolinker */
+/*jshint boss:true */
+/**
+ * @class Autolinker.HtmlTag
+ * @extends Object
+ *
+ * Represents an HTML tag, which can be used to easily build/modify HTML tags programmatically.
+ *
+ * Autolinker uses this abstraction to create HTML tags, and then write them out as strings. You may also use
+ * this class in your code, especially within a {@link Autolinker#replaceFn replaceFn}.
+ *
+ * ## Examples
+ *
+ * Example instantiation:
+ *
+ *     var tag = new Autolinker.HtmlTag( {
+ *         tagName : 'a',
+ *         attrs   : { 'href': 'http://google.com', 'class': 'external-link' },
+ *         innerHtml : 'Google'
+ *     } );
+ *
+ *     tag.toAnchorString();  // <a href="http://google.com" class="external-link">Google</a>
+ *
+ *     // Individual accessor methods
+ *     tag.getTagName();                 // 'a'
+ *     tag.getAttr( 'href' );            // 'http://google.com'
+ *     tag.hasClass( 'external-link' );  // true
+ *
+ *
+ * Using mutator methods (which may be used in combination with instantiation config properties):
+ *
+ *     var tag = new Autolinker.HtmlTag();
+ *     tag.setTagName( 'a' );
+ *     tag.setAttr( 'href', 'http://google.com' );
+ *     tag.addClass( 'external-link' );
+ *     tag.setInnerHtml( 'Google' );
+ *
+ *     tag.getTagName();                 // 'a'
+ *     tag.getAttr( 'href' );            // 'http://google.com'
+ *     tag.hasClass( 'external-link' );  // true
+ *
+ *     tag.toAnchorString();  // <a href="http://google.com" class="external-link">Google</a>
+ *
+ *
+ * ## Example use within a {@link Autolinker#replaceFn replaceFn}
+ *
+ *     var html = Autolinker.link( "Test google.com", {
+ *         replaceFn : function( match ) {
+ *             var tag = match.buildTag();  // returns an {@link Autolinker.HtmlTag} instance, configured with the Match's href and anchor text
+ *             tag.setAttr( 'rel', 'nofollow' );
+ *
+ *             return tag;
+ *         }
+ *     } );
+ *
+ *     // generated html:
+ *     //   Test <a href="http://google.com" target="_blank" rel="nofollow">google.com</a>
+ *
+ *
+ * ## Example use with a new tag for the replacement
+ *
+ *     var html = Autolinker.link( "Test google.com", {
+ *         replaceFn : function( match ) {
+ *             var tag = new Autolinker.HtmlTag( {
+ *                 tagName : 'button',
+ *                 attrs   : { 'title': 'Load URL: ' + match.getAnchorHref() },
+ *                 innerHtml : 'Load URL: ' + match.getAnchorText()
+ *             } );
+ *
+ *             return tag;
+ *         }
+ *     } );
+ *
+ *     // generated html:
+ *     //   Test <button title="Load URL: http://google.com">Load URL: google.com</button>
+ */
+Autolinker.HtmlTag = Autolinker.Util.extend( Object, {
+
+	/**
+	 * @cfg {String} tagName
+	 *
+	 * The tag name. Ex: 'a', 'button', etc.
+	 *
+	 * Not required at instantiation time, but should be set using {@link #setTagName} before {@link #toAnchorString}
+	 * is executed.
+	 */
+
+	/**
+	 * @cfg {Object.<String, String>} attrs
+	 *
+	 * An key/value Object (map) of attributes to create the tag with. The keys are the attribute names, and the
+	 * values are the attribute values.
+	 */
+
+	/**
+	 * @cfg {String} innerHtml
+	 *
+	 * The inner HTML for the tag.
+	 *
+	 * Note the camel case name on `innerHtml`. Acronyms are camelCased in this utility (such as not to run into the acronym
+	 * naming inconsistency that the DOM developers created with `XMLHttpRequest`). You may alternatively use {@link #innerHTML}
+	 * if you prefer, but this one is recommended.
+	 */
+
+	/**
+	 * @cfg {String} innerHTML
+	 *
+	 * Alias of {@link #innerHtml}, accepted for consistency with the browser DOM api, but prefer the camelCased version
+	 * for acronym names.
+	 */
+
+
+	/**
+	 * @protected
+	 * @property {RegExp} whitespaceRegex
+	 *
+	 * Regular expression used to match whitespace in a string of CSS classes.
+	 */
+	whitespaceRegex : /\s+/,
+
+
+	/**
+	 * @constructor
+	 * @param {Object} [cfg] The configuration properties for this class, in an Object (map)
+	 */
+	constructor : function( cfg ) {
+		Autolinker.Util.assign( this, cfg );
+
+		this.innerHtml = this.innerHtml || this.innerHTML;  // accept either the camelCased form or the fully capitalized acronym
+	},
+
+
+	/**
+	 * Sets the tag name that will be used to generate the tag with.
+	 *
+	 * @param {String} tagName
+	 * @return {Autolinker.HtmlTag} This HtmlTag instance, so that method calls may be chained.
+	 */
+	setTagName : function( tagName ) {
+		this.tagName = tagName;
+		return this;
+	},
+
+
+	/**
+	 * Retrieves the tag name.
+	 *
+	 * @return {String}
+	 */
+	getTagName : function() {
+		return this.tagName || "";
+	},
+
+
+	/**
+	 * Sets an attribute on the HtmlTag.
+	 *
+	 * @param {String} attrName The attribute name to set.
+	 * @param {String} attrValue The attribute value to set.
+	 * @return {Autolinker.HtmlTag} This HtmlTag instance, so that method calls may be chained.
+	 */
+	setAttr : function( attrName, attrValue ) {
+		var tagAttrs = this.getAttrs();
+		tagAttrs[ attrName ] = attrValue;
+
+		return this;
+	},
+
+
+	/**
+	 * Retrieves an attribute from the HtmlTag. If the attribute does not exist, returns `undefined`.
+	 *
+	 * @param {String} attrName The attribute name to retrieve.
+	 * @return {String} The attribute's value, or `undefined` if it does not exist on the HtmlTag.
+	 */
+	getAttr : function( attrName ) {
+		return this.getAttrs()[ attrName ];
+	},
+
+
+	/**
+	 * Sets one or more attributes on the HtmlTag.
+	 *
+	 * @param {Object.<String, String>} attrs A key/value Object (map) of the attributes to set.
+	 * @return {Autolinker.HtmlTag} This HtmlTag instance, so that method calls may be chained.
+	 */
+	setAttrs : function( attrs ) {
+		var tagAttrs = this.getAttrs();
+		Autolinker.Util.assign( tagAttrs, attrs );
+
+		return this;
+	},
+
+
+	/**
+	 * Retrieves the attributes Object (map) for the HtmlTag.
+	 *
+	 * @return {Object.<String, String>} A key/value object of the attributes for the HtmlTag.
+	 */
+	getAttrs : function() {
+		return this.attrs || ( this.attrs = {} );
+	},
+
+
+	/**
+	 * Sets the provided `cssClass`, overwriting any current CSS classes on the HtmlTag.
+	 *
+	 * @param {String} cssClass One or more space-separated CSS classes to set (overwrite).
+	 * @return {Autolinker.HtmlTag} This HtmlTag instance, so that method calls may be chained.
+	 */
+	setClass : function( cssClass ) {
+		return this.setAttr( 'class', cssClass );
+	},
+
+
+	/**
+	 * Convenience method to add one or more CSS classes to the HtmlTag. Will not add duplicate CSS classes.
+	 *
+	 * @param {String} cssClass One or more space-separated CSS classes to add.
+	 * @return {Autolinker.HtmlTag} This HtmlTag instance, so that method calls may be chained.
+	 */
+	addClass : function( cssClass ) {
+		var classAttr = this.getClass(),
+		    whitespaceRegex = this.whitespaceRegex,
+		    indexOf = Autolinker.Util.indexOf,  // to support IE8 and below
+		    classes = ( !classAttr ) ? [] : classAttr.split( whitespaceRegex ),
+		    newClasses = cssClass.split( whitespaceRegex ),
+		    newClass;
+
+		while( newClass = newClasses.shift() ) {
+			if( indexOf( classes, newClass ) === -1 ) {
+				classes.push( newClass );
+			}
+		}
+
+		this.getAttrs()[ 'class' ] = classes.join( " " );
+		return this;
+	},
+
+
+	/**
+	 * Convenience method to remove one or more CSS classes from the HtmlTag.
+	 *
+	 * @param {String} cssClass One or more space-separated CSS classes to remove.
+	 * @return {Autolinker.HtmlTag} This HtmlTag instance, so that method calls may be chained.
+	 */
+	removeClass : function( cssClass ) {
+		var classAttr = this.getClass(),
+		    whitespaceRegex = this.whitespaceRegex,
+		    indexOf = Autolinker.Util.indexOf,  // to support IE8 and below
+		    classes = ( !classAttr ) ? [] : classAttr.split( whitespaceRegex ),
+		    removeClasses = cssClass.split( whitespaceRegex ),
+		    removeClass;
+
+		while( classes.length && ( removeClass = removeClasses.shift() ) ) {
+			var idx = indexOf( classes, removeClass );
+			if( idx !== -1 ) {
+				classes.splice( idx, 1 );
+			}
+		}
+
+		this.getAttrs()[ 'class' ] = classes.join( " " );
+		return this;
+	},
+
+
+	/**
+	 * Convenience method to retrieve the CSS class(es) for the HtmlTag, which will each be separated by spaces when
+	 * there are multiple.
+	 *
+	 * @return {String}
+	 */
+	getClass : function() {
+		return this.getAttrs()[ 'class' ] || "";
+	},
+
+
+	/**
+	 * Convenience method to check if the tag has a CSS class or not.
+	 *
+	 * @param {String} cssClass The CSS class to check for.
+	 * @return {Boolean} `true` if the HtmlTag has the CSS class, `false` otherwise.
+	 */
+	hasClass : function( cssClass ) {
+		return ( ' ' + this.getClass() + ' ' ).indexOf( ' ' + cssClass + ' ' ) !== -1;
+	},
+
+
+	/**
+	 * Sets the inner HTML for the tag.
+	 *
+	 * @param {String} html The inner HTML to set.
+	 * @return {Autolinker.HtmlTag} This HtmlTag instance, so that method calls may be chained.
+	 */
+	setInnerHtml : function( html ) {
+		this.innerHtml = html;
+
+		return this;
+	},
+
+
+	/**
+	 * Retrieves the inner HTML for the tag.
+	 *
+	 * @return {String}
+	 */
+	getInnerHtml : function() {
+		return this.innerHtml || "";
+	},
+
+
+	/**
+	 * Override of superclass method used to generate the HTML string for the tag.
+	 *
+	 * @return {String}
+	 */
+	toAnchorString : function() {
+		var tagName = this.getTagName(),
+		    attrsStr = this.buildAttrsStr();
+
+		attrsStr = ( attrsStr ) ? ' ' + attrsStr : '';  // prepend a space if there are actually attributes
+
+		return [ '<', tagName, attrsStr, '>', this.getInnerHtml(), '</', tagName, '>' ].join( "" );
+	},
+
+
+	/**
+	 * Support method for {@link #toAnchorString}, returns the string space-separated key="value" pairs, used to populate
+	 * the stringified HtmlTag.
+	 *
+	 * @protected
+	 * @return {String} Example return: `attr1="value1" attr2="value2"`
+	 */
+	buildAttrsStr : function() {
+		if( !this.attrs ) return "";  // no `attrs` Object (map) has been set, return empty string
+
+		var attrs = this.getAttrs(),
+		    attrsArr = [];
+
+		for( var prop in attrs ) {
+			if( attrs.hasOwnProperty( prop ) ) {
+				attrsArr.push( prop + '="' + attrs[ prop ] + '"' );
+			}
+		}
+		return attrsArr.join( " " );
+	}
+
+} );
+
+/*global Autolinker */
+/**
+ * @class Autolinker.RegexLib
+ * @singleton
+ *
+ * Builds and stores a library of the common regular expressions used by the
+ * Autolinker utility.
+ *
+ * Other regular expressions may exist ad-hoc, but these are generally the
+ * regular expressions that are shared between source files.
+ */
+Autolinker.RegexLib = (function() {
+
+	/**
+	 * The string form of a regular expression that would match all of the
+	 * alphabetic ("letter") chars in the unicode character set when placed in a
+	 * RegExp character class (`[]`). This includes all international alphabetic
+	 * characters.
+	 *
+	 * These would be the characters matched by unicode regex engines `\p{L}`
+	 * escape ("all letters").
+	 *
+	 * Taken from the XRegExp library: http://xregexp.com/
+	 * Specifically: http://xregexp.com/v/3.0.0/unicode-categories.js
+	 *
+	 * @private
+	 * @type {String}
+	 */
+	var alphaCharsStr = 'A-Za-z\\xAA\\xB5\\xBA\\xC0-\\xD6\\xD8-\\xF6\\xF8-\u02C1\u02C6-\u02D1\u02E0-\u02E4\u02EC\u02EE\u0370-\u0374\u0376\u0377\u037A-\u037D\u037F\u0386\u0388-\u038A\u038C\u038E-\u03A1\u03A3-\u03F5\u03F7-\u0481\u048A-\u052F\u0531-\u0556\u0559\u0561-\u0587\u05D0-\u05EA\u05F0-\u05F2\u0620-\u064A\u066E\u066F\u0671-\u06D3\u06D5\u06E5\u06E6\u06EE\u06EF\u06FA-\u06FC\u06FF\u0710\u0712-\u072F\u074D-\u07A5\u07B1\u07CA-\u07EA\u07F4\u07F5\u07FA\u0800-\u0815\u081A\u0824\u0828\u0840-\u0858\u08A0-\u08B4\u0904-\u0939\u093D\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098C\u098F\u0990\u0993-\u09A8\u09AA-\u09B0\u09B2\u09B6-\u09B9\u09BD\u09CE\u09DC\u09DD\u09DF-\u09E1\u09F0\u09F1\u0A05-\u0A0A\u0A0F\u0A10\u0A13-\u0A28\u0A2A-\u0A30\u0A32\u0A33\u0A35\u0A36\u0A38\u0A39\u0A59-\u0A5C\u0A5E\u0A72-\u0A74\u0A85-\u0A8D\u0A8F-\u0A91\u0A93-\u0AA8\u0AAA-\u0AB0\u0AB2\u0AB3\u0AB5-\u0AB9\u0ABD\u0AD0\u0AE0\u0AE1\u0AF9\u0B05-\u0B0C\u0B0F\u0B10\u0B13-\u0B28\u0B2A-\u0B30\u0B32\u0B33\u0B35-\u0B39\u0B3D\u0B5C\u0B5D\u0B5F-\u0B61\u0B71\u0B83\u0B85-\u0B8A\u0B8E-\u0B90\u0B92-\u0B95\u0B99\u0B9A\u0B9C\u0B9E\u0B9F\u0BA3\u0BA4\u0BA8-\u0BAA\u0BAE-\u0BB9\u0BD0\u0C05-\u0C0C\u0C0E-\u0C10\u0C12-\u0C28\u0C2A-\u0C39\u0C3D\u0C58-\u0C5A\u0C60\u0C61\u0C85-\u0C8C\u0C8E-\u0C90\u0C92-\u0CA8\u0CAA-\u0CB3\u0CB5-\u0CB9\u0CBD\u0CDE\u0CE0\u0CE1\u0CF1\u0CF2\u0D05-\u0D0C\u0D0E-\u0D10\u0D12-\u0D3A\u0D3D\u0D4E\u0D5F-\u0D61\u0D7A-\u0D7F\u0D85-\u0D96\u0D9A-\u0DB1\u0DB3-\u0DBB\u0DBD\u0DC0-\u0DC6\u0E01-\u0E30\u0E32\u0E33\u0E40-\u0E46\u0E81\u0E82\u0E84\u0E87\u0E88\u0E8A\u0E8D\u0E94-\u0E97\u0E99-\u0E9F\u0EA1-\u0EA3\u0EA5\u0EA7\u0EAA\u0EAB\u0EAD-\u0EB0\u0EB2\u0EB3\u0EBD\u0EC0-\u0EC4\u0EC6\u0EDC-\u0EDF\u0F00\u0F40-\u0F47\u0F49-\u0F6C\u0F88-\u0F8C\u1000-\u102A\u103F\u1050-\u1055\u105A-\u105D\u1061\u1065\u1066\u106E-\u1070\u1075-\u1081\u108E\u10A0-\u10C5\u10C7\u10CD\u10D0-\u10FA\u10FC-\u1248\u124A-\u124D\u1250-\u1256\u1258\u125A-\u125D\u1260-\u1288\u128A-\u128D\u1290-\u12B0\u12B2-\u12B5\u12B8-\u12BE\u12C0\u12C2-\u12C5\u12C8-\u12D6\u12D8-\u1310\u1312-\u1315\u1318-\u135A\u1380-\u138F\u13A0-\u13F5\u13F8-\u13FD\u1401-\u166C\u166F-\u167F\u1681-\u169A\u16A0-\u16EA\u16F1-\u16F8\u1700-\u170C\u170E-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176C\u176E-\u1770\u1780-\u17B3\u17D7\u17DC\u1820-\u1877\u1880-\u18A8\u18AA\u18B0-\u18F5\u1900-\u191E\u1950-\u196D\u1970-\u1974\u1980-\u19AB\u19B0-\u19C9\u1A00-\u1A16\u1A20-\u1A54\u1AA7\u1B05-\u1B33\u1B45-\u1B4B\u1B83-\u1BA0\u1BAE\u1BAF\u1BBA-\u1BE5\u1C00-\u1C23\u1C4D-\u1C4F\u1C5A-\u1C7D\u1CE9-\u1CEC\u1CEE-\u1CF1\u1CF5\u1CF6\u1D00-\u1DBF\u1E00-\u1F15\u1F18-\u1F1D\u1F20-\u1F45\u1F48-\u1F4D\u1F50-\u1F57\u1F59\u1F5B\u1F5D\u1F5F-\u1F7D\u1F80-\u1FB4\u1FB6-\u1FBC\u1FBE\u1FC2-\u1FC4\u1FC6-\u1FCC\u1FD0-\u1FD3\u1FD6-\u1FDB\u1FE0-\u1FEC\u1FF2-\u1FF4\u1FF6-\u1FFC\u2071\u207F\u2090-\u209C\u2102\u2107\u210A-\u2113\u2115\u2119-\u211D\u2124\u2126\u2128\u212A-\u212D\u212F-\u2139\u213C-\u213F\u2145-\u2149\u214E\u2183\u2184\u2C00-\u2C2E\u2C30-\u2C5E\u2C60-\u2CE4\u2CEB-\u2CEE\u2CF2\u2CF3\u2D00-\u2D25\u2D27\u2D2D\u2D30-\u2D67\u2D6F\u2D80-\u2D96\u2DA0-\u2DA6\u2DA8-\u2DAE\u2DB0-\u2DB6\u2DB8-\u2DBE\u2DC0-\u2DC6\u2DC8-\u2DCE\u2DD0-\u2DD6\u2DD8-\u2DDE\u2E2F\u3005\u3006\u3031-\u3035\u303B\u303C\u3041-\u3096\u309D-\u309F\u30A1-\u30FA\u30FC-\u30FF\u3105-\u312D\u3131-\u318E\u31A0-\u31BA\u31F0-\u31FF\u3400-\u4DB5\u4E00-\u9FD5\uA000-\uA48C\uA4D0-\uA4FD\uA500-\uA60C\uA610-\uA61F\uA62A\uA62B\uA640-\uA66E\uA67F-\uA69D\uA6A0-\uA6E5\uA717-\uA71F\uA722-\uA788\uA78B-\uA7AD\uA7B0-\uA7B7\uA7F7-\uA801\uA803-\uA805\uA807-\uA80A\uA80C-\uA822\uA840-\uA873\uA882-\uA8B3\uA8F2-\uA8F7\uA8FB\uA8FD\uA90A-\uA925\uA930-\uA946\uA960-\uA97C\uA984-\uA9B2\uA9CF\uA9E0-\uA9E4\uA9E6-\uA9EF\uA9FA-\uA9FE\uAA00-\uAA28\uAA40-\uAA42\uAA44-\uAA4B\uAA60-\uAA76\uAA7A\uAA7E-\uAAAF\uAAB1\uAAB5\uAAB6\uAAB9-\uAABD\uAAC0\uAAC2\uAADB-\uAADD\uAAE0-\uAAEA\uAAF2-\uAAF4\uAB01-\uAB06\uAB09-\uAB0E\uAB11-\uAB16\uAB20-\uAB26\uAB28-\uAB2E\uAB30-\uAB5A\uAB5C-\uAB65\uAB70-\uABE2\uAC00-\uD7A3\uD7B0-\uD7C6\uD7CB-\uD7FB\uF900-\uFA6D\uFA70-\uFAD9\uFB00-\uFB06\uFB13-\uFB17\uFB1D\uFB1F-\uFB28\uFB2A-\uFB36\uFB38-\uFB3C\uFB3E\uFB40\uFB41\uFB43\uFB44\uFB46-\uFBB1\uFBD3-\uFD3D\uFD50-\uFD8F\uFD92-\uFDC7\uFDF0-\uFDFB\uFE70-\uFE74\uFE76-\uFEFC\uFF21-\uFF3A\uFF41-\uFF5A\uFF66-\uFFBE\uFFC2-\uFFC7\uFFCA-\uFFCF\uFFD2-\uFFD7\uFFDA-\uFFDC';
+
+	/**
+	 * The string form of a regular expression that would match all of the
+	 * decimal number chars in the unicode character set when placed in a RegExp
+	 * character class (`[]`).
+	 *
+	 * These would be the characters matched by unicode regex engines `\p{Nd}`
+	 * escape ("all decimal numbers")
+	 *
+	 * Taken from the XRegExp library: http://xregexp.com/
+	 * Specifically: http://xregexp.com/v/3.0.0/unicode-categories.js
+	 *
+	 * @private
+	 * @type {String}
+	 */
+	var decimalNumbersStr = '0-9\u0660-\u0669\u06F0-\u06F9\u07C0-\u07C9\u0966-\u096F\u09E6-\u09EF\u0A66-\u0A6F\u0AE6-\u0AEF\u0B66-\u0B6F\u0BE6-\u0BEF\u0C66-\u0C6F\u0CE6-\u0CEF\u0D66-\u0D6F\u0DE6-\u0DEF\u0E50-\u0E59\u0ED0-\u0ED9\u0F20-\u0F29\u1040-\u1049\u1090-\u1099\u17E0-\u17E9\u1810-\u1819\u1946-\u194F\u19D0-\u19D9\u1A80-\u1A89\u1A90-\u1A99\u1B50-\u1B59\u1BB0-\u1BB9\u1C40-\u1C49\u1C50-\u1C59\uA620-\uA629\uA8D0-\uA8D9\uA900-\uA909\uA9D0-\uA9D9\uA9F0-\uA9F9\uAA50-\uAA59\uABF0-\uABF9\uFF10-\uFF19';
+
+
+	// See documentation below
+	var alphaNumericCharsStr = alphaCharsStr + decimalNumbersStr;
+
+
+	// See documentation below
+	var domainNameRegex = new RegExp( '[' + alphaNumericCharsStr + '.\\-]*[' + alphaNumericCharsStr + '\\-]' );
+
+	return {
+
+		/**
+		 * The string form of a regular expression that would match all of the
+		 * letters and decimal number chars in the unicode character set when placed
+		 * in a RegExp character class (`[]`).
+		 *
+		 * These would be the characters matched by unicode regex engines `[\p{L}\p{Nd}]`
+		 * escape ("all letters and decimal numbers")
+		 *
+		 * @property {String} alphaNumericCharsStr
+		 */
+		alphaNumericCharsStr : alphaNumericCharsStr,
+
+		/**
+		 * The string form of a regular expression that would match all of the
+		 * letters and in the unicode character set when placed
+		 * in a RegExp character class (`[]`).
+		 *
+		 * These would be the characters matched by unicode regex engines `[\p{L}]`
+		 * escape ("all letters")
+		 *
+		 * @property {String} alphaCharsStr
+		 */
+		alphaCharsStr : alphaCharsStr,
+
+		/**
+		 * A regular expression to match domain names of a URL or email address.
+		 * Ex: 'google', 'yahoo', 'some-other-company', etc.
+		 *
+		 * @property {RegExp} domainNameRegex
+		 */
+		domainNameRegex : domainNameRegex,
+
+	};
+
+
+}() );
+
+/*global Autolinker */
+/*jshint sub:true */
+/**
+ * @protected
+ * @class Autolinker.AnchorTagBuilder
+ * @extends Object
+ *
+ * Builds anchor (&lt;a&gt;) tags for the Autolinker utility when a match is
+ * found.
+ *
+ * Normally this class is instantiated, configured, and used internally by an
+ * {@link Autolinker} instance, but may actually be used indirectly in a
+ * {@link Autolinker#replaceFn replaceFn} to create {@link Autolinker.HtmlTag HtmlTag}
+ * instances which may be modified before returning from the
+ * {@link Autolinker#replaceFn replaceFn}. For example:
+ *
+ *     var html = Autolinker.link( "Test google.com", {
+ *         replaceFn : function( match ) {
+ *             var tag = match.buildTag();  // returns an {@link Autolinker.HtmlTag} instance
+ *             tag.setAttr( 'rel', 'nofollow' );
+ *
+ *             return tag;
+ *         }
+ *     } );
+ *
+ *     // generated html:
+ *     //   Test <a href="http://google.com" target="_blank" rel="nofollow">google.com</a>
+ */
+Autolinker.AnchorTagBuilder = Autolinker.Util.extend( Object, {
+
+	/**
+	 * @cfg {Boolean} newWindow
+	 * @inheritdoc Autolinker#newWindow
+	 */
+
+	/**
+	 * @cfg {Object} truncate
+	 * @inheritdoc Autolinker#truncate
+	 */
+
+	/**
+	 * @cfg {String} className
+	 * @inheritdoc Autolinker#className
+	 */
+
+
+	/**
+	 * @constructor
+	 * @param {Object} [cfg] The configuration options for the AnchorTagBuilder instance, specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		cfg = cfg || {};
+
+		this.newWindow = cfg.newWindow;
+		this.truncate = cfg.truncate;
+		this.className = cfg.className;
+	},
+
+
+	/**
+	 * Generates the actual anchor (&lt;a&gt;) tag to use in place of the
+	 * matched text, via its `match` object.
+	 *
+	 * @param {Autolinker.match.Match} match The Match instance to generate an
+	 *   anchor tag from.
+	 * @return {Autolinker.HtmlTag} The HtmlTag instance for the anchor tag.
+	 */
+	build : function( match ) {
+		return new Autolinker.HtmlTag( {
+			tagName   : 'a',
+			attrs     : this.createAttrs( match ),
+			innerHtml : this.processAnchorText( match.getAnchorText() )
+		} );
+	},
+
+
+	/**
+	 * Creates the Object (map) of the HTML attributes for the anchor (&lt;a&gt;)
+	 *   tag being generated.
+	 *
+	 * @protected
+	 * @param {Autolinker.match.Match} match The Match instance to generate an
+	 *   anchor tag from.
+	 * @return {Object} A key/value Object (map) of the anchor tag's attributes.
+	 */
+	createAttrs : function( match ) {
+		var attrs = {
+			'href' : match.getAnchorHref()  // we'll always have the `href` attribute
+		};
+
+		var cssClass = this.createCssClass( match );
+		if( cssClass ) {
+			attrs[ 'class' ] = cssClass;
+		}
+		if( this.newWindow ) {
+			attrs[ 'target' ] = "_blank";
+			attrs[ 'rel' ] = "noopener noreferrer";
+		}
+
+		if( this.truncate ) {
+			if( this.truncate.length && this.truncate.length < match.getAnchorText().length ) {
+				attrs[ 'title' ] = match.getAnchorHref();
+			}
+		}
+
+		return attrs;
+	},
+
+
+	/**
+	 * Creates the CSS class that will be used for a given anchor tag, based on
+	 * the `matchType` and the {@link #className} config.
+	 *
+	 * Example returns:
+	 *
+	 * - ""                                      // no {@link #className}
+	 * - "myLink myLink-url"                     // url match
+	 * - "myLink myLink-email"                   // email match
+	 * - "myLink myLink-phone"                   // phone match
+	 * - "myLink myLink-hashtag"                 // hashtag match
+	 * - "myLink myLink-mention myLink-twitter"  // mention match with Twitter service
+	 *
+	 * @private
+	 * @param {Autolinker.match.Match} match The Match instance to generate an
+	 *   anchor tag from.
+	 * @return {String} The CSS class string for the link. Example return:
+	 *   "myLink myLink-url". If no {@link #className} was configured, returns
+	 *   an empty string.
+	 */
+	createCssClass : function( match ) {
+		var className = this.className;
+
+		if( !className ) {
+			return "";
+
+		} else {
+			var returnClasses = [ className ],
+				cssClassSuffixes = match.getCssClassSuffixes();
+
+			for( var i = 0, len = cssClassSuffixes.length; i < len; i++ ) {
+				returnClasses.push( className + '-' + cssClassSuffixes[ i ] );
+			}
+			return returnClasses.join( ' ' );
+		}
+	},
+
+
+	/**
+	 * Processes the `anchorText` by truncating the text according to the
+	 * {@link #truncate} config.
+	 *
+	 * @private
+	 * @param {String} anchorText The anchor tag's text (i.e. what will be
+	 *   displayed).
+	 * @return {String} The processed `anchorText`.
+	 */
+	processAnchorText : function( anchorText ) {
+		anchorText = this.doTruncate( anchorText );
+
+		return anchorText;
+	},
+
+
+	/**
+	 * Performs the truncation of the `anchorText` based on the {@link #truncate}
+	 * option. If the `anchorText` is longer than the length specified by the
+	 * {@link #truncate} option, the truncation is performed based on the
+	 * `location` property. See {@link #truncate} for details.
+	 *
+	 * @private
+	 * @param {String} anchorText The anchor tag's text (i.e. what will be
+	 *   displayed).
+	 * @return {String} The truncated anchor text.
+	 */
+	doTruncate : function( anchorText ) {
+		var truncate = this.truncate;
+		if( !truncate || !truncate.length ) return anchorText;
+
+		var truncateLength = truncate.length,
+			truncateLocation = truncate.location;
+
+		if( truncateLocation === 'smart' ) {
+			return Autolinker.truncate.TruncateSmart( anchorText, truncateLength );
+
+		} else if( truncateLocation === 'middle' ) {
+			return Autolinker.truncate.TruncateMiddle( anchorText, truncateLength );
+
+		} else {
+			return Autolinker.truncate.TruncateEnd( anchorText, truncateLength );
+		}
+	}
+
+} );
+
+/*global Autolinker */
+/**
+ * @class Autolinker.htmlParser.HtmlParser
+ * @extends Object
+ *
+ * An HTML parser implementation which simply walks an HTML string and returns an array of
+ * {@link Autolinker.htmlParser.HtmlNode HtmlNodes} that represent the basic HTML structure of the input string.
+ *
+ * Autolinker uses this to only link URLs/emails/mentions within text nodes, effectively ignoring / "walking
+ * around" HTML tags.
+ */
+Autolinker.htmlParser.HtmlParser = Autolinker.Util.extend( Object, {
+
+	/**
+	 * @private
+	 * @property {RegExp} htmlRegex
+	 *
+	 * The regular expression used to pull out HTML tags from a string. Handles namespaced HTML tags and
+	 * attribute names, as specified by http://www.w3.org/TR/html-markup/syntax.html.
+	 *
+	 * Capturing groups:
+	 *
+	 * 1. The "!DOCTYPE" tag name, if a tag is a &lt;!DOCTYPE&gt; tag.
+	 * 2. If it is an end tag, this group will have the '/'.
+	 * 3. If it is a comment tag, this group will hold the comment text (i.e.
+	 *    the text inside the `&lt;!--` and `--&gt;`.
+	 * 4. The tag name for a tag without attributes (other than the &lt;!DOCTYPE&gt; tag)
+	 * 5. The tag name for a tag with attributes (other than the &lt;!DOCTYPE&gt; tag)
+	 */
+	htmlRegex : (function() {
+		var commentTagRegex = /!--([\s\S]+?)--/,
+		    tagNameRegex = /[0-9a-zA-Z][0-9a-zA-Z:]*/,
+		    attrNameRegex = /[^\s"'>\/=\x00-\x1F\x7F]+/,   // the unicode range accounts for excluding control chars, and the delete char
+		    attrValueRegex = /(?:"[^"]*?"|'[^']*?'|[^'"=<>`\s]+)/, // double quoted, single quoted, or unquoted attribute values
+		    nameEqualsValueRegex = attrNameRegex.source + '(?:\\s*=\\s*' + attrValueRegex.source + ')?';  // optional '=[value]'
+
+		return new RegExp( [
+			// for <!DOCTYPE> tag. Ex: <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">)
+			'(?:',
+				'<(!DOCTYPE)',  // *** Capturing Group 1 - If it's a doctype tag
+
+					// Zero or more attributes following the tag name
+					'(?:',
+						'\\s+',  // one or more whitespace chars before an attribute
+
+						// Either:
+						// A. attr="value", or
+						// B. "value" alone (To cover example doctype tag: <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">)
+						'(?:', nameEqualsValueRegex, '|', attrValueRegex.source + ')',
+					')*',
+				'>',
+			')',
+
+			'|',
+
+			// All other HTML tags (i.e. tags that are not <!DOCTYPE>)
+			'(?:',
+				'<(/)?',  // Beginning of a tag or comment. Either '<' for a start tag, or '</' for an end tag.
+				          // *** Capturing Group 2: The slash or an empty string. Slash ('/') for end tag, empty string for start or self-closing tag.
+
+					'(?:',
+						commentTagRegex.source,  // *** Capturing Group 3 - A Comment Tag's Text
+
+						'|',
+
+						// Handle tag without attributes.
+						// Doing this separately from a tag that has attributes
+						// to fix a regex time complexity issue seen with the
+						// example in https://github.com/gregjacobs/Autolinker.js/issues/172
+						'(?:',
+							// *** Capturing Group 4 - The tag name for a tag without attributes
+							'(' + tagNameRegex.source + ')',
+
+							'\\s*/?',  // any trailing spaces and optional '/' before the closing '>'
+						')',
+
+						'|',
+
+						// Handle tag with attributes
+						// Doing this separately from a tag with no attributes
+						// to fix a regex time complexity issue seen with the
+						// example in https://github.com/gregjacobs/Autolinker.js/issues/172
+						'(?:',
+							// *** Capturing Group 5 - The tag name for a tag with attributes
+							'(' + tagNameRegex.source + ')',
+
+							'\\s+',  // must have at least one space after the tag name to prevent ReDoS issue (issue #172)
+
+							// Zero or more attributes following the tag name
+							'(?:',
+								'(?:\\s+|\\b)',        // any number of whitespace chars before an attribute. NOTE: Using \s* here throws Chrome into an infinite loop for some reason, so using \s+|\b instead
+								nameEqualsValueRegex,  // attr="value" (with optional ="value" part)
+							')*',
+
+							'\\s*/?',  // any trailing spaces and optional '/' before the closing '>'
+						')',
+					')',
+				'>',
+			')'
+		].join( "" ), 'gi' );
+	} )(),
+
+	/**
+	 * @private
+	 * @property {RegExp} htmlCharacterEntitiesRegex
+	 *
+	 * The regular expression that matches common HTML character entities.
+	 *
+	 * Ignoring &amp; as it could be part of a query string -- handling it separately.
+	 */
+	htmlCharacterEntitiesRegex: /(&nbsp;|&#160;|&lt;|&#60;|&gt;|&#62;|&quot;|&#34;|&#39;)/gi,
+
+
+	/**
+	 * Parses an HTML string and returns a simple array of {@link Autolinker.htmlParser.HtmlNode HtmlNodes}
+	 * to represent the HTML structure of the input string.
+	 *
+	 * @param {String} html The HTML to parse.
+	 * @return {Autolinker.htmlParser.HtmlNode[]}
+	 */
+	parse : function( html ) {
+		var htmlRegex = this.htmlRegex,
+		    currentResult,
+		    lastIndex = 0,
+		    textAndEntityNodes,
+		    nodes = [];  // will be the result of the method
+
+		while( ( currentResult = htmlRegex.exec( html ) ) !== null ) {
+			var tagText = currentResult[ 0 ],
+			    commentText = currentResult[ 3 ], // if we've matched a comment
+			    tagName = currentResult[ 1 ] || currentResult[ 4 ] || currentResult[ 5 ],  // The <!DOCTYPE> tag (ex: "!DOCTYPE"), or another tag (ex: "a" or "img")
+			    isClosingTag = !!currentResult[ 2 ],
+			    offset = currentResult.index,
+			    inBetweenTagsText = html.substring( lastIndex, offset );
+
+			// Push TextNodes and EntityNodes for any text found between tags
+			if( inBetweenTagsText ) {
+				textAndEntityNodes = this.parseTextAndEntityNodes( lastIndex, inBetweenTagsText );
+				nodes.push.apply( nodes, textAndEntityNodes );
+			}
+
+			// Push the CommentNode or ElementNode
+			if( commentText ) {
+				nodes.push( this.createCommentNode( offset, tagText, commentText ) );
+			} else {
+				nodes.push( this.createElementNode( offset, tagText, tagName, isClosingTag ) );
+			}
+
+			lastIndex = offset + tagText.length;
+		}
+
+		// Process any remaining text after the last HTML element. Will process all of the text if there were no HTML elements.
+		if( lastIndex < html.length ) {
+			var text = html.substring( lastIndex );
+
+			// Push TextNodes and EntityNodes for any text found between tags
+			if( text ) {
+				textAndEntityNodes = this.parseTextAndEntityNodes( lastIndex, text );
+
+				// Note: the following 3 lines were previously:
+				//   nodes.push.apply( nodes, textAndEntityNodes );
+				// but this was causing a "Maximum Call Stack Size Exceeded"
+				// error on inputs with a large number of html entities.
+				textAndEntityNodes.forEach( function( node ) {
+					nodes.push( node );
+				} );
+			}
+		}
+
+		return nodes;
+	},
+
+
+	/**
+	 * Parses text and HTML entity nodes from a given string. The input string
+	 * should not have any HTML tags (elements) within it.
+	 *
+	 * @private
+	 * @param {Number} offset The offset of the text node match within the
+	 *   original HTML string.
+	 * @param {String} text The string of text to parse. This is from an HTML
+	 *   text node.
+	 * @return {Autolinker.htmlParser.HtmlNode[]} An array of HtmlNodes to
+	 *   represent the {@link Autolinker.htmlParser.TextNode TextNodes} and
+	 *   {@link Autolinker.htmlParser.EntityNode EntityNodes} found.
+	 */
+	parseTextAndEntityNodes : function( offset, text ) {
+		var nodes = [],
+		    textAndEntityTokens = Autolinker.Util.splitAndCapture( text, this.htmlCharacterEntitiesRegex );  // split at HTML entities, but include the HTML entities in the results array
+
+		// Every even numbered token is a TextNode, and every odd numbered token is an EntityNode
+		// For example: an input `text` of "Test &quot;this&quot; today" would turn into the
+		//   `textAndEntityTokens`: [ 'Test ', '&quot;', 'this', '&quot;', ' today' ]
+		for( var i = 0, len = textAndEntityTokens.length; i < len; i += 2 ) {
+			var textToken = textAndEntityTokens[ i ],
+			    entityToken = textAndEntityTokens[ i + 1 ];
+
+			if( textToken ) {
+				nodes.push( this.createTextNode( offset, textToken ) );
+				offset += textToken.length;
+			}
+			if( entityToken ) {
+				nodes.push( this.createEntityNode( offset, entityToken ) );
+				offset += entityToken.length;
+			}
+		}
+		return nodes;
+	},
+
+
+	/**
+	 * Factory method to create an {@link Autolinker.htmlParser.CommentNode CommentNode}.
+	 *
+	 * @private
+	 * @param {Number} offset The offset of the match within the original HTML
+	 *   string.
+	 * @param {String} tagText The full text of the tag (comment) that was
+	 *   matched, including its &lt;!-- and --&gt;.
+	 * @param {String} commentText The full text of the comment that was matched.
+	 */
+	createCommentNode : function( offset, tagText, commentText ) {
+		return new Autolinker.htmlParser.CommentNode( {
+			offset : offset,
+			text   : tagText,
+			comment: Autolinker.Util.trim( commentText )
+		} );
+	},
+
+
+	/**
+	 * Factory method to create an {@link Autolinker.htmlParser.ElementNode ElementNode}.
+	 *
+	 * @private
+	 * @param {Number} offset The offset of the match within the original HTML
+	 *   string.
+	 * @param {String} tagText The full text of the tag (element) that was
+	 *   matched, including its attributes.
+	 * @param {String} tagName The name of the tag. Ex: An &lt;img&gt; tag would
+	 *   be passed to this method as "img".
+	 * @param {Boolean} isClosingTag `true` if it's a closing tag, false
+	 *   otherwise.
+	 * @return {Autolinker.htmlParser.ElementNode}
+	 */
+	createElementNode : function( offset, tagText, tagName, isClosingTag ) {
+		return new Autolinker.htmlParser.ElementNode( {
+			offset  : offset,
+			text    : tagText,
+			tagName : tagName.toLowerCase(),
+			closing : isClosingTag
+		} );
+	},
+
+
+	/**
+	 * Factory method to create a {@link Autolinker.htmlParser.EntityNode EntityNode}.
+	 *
+	 * @private
+	 * @param {Number} offset The offset of the match within the original HTML
+	 *   string.
+	 * @param {String} text The text that was matched for the HTML entity (such
+	 *   as '&amp;nbsp;').
+	 * @return {Autolinker.htmlParser.EntityNode}
+	 */
+	createEntityNode : function( offset, text ) {
+		return new Autolinker.htmlParser.EntityNode( { offset: offset, text: text } );
+	},
+
+
+	/**
+	 * Factory method to create a {@link Autolinker.htmlParser.TextNode TextNode}.
+	 *
+	 * @private
+	 * @param {Number} offset The offset of the match within the original HTML
+	 *   string.
+	 * @param {String} text The text that was matched.
+	 * @return {Autolinker.htmlParser.TextNode}
+	 */
+	createTextNode : function( offset, text ) {
+		return new Autolinker.htmlParser.TextNode( { offset: offset, text: text } );
+	}
+
+} );
+
+/*global Autolinker */
+/**
+ * @abstract
+ * @class Autolinker.htmlParser.HtmlNode
+ *
+ * Represents an HTML node found in an input string. An HTML node is one of the
+ * following:
+ *
+ * 1. An {@link Autolinker.htmlParser.ElementNode ElementNode}, which represents
+ *    HTML tags.
+ * 2. A {@link Autolinker.htmlParser.CommentNode CommentNode}, which represents
+ *    HTML comments.
+ * 3. A {@link Autolinker.htmlParser.TextNode TextNode}, which represents text
+ *    outside or within HTML tags.
+ * 4. A {@link Autolinker.htmlParser.EntityNode EntityNode}, which represents
+ *    one of the known HTML entities that Autolinker looks for. This includes
+ *    common ones such as &amp;quot; and &amp;nbsp;
+ */
+Autolinker.htmlParser.HtmlNode = Autolinker.Util.extend( Object, {
+
+	/**
+	 * @cfg {Number} offset (required)
+	 *
+	 * The offset of the HTML node in the original text that was parsed.
+	 */
+	offset : undefined,
+
+	/**
+	 * @cfg {String} text (required)
+	 *
+	 * The text that was matched for the HtmlNode.
+	 *
+	 * - In the case of an {@link Autolinker.htmlParser.ElementNode ElementNode},
+	 *   this will be the tag's text.
+	 * - In the case of an {@link Autolinker.htmlParser.CommentNode CommentNode},
+	 *   this will be the comment's text.
+	 * - In the case of a {@link Autolinker.htmlParser.TextNode TextNode}, this
+	 *   will be the text itself.
+	 * - In the case of a {@link Autolinker.htmlParser.EntityNode EntityNode},
+	 *   this will be the text of the HTML entity.
+	 */
+	text : undefined,
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Match instance,
+	 * specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		Autolinker.Util.assign( this, cfg );
+
+		if( this.offset == null ) throw new Error( '`offset` cfg required' );
+		if( this.text == null ) throw new Error( '`text` cfg required' );
+	},
+
+
+	/**
+	 * Returns a string name for the type of node that this class represents.
+	 *
+	 * @abstract
+	 * @return {String}
+	 */
+	getType : Autolinker.Util.abstractMethod,
+
+
+	/**
+	 * Retrieves the {@link #offset} of the HtmlNode. This is the offset of the
+	 * HTML node in the original string that was parsed.
+	 *
+	 * @return {Number}
+	 */
+	getOffset : function() {
+		return this.offset;
+	},
+
+
+	/**
+	 * Retrieves the {@link #text} for the HtmlNode.
+	 *
+	 * @return {String}
+	 */
+	getText : function() {
+		return this.text;
+	}
+
+} );
+/*global Autolinker */
+/**
+ * @class Autolinker.htmlParser.CommentNode
+ * @extends Autolinker.htmlParser.HtmlNode
+ *
+ * Represents an HTML comment node that has been parsed by the
+ * {@link Autolinker.htmlParser.HtmlParser}.
+ *
+ * See this class's superclass ({@link Autolinker.htmlParser.HtmlNode}) for more
+ * details.
+ */
+Autolinker.htmlParser.CommentNode = Autolinker.Util.extend( Autolinker.htmlParser.HtmlNode, {
+
+	/**
+	 * @cfg {String} comment (required)
+	 *
+	 * The text inside the comment tag. This text is stripped of any leading or
+	 * trailing whitespace.
+	 */
+	comment : '',
+
+
+	/**
+	 * Returns a string name for the type of node that this class represents.
+	 *
+	 * @return {String}
+	 */
+	getType : function() {
+		return 'comment';
+	},
+
+
+	/**
+	 * Returns the comment inside the comment tag.
+	 *
+	 * @return {String}
+	 */
+	getComment : function() {
+		return this.comment;
+	}
+
+} );
+/*global Autolinker */
+/**
+ * @class Autolinker.htmlParser.ElementNode
+ * @extends Autolinker.htmlParser.HtmlNode
+ *
+ * Represents an HTML element node that has been parsed by the {@link Autolinker.htmlParser.HtmlParser}.
+ *
+ * See this class's superclass ({@link Autolinker.htmlParser.HtmlNode}) for more
+ * details.
+ */
+Autolinker.htmlParser.ElementNode = Autolinker.Util.extend( Autolinker.htmlParser.HtmlNode, {
+
+	/**
+	 * @cfg {String} tagName (required)
+	 *
+	 * The name of the tag that was matched.
+	 */
+	tagName : '',
+
+	/**
+	 * @cfg {Boolean} closing (required)
+	 *
+	 * `true` if the element (tag) is a closing tag, `false` if its an opening
+	 * tag.
+	 */
+	closing : false,
+
+
+	/**
+	 * Returns a string name for the type of node that this class represents.
+	 *
+	 * @return {String}
+	 */
+	getType : function() {
+		return 'element';
+	},
+
+
+	/**
+	 * Returns the HTML element's (tag's) name. Ex: for an &lt;img&gt; tag,
+	 * returns "img".
+	 *
+	 * @return {String}
+	 */
+	getTagName : function() {
+		return this.tagName;
+	},
+
+
+	/**
+	 * Determines if the HTML element (tag) is a closing tag. Ex: &lt;div&gt;
+	 * returns `false`, while &lt;/div&gt; returns `true`.
+	 *
+	 * @return {Boolean}
+	 */
+	isClosing : function() {
+		return this.closing;
+	}
+
+} );
+/*global Autolinker */
+/**
+ * @class Autolinker.htmlParser.EntityNode
+ * @extends Autolinker.htmlParser.HtmlNode
+ *
+ * Represents a known HTML entity node that has been parsed by the {@link Autolinker.htmlParser.HtmlParser}.
+ * Ex: '&amp;nbsp;', or '&amp#160;' (which will be retrievable from the {@link #getText}
+ * method.
+ *
+ * Note that this class will only be returned from the HtmlParser for the set of
+ * checked HTML entity nodes  defined by the {@link Autolinker.htmlParser.HtmlParser#htmlCharacterEntitiesRegex}.
+ *
+ * See this class's superclass ({@link Autolinker.htmlParser.HtmlNode}) for more
+ * details.
+ */
+Autolinker.htmlParser.EntityNode = Autolinker.Util.extend( Autolinker.htmlParser.HtmlNode, {
+
+	/**
+	 * Returns a string name for the type of node that this class represents.
+	 *
+	 * @return {String}
+	 */
+	getType : function() {
+		return 'entity';
+	}
+
+} );
+/*global Autolinker */
+/**
+ * @class Autolinker.htmlParser.TextNode
+ * @extends Autolinker.htmlParser.HtmlNode
+ *
+ * Represents a text node that has been parsed by the {@link Autolinker.htmlParser.HtmlParser}.
+ *
+ * See this class's superclass ({@link Autolinker.htmlParser.HtmlNode}) for more
+ * details.
+ */
+Autolinker.htmlParser.TextNode = Autolinker.Util.extend( Autolinker.htmlParser.HtmlNode, {
+
+	/**
+	 * Returns a string name for the type of node that this class represents.
+	 *
+	 * @return {String}
+	 */
+	getType : function() {
+		return 'text';
+	}
+
+} );
+/*global Autolinker */
+/**
+ * @abstract
+ * @class Autolinker.match.Match
+ *
+ * Represents a match found in an input string which should be Autolinked. A Match object is what is provided in a
+ * {@link Autolinker#replaceFn replaceFn}, and may be used to query for details about the match.
+ *
+ * For example:
+ *
+ *     var input = "...";  // string with URLs, Email Addresses, and Mentions (Twitter, Instagram)
+ *
+ *     var linkedText = Autolinker.link( input, {
+ *         replaceFn : function( match ) {
+ *             console.log( "href = ", match.getAnchorHref() );
+ *             console.log( "text = ", match.getAnchorText() );
+ *
+ *             switch( match.getType() ) {
+ *                 case 'url' :
+ *                     console.log( "url: ", match.getUrl() );
+ *
+ *                 case 'email' :
+ *                     console.log( "email: ", match.getEmail() );
+ *
+ *                 case 'mention' :
+ *                     console.log( "mention: ", match.getMention() );
+ *             }
+ *         }
+ *     } );
+ *
+ * See the {@link Autolinker} class for more details on using the {@link Autolinker#replaceFn replaceFn}.
+ */
+Autolinker.match.Match = Autolinker.Util.extend( Object, {
+
+	/**
+	 * @cfg {Autolinker.AnchorTagBuilder} tagBuilder (required)
+	 *
+	 * Reference to the AnchorTagBuilder instance to use to generate an anchor
+	 * tag for the Match.
+	 */
+
+	/**
+	 * @cfg {String} matchedText (required)
+	 *
+	 * The original text that was matched by the {@link Autolinker.matcher.Matcher}.
+	 */
+
+	/**
+	 * @cfg {Number} offset (required)
+	 *
+	 * The offset of where the match was made in the input string.
+	 */
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Match
+	 *   instance, specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		if( cfg.tagBuilder == null ) throw new Error( '`tagBuilder` cfg required' );
+		if( cfg.matchedText == null ) throw new Error( '`matchedText` cfg required' );
+		if( cfg.offset == null ) throw new Error( '`offset` cfg required' );
+
+		this.tagBuilder = cfg.tagBuilder;
+		this.matchedText = cfg.matchedText;
+		this.offset = cfg.offset;
+	},
+
+
+	/**
+	 * Returns a string name for the type of match that this class represents.
+	 *
+	 * @abstract
+	 * @return {String}
+	 */
+	getType : Autolinker.Util.abstractMethod,
+
+
+	/**
+	 * Returns the original text that was matched.
+	 *
+	 * @return {String}
+	 */
+	getMatchedText : function() {
+		return this.matchedText;
+	},
+
+
+	/**
+	 * Sets the {@link #offset} of where the match was made in the input string.
+	 *
+	 * A {@link Autolinker.matcher.Matcher} will be fed only HTML text nodes,
+	 * and will therefore set an original offset that is relative to the HTML
+	 * text node itself. However, we want this offset to be relative to the full
+	 * HTML input string, and thus if using {@link Autolinker#parse} (rather
+	 * than calling a {@link Autolinker.matcher.Matcher} directly), then this
+	 * offset is corrected after the Matcher itself has done its job.
+	 *
+	 * @param {Number} offset
+	 */
+	setOffset : function( offset ) {
+		this.offset = offset;
+	},
+
+
+	/**
+	 * Returns the offset of where the match was made in the input string. This
+	 * is the 0-based index of the match.
+	 *
+	 * @return {Number}
+	 */
+	getOffset : function() {
+		return this.offset;
+	},
+
+
+	/**
+	 * Returns the anchor href that should be generated for the match.
+	 *
+	 * @abstract
+	 * @return {String}
+	 */
+	getAnchorHref : Autolinker.Util.abstractMethod,
+
+
+	/**
+	 * Returns the anchor text that should be generated for the match.
+	 *
+	 * @abstract
+	 * @return {String}
+	 */
+	getAnchorText : Autolinker.Util.abstractMethod,
+
+
+	/**
+	 * Returns the CSS class suffix(es) for this match.
+	 *
+	 * A CSS class suffix is appended to the {@link Autolinker#className} in
+	 * the {@link Autolinker.AnchorTagBuilder} when a match is translated into
+	 * an anchor tag.
+	 *
+	 * For example, if {@link Autolinker#className} was configured as 'myLink',
+	 * and this method returns `[ 'url' ]`, the final class name of the element
+	 * will become: 'myLink myLink-url'.
+	 *
+	 * The match may provide multiple CSS class suffixes to be appended to the
+	 * {@link Autolinker#className} in order to facilitate better styling
+	 * options for different match criteria. See {@link Autolinker.match.Mention}
+	 * for an example.
+	 *
+	 * By default, this method returns a single array with the match's
+	 * {@link #getType type} name, but may be overridden by subclasses.
+	 *
+	 * @return {String[]}
+	 */
+	getCssClassSuffixes : function() {
+		return [ this.getType() ];
+	},
+
+
+	/**
+	 * Builds and returns an {@link Autolinker.HtmlTag} instance based on the
+	 * Match.
+	 *
+	 * This can be used to easily generate anchor tags from matches, and either
+	 * return their HTML string, or modify them before doing so.
+	 *
+	 * Example Usage:
+	 *
+	 *     var tag = match.buildTag();
+	 *     tag.addClass( 'cordova-link' );
+	 *     tag.setAttr( 'target', '_system' );
+	 *
+	 *     tag.toAnchorString();  // <a href="http://google.com" class="cordova-link" target="_system">Google</a>
+	 */
+	buildTag : function() {
+		return this.tagBuilder.build( this );
+	}
+
+} );
+
+/*global Autolinker */
+/**
+ * @class Autolinker.match.Email
+ * @extends Autolinker.match.Match
+ *
+ * Represents a Email match found in an input string which should be Autolinked.
+ *
+ * See this class's superclass ({@link Autolinker.match.Match}) for more details.
+ */
+Autolinker.match.Email = Autolinker.Util.extend( Autolinker.match.Match, {
+
+	/**
+	 * @cfg {String} email (required)
+	 *
+	 * The email address that was matched.
+	 */
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Match
+	 *   instance, specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		Autolinker.match.Match.prototype.constructor.call( this, cfg );
+
+		if( !cfg.email ) throw new Error( '`email` cfg required' );
+
+		this.email = cfg.email;
+	},
+
+
+	/**
+	 * Returns a string name for the type of match that this class represents.
+	 *
+	 * @return {String}
+	 */
+	getType : function() {
+		return 'email';
+	},
+
+
+	/**
+	 * Returns the email address that was matched.
+	 *
+	 * @return {String}
+	 */
+	getEmail : function() {
+		return this.email;
+	},
+
+
+	/**
+	 * Returns the anchor href that should be generated for the match.
+	 *
+	 * @return {String}
+	 */
+	getAnchorHref : function() {
+		return 'mailto:' + this.email;
+	},
+
+
+	/**
+	 * Returns the anchor text that should be generated for the match.
+	 *
+	 * @return {String}
+	 */
+	getAnchorText : function() {
+		return this.email;
+	}
+
+} );
+/*global Autolinker */
+/**
+ * @class Autolinker.match.Hashtag
+ * @extends Autolinker.match.Match
+ *
+ * Represents a Hashtag match found in an input string which should be
+ * Autolinked.
+ *
+ * See this class's superclass ({@link Autolinker.match.Match}) for more
+ * details.
+ */
+Autolinker.match.Hashtag = Autolinker.Util.extend( Autolinker.match.Match, {
+
+	/**
+	 * @cfg {String} serviceName
+	 *
+	 * The service to point hashtag matches to. See {@link Autolinker#hashtag}
+	 * for available values.
+	 */
+
+	/**
+	 * @cfg {String} hashtag (required)
+	 *
+	 * The Hashtag that was matched, without the '#'.
+	 */
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Match
+	 *   instance, specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		Autolinker.match.Match.prototype.constructor.call( this, cfg );
+
+		// TODO: if( !serviceName ) throw new Error( '`serviceName` cfg required' );
+		if( !cfg.hashtag ) throw new Error( '`hashtag` cfg required' );
+
+		this.serviceName = cfg.serviceName;
+		this.hashtag = cfg.hashtag;
+	},
+
+
+	/**
+	 * Returns the type of match that this class represents.
+	 *
+	 * @return {String}
+	 */
+	getType : function() {
+		return 'hashtag';
+	},
+
+
+	/**
+	 * Returns the configured {@link #serviceName} to point the Hashtag to.
+	 * Ex: 'facebook', 'twitter'.
+	 *
+	 * @return {String}
+	 */
+	getServiceName : function() {
+		return this.serviceName;
+	},
+
+
+	/**
+	 * Returns the matched hashtag, without the '#' character.
+	 *
+	 * @return {String}
+	 */
+	getHashtag : function() {
+		return this.hashtag;
+	},
+
+
+	/**
+	 * Returns the anchor href that should be generated for the match.
+	 *
+	 * @return {String}
+	 */
+	getAnchorHref : function() {
+		var serviceName = this.serviceName,
+		    hashtag = this.hashtag;
+
+		switch( serviceName ) {
+			case 'twitter' :
+				return 'https://twitter.com/hashtag/' + hashtag;
+			case 'facebook' :
+				return 'https://www.facebook.com/hashtag/' + hashtag;
+			case 'instagram' :
+				return 'https://instagram.com/explore/tags/' + hashtag;
+
+			default :  // Shouldn't happen because Autolinker's constructor should block any invalid values, but just in case.
+				throw new Error( 'Unknown service name to point hashtag to: ', serviceName );
+		}
+	},
+
+
+	/**
+	 * Returns the anchor text that should be generated for the match.
+	 *
+	 * @return {String}
+	 */
+	getAnchorText : function() {
+		return '#' + this.hashtag;
+	}
+
+} );
+
+/*global Autolinker */
+/**
+ * @class Autolinker.match.Phone
+ * @extends Autolinker.match.Match
+ *
+ * Represents a Phone number match found in an input string which should be
+ * Autolinked.
+ *
+ * See this class's superclass ({@link Autolinker.match.Match}) for more
+ * details.
+ */
+Autolinker.match.Phone = Autolinker.Util.extend( Autolinker.match.Match, {
+
+	/**
+	 * @protected
+	 * @property {String} number (required)
+	 *
+	 * The phone number that was matched, without any delimiter characters.
+	 *
+	 * Note: This is a string to allow for prefixed 0's.
+	 */
+
+	/**
+	 * @protected
+	 * @property  {Boolean} plusSign (required)
+	 *
+	 * `true` if the matched phone number started with a '+' sign. We'll include
+	 * it in the `tel:` URL if so, as this is needed for international numbers.
+	 *
+	 * Ex: '+1 (123) 456 7879'
+	 */
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Match
+	 *   instance, specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		Autolinker.match.Match.prototype.constructor.call( this, cfg );
+
+		if( !cfg.number ) throw new Error( '`number` cfg required' );
+		if( cfg.plusSign == null ) throw new Error( '`plusSign` cfg required' );
+
+		this.number = cfg.number;
+		this.plusSign = cfg.plusSign;
+	},
+
+
+	/**
+	 * Returns a string name for the type of match that this class represents.
+	 *
+	 * @return {String}
+	 */
+	getType : function() {
+		return 'phone';
+	},
+
+
+	/**
+	 * Returns the phone number that was matched as a string, without any
+	 * delimiter characters.
+	 *
+	 * Note: This is a string to allow for prefixed 0's.
+	 *
+	 * @return {String}
+	 */
+	getNumber: function() {
+		return this.number;
+	},
+
+
+	/**
+	 * Returns the anchor href that should be generated for the match.
+	 *
+	 * @return {String}
+	 */
+	getAnchorHref : function() {
+		return 'tel:' + ( this.plusSign ? '+' : '' ) + this.number;
+	},
+
+
+	/**
+	 * Returns the anchor text that should be generated for the match.
+	 *
+	 * @return {String}
+	 */
+	getAnchorText : function() {
+		return this.matchedText;
+	}
+
+} );
+
+/*global Autolinker */
+/**
+ * @class Autolinker.match.Mention
+ * @extends Autolinker.match.Match
+ *
+ * Represents a Mention match found in an input string which should be Autolinked.
+ *
+ * See this class's superclass ({@link Autolinker.match.Match}) for more details.
+ */
+Autolinker.match.Mention = Autolinker.Util.extend( Autolinker.match.Match, {
+
+	/**
+	 * @cfg {String} serviceName
+	 *
+	 * The service to point mention matches to. See {@link Autolinker#mention}
+	 * for available values.
+	 */
+
+	/**
+	 * @cfg {String} mention (required)
+	 *
+	 * The Mention that was matched, without the '@' character.
+	 */
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Match
+	 *   instance, specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		Autolinker.match.Match.prototype.constructor.call( this, cfg );
+
+		if( !cfg.serviceName ) throw new Error( '`serviceName` cfg required' );
+		if( !cfg.mention ) throw new Error( '`mention` cfg required' );
+
+		this.mention = cfg.mention;
+		this.serviceName = cfg.serviceName;
+	},
+
+
+	/**
+	 * Returns the type of match that this class represents.
+	 *
+	 * @return {String}
+	 */
+	getType : function() {
+		return 'mention';
+	},
+
+
+	/**
+	 * Returns the mention, without the '@' character.
+	 *
+	 * @return {String}
+	 */
+	getMention : function() {
+		return this.mention;
+	},
+
+
+	/**
+	 * Returns the configured {@link #serviceName} to point the mention to.
+	 * Ex: 'instagram', 'twitter'.
+	 *
+	 * @return {String}
+	 */
+	getServiceName : function() {
+		return this.serviceName;
+	},
+
+
+	/**
+	 * Returns the anchor href that should be generated for the match.
+	 *
+	 * @return {String}
+	 */
+	getAnchorHref : function() {
+		switch( this.serviceName ) {
+			case 'twitter' :
+				return 'https://twitter.com/' + this.mention;
+			case 'instagram' :
+				return 'https://instagram.com/' + this.mention;
+
+			default :  // Shouldn't happen because Autolinker's constructor should block any invalid values, but just in case.
+				throw new Error( 'Unknown service name to point mention to: ', this.serviceName );
+		}
+	},
+
+
+	/**
+	 * Returns the anchor text that should be generated for the match.
+	 *
+	 * @return {String}
+	 */
+	getAnchorText : function() {
+		return '@' + this.mention;
+	},
+
+
+	/**
+	 * Returns the CSS class suffixes that should be used on a tag built with
+	 * the match. See {@link Autolinker.match.Match#getCssClassSuffixes} for
+	 * details.
+	 *
+	 * @return {String[]}
+	 */
+	getCssClassSuffixes : function() {
+		var cssClassSuffixes = Autolinker.match.Match.prototype.getCssClassSuffixes.call( this ),
+		    serviceName = this.getServiceName();
+
+		if( serviceName ) {
+			cssClassSuffixes.push( serviceName );
+		}
+		return cssClassSuffixes;
+	}
+
+} );
+
+/*global Autolinker */
+/**
+ * @class Autolinker.match.Url
+ * @extends Autolinker.match.Match
+ *
+ * Represents a Url match found in an input string which should be Autolinked.
+ *
+ * See this class's superclass ({@link Autolinker.match.Match}) for more details.
+ */
+Autolinker.match.Url = Autolinker.Util.extend( Autolinker.match.Match, {
+
+	/**
+	 * @cfg {String} url (required)
+	 *
+	 * The url that was matched.
+	 */
+
+	/**
+	 * @cfg {"scheme"/"www"/"tld"} urlMatchType (required)
+	 *
+	 * The type of URL match that this class represents. This helps to determine
+	 * if the match was made in the original text with a prefixed scheme (ex:
+	 * 'http://www.google.com'), a prefixed 'www' (ex: 'www.google.com'), or
+	 * was matched by a known top-level domain (ex: 'google.com').
+	 */
+
+	/**
+	 * @cfg {Boolean} protocolUrlMatch (required)
+	 *
+	 * `true` if the URL is a match which already has a protocol (i.e.
+	 * 'http://'), `false` if the match was from a 'www' or known TLD match.
+	 */
+
+	/**
+	 * @cfg {Boolean} protocolRelativeMatch (required)
+	 *
+	 * `true` if the URL is a protocol-relative match. A protocol-relative match
+	 * is a URL that starts with '//', and will be either http:// or https://
+	 * based on the protocol that the site is loaded under.
+	 */
+
+	/**
+	 * @cfg {Object} stripPrefix (required)
+	 *
+	 * The Object form of {@link Autolinker#cfg-stripPrefix}.
+	 */
+
+	/**
+	 * @cfg {Boolean} stripTrailingSlash (required)
+	 * @inheritdoc Autolinker#cfg-stripTrailingSlash
+	 */
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Match
+	 *   instance, specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		Autolinker.match.Match.prototype.constructor.call( this, cfg );
+
+		if( cfg.urlMatchType !== 'scheme' && cfg.urlMatchType !== 'www' && cfg.urlMatchType !== 'tld' ) throw new Error( '`urlMatchType` cfg must be one of: "scheme", "www", or "tld"' );
+		if( !cfg.url ) throw new Error( '`url` cfg required' );
+		if( cfg.protocolUrlMatch == null ) throw new Error( '`protocolUrlMatch` cfg required' );
+		if( cfg.protocolRelativeMatch == null ) throw new Error( '`protocolRelativeMatch` cfg required' );
+		if( cfg.stripPrefix == null ) throw new Error( '`stripPrefix` cfg required' );
+		if( cfg.stripTrailingSlash == null ) throw new Error( '`stripTrailingSlash` cfg required' );
+
+		this.urlMatchType = cfg.urlMatchType;
+		this.url = cfg.url;
+		this.protocolUrlMatch = cfg.protocolUrlMatch;
+		this.protocolRelativeMatch = cfg.protocolRelativeMatch;
+		this.stripPrefix = cfg.stripPrefix;
+		this.stripTrailingSlash = cfg.stripTrailingSlash;
+	},
+
+
+	/**
+	 * @private
+	 * @property {RegExp} schemePrefixRegex
+	 *
+	 * A regular expression used to remove the 'http://' or 'https://' from
+	 * URLs.
+	 */
+	schemePrefixRegex: /^(https?:\/\/)?/i,
+
+	/**
+	 * @private
+	 * @property {RegExp} wwwPrefixRegex
+	 *
+	 * A regular expression used to remove the 'www.' from URLs.
+	 */
+	wwwPrefixRegex: /^(https?:\/\/)?(www\.)?/i,
+
+	/**
+	 * @private
+	 * @property {RegExp} protocolRelativeRegex
+	 *
+	 * The regular expression used to remove the protocol-relative '//' from the {@link #url} string, for purposes
+	 * of {@link #getAnchorText}. A protocol-relative URL is, for example, "//yahoo.com"
+	 */
+	protocolRelativeRegex : /^\/\//,
+
+	/**
+	 * @private
+	 * @property {Boolean} protocolPrepended
+	 *
+	 * Will be set to `true` if the 'http://' protocol has been prepended to the {@link #url} (because the
+	 * {@link #url} did not have a protocol)
+	 */
+	protocolPrepended : false,
+
+
+	/**
+	 * Returns a string name for the type of match that this class represents.
+	 *
+	 * @return {String}
+	 */
+	getType : function() {
+		return 'url';
+	},
+
+
+	/**
+	 * Returns a string name for the type of URL match that this class
+	 * represents.
+	 *
+	 * This helps to determine if the match was made in the original text with a
+	 * prefixed scheme (ex: 'http://www.google.com'), a prefixed 'www' (ex:
+	 * 'www.google.com'), or was matched by a known top-level domain (ex:
+	 * 'google.com').
+	 *
+	 * @return {"scheme"/"www"/"tld"}
+	 */
+	getUrlMatchType : function() {
+		return this.urlMatchType;
+	},
+
+
+	/**
+	 * Returns the url that was matched, assuming the protocol to be 'http://' if the original
+	 * match was missing a protocol.
+	 *
+	 * @return {String}
+	 */
+	getUrl : function() {
+		var url = this.url;
+
+		// if the url string doesn't begin with a protocol, assume 'http://'
+		if( !this.protocolRelativeMatch && !this.protocolUrlMatch && !this.protocolPrepended ) {
+			url = this.url = 'http://' + url;
+
+			this.protocolPrepended = true;
+		}
+
+		return url;
+	},
+
+
+	/**
+	 * Returns the anchor href that should be generated for the match.
+	 *
+	 * @return {String}
+	 */
+	getAnchorHref : function() {
+		var url = this.getUrl();
+
+		return url.replace( /&amp;/g, '&' );  // any &amp;'s in the URL should be converted back to '&' if they were displayed as &amp; in the source html
+	},
+
+
+	/**
+	 * Returns the anchor text that should be generated for the match.
+	 *
+	 * @return {String}
+	 */
+	getAnchorText : function() {
+		var anchorText = this.getMatchedText();
+
+		if( this.protocolRelativeMatch ) {
+			// Strip off any protocol-relative '//' from the anchor text
+			anchorText = this.stripProtocolRelativePrefix( anchorText );
+		}
+		if( this.stripPrefix.scheme ) {
+			anchorText = this.stripSchemePrefix( anchorText );
+		}
+		if( this.stripPrefix.www ) {
+			anchorText = this.stripWwwPrefix( anchorText );
+		}
+		if( this.stripTrailingSlash ) {
+			anchorText = this.removeTrailingSlash( anchorText );  // remove trailing slash, if there is one
+		}
+
+		return anchorText;
+	},
+
+
+	// ---------------------------------------
+
+	// Utility Functionality
+
+	/**
+	 * Strips the scheme prefix (such as "http://" or "https://") from the given
+	 * `url`.
+	 *
+	 * @private
+	 * @param {String} url The text of the anchor that is being generated, for
+	 *   which to strip off the url scheme.
+	 * @return {String} The `url`, with the scheme stripped.
+	 */
+	stripSchemePrefix : function( url ) {
+		return url.replace( this.schemePrefixRegex, '' );
+	},
+
+
+	/**
+	 * Strips the 'www' prefix from the given `url`.
+	 *
+	 * @private
+	 * @param {String} url The text of the anchor that is being generated, for
+	 *   which to strip off the 'www' if it exists.
+	 * @return {String} The `url`, with the 'www' stripped.
+	 */
+	stripWwwPrefix : function( url ) {
+		return url.replace( this.wwwPrefixRegex, '$1' );  // leave any scheme ($1), it one exists
+	},
+
+
+	/**
+	 * Strips any protocol-relative '//' from the anchor text.
+	 *
+	 * @private
+	 * @param {String} text The text of the anchor that is being generated, for which to strip off the
+	 *   protocol-relative prefix (such as stripping off "//")
+	 * @return {String} The `anchorText`, with the protocol-relative prefix stripped.
+	 */
+	stripProtocolRelativePrefix : function( text ) {
+		return text.replace( this.protocolRelativeRegex, '' );
+	},
+
+
+	/**
+	 * Removes any trailing slash from the given `anchorText`, in preparation for the text to be displayed.
+	 *
+	 * @private
+	 * @param {String} anchorText The text of the anchor that is being generated, for which to remove any trailing
+	 *   slash ('/') that may exist.
+	 * @return {String} The `anchorText`, with the trailing slash removed.
+	 */
+	removeTrailingSlash : function( anchorText ) {
+		if( anchorText.charAt( anchorText.length - 1 ) === '/' ) {
+			anchorText = anchorText.slice( 0, -1 );
+		}
+		return anchorText;
+	}
+
+} );
+// NOTE: THIS IS A GENERATED FILE
+// To update with the latest TLD list, run `gulp update-tld-list`
+
+/*global Autolinker */
+Autolinker.tldRegex = /(?:xn--vermgensberatung-pwb|xn--vermgensberater-ctb|xn--clchc0ea0b2g2a9gcd|xn--w4r85el8fhu5dnra|northwesternmutual|travelersinsurance|vermögensberatung|xn--3oq18vl8pn36a|xn--5su34j936bgsg|xn--bck1b9a5dre4c|xn--mgbai9azgqp6j|xn--mgberp4a5d4ar|xn--xkc2dl3a5ee0h|vermögensberater|xn--fzys8d69uvgm|xn--mgba7c0bbn0a|xn--xkc2al3hye2a|americanexpress|kerryproperties|sandvikcoromant|xn--i1b6b1a6a2e|xn--kcrx77d1x4a|xn--lgbbat1ad8j|xn--mgba3a4f16a|xn--mgbc0a9azcg|xn--nqv7fs00ema|afamilycompany|americanfamily|bananarepublic|cancerresearch|cookingchannel|kerrylogistics|weatherchannel|xn--54b7fta0cc|xn--6qq986b3xl|xn--80aqecdr1a|xn--b4w605ferd|xn--fiq228c5hs|xn--jlq61u9w7b|xn--mgba3a3ejt|xn--mgbaam7a8h|xn--mgbayh7gpa|xn--mgbb9fbpob|xn--mgbbh1a71e|xn--mgbca7dzdo|xn--mgbi4ecexp|xn--mgbx4cd0ab|international|lifeinsurance|orientexpress|spreadbetting|travelchannel|wolterskluwer|xn--eckvdtc9d|xn--fpcrj9c3d|xn--fzc2c9e2c|xn--tiq49xqyj|xn--yfro4i67o|xn--ygbi2ammx|construction|lplfinancial|pamperedchef|scholarships|versicherung|xn--3e0b707e|xn--80adxhks|xn--80asehdb|xn--8y0a063a|xn--gckr3f0f|xn--mgb9awbf|xn--mgbab2bd|xn--mgbpl2fh|xn--mgbt3dhd|xn--mk1bu44c|xn--ngbc5azd|xn--ngbe9e0a|xn--ogbpf8fl|xn--qcka1pmc|accountants|barclaycard|blackfriday|blockbuster|bridgestone|calvinklein|contractors|creditunion|engineering|enterprises|foodnetwork|investments|kerryhotels|lamborghini|motorcycles|olayangroup|photography|playstation|productions|progressive|redumbrella|rightathome|williamhill|xn--11b4c3d|xn--1ck2e1b|xn--1qqw23a|xn--3bst00m|xn--3ds443g|xn--42c2d9a|xn--45brj9c|xn--55qw42g|xn--6frz82g|xn--80ao21a|xn--9krt00a|xn--cck2b3b|xn--czr694b|xn--d1acj3b|xn--efvy88h|xn--estv75g|xn--fct429k|xn--fjq720a|xn--flw351e|xn--g2xx48c|xn--gecrj9c|xn--gk3at1e|xn--h2brj9c|xn--hxt814e|xn--imr513n|xn--j6w193g|xn--jvr189m|xn--kprw13d|xn--kpry57d|xn--kpu716f|xn--mgbtx2b|xn--mix891f|xn--nyqy26a|xn--pbt977c|xn--pgbs0dh|xn--q9jyb4c|xn--rhqv96g|xn--rovu88b|xn--s9brj9c|xn--ses554g|xn--t60b56a|xn--vuq861b|xn--w4rs40l|xn--xhq521b|xn--zfr164b|சிங்கப்பூர்|accountant|apartments|associates|basketball|bnpparibas|boehringer|capitalone|consulting|creditcard|cuisinella|eurovision|extraspace|foundation|healthcare|immobilien|industries|management|mitsubishi|nationwide|newholland|nextdirect|onyourside|properties|protection|prudential|realestate|republican|restaurant|schaeffler|swiftcover|tatamotors|technology|telefonica|university|vistaprint|vlaanderen|volkswagen|xn--30rr7y|xn--3pxu8k|xn--45q11c|xn--4gbrim|xn--55qx5d|xn--5tzm5g|xn--80aswg|xn--90a3ac|xn--9dbq2a|xn--9et52u|xn--c2br7g|xn--cg4bki|xn--czrs0t|xn--czru2d|xn--fiq64b|xn--fiqs8s|xn--fiqz9s|xn--io0a7i|xn--kput3i|xn--mxtq1m|xn--o3cw4h|xn--pssy2u|xn--unup4y|xn--wgbh1c|xn--wgbl6a|xn--y9a3aq|accenture|alfaromeo|allfinanz|amsterdam|analytics|aquarelle|barcelona|bloomberg|christmas|community|directory|education|equipment|fairwinds|financial|firestone|fresenius|frontdoor|fujixerox|furniture|goldpoint|goodhands|hisamitsu|homedepot|homegoods|homesense|honeywell|institute|insurance|kuokgroup|ladbrokes|lancaster|landrover|lifestyle|marketing|marshalls|mcdonalds|melbourne|microsoft|montblanc|panasonic|passagens|pramerica|richardli|scjohnson|shangrila|solutions|statebank|statefarm|stockholm|travelers|vacations|xn--90ais|xn--c1avg|xn--d1alf|xn--e1a4c|xn--fhbei|xn--j1aef|xn--j1amh|xn--l1acc|xn--nqv7f|xn--p1acf|xn--tckwe|xn--vhquv|yodobashi|abudhabi|airforce|allstate|attorney|barclays|barefoot|bargains|baseball|boutique|bradesco|broadway|brussels|budapest|builders|business|capetown|catering|catholic|chrysler|cipriani|cityeats|cleaning|clinique|clothing|commbank|computer|delivery|deloitte|democrat|diamonds|discount|discover|download|engineer|ericsson|esurance|everbank|exchange|feedback|fidelity|firmdale|football|frontier|goodyear|grainger|graphics|guardian|hdfcbank|helsinki|holdings|hospital|infiniti|ipiranga|istanbul|jpmorgan|lighting|lundbeck|marriott|maserati|mckinsey|memorial|mortgage|movistar|observer|partners|pharmacy|pictures|plumbing|property|redstone|reliance|saarland|samsclub|security|services|shopping|showtime|softbank|software|stcgroup|supplies|symantec|telecity|training|uconnect|vanguard|ventures|verisign|woodside|xn--90ae|xn--node|xn--p1ai|xn--qxam|yokohama|السعودية|abogado|academy|agakhan|alibaba|android|athleta|auction|audible|auspost|avianca|banamex|bauhaus|bentley|bestbuy|booking|brother|bugatti|capital|caravan|careers|cartier|channel|chintai|citadel|clubmed|college|cologne|comcast|company|compare|contact|cooking|corsica|country|coupons|courses|cricket|cruises|dentist|digital|domains|exposed|express|farmers|fashion|ferrari|ferrero|finance|fishing|fitness|flights|florist|flowers|forsale|frogans|fujitsu|gallery|genting|godaddy|guitars|hamburg|hangout|hitachi|holiday|hosting|hoteles|hotmail|hyundai|iselect|ismaili|jewelry|juniper|kitchen|komatsu|lacaixa|lancome|lanxess|lasalle|latrobe|leclerc|liaison|limited|lincoln|markets|metlife|monster|netbank|netflix|network|neustar|okinawa|oldnavy|organic|origins|panerai|philips|pioneer|politie|realtor|recipes|rentals|reviews|rexroth|samsung|sandvik|schmidt|schwarz|science|shiksha|shriram|singles|spiegel|staples|starhub|statoil|storage|support|surgery|systems|temasek|theater|theatre|tickets|tiffany|toshiba|trading|walmart|wanggou|watches|weather|website|wedding|whoswho|windows|winners|xfinity|yamaxun|youtube|zuerich|католик|الجزائر|العليان|پاکستان|كاثوليك|موبايلي|இந்தியா|abarth|abbott|abbvie|active|africa|agency|airbus|airtel|alipay|alsace|alstom|anquan|aramco|author|bayern|beauty|berlin|bharti|blanco|bostik|boston|broker|camera|career|caseih|casino|center|chanel|chrome|church|circle|claims|clinic|coffee|comsec|condos|coupon|credit|cruise|dating|datsun|dealer|degree|dental|design|direct|doctor|dunlop|dupont|durban|emerck|energy|estate|events|expert|family|flickr|futbol|gallup|garden|george|giving|global|google|gratis|health|hermes|hiphop|hockey|hughes|imamat|insure|intuit|jaguar|joburg|juegos|kaufen|kinder|kindle|kosher|lancia|latino|lawyer|lefrak|living|locker|london|luxury|madrid|maison|makeup|market|mattel|mobile|mobily|monash|mormon|moscow|museum|mutual|nagoya|natura|nissan|nissay|norton|nowruz|office|olayan|online|oracle|orange|otsuka|pfizer|photos|physio|piaget|pictet|quebec|racing|realty|reisen|repair|report|review|rocher|rogers|ryukyu|safety|sakura|sanofi|school|schule|secure|select|shouji|soccer|social|stream|studio|supply|suzuki|swatch|sydney|taipei|taobao|target|tattoo|tennis|tienda|tjmaxx|tkmaxx|toyota|travel|unicom|viajes|viking|villas|virgin|vision|voting|voyage|vuelos|walter|warman|webcam|xihuan|xperia|yachts|yandex|zappos|москва|онлайн|ابوظبي|ارامكو|الاردن|المغرب|امارات|فلسطين|مليسيا|இலங்கை|ファッション|actor|adult|aetna|amfam|amica|apple|archi|audio|autos|azure|baidu|beats|bible|bingo|black|boats|boots|bosch|build|canon|cards|chase|cheap|chloe|cisco|citic|click|cloud|coach|codes|crown|cymru|dabur|dance|deals|delta|dodge|drive|dubai|earth|edeka|email|epost|epson|faith|fedex|final|forex|forum|gallo|games|gifts|gives|glade|glass|globo|gmail|green|gripe|group|gucci|guide|homes|honda|horse|house|hyatt|ikano|intel|irish|iveco|jetzt|koeln|kyoto|lamer|lease|legal|lexus|lilly|linde|lipsy|lixil|loans|locus|lotte|lotto|lupin|macys|mango|media|miami|money|mopar|movie|nadex|nexus|nikon|ninja|nokia|nowtv|omega|osaka|paris|parts|party|phone|photo|pizza|place|poker|praxi|press|prime|promo|quest|radio|rehab|reise|ricoh|rocks|rodeo|salon|sener|seven|sharp|shell|shoes|skype|sling|smart|smile|solar|space|stada|store|study|style|sucks|swiss|tatar|tires|tirol|tmall|today|tokyo|tools|toray|total|tours|trade|trust|tunes|tushu|ubank|vegas|video|vista|vodka|volvo|wales|watch|weber|weibo|works|world|xerox|yahoo|zippo|ایران|بازار|بھارت|سودان|سورية|همراه|संगठन|বাংলা|భారత్|嘉里大酒店|aarp|able|adac|aero|aigo|akdn|ally|amex|army|arpa|arte|asda|asia|audi|auto|baby|band|bank|bbva|beer|best|bike|bing|blog|blue|bofa|bond|book|buzz|cafe|call|camp|care|cars|casa|case|cash|cbre|cern|chat|citi|city|club|cool|coop|cyou|data|date|dclk|deal|dell|desi|diet|dish|docs|doha|duck|duns|dvag|erni|fage|fail|fans|farm|fast|fiat|fido|film|fire|fish|flir|food|ford|free|fund|game|gbiz|gent|ggee|gift|gmbh|gold|golf|goog|guge|guru|hair|haus|hdfc|help|here|hgtv|host|hsbc|icbc|ieee|imdb|immo|info|itau|java|jeep|jobs|jprs|kddi|kiwi|kpmg|kred|land|lego|lgbt|lidl|life|like|limo|link|live|loan|loft|love|ltda|luxe|maif|meet|meme|menu|mini|mint|mobi|moda|moto|mtpc|name|navy|news|next|nico|nike|ollo|open|page|pars|pccw|pics|ping|pink|play|plus|pohl|porn|post|prod|prof|qpon|raid|read|reit|rent|rest|rich|rmit|room|rsvp|ruhr|safe|sale|sapo|sarl|save|saxo|scor|scot|seat|seek|sexy|shaw|shia|shop|show|silk|sina|site|skin|sncf|sohu|song|sony|spot|star|surf|talk|taxi|team|tech|teva|tiaa|tips|town|toys|tube|vana|visa|viva|vivo|vote|voto|wang|weir|wien|wiki|wine|work|xbox|yoga|zara|zero|zone|дети|сайт|بيتك|تونس|شبكة|عراق|عمان|موقع|भारत|ভারত|ਭਾਰਤ|ભારત|ලංකා|グーグル|クラウド|ポイント|大众汽车|组织机构|電訊盈科|香格里拉|aaa|abb|abc|aco|ads|aeg|afl|aig|anz|aol|app|art|aws|axa|bar|bbc|bbt|bcg|bcn|bet|bid|bio|biz|bms|bmw|bnl|bom|boo|bot|box|buy|bzh|cab|cal|cam|car|cat|cba|cbn|cbs|ceb|ceo|cfa|cfd|com|crs|csc|dad|day|dds|dev|dhl|diy|dnp|dog|dot|dtv|dvr|eat|eco|edu|esq|eus|fan|fit|fly|foo|fox|frl|ftr|fun|fyi|gal|gap|gdn|gea|gle|gmo|gmx|goo|gop|got|gov|hbo|hiv|hkt|hot|how|htc|ibm|ice|icu|ifm|ing|ink|int|ist|itv|iwc|jcb|jcp|jio|jlc|jll|jmp|jnj|jot|joy|kfh|kia|kim|kpn|krd|lat|law|lds|lol|lpl|ltd|man|mba|mcd|med|men|meo|mil|mit|mlb|mls|mma|moe|moi|mom|mov|msd|mtn|mtr|nab|nba|nec|net|new|nfl|ngo|nhk|now|nra|nrw|ntt|nyc|obi|off|one|ong|onl|ooo|org|ott|ovh|pay|pet|pid|pin|pnc|pro|pru|pub|pwc|qvc|red|ren|ril|rio|rip|run|rwe|sap|sas|sbi|sbs|sca|scb|ses|sew|sex|sfr|ski|sky|soy|srl|srt|stc|tab|tax|tci|tdk|tel|thd|tjx|top|trv|tui|tvs|ubs|uno|uol|ups|vet|vig|vin|vip|wed|win|wme|wow|wtc|wtf|xin|xxx|xyz|you|yun|zip|бел|ком|қаз|мкд|мон|орг|рус|срб|укр|հայ|קום|قطر|كوم|مصر|कॉम|नेट|คอม|ไทย|ストア|セール|みんな|中文网|天主教|我爱你|新加坡|淡马锡|诺基亚|飞利浦|ac|ad|ae|af|ag|ai|al|am|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tr|tt|tv|tw|tz|ua|ug|uk|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|za|zm|zw|ελ|бг|ею|рф|გე|닷넷|닷컴|삼성|한국|コム|世界|中信|中国|中國|企业|佛山|信息|健康|八卦|公司|公益|台湾|台灣|商城|商店|商标|嘉里|在线|大拿|娱乐|家電|工行|广东|微博|慈善|手机|手表|政务|政府|新闻|时尚|書籍|机构|游戏|澳門|点看|珠宝|移动|网址|网店|网站|网络|联通|谷歌|购物|通販|集团|食品|餐厅|香港)/;
+
+/*global Autolinker */
+/**
+ * @abstract
+ * @class Autolinker.matcher.Matcher
+ *
+ * An abstract class and interface for individual matchers to find matches in
+ * an input string with linkified versions of them.
+ *
+ * Note that Matchers do not take HTML into account - they must be fed the text
+ * nodes of any HTML string, which is handled by {@link Autolinker#parse}.
+ */
+Autolinker.matcher.Matcher = Autolinker.Util.extend( Object, {
+
+	/**
+	 * @cfg {Autolinker.AnchorTagBuilder} tagBuilder (required)
+	 *
+	 * Reference to the AnchorTagBuilder instance to use to generate HTML tags
+	 * for {@link Autolinker.match.Match Matches}.
+	 */
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Matcher
+	 *   instance, specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		if( !cfg.tagBuilder ) throw new Error( '`tagBuilder` cfg required' );
+
+		this.tagBuilder = cfg.tagBuilder;
+	},
+
+
+	/**
+	 * Parses the input `text` and returns the array of {@link Autolinker.match.Match Matches}
+	 * for the matcher.
+	 *
+	 * @abstract
+	 * @param {String} text The text to scan and replace matches in.
+	 * @return {Autolinker.match.Match[]}
+	 */
+	parseMatches : Autolinker.Util.abstractMethod
+
+} );
+/*global Autolinker */
+/**
+ * @class Autolinker.matcher.Email
+ * @extends Autolinker.matcher.Matcher
+ *
+ * Matcher to find email matches in an input string.
+ *
+ * See this class's superclass ({@link Autolinker.matcher.Matcher}) for more details.
+ */
+Autolinker.matcher.Email = Autolinker.Util.extend( Autolinker.matcher.Matcher, {
+
+	/**
+	 * The regular expression to match email addresses. Example match:
+	 *
+	 *     person@place.com
+	 *
+	 * @private
+	 * @property {RegExp} matcherRegex
+	 */
+	matcherRegex : (function() {
+		var alphaNumericChars = Autolinker.RegexLib.alphaNumericCharsStr,
+		    emailRegex = new RegExp( '[' + alphaNumericChars + '\\-_\';:&=+$.,]+@' ),  // something@ for email addresses (a.k.a. local-part)
+			domainNameRegex = Autolinker.RegexLib.domainNameRegex,
+			tldRegex = Autolinker.tldRegex;  // match our known top level domains (TLDs)
+
+		return new RegExp( [
+			emailRegex.source,
+			domainNameRegex.source,
+			'\\.', tldRegex.source   // '.com', '.net', etc
+		].join( "" ), 'gi' );
+	} )(),
+
+
+	/**
+	 * @inheritdoc
+	 */
+	parseMatches : function( text ) {
+		var matcherRegex = this.matcherRegex,
+		    tagBuilder = this.tagBuilder,
+		    matches = [],
+		    match;
+
+		while( ( match = matcherRegex.exec( text ) ) !== null ) {
+			var matchedText = match[ 0 ];
+
+			matches.push( new Autolinker.match.Email( {
+				tagBuilder  : tagBuilder,
+				matchedText : matchedText,
+				offset      : match.index,
+				email       : matchedText
+			} ) );
+		}
+
+		return matches;
+	}
+
+} );
+
+/*global Autolinker */
+/**
+ * @class Autolinker.matcher.Hashtag
+ * @extends Autolinker.matcher.Matcher
+ *
+ * Matcher to find Hashtag matches in an input string.
+ */
+Autolinker.matcher.Hashtag = Autolinker.Util.extend( Autolinker.matcher.Matcher, {
+
+	/**
+	 * @cfg {String} serviceName
+	 *
+	 * The service to point hashtag matches to. See {@link Autolinker#hashtag}
+	 * for available values.
+	 */
+
+
+	/**
+	 * The regular expression to match Hashtags. Example match:
+	 *
+	 *     #asdf
+	 *
+	 * @private
+	 * @property {RegExp} matcherRegex
+	 */
+	matcherRegex : new RegExp( '#[_' + Autolinker.RegexLib.alphaNumericCharsStr + ']{1,139}', 'g' ),
+
+	/**
+	 * The regular expression to use to check the character before a username match to
+	 * make sure we didn't accidentally match an email address.
+	 *
+	 * For example, the string "asdf@asdf.com" should not match "@asdf" as a username.
+	 *
+	 * @private
+	 * @property {RegExp} nonWordCharRegex
+	 */
+	nonWordCharRegex : new RegExp( '[^' + Autolinker.RegexLib.alphaNumericCharsStr + ']' ),
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Match instance,
+	 *   specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		Autolinker.matcher.Matcher.prototype.constructor.call( this, cfg );
+
+		this.serviceName = cfg.serviceName;
+	},
+
+
+	/**
+	 * @inheritdoc
+	 */
+	parseMatches : function( text ) {
+		var matcherRegex = this.matcherRegex,
+		    nonWordCharRegex = this.nonWordCharRegex,
+		    serviceName = this.serviceName,
+		    tagBuilder = this.tagBuilder,
+		    matches = [],
+		    match;
+
+		while( ( match = matcherRegex.exec( text ) ) !== null ) {
+			var offset = match.index,
+			    prevChar = text.charAt( offset - 1 );
+
+			// If we found the match at the beginning of the string, or we found the match
+			// and there is a whitespace char in front of it (meaning it is not a '#' char
+			// in the middle of a word), then it is a hashtag match.
+			if( offset === 0 || nonWordCharRegex.test( prevChar ) ) {
+				var matchedText = match[ 0 ],
+				    hashtag = match[ 0 ].slice( 1 );  // strip off the '#' character at the beginning
+
+				matches.push( new Autolinker.match.Hashtag( {
+					tagBuilder  : tagBuilder,
+					matchedText : matchedText,
+					offset      : offset,
+					serviceName : serviceName,
+					hashtag     : hashtag
+				} ) );
+			}
+		}
+
+		return matches;
+	}
+
+} );
+/*global Autolinker */
+/**
+ * @class Autolinker.matcher.Phone
+ * @extends Autolinker.matcher.Matcher
+ *
+ * Matcher to find Phone number matches in an input string.
+ *
+ * See this class's superclass ({@link Autolinker.matcher.Matcher}) for more
+ * details.
+ */
+Autolinker.matcher.Phone = Autolinker.Util.extend( Autolinker.matcher.Matcher, {
+
+	/**
+	 * The regular expression to match Phone numbers. Example match:
+	 *
+	 *     (123) 456-7890
+	 *
+	 * This regular expression has the following capturing groups:
+	 *
+	 * 1. The prefixed '+' sign, if there is one.
+	 *
+	 * @private
+	 * @property {RegExp} matcherRegex
+	 */
+    matcherRegex : /(?:(\+)?\d{1,3}[-\040.]?)?\(?\d{3}\)?[-\040.]?\d{3}[-\040.]?\d{4}([,;]*[0-9]+#?)*/g,    
+    
+    // ex: (123) 456-7890, 123 456 7890, 123-456-7890, +18004441234,,;,10226420346#, 
+    // +1 (800) 444 1234, 10226420346#, 1-800-444-1234,1022,64,20346#
+
+	/**
+	 * @inheritdoc
+	 */
+	parseMatches: function(text) {
+		var matcherRegex = this.matcherRegex,
+			tagBuilder = this.tagBuilder,
+			matches = [],
+			match;
+
+		while ((match = matcherRegex.exec(text)) !== null) {
+			// Remove non-numeric values from phone number string
+			var matchedText = match[0],
+				cleanNumber = matchedText.replace(/[^0-9,;#]/g, ''), // strip out non-digit characters exclude comma semicolon and #
+				plusSign = !!match[1]; // match[ 1 ] is the prefixed plus sign, if there is one
+			if (/\D/.test(match[2]) && /\D/.test(matchedText)) {
+    			matches.push(new Autolinker.match.Phone({
+    				tagBuilder: tagBuilder,
+    				matchedText: matchedText,
+    				offset: match.index,
+    				number: cleanNumber,
+    				plusSign: plusSign
+    			}));
+            }
+		}
+
+		return matches;
+	}
+
+} );
+/*global Autolinker */
+/**
+ * @class Autolinker.matcher.Mention
+ * @extends Autolinker.matcher.Matcher
+ *
+ * Matcher to find/replace username matches in an input string.
+ */
+Autolinker.matcher.Mention = Autolinker.Util.extend( Autolinker.matcher.Matcher, {
+
+	/**
+	 * Hash of regular expression to match username handles. Example match:
+	 *
+	 *     @asdf
+	 *
+	 * @private
+	 * @property {Object} matcherRegexes
+	 */
+	matcherRegexes : {
+		"twitter": new RegExp( '@[_' + Autolinker.RegexLib.alphaNumericCharsStr + ']{1,20}', 'g' ),
+		"instagram": new RegExp( '@[_.' + Autolinker.RegexLib.alphaNumericCharsStr + ']{1,50}', 'g' )
+	},
+
+	/**
+	 * The regular expression to use to check the character before a username match to
+	 * make sure we didn't accidentally match an email address.
+	 *
+	 * For example, the string "asdf@asdf.com" should not match "@asdf" as a username.
+	 *
+	 * @private
+	 * @property {RegExp} nonWordCharRegex
+	 */
+	nonWordCharRegex : new RegExp( '[^' + Autolinker.RegexLib.alphaNumericCharsStr + ']' ),
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Match instance,
+	 *   specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		Autolinker.matcher.Matcher.prototype.constructor.call( this, cfg );
+
+		this.serviceName = cfg.serviceName;
+	},
+
+
+	/**
+	 * @inheritdoc
+	 */
+	parseMatches : function( text ) {
+		var matcherRegex = this.matcherRegexes[this.serviceName],
+		    nonWordCharRegex = this.nonWordCharRegex,
+		    serviceName = this.serviceName,
+		    tagBuilder = this.tagBuilder,
+		    matches = [],
+		    match;
+
+		if (!matcherRegex) {
+			return matches;
+		}
+
+		while( ( match = matcherRegex.exec( text ) ) !== null ) {
+			var offset = match.index,
+			    prevChar = text.charAt( offset - 1 );
+
+			// If we found the match at the beginning of the string, or we found the match
+			// and there is a whitespace char in front of it (meaning it is not an email
+			// address), then it is a username match.
+			if( offset === 0 || nonWordCharRegex.test( prevChar ) ) {
+				var matchedText = match[ 0 ].replace(/\.+$/g, ''), // strip off trailing .
+				    mention = matchedText.slice( 1 );  // strip off the '@' character at the beginning
+
+				matches.push( new Autolinker.match.Mention( {
+					tagBuilder    : tagBuilder,
+					matchedText   : matchedText,
+					offset        : offset,
+					serviceName   : serviceName,
+					mention       : mention
+				} ) );
+			}
+		}
+
+		return matches;
+	}
+
+} );
+
+/*global Autolinker */
+/**
+ * @class Autolinker.matcher.Url
+ * @extends Autolinker.matcher.Matcher
+ *
+ * Matcher to find URL matches in an input string.
+ *
+ * See this class's superclass ({@link Autolinker.matcher.Matcher}) for more details.
+ */
+Autolinker.matcher.Url = Autolinker.Util.extend( Autolinker.matcher.Matcher, {
+
+	/**
+	 * @cfg {Object} stripPrefix (required)
+	 *
+	 * The Object form of {@link Autolinker#cfg-stripPrefix}.
+	 */
+
+	/**
+	 * @cfg {Boolean} stripTrailingSlash (required)
+	 * @inheritdoc Autolinker#stripTrailingSlash
+	 */
+
+
+	/**
+	 * @private
+	 * @property {RegExp} matcherRegex
+	 *
+	 * The regular expression to match URLs with an optional scheme, port
+	 * number, path, query string, and hash anchor.
+	 *
+	 * Example matches:
+	 *
+	 *     http://google.com
+	 *     www.google.com
+	 *     google.com/path/to/file?q1=1&q2=2#myAnchor
+	 *
+	 *
+	 * This regular expression will have the following capturing groups:
+	 *
+	 * 1.  Group that matches a scheme-prefixed URL (i.e. 'http://google.com').
+	 *     This is used to match scheme URLs with just a single word, such as
+	 *     'http://localhost', where we won't double check that the domain name
+	 *     has at least one dot ('.') in it.
+	 * 2.  Group that matches a 'www.' prefixed URL. This is only matched if the
+	 *     'www.' text was not prefixed by a scheme (i.e.: not prefixed by
+	 *     'http://', 'ftp:', etc.)
+	 * 3.  A protocol-relative ('//') match for the case of a 'www.' prefixed
+	 *     URL. Will be an empty string if it is not a protocol-relative match.
+	 *     We need to know the character before the '//' in order to determine
+	 *     if it is a valid match or the // was in a string we don't want to
+	 *     auto-link.
+	 * 4.  Group that matches a known TLD (top level domain), when a scheme
+	 *     or 'www.'-prefixed domain is not matched.
+	 * 5.  A protocol-relative ('//') match for the case of a known TLD prefixed
+	 *     URL. Will be an empty string if it is not a protocol-relative match.
+	 *     See #3 for more info.
+	 */
+	matcherRegex : (function() {
+		var schemeRegex = /(?:[A-Za-z][-.+A-Za-z0-9]*:(?![A-Za-z][-.+A-Za-z0-9]*:\/\/)(?!\d+\/?)(?:\/\/)?)/,  // match protocol, allow in format "http://" or "mailto:". However, do not match the first part of something like 'link:http://www.google.com' (i.e. don't match "link:"). Also, make sure we don't interpret 'google.com:8000' as if 'google.com' was a protocol here (i.e. ignore a trailing port number in this regex)
+		    wwwRegex = /(?:www\.)/,                  // starting with 'www.'
+		    domainNameRegex = Autolinker.RegexLib.domainNameRegex,
+		    tldRegex = Autolinker.tldRegex,  // match our known top level domains (TLDs)
+		    alphaNumericCharsStr = Autolinker.RegexLib.alphaNumericCharsStr,
+
+		    // Allow optional path, query string, and hash anchor, not ending in the following characters: "?!:,.;"
+		    // http://blog.codinghorror.com/the-problem-with-urls/
+		    urlSuffixRegex = new RegExp( '[/?#](?:[' + alphaNumericCharsStr + '\\-+&@#/%=~_()|\'$*\\[\\]?!:,.;\u2713]*[' + alphaNumericCharsStr + '\\-+&@#/%=~_()|\'$*\\[\\]\u2713])?' );
+
+		return new RegExp( [
+			'(?:', // parens to cover match for scheme (optional), and domain
+				'(',  // *** Capturing group $1, for a scheme-prefixed url (ex: http://google.com)
+					schemeRegex.source,
+					domainNameRegex.source,
+				')',
+
+				'|',
+
+				'(',  // *** Capturing group $2, for a 'www.' prefixed url (ex: www.google.com)
+					'(//)?',  // *** Capturing group $3 for an optional protocol-relative URL. Must be at the beginning of the string or start with a non-word character (handled later)
+					wwwRegex.source,
+					domainNameRegex.source,
+				')',
+
+				'|',
+
+				'(',  // *** Capturing group $4, for known a TLD url (ex: google.com)
+					'(//)?',  // *** Capturing group $5 for an optional protocol-relative URL. Must be at the beginning of the string or start with a non-word character (handled later)
+					domainNameRegex.source + '\\.',
+					tldRegex.source,
+					'(?![-' + alphaNumericCharsStr + '])', // TLD not followed by a letter, behaves like unicode-aware \b
+				')',
+			')',
+
+			'(?::[0-9]+)?', // port
+
+			'(?:' + urlSuffixRegex.source + ')?'  // match for path, query string, and/or hash anchor - optional
+		].join( "" ), 'gi' );
+	} )(),
+
+
+	/**
+	 * A regular expression to use to check the character before a protocol-relative
+	 * URL match. We don't want to match a protocol-relative URL if it is part
+	 * of another word.
+	 *
+	 * For example, we want to match something like "Go to: //google.com",
+	 * but we don't want to match something like "abc//google.com"
+	 *
+	 * This regular expression is used to test the character before the '//'.
+	 *
+	 * @private
+	 * @type {RegExp} wordCharRegExp
+	 */
+	wordCharRegExp : new RegExp( '[' + Autolinker.RegexLib.alphaNumericCharsStr + ']' ),
+
+
+	/**
+	 * The regular expression to match opening parenthesis in a URL match.
+	 *
+	 * This is to determine if we have unbalanced parenthesis in the URL, and to
+	 * drop the final parenthesis that was matched if so.
+	 *
+	 * Ex: The text "(check out: wikipedia.com/something_(disambiguation))"
+	 * should only autolink the inner "wikipedia.com/something_(disambiguation)"
+	 * part, so if we find that we have unbalanced parenthesis, we will drop the
+	 * last one for the match.
+	 *
+	 * @private
+	 * @property {RegExp}
+	 */
+	openParensRe : /\(/g,
+
+	/**
+	 * The regular expression to match closing parenthesis in a URL match. See
+	 * {@link #openParensRe} for more information.
+	 *
+	 * @private
+	 * @property {RegExp}
+	 */
+	closeParensRe : /\)/g,
+
+
+	/**
+	 * @constructor
+	 * @param {Object} cfg The configuration properties for the Match instance,
+	 *   specified in an Object (map).
+	 */
+	constructor : function( cfg ) {
+		Autolinker.matcher.Matcher.prototype.constructor.call( this, cfg );
+
+		if( cfg.stripPrefix == null ) throw new Error( '`stripPrefix` cfg required' );
+		if( cfg.stripTrailingSlash == null ) throw new Error( '`stripTrailingSlash` cfg required' );
+
+		this.stripPrefix = cfg.stripPrefix;
+		this.stripTrailingSlash = cfg.stripTrailingSlash;
+	},
+
+
+	/**
+	 * @inheritdoc
+	 */
+	parseMatches : function( text ) {
+		var matcherRegex = this.matcherRegex,
+		    stripPrefix = this.stripPrefix,
+		    stripTrailingSlash = this.stripTrailingSlash,
+		    tagBuilder = this.tagBuilder,
+		    matches = [],
+		    match;
+
+		while( ( match = matcherRegex.exec( text ) ) !== null ) {
+			var matchStr = match[ 0 ],
+			    schemeUrlMatch = match[ 1 ],
+			    wwwUrlMatch = match[ 2 ],
+			    wwwProtocolRelativeMatch = match[ 3 ],
+			    //tldUrlMatch = match[ 4 ],  -- not needed at the moment
+			    tldProtocolRelativeMatch = match[ 5 ],
+			    offset = match.index,
+			    protocolRelativeMatch = wwwProtocolRelativeMatch || tldProtocolRelativeMatch,
+				prevChar = text.charAt( offset - 1 );
+
+			if( !Autolinker.matcher.UrlMatchValidator.isValid( matchStr, schemeUrlMatch ) ) {
+				continue;
+			}
+
+			// If the match is preceded by an '@' character, then it is either
+			// an email address or a username. Skip these types of matches.
+			if( offset > 0 && prevChar === '@' ) {
+				continue;
+			}
+
+			// If it's a protocol-relative '//' match, but the character before the '//'
+			// was a word character (i.e. a letter/number), then we found the '//' in the
+			// middle of another word (such as "asdf//asdf.com"). In this case, skip the
+			// match.
+			if( offset > 0 && protocolRelativeMatch && this.wordCharRegExp.test( prevChar ) ) {
+				continue;
+			}
+
+			if( /\?$/.test(matchStr) ) {
+				matchStr = matchStr.substr(0, matchStr.length-1);
+			}
+
+			// Handle a closing parenthesis at the end of the match, and exclude
+			// it if there is not a matching open parenthesis in the match
+			// itself.
+			if( this.matchHasUnbalancedClosingParen( matchStr ) ) {
+				matchStr = matchStr.substr( 0, matchStr.length - 1 );  // remove the trailing ")"
+			} else {
+				// Handle an invalid character after the TLD
+				var pos = this.matchHasInvalidCharAfterTld( matchStr, schemeUrlMatch );
+				if( pos > -1 ) {
+					matchStr = matchStr.substr( 0, pos ); // remove the trailing invalid chars
+				}
+			}
+
+			var urlMatchType = schemeUrlMatch ? 'scheme' : ( wwwUrlMatch ? 'www' : 'tld' ),
+			    protocolUrlMatch = !!schemeUrlMatch;
+
+			matches.push( new Autolinker.match.Url( {
+				tagBuilder            : tagBuilder,
+				matchedText           : matchStr,
+				offset                : offset,
+				urlMatchType          : urlMatchType,
+				url                   : matchStr,
+				protocolUrlMatch      : protocolUrlMatch,
+				protocolRelativeMatch : !!protocolRelativeMatch,
+				stripPrefix           : stripPrefix,
+				stripTrailingSlash    : stripTrailingSlash
+			} ) );
+		}
+
+		return matches;
+	},
+
+
+	/**
+	 * Determines if a match found has an unmatched closing parenthesis. If so,
+	 * this parenthesis will be removed from the match itself, and appended
+	 * after the generated anchor tag.
+	 *
+	 * A match may have an extra closing parenthesis at the end of the match
+	 * because the regular expression must include parenthesis for URLs such as
+	 * "wikipedia.com/something_(disambiguation)", which should be auto-linked.
+	 *
+	 * However, an extra parenthesis *will* be included when the URL itself is
+	 * wrapped in parenthesis, such as in the case of "(wikipedia.com/something_(disambiguation))".
+	 * In this case, the last closing parenthesis should *not* be part of the
+	 * URL itself, and this method will return `true`.
+	 *
+	 * @private
+	 * @param {String} matchStr The full match string from the {@link #matcherRegex}.
+	 * @return {Boolean} `true` if there is an unbalanced closing parenthesis at
+	 *   the end of the `matchStr`, `false` otherwise.
+	 */
+	matchHasUnbalancedClosingParen : function( matchStr ) {
+		var lastChar = matchStr.charAt( matchStr.length - 1 );
+
+		if( lastChar === ')' ) {
+			var openParensMatch = matchStr.match( this.openParensRe ),
+			    closeParensMatch = matchStr.match( this.closeParensRe ),
+			    numOpenParens = ( openParensMatch && openParensMatch.length ) || 0,
+			    numCloseParens = ( closeParensMatch && closeParensMatch.length ) || 0;
+
+			if( numOpenParens < numCloseParens ) {
+				return true;
+			}
+		}
+
+		return false;
+	},
+
+
+	/**
+	 * Determine if there's an invalid character after the TLD in a URL. Valid
+	 * characters after TLD are ':/?#'. Exclude scheme matched URLs from this
+	 * check.
+	 *
+	 * @private
+	 * @param {String} urlMatch The matched URL, if there was one. Will be an
+	 *   empty string if the match is not a URL match.
+	 * @param {String} schemeUrlMatch The match URL string for a scheme
+	 *   match. Ex: 'http://yahoo.com'. This is used to match something like
+	 *   'http://localhost', where we won't double check that the domain name
+	 *   has at least one '.' in it.
+	 * @return {Number} the position where the invalid character was found. If
+	 *   no such character was found, returns -1
+	 */
+	matchHasInvalidCharAfterTld : function( urlMatch, schemeUrlMatch ) {
+		if( !urlMatch ) {
+			return -1;
+		}
+
+		var offset = 0;
+		if ( schemeUrlMatch ) {
+			offset = urlMatch.indexOf(':');
+			urlMatch = urlMatch.slice(offset);
+		}
+
+		var alphaNumeric = Autolinker.RegexLib.alphaNumericCharsStr;
+
+		var re = new RegExp("^((.?\/\/)?[-." + alphaNumeric + "]*[-" + alphaNumeric + "]\\.[-" + alphaNumeric + "]+)");
+		var res = re.exec( urlMatch );
+		if ( res === null ) {
+			return -1;
+		}
+
+		offset += res[1].length;
+		urlMatch = urlMatch.slice(res[1].length);
+		if (/^[^-.A-Za-z0-9:\/?#]/.test(urlMatch)) {
+			return offset;
+		}
+
+		return -1;
+	}
+
+} );
+
+/*global Autolinker */
+/*jshint scripturl:true */
+/**
+ * @private
+ * @class Autolinker.matcher.UrlMatchValidator
+ * @singleton
+ *
+ * Used by Autolinker to filter out false URL positives from the
+ * {@link Autolinker.matcher.Url UrlMatcher}.
+ *
+ * Due to the limitations of regular expressions (including the missing feature
+ * of look-behinds in JS regular expressions), we cannot always determine the
+ * validity of a given match. This class applies a bit of additional logic to
+ * filter out any false positives that have been matched by the
+ * {@link Autolinker.matcher.Url UrlMatcher}.
+ */
+Autolinker.matcher.UrlMatchValidator = {
+
+	/**
+	 * Regex to test for a full protocol, with the two trailing slashes. Ex: 'http://'
+	 *
+	 * @private
+	 * @property {RegExp} hasFullProtocolRegex
+	 */
+	hasFullProtocolRegex : /^[A-Za-z][-.+A-Za-z0-9]*:\/\//,
+
+	/**
+	 * Regex to find the URI scheme, such as 'mailto:'.
+	 *
+	 * This is used to filter out 'javascript:' and 'vbscript:' schemes.
+	 *
+	 * @private
+	 * @property {RegExp} uriSchemeRegex
+	 */
+	uriSchemeRegex : /^[A-Za-z][-.+A-Za-z0-9]*:/,
+
+	/**
+	 * Regex to determine if at least one word char exists after the protocol (i.e. after the ':')
+	 *
+	 * @private
+	 * @property {RegExp} hasWordCharAfterProtocolRegex
+	 */
+	hasWordCharAfterProtocolRegex : new RegExp(":[^\\s]*?[" + Autolinker.RegexLib.alphaCharsStr + "]"),
+
+	/**
+	 * Regex to determine if the string is a valid IP address
+	 *
+	 * @private
+	 * @property {RegExp} ipRegex
+	 */
+	ipRegex: /[0-9][0-9]?[0-9]?\.[0-9][0-9]?[0-9]?\.[0-9][0-9]?[0-9]?\.[0-9][0-9]?[0-9]?(:[0-9]*)?\/?$/,
+
+	/**
+	 * Determines if a given URL match found by the {@link Autolinker.matcher.Url UrlMatcher}
+	 * is valid. Will return `false` for:
+	 *
+	 * 1) URL matches which do not have at least have one period ('.') in the
+	 *    domain name (effectively skipping over matches like "abc:def").
+	 *    However, URL matches with a protocol will be allowed (ex: 'http://localhost')
+	 * 2) URL matches which do not have at least one word character in the
+	 *    domain name (effectively skipping over matches like "git:1.0").
+	 * 3) A protocol-relative url match (a URL beginning with '//') whose
+	 *    previous character is a word character (effectively skipping over
+	 *    strings like "abc//google.com")
+	 *
+	 * Otherwise, returns `true`.
+	 *
+	 * @param {String} urlMatch The matched URL, if there was one. Will be an
+	 *   empty string if the match is not a URL match.
+	 * @param {String} protocolUrlMatch The match URL string for a protocol
+	 *   match. Ex: 'http://yahoo.com'. This is used to match something like
+	 *   'http://localhost', where we won't double check that the domain name
+	 *   has at least one '.' in it.
+	 * @return {Boolean} `true` if the match given is valid and should be
+	 *   processed, or `false` if the match is invalid and/or should just not be
+	 *   processed.
+	 */
+	isValid : function( urlMatch, protocolUrlMatch ) {
+		if(
+			( protocolUrlMatch && !this.isValidUriScheme( protocolUrlMatch ) ) ||
+			this.urlMatchDoesNotHaveProtocolOrDot( urlMatch, protocolUrlMatch ) ||    // At least one period ('.') must exist in the URL match for us to consider it an actual URL, *unless* it was a full protocol match (like 'http://localhost')
+			(this.urlMatchDoesNotHaveAtLeastOneWordChar( urlMatch, protocolUrlMatch ) && // At least one letter character must exist in the domain name after a protocol match. Ex: skip over something like "git:1.0"
+			   !this.isValidIpAddress( urlMatch )) || // Except if it's an IP address
+			this.containsMultipleDots( urlMatch )
+		) {
+			return false;
+		}
+
+		return true;
+	},
+
+
+	isValidIpAddress : function ( uriSchemeMatch ) {
+		var newRegex = new RegExp(this.hasFullProtocolRegex.source + this.ipRegex.source);
+		var uriScheme = uriSchemeMatch.match( newRegex );
+
+		return uriScheme !== null;
+	},
+
+	containsMultipleDots : function ( urlMatch ) {
+		return urlMatch.indexOf("..") > -1;
+	},
+
+	/**
+	 * Determines if the URI scheme is a valid scheme to be autolinked. Returns
+	 * `false` if the scheme is 'javascript:' or 'vbscript:'
+	 *
+	 * @private
+	 * @param {String} uriSchemeMatch The match URL string for a full URI scheme
+	 *   match. Ex: 'http://yahoo.com' or 'mailto:a@a.com'.
+	 * @return {Boolean} `true` if the scheme is a valid one, `false` otherwise.
+	 */
+	isValidUriScheme : function( uriSchemeMatch ) {
+		var uriScheme = uriSchemeMatch.match( this.uriSchemeRegex )[ 0 ].toLowerCase();
+
+		return ( uriScheme !== 'javascript:' && uriScheme !== 'vbscript:' );
+	},
+
+
+	/**
+	 * Determines if a URL match does not have either:
+	 *
+	 * a) a full protocol (i.e. 'http://'), or
+	 * b) at least one dot ('.') in the domain name (for a non-full-protocol
+	 *    match).
+	 *
+	 * Either situation is considered an invalid URL (ex: 'git:d' does not have
+	 * either the '://' part, or at least one dot in the domain name. If the
+	 * match was 'git:abc.com', we would consider this valid.)
+	 *
+	 * @private
+	 * @param {String} urlMatch The matched URL, if there was one. Will be an
+	 *   empty string if the match is not a URL match.
+	 * @param {String} protocolUrlMatch The match URL string for a protocol
+	 *   match. Ex: 'http://yahoo.com'. This is used to match something like
+	 *   'http://localhost', where we won't double check that the domain name
+	 *   has at least one '.' in it.
+	 * @return {Boolean} `true` if the URL match does not have a full protocol,
+	 *   or at least one dot ('.') in a non-full-protocol match.
+	 */
+	urlMatchDoesNotHaveProtocolOrDot : function( urlMatch, protocolUrlMatch ) {
+		return ( !!urlMatch && ( !protocolUrlMatch || !this.hasFullProtocolRegex.test( protocolUrlMatch ) ) && urlMatch.indexOf( '.' ) === -1 );
+	},
+
+
+	/**
+	 * Determines if a URL match does not have at least one word character after
+	 * the protocol (i.e. in the domain name).
+	 *
+	 * At least one letter character must exist in the domain name after a
+	 * protocol match. Ex: skip over something like "git:1.0"
+	 *
+	 * @private
+	 * @param {String} urlMatch The matched URL, if there was one. Will be an
+	 *   empty string if the match is not a URL match.
+	 * @param {String} protocolUrlMatch The match URL string for a protocol
+	 *   match. Ex: 'http://yahoo.com'. This is used to know whether or not we
+	 *   have a protocol in the URL string, in order to check for a word
+	 *   character after the protocol separator (':').
+	 * @return {Boolean} `true` if the URL match does not have at least one word
+	 *   character in it after the protocol, `false` otherwise.
+	 */
+	urlMatchDoesNotHaveAtLeastOneWordChar : function( urlMatch, protocolUrlMatch ) {
+		if( urlMatch && protocolUrlMatch ) {
+			return !this.hasWordCharAfterProtocolRegex.test( urlMatch );
+		} else {
+			return false;
+		}
+	}
+
+};
+
+/*global Autolinker */
+/**
+ * A truncation feature where the ellipsis will be placed at the end of the URL.
+ *
+ * @param {String} anchorText
+ * @param {Number} truncateLen The maximum length of the truncated output URL string.
+ * @param {String} ellipsisChars The characters to place within the url, e.g. "..".
+ * @return {String} The truncated URL.
+ */
+Autolinker.truncate.TruncateEnd = function(anchorText, truncateLen, ellipsisChars){
+	return Autolinker.Util.ellipsis( anchorText, truncateLen, ellipsisChars );
+};
+
+/*global Autolinker */
+/**
+ * Date: 2015-10-05
+ * Author: Kasper Søfren <soefritz@gmail.com> (https://github.com/kafoso)
+ *
+ * A truncation feature, where the ellipsis will be placed in the dead-center of the URL.
+ *
+ * @param {String} url             A URL.
+ * @param {Number} truncateLen     The maximum length of the truncated output URL string.
+ * @param {String} ellipsisChars   The characters to place within the url, e.g. "..".
+ * @return {String} The truncated URL.
+ */
+Autolinker.truncate.TruncateMiddle = function(url, truncateLen, ellipsisChars){
+  if (url.length <= truncateLen) {
+    return url;
+  }
+
+  var ellipsisLengthBeforeParsing;
+  var ellipsisLength;
+
+  if(ellipsisChars == null) {
+    ellipsisChars = '&hellip;';
+    ellipsisLengthBeforeParsing = 8;
+    ellipsisLength = 3;
+  } else {
+    ellipsisLengthBeforeParsing = ellipsisChars.length;
+    ellipsisLength = ellipsisChars.length;
+  }
+
+  var availableLength = truncateLen - ellipsisLength;
+  var end = "";
+  if (availableLength > 0) {
+    end = url.substr((-1)*Math.floor(availableLength/2));
+  }
+  return (url.substr(0, Math.ceil(availableLength/2)) + ellipsisChars + end).substr(0, availableLength + ellipsisLengthBeforeParsing);
+};
+
+/*global Autolinker */
+/**
+ * Date: 2015-10-05
+ * Author: Kasper Søfren <soefritz@gmail.com> (https://github.com/kafoso)
+ *
+ * A truncation feature, where the ellipsis will be placed at a section within
+ * the URL making it still somewhat human readable.
+ *
+ * @param {String} url						 A URL.
+ * @param {Number} truncateLen		 The maximum length of the truncated output URL string.
+ * @param {String} ellipsisChars	 The characters to place within the url, e.g. "...".
+ * @return {String} The truncated URL.
+ */
+Autolinker.truncate.TruncateSmart = function(url, truncateLen, ellipsisChars){
+
+	var ellipsisLengthBeforeParsing;
+	var ellipsisLength;
+
+	if(ellipsisChars == null) {
+		ellipsisChars = '&hellip;';
+		ellipsisLength = 3;
+		ellipsisLengthBeforeParsing = 8;
+	} else {
+		ellipsisLength = ellipsisChars.length;
+		ellipsisLengthBeforeParsing = ellipsisChars.length;
+	}
+
+	var parse_url = function(url){ // Functionality inspired by PHP function of same name
+		var urlObj = {};
+		var urlSub = url;
+		var match = urlSub.match(/^([a-z]+):\/\//i);
+		if (match) {
+			urlObj.scheme = match[1];
+			urlSub = urlSub.substr(match[0].length);
+		}
+		match = urlSub.match(/^(.*?)(?=(\?|#|\/|$))/i);
+		if (match) {
+			urlObj.host = match[1];
+			urlSub = urlSub.substr(match[0].length);
+		}
+		match = urlSub.match(/^\/(.*?)(?=(\?|#|$))/i);
+		if (match) {
+			urlObj.path = match[1];
+			urlSub = urlSub.substr(match[0].length);
+		}
+		match = urlSub.match(/^\?(.*?)(?=(#|$))/i);
+		if (match) {
+			urlObj.query = match[1];
+			urlSub = urlSub.substr(match[0].length);
+		}
+		match = urlSub.match(/^#(.*?)$/i);
+		if (match) {
+			urlObj.fragment = match[1];
+			//urlSub = urlSub.substr(match[0].length);  -- not used. Uncomment if adding another block.
+		}
+		return urlObj;
+	};
+
+	var buildUrl = function(urlObj){
+		var url = "";
+		if (urlObj.scheme && urlObj.host) {
+			url += urlObj.scheme + "://";
+		}
+		if (urlObj.host) {
+			url += urlObj.host;
+		}
+		if (urlObj.path) {
+			url += "/" + urlObj.path;
+		}
+		if (urlObj.query) {
+			url += "?" + urlObj.query;
+		}
+		if (urlObj.fragment) {
+			url += "#" + urlObj.fragment;
+		}
+		return url;
+	};
+
+	var buildSegment = function(segment, remainingAvailableLength){
+		var remainingAvailableLengthHalf = remainingAvailableLength/ 2,
+				startOffset = Math.ceil(remainingAvailableLengthHalf),
+				endOffset = (-1)*Math.floor(remainingAvailableLengthHalf),
+				end = "";
+		if (endOffset < 0) {
+			end = segment.substr(endOffset);
+		}
+		return segment.substr(0, startOffset) + ellipsisChars + end;
+	};
+	if (url.length <= truncateLen) {
+		return url;
+	}
+	var availableLength = truncateLen - ellipsisLength;
+	var urlObj = parse_url(url);
+	// Clean up the URL
+	if (urlObj.query) {
+		var matchQuery = urlObj.query.match(/^(.*?)(?=(\?|\#))(.*?)$/i);
+		if (matchQuery) {
+			// Malformed URL; two or more "?". Removed any content behind the 2nd.
+			urlObj.query = urlObj.query.substr(0, matchQuery[1].length);
+			url = buildUrl(urlObj);
+		}
+	}
+	if (url.length <= truncateLen) {
+		return url;
+	}
+	if (urlObj.host) {
+		urlObj.host = urlObj.host.replace(/^www\./, "");
+		url = buildUrl(urlObj);
+	}
+	if (url.length <= truncateLen) {
+		return url;
+	}
+	// Process and build the URL
+	var str = "";
+	if (urlObj.host) {
+		str += urlObj.host;
+	}
+	if (str.length >= availableLength) {
+		if (urlObj.host.length == truncateLen) {
+			return (urlObj.host.substr(0, (truncateLen - ellipsisLength)) + ellipsisChars).substr(0, availableLength + ellipsisLengthBeforeParsing);
+		}
+		return buildSegment(str, availableLength).substr(0, availableLength + ellipsisLengthBeforeParsing);
+	}
+	var pathAndQuery = "";
+	if (urlObj.path) {
+		pathAndQuery += "/" + urlObj.path;
+	}
+	if (urlObj.query) {
+		pathAndQuery += "?" + urlObj.query;
+	}
+	if (pathAndQuery) {
+		if ((str+pathAndQuery).length >= availableLength) {
+			if ((str+pathAndQuery).length == truncateLen) {
+				return (str + pathAndQuery).substr(0, truncateLen);
+			}
+			var remainingAvailableLength = availableLength - str.length;
+			return (str + buildSegment(pathAndQuery, remainingAvailableLength)).substr(0, availableLength + ellipsisLengthBeforeParsing);
+		} else {
+			str += pathAndQuery;
+		}
+	}
+	if (urlObj.fragment) {
+		var fragment = "#"+urlObj.fragment;
+		if ((str+fragment).length >= availableLength) {
+			if ((str+fragment).length == truncateLen) {
+				return (str + fragment).substr(0, truncateLen);
+			}
+			var remainingAvailableLength2 = availableLength - str.length;
+			return (str + buildSegment(fragment, remainingAvailableLength2)).substr(0, availableLength + ellipsisLengthBeforeParsing);
+		} else {
+			str += fragment;
+		}
+	}
+	if (urlObj.scheme && urlObj.host) {
+		var scheme = urlObj.scheme + "://";
+		if ((str+scheme).length < availableLength) {
+			return (scheme + str).substr(0, truncateLen);
+		}
+	}
+	if (str.length <= truncateLen) {
+		return str;
+	}
+	var end = "";
+	if (availableLength > 0) {
+		end = str.substr((-1)*Math.floor(availableLength/2));
+	}
+	return (str.substr(0, Math.ceil(availableLength/2)) + ellipsisChars + end).substr(0, availableLength + ellipsisLengthBeforeParsing);
+};
+
+return Autolinker;
+}));
 
 
 /***/ })

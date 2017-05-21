@@ -37,7 +37,7 @@
                                 <i class="fa fa-check-circle" title="配信済み"
                                    v-if="message.is_posted && message.from_user_id == $auth.user().id"></i>
                             </small>
-                            {{ message.message }}
+                            <span v-html="AutoLinker(message.message)"></span>
                         </p>
                         <div class="attachment" v-if="message.attach_file">
                             <h4>添付ファイル:</h4>
@@ -125,6 +125,7 @@
 </template>
 <script>
     import moment from 'moment'
+    import Autolinker from 'autolinker'
 
     export default {
         computed: {
@@ -212,6 +213,15 @@
             },
         },
         methods: {
+            AutoLinker(value){
+                // 自動リンク
+                return Autolinker.link(
+                    value,
+                    {
+                        stripPrefix: false,
+                    }
+                )
+            },
             onDownload(messageId){
                 var self = this
 
@@ -307,8 +317,14 @@
                     return
                 }
 
+                // メッセージをエスケープして、タグを無効化
+                var message = _.escape(self.postMessage)
+
+                // メッセージをクリア
+                self.postMessage = null
+
                 var objMessage = {
-                    message: self.postMessage,
+                    message: message,
                     from_user_id: self.$auth.user().id,
                     display_name: self.$auth.user().display_name,
                     avatar_url: self.$auth.user().avatar_path,
@@ -322,7 +338,7 @@
                 axios.post('/messenger/message',
                     {
                         channelId: self.channelId,
-                        message: self.postMessage,
+                        message: message,
                     })
                     .then(function (response) {
                         objMessage.is_posted = true
@@ -330,16 +346,13 @@
                     .catch(function (error) {
                         console.log(error)
                     });
-
-                // メッセージをクリア
-                self.postMessage = null
             },
             onInitView(){
                 var self = this
 
                 self.isLoading = true
 
-                if(!window.echo){
+                if (!window.echo) {
                     self.$message({
                         type: 'error',
                         message: 'WebSocketが接続されていないため、参加出来ません。'
