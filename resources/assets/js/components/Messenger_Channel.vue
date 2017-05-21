@@ -126,6 +126,7 @@
 <script>
     import moment from 'moment'
     import Autolinker from 'autolinker'
+    import pushjs from 'push.js'
 
     export default {
         computed: {
@@ -408,11 +409,22 @@
             'messages' (to, from){
                 // メッセージが更新された場合
 
-                // 最後にスクロール
-                var el = this.$el.getElementsByClassName('direct-chat-messages')[0]
-                this.$nextTick(() => {
-                    el.scrollTop = el.scrollHeight
-                })
+                if (document.hidden) {
+                    // 画面がアクティブでなければ、デスクトップ通知を行う
+                    pushjs.create('お知らせ',
+                        {
+                            body: '新しいメッセージが届いています。',
+                            requireInteraction: false,
+                        }
+                    )
+                }else{
+                    // アクティブなら、最後にスクロール
+                    var el = this.$el.getElementsByClassName('direct-chat-messages')[0]
+
+                    this.$nextTick(() => {
+                        el.scrollTop = el.scrollHeight
+                    })
+                }
             },
         },
         mounted() {

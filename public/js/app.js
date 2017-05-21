@@ -5345,6 +5345,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_autolinker__ = __webpack_require__(371);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_autolinker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_autolinker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_push_js__ = __webpack_require__(281);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_push_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_push_js__);
 //
 //
 //
@@ -5470,6 +5472,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -5748,11 +5751,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         'messages': function messages(to, from) {
             // メッセージが更新された場合
 
-            // 最後にスクロール
-            var el = this.$el.getElementsByClassName('direct-chat-messages')[0];
-            this.$nextTick(function () {
-                el.scrollTop = el.scrollHeight;
-            });
+            if (document.hidden) {
+                // 画面がアクティブでなければ、デスクトップ通知を行う
+                __WEBPACK_IMPORTED_MODULE_2_push_js___default.a.create('お知らせ', {
+                    body: '新しいメッセージが届いています。',
+                    requireInteraction: false
+                });
+            } else {
+                // アクティブなら、最後にスクロール
+                var el = this.$el.getElementsByClassName('direct-chat-messages')[0];
+
+                this.$nextTick(function () {
+                    el.scrollTop = el.scrollHeight;
+                });
+            }
         }
     },
     mounted: function mounted() {
@@ -6369,6 +6381,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
+        // デスクトップ通知の許可をリクエスト
+        __WEBPACK_IMPORTED_MODULE_0_push_js___default.a.Permission.request();
+
         this.$events.$emit('LaravelEcho:init');
     },
 

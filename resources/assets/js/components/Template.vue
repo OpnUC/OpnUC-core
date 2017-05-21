@@ -162,6 +162,9 @@
             },
         },
         mounted(){
+            // デスクトップ通知の許可をリクエスト
+            pushjs.Permission.request();
+
             this.$events.$emit('LaravelEcho:init')
         },
         methods: {
