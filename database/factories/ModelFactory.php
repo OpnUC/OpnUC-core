@@ -25,3 +25,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'avatar_filename' => '',
     ];
 });
+
+$factory->define(App\MessengerChannel::class, function (Faker\Generator $faker) {
+    return [
+        'name' => 'channel01',
+        'topic' => 'channel01_topic',
+    ];
+});

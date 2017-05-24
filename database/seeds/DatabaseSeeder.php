@@ -13,5 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         // 初期ユーザのSeed
         $this->call(UsersTableSeeder::class);
+
+        // Messengerのパーミッションを追加
+        $this->call(VerUpMessengerPermissionSeeder::class);
     }
 }

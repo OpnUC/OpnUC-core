@@ -43,6 +43,9 @@ class MessengerController extends Controller
         // リクエストからチャンネルIDを取得
         $channelId = intval($request['channelId']);
 
+        // ToDo: 存在しないチャンネルにポストすると、500 errorが返る
+        // 入力チェック必要
+
         // メッセージをDBに保存
         $message = new Message();
         $message->from_user_id = \Auth::user()->id;
