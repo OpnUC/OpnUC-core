@@ -18,16 +18,16 @@
                                 <label for="searchSender" class="col-sm-1 control-label">発信者：</label>
                                 <div class="col-sm-2">
                                     <input type="text" class="form-control" id="searchSender"
-                                           v-model="moreParams.sender">
+                                           v-model="searchParams.sender">
                                 </div>
                                 <label for="searchDestination" class="col-sm-1 control-label">着信先：</label>
                                 <div class="col-sm-2">
                                     <input type="text" class="form-control" id="searchDestination"
-                                           v-model="moreParams.destination">
+                                           v-model="searchParams.destination">
                                 </div>
                                 <label for="searchType" class="col-sm-1 control-label">種別：</label>
                                 <div class="col-sm-2">
-                                    <select class="form-control" id="searchType" v-model="moreParams.type"
+                                    <select class="form-control" id="searchType" v-model="searchParams.type"
                                             options="types">
                                         <option v-for="option in types" v-bind:value="option.key">
                                             {{ option.value }}
@@ -39,7 +39,7 @@
                                 <label for="searchDateStart" class="col-sm-1 control-label">期間：</label>
                                 <div class="col-sm-5">
                                     <el-date-picker
-                                            v-model="moreParams.datetime" type="daterange"
+                                            v-model="searchParams.datetime" type="daterange"
                                             placeholder="日時を選択してください"
                                             format="yyyy/MM/dd"
                                             range-separator="～"
@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="box">
-                <div id="resultLoading" style="visibility: visible;" class="overlay">
+                <div style="visibility: visible;" class="overlay" v-if="isLoading">
                     <i class="fa fa-refresh fa-spin"></i>
                 </div>
                 <div class="box-body">
@@ -86,7 +86,7 @@
                               :css="css"
                               :fields="fields"
                               :sort-order="sortOrder"
-                              :append-params="moreParams"
+                              :append-params="searchParams"
                               detail-row-id="id"
                               :per-page="perPage"
                               @vuetable:pagination-data="onPaginationData"
@@ -112,12 +112,15 @@
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+
     require('moment/min/locales');
+
     export default {
         data() {
             return {
                 perPage: 50,
                 isDownloading: false,
+                isLoading: true,
                 dpOptions: {
                     firstDayOfWeek: 1,
                     shortcuts: [
@@ -264,7 +267,7 @@
                         sortField: 'destination',
                     },
                 ],
-                moreParams: {
+                searchParams: {
                     sender: '',
                     destination: '',
                     type: 0,
@@ -282,6 +285,7 @@
         },
         watch: {
             perPage: function () {
+                // 1ページに表示する件数が変更された場合は、Tableを更新する
                 this.$nextTick(function () {
                     this.$refs.vuetable.refresh()
                 })
@@ -327,16 +331,18 @@
                 this.$refs.vuetable.refresh()
             },
             onDownload(){
-                var _this = this
-                this.isDownloading = true
+                var self = this
 
-                this.$message({
+                // ボタンを無効にする
+                self.isDownloading = true
+
+                self.$message({
                     type: 'info',
                     message: 'ダウンロードを開始しました。',
                 });
 
                 axios.get('/cdr/download', {
-                        params: this.moreParams
+                        params: this.searchParams
                     }
                 )
                     .then(function (response) {
@@ -351,26 +357,32 @@
                         link.download = filename
                         link.click();
 
-                        _this.isDownloading = false
+                        self.isDownloading = false
                     })
                     .catch(function (error) {
                         console.log(error)
 
-                        _this.isDownloading = false
+                        self.$message({
+                            type: 'error',
+                            message: 'ダウンロードに失敗しました。',
+                        });
+
+                        self.isDownloading = false
                     });
-            },
-            regEvent(){
-                this.$refs.vuetable.$on('vuetable:loading', () => {
-                    $('#resultLoading').css('visibility', 'visible');
-                })
-                this.$refs.vuetable.$on('vuetable:loaded', () => {
-                    $('#resultLoading').css('visibility', 'hidden');
-                })
             },
         },
         mounted() {
+            self = this
+
             moment.locale('ja')
-            this.regEvent();
+
+            // Vuetableが読み込み中の場合は、Loadingを表示する
+            this.$refs.vuetable.$on('vuetable:loading', () => {
+                self.isLoading = true;
+            })
+            this.$refs.vuetable.$on('vuetable:loaded', () => {
+                self.isLoading = false;
+            })
         },
         created() {
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);

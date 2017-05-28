@@ -14,9 +14,8 @@
 <script>
     export default {
         created() {
+            // サイドバーなし
             this.$root.sidebar = false;
         }
     }
 </script>
-<style>
-</style>
