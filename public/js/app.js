@@ -4616,17 +4616,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -4690,22 +4679,6 @@ __webpack_require__(275);
                     }
                 }]
             },
-            types: [{
-                key: 0,
-                value: '全てを選択'
-            }, {
-                key: 10,
-                value: '内線通話'
-            }, {
-                key: 21,
-                value: '外線発信'
-            }, {
-                key: 22,
-                value: '外線応答'
-            }, {
-                key: 23,
-                value: '外線着信'
-            }],
             sortOrder: [{
                 field: 'start_datetime',
                 sortField: 'start_datetime',
@@ -4748,11 +4721,6 @@ __webpack_require__(275);
                 sortField: 'duration',
                 callback: 'toHMS'
             }, {
-                name: 'type',
-                title: '種別',
-                sortField: 'type',
-                callback: 'convertType'
-            }, {
                 name: 'sender',
                 title: '発信者',
                 sortField: 'sender'
@@ -4764,7 +4732,6 @@ __webpack_require__(275);
             searchParams: {
                 sender: '',
                 destination: '',
-                type: 0,
                 datetime: [__WEBPACK_IMPORTED_MODULE_0_moment___default()().startOf('month'), __WEBPACK_IMPORTED_MODULE_0_moment___default()().endOf('month')]
             }
         };
@@ -37339,44 +37306,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })]), _vm._v(" "), _c('label', {
-    staticClass: "col-sm-1 control-label",
-    attrs: {
-      "for": "searchType"
-    }
-  }, [_vm._v("種別：")]), _vm._v(" "), _c('div', {
-    staticClass: "col-sm-2"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.searchParams.type),
-      expression: "searchParams.type"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "id": "searchType",
-      "options": "types"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.searchParams.type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, _vm._l((_vm.types), function(option) {
-    return _c('option', {
-      domProps: {
-        "value": option.key
-      }
-    }, [_vm._v("\n                                        " + _vm._s(option.value) + "\n                                    ")])
-  }))])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
     staticClass: "col-sm-1 control-label",
     attrs: {
       "for": "searchDateStart"

@@ -44,7 +44,6 @@ class CdrController extends Controller
 
     /**
      * 発着信履歴をCSVでダウンロードさせる
-     * ToDo : 種別がタイプ値なので、分かりにくい
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -58,7 +57,7 @@ class CdrController extends Controller
 
         $items = $this->_getItems($request)->get()->toArray();
 
-        $csvHeader = ['id', 'start_datetime', 'duration', 'type', 'sender', 'destination'];
+        $csvHeader = ['id', 'start_datetime', 'duration', 'sender', 'destination'];
         array_unshift($items, $csvHeader);
 
         $stream = fopen('php://temp', 'r+b');
@@ -82,13 +81,14 @@ class CdrController extends Controller
 
     /**
      * 発着信履歴のデータを取得する内部処理
-     * @param Request $req
+     * @param Request $request
      * @return mixed
+     * @internal param Request $req
      */
     private function _getItems(Request $request)
     {
 
-        $column = ['id', 'start_datetime', 'duration', 'type', 'sender', 'destination'];
+        $column = ['id', 'start_datetime', 'duration', 'sender', 'destination'];
 
         $items = \App\Cdr::select($column);
 
@@ -111,13 +111,6 @@ class CdrController extends Controller
 
             $items = $items
                 ->whereBetween('start_datetime', array($startDt, $endDt));
-        }
-
-        $type = is_numeric($request['type']) ? intval($request['type']) : 0;
-
-        if ($type !== 0) {
-            $items = $items
-                ->where('type', $request['type']);
         }
 
         $sort = explode('|', $request['sort']);

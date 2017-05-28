@@ -25,17 +25,6 @@
                                     <input type="text" class="form-control" id="searchDestination"
                                            v-model="searchParams.destination">
                                 </div>
-                                <label for="searchType" class="col-sm-1 control-label">種別：</label>
-                                <div class="col-sm-2">
-                                    <select class="form-control" id="searchType" v-model="searchParams.type"
-                                            options="types">
-                                        <option v-for="option in types" v-bind:value="option.key">
-                                            {{ option.value }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label for="searchDateStart" class="col-sm-1 control-label">期間：</label>
                                 <div class="col-sm-5">
                                     <el-date-picker
@@ -182,28 +171,6 @@
                         }
                     ]
                 },
-                types: [
-                    {
-                        key: 0,
-                        value: '全てを選択'
-                    },
-                    {
-                        key: 10,
-                        value: '内線通話'
-                    },
-                    {
-                        key: 21,
-                        value: '外線発信'
-                    },
-                    {
-                        key: 22,
-                        value: '外線応答'
-                    },
-                    {
-                        key: 23,
-                        value: '外線着信'
-                    }
-                ],
                 sortOrder: [
                     {
                         field: 'start_datetime',
@@ -251,12 +218,6 @@
                         callback: 'toHMS',
                     },
                     {
-                        name: 'type',
-                        title: '種別',
-                        sortField: 'type',
-                        callback: 'convertType',
-                    },
-                    {
                         name: 'sender',
                         title: '発信者',
                         sortField: 'sender',
@@ -270,7 +231,6 @@
                 searchParams: {
                     sender: '',
                     destination: '',
-                    type: 0,
                     datetime: [
                         moment().startOf('month'),
                         moment().endOf('month')
