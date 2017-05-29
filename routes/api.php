@@ -48,8 +48,14 @@ Route::group([
 
         Route::post('/click2call/originate', 'Click2CallController@originate');
 
-        Route::get('/cdr/search', 'CdrController@search');
-        Route::get('/cdr/download', 'CdrController@download');
+        // 発着信履歴
+        Route::group([
+            'middleware' => 'permission:cdr-user',
+            'prefix' => 'cdr'
+        ], function () {
+            Route::get('search', 'CdrController@search');
+            Route::get('download', 'CdrController@download');
+        });
 
         Route::get('/addressbook/search', 'AddressBookController@search');
         Route::get('/addressbook/detail', 'AddressBookController@detail');

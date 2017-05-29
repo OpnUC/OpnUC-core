@@ -6,13 +6,13 @@
                     <h4 class="box-title">
                         <a role="button" data-toggle="collapse" data-parent="#search" href="#collapseOne"
                            aria-expanded="false" aria-controls="collapseOne">
-                            <span class="glyphicon glyphicon-search"></span>
+                            <span class="fa fa-search"></span>
                             検索条件
                         </a>
                     </h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="search">
-                    <form class="form-horizontal" id="searchForm" v-on:submit="onSearch">
+                    <form class="form-horizontal" id="searchForm" v-on:submit.prevent="onSearch">
                         <div class="panel-body">
                             <div class="form-group">
                                 <label for="searchSender" class="col-sm-1 control-label">発信者：</label>
@@ -38,11 +38,11 @@
                         </div>
                         <div class="box-footer">
                             <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-search"></span>
+                                <i class="fa fa-search"></i>
                                 検索
                             </button>
                             <button class="btn btn-default" type="reset">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <i class="fa fa-times"></i>
                                 リセット
                             </button>
                         </div>
@@ -56,6 +56,7 @@
                 <div class="box-body">
                     <div class="pull-left">
                         <el-button v-on:click="onDownload" :loading="isDownloading">
+                            <i class="fa fa-download"></i>
                             CSVでダウンロード
                         </el-button>
                     </div>
@@ -98,6 +99,7 @@
 </template>
 <script>
     import moment from 'moment'
+    import 'moment-duration-format'
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -116,42 +118,42 @@
                         {
                             text: '今日',
                             onClick(picker) {
-                                const start = new Date();
-                                picker.$emit('pick', [start, start]);
+                                picker.$emit('pick', [
+                                    moment().startOf('day'),
+                                    moment().startOf('day')
+                                ]);
                             }
                         },
                         {
                             text: '昨日',
                             onClick(picker) {
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
-                                picker.$emit('pick', [start, start]);
+                                picker.$emit('pick', [
+                                    moment().subtract(1, 'day').startOf('day'),
+                                    moment().subtract(1, 'day').endOf('day')
+                                ]);
                             }
                         },
                         {
                             text: '過去7日間',
                             onClick(picker) {
-                                const end = new Date();
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
-                                picker.$emit('pick', [start, end]);
+                                picker.$emit('pick', [
+                                    moment().subtract(6, 'day').startOf('day'),
+                                    moment().endOf('day')
+                                ]);
                             }
                         },
                         {
                             text: '過去30日間',
                             onClick(picker) {
-                                const end = new Date();
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
-                                picker.$emit('pick', [start, end]);
+                                picker.$emit('pick', [
+                                    moment().subtract(29, 'day').startOf('day'),
+                                    moment().endOf('day')
+                                ]);
                             }
                         },
                         {
                             text: '今月',
                             onClick(picker) {
-                                const end = new Date();
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
                                 picker.$emit('pick', [
                                     moment().startOf('month'),
                                     moment().endOf('month')
@@ -160,9 +162,6 @@
                         }, {
                             text: '先月',
                             onClick(picker) {
-                                const end = new Date();
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
                                 picker.$emit('pick', [
                                     moment().subtract(1, 'month').startOf('month'),
                                     moment().subtract(1, 'month').endOf('month')
@@ -252,27 +251,22 @@
             }
         },
         methods: {
-            convertType(value){
-                var result = this.$data.types.filter(function (item) {
-                    return item.key == value;
-                });
-
-                return result ? result[0].value : '';
-            },
+            /**
+             * 秒数を 時間 分 秒にフォーマット
+             * @param value
+             * @returns {string}
+             */
             toHMS(value){
-                var hms = "";
-                var h = value / 3600 | 0;
-                var m = value % 3600 / 60 | 0;
-                var s = value % 60;
-                if (h != 0) {
-                    hms = h + "時間" + m + "分" + s + "秒";
-                } else if (m != 0) {
-                    hms = m + "分" + s + "秒";
-                } else {
-                    hms = s + "秒";
-                }
-                return hms;
+                return (value == null)
+                    ? ''
+                    : moment.duration(value, 'seconds').format('h時間mm分ss秒')
             },
+            /**
+             * 日付のフォーマット
+             * @param value
+             * @param fmt
+             * @returns {string}
+             */
             formatDate (value, fmt) {
                 return (value == null)
                     ? ''
@@ -285,11 +279,15 @@
             onChangePage (page) {
                 this.$refs.vuetable.changePage(page)
             },
+            /**
+             * 検索
+             */
             onSearch(){
-                event.preventDefault()
-
                 this.$refs.vuetable.refresh()
             },
+            /**
+             * ダウンロード
+             */
             onDownload(){
                 var self = this
 
