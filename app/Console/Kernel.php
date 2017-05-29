@@ -15,7 +15,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         'App\Console\Commands\CdrProcess',
-        'App\Console\Commands\EchoTest',
         'App\Console\Commands\PresenceTest',
         \App\Console\Commands\PbxLinker::class,
     ];

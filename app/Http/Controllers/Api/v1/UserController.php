@@ -23,6 +23,28 @@ class UserController extends Controller
     }
 
     /**
+     * ユーザ一覧
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function users(Request $request)
+    {
+
+        $column = ['id', 'username', 'display_name'];
+
+        $items = \App\User::select($column);
+
+        // idが設定されている場合は、1ユーザのみとする
+        if ($request['id']) {
+            $id = intval($request['id']);
+            $items = $items->where('id', $id);
+        }
+
+        return \Response::json($items->get());
+
+    }
+
+    /**
      * ユーザ情報 編集
      * @param Requests\UserRequest $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response

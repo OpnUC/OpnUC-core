@@ -12,117 +12,111 @@ class CdrController extends Controller
 {
 
     /**
-     * constructor
-     */
-    public function __construct()
-    {
-
-        // ミドルウェアの指定
-        $this->middleware('jwt.auth');
-
-    }
-
-    /**
      * 発着信履歴をJSONで返す
-     * @param Request $req
+     * @param Request $request
      * @return type
+     * @internal param Request $req
      */
     public function search(Request $request)
     {
 
-        // 権限チェック
-        if (!\Entrust::can('cdr-user')) {
-            abort(403);
-        }
+        // 1ページあたりの件数を取得
+        // 無い場合は、10件とする
+        $per_page = intval($request->input('per_page')) ? $request->input('per_page') : 10;
 
-        $per_page = intval($request['per_page']) ? $request['per_page'] : 10;
+        // ページネーション
+        $items = $this
+            ->_getItems($request)
+            ->paginate($per_page);
 
-        $items = $this->_getItems($request)->paginate($per_page);
-
+        // JSONでレスポンスを返す
         return \Response::json($items);
+
     }
 
     /**
      * 発着信履歴をCSVでダウンロードさせる
-     * ToDo : 種別がタイプ値なので、分かりにくい
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function download(Request $request)
     {
+        $items = $this
+            ->_getItems($request)
+            ->get()
+            ->toArray();
 
-        // 権限チェック
-        if (!\Entrust::can('cdr-user')) {
-            abort(403);
-        }
-
-        $items = $this->_getItems($request)->get()->toArray();
-
-        $csvHeader = ['id', 'start_datetime', 'duration', 'type', 'sender', 'destination'];
+        // CSVファイルの先頭に付けるヘッダー
+        $csvHeader = ['id', 'start_datetime', 'duration', 'sender', 'destination'];
+        // 配列に追加する
         array_unshift($items, $csvHeader);
 
+        // 一時的にストリームを作成
         $stream = fopen('php://temp', 'r+b');
 
+        // CSVで書き出し
         foreach ($items as $user) {
             fputcsv($stream, $user);
         }
 
+        // ファイルポインタを千頭に戻す
         rewind($stream);
 
+        // 改行コードを \r\n に置き換える
         $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
 
+        // HTTPヘッダー
         $headers = array(
             'Content-Type' => 'text/csv',
             'Content-Disposition' => 'attachment; filename="cdr.csv"',
         );
 
+        // レスポンスを返す
         return \Response::make($csv, 200, $headers);
 
     }
 
     /**
      * 発着信履歴のデータを取得する内部処理
-     * @param Request $req
+     * @param Request $request
      * @return mixed
+     * @internal param Request $req
      */
     private function _getItems(Request $request)
     {
 
-        $column = ['id', 'start_datetime', 'duration', 'type', 'sender', 'destination'];
+        // 取得する列
+        $column = ['id', 'start_datetime', 'duration', 'sender', 'destination'];
 
         $items = \App\Cdr::select($column);
 
-        if (strlen($request['sender'])) {
+        // 発信者が指定されている場合
+        if ($request->has('sender')) {
             $items = $items
-                ->where('sender', 'LIKE', '%' . $request['sender'] . '%');
+                ->where('sender', 'LIKE', '%' . $request->input('sender') . '%');
         }
 
-        if (strlen($request['destination'])) {
+        // 着信先が指定されている場合
+        if ($request->has('destination')) {
             $items = $items
-                ->where('destination', 'LIKE', '%' . $request['destination'] . '%');
+                ->where('destination', 'LIKE', '%' . $request->input('destination') . '%');
         }
 
-        $startDt = str_replace('"', '', $request['datetime'][0]);
-        $endDt = str_replace('"', '', $request['datetime'][1]);
+        // 期間
+        $startDt = strtotime(str_replace('"', '', $request['datetime'][0]));
+        $endDt = strtotime(str_replace('"', '', $request['datetime'][1]));
 
-        if (is_array($request['datetime']) && strtotime($startDt) && strtotime($endDt)) {
-            $startDt = date('Y-m-d' . ' 00:00:00', strtotime($startDt));
-            $endDt = date('Y-m-d' . ' 23:59:59', strtotime($endDt));
+        if (is_array($request['datetime']) && $startDt && $endDt) {
+            $startDt = date('Y-m-d' . ' 00:00:00', $startDt);
+            $endDt = date('Y-m-d' . ' 23:59:59', $endDt);
 
             $items = $items
                 ->whereBetween('start_datetime', array($startDt, $endDt));
         }
 
-        $type = is_numeric($request['type']) ? intval($request['type']) : 0;
-
-        if ($type !== 0) {
-            $items = $items
-                ->where('type', $request['type']);
-        }
-
+        // Sort
         $sort = explode('|', $request['sort']);
 
-        // Sort
         if (is_array($sort) && in_array($sort[0], $column) && in_array($sort[1], array('desc', 'asc'))) {
             $items = $items
                 ->orderBy($sort[0], $sort[1]);

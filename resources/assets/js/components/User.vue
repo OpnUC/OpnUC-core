@@ -1,9 +1,17 @@
 <template>
     <section class="content">
-        <div class="row" v-if="selectItem">
+        <div class="row">
             <div class="col-md-3">
                 <div class="box box-primary">
-                    <div class="box-body box-profile">
+                    <div class="overlay" v-if="isLoading">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            アバター
+                        </h3>
+                    </div>
+                    <div class="box-body box-profile" v-if="selectItem">
                         <img class="profile-user-img img-responsive img-circle"
                              v-bind:src="selectItem.avatar_path" alt="Avatar">
 
@@ -138,7 +146,10 @@
 
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary pull-right">保存</button>
+                            <button type="submit" class="btn btn-primary pull-right">
+                                <i class="fa fa-save"></i>
+                                保存
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -146,10 +157,7 @@
         </div>
     </section>
 </template>
-
 <script>
-    import Vue from 'vue'
-
     export default {
         data() {
             return {

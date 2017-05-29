@@ -14,8 +14,11 @@
 <div id="root"></div>
 
 <script>
+    window.appUrl = '{{ asset('') }}';
+
     window.opnucConfig = <?php
     echo json_encode([
+        'enable_saml2_auth' => \Config::get('saml2_settings.useSaml2Auth', false),
         'enable_c2c' => \Config::get('opnuc.enable_c2c'),
         'enable_tel_presence' => \Config::get('opnuc.enable_tel_presence'),
     ]);

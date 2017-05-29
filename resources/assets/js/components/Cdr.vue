@@ -6,40 +6,29 @@
                     <h4 class="box-title">
                         <a role="button" data-toggle="collapse" data-parent="#search" href="#collapseOne"
                            aria-expanded="false" aria-controls="collapseOne">
-                            <span class="glyphicon glyphicon-search"></span>
+                            <span class="fa fa-search"></span>
                             検索条件
                         </a>
                     </h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="search">
-                    <form class="form-horizontal" id="searchForm" v-on:submit="onSearch">
+                    <form class="form-horizontal" id="searchForm" v-on:submit.prevent="onSearch">
                         <div class="panel-body">
                             <div class="form-group">
                                 <label for="searchSender" class="col-sm-1 control-label">発信者：</label>
                                 <div class="col-sm-2">
                                     <input type="text" class="form-control" id="searchSender"
-                                           v-model="moreParams.sender">
+                                           v-model="searchParams.sender">
                                 </div>
                                 <label for="searchDestination" class="col-sm-1 control-label">着信先：</label>
                                 <div class="col-sm-2">
                                     <input type="text" class="form-control" id="searchDestination"
-                                           v-model="moreParams.destination">
+                                           v-model="searchParams.destination">
                                 </div>
-                                <label for="searchType" class="col-sm-1 control-label">種別：</label>
-                                <div class="col-sm-2">
-                                    <select class="form-control" id="searchType" v-model="moreParams.type"
-                                            options="types">
-                                        <option v-for="option in types" v-bind:value="option.key">
-                                            {{ option.value }}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label for="searchDateStart" class="col-sm-1 control-label">期間：</label>
                                 <div class="col-sm-5">
                                     <el-date-picker
-                                            v-model="moreParams.datetime" type="daterange"
+                                            v-model="searchParams.datetime" type="daterange"
                                             placeholder="日時を選択してください"
                                             format="yyyy/MM/dd"
                                             range-separator="～"
@@ -49,11 +38,11 @@
                         </div>
                         <div class="box-footer">
                             <button class="btn btn-primary" type="submit">
-                                <span class="glyphicon glyphicon-search"></span>
+                                <i class="fa fa-search"></i>
                                 検索
                             </button>
                             <button class="btn btn-default" type="reset">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <i class="fa fa-times"></i>
                                 リセット
                             </button>
                         </div>
@@ -61,12 +50,13 @@
                 </div>
             </div>
             <div class="box">
-                <div id="resultLoading" style="visibility: visible;" class="overlay">
+                <div style="visibility: visible;" class="overlay" v-if="isLoading">
                     <i class="fa fa-refresh fa-spin"></i>
                 </div>
                 <div class="box-body">
                     <div class="pull-left">
                         <el-button v-on:click="onDownload" :loading="isDownloading">
+                            <i class="fa fa-download"></i>
                             CSVでダウンロード
                         </el-button>
                     </div>
@@ -86,7 +76,7 @@
                               :css="css"
                               :fields="fields"
                               :sort-order="sortOrder"
-                              :append-params="moreParams"
+                              :append-params="searchParams"
                               detail-row-id="id"
                               :per-page="perPage"
                               @vuetable:pagination-data="onPaginationData"
@@ -109,57 +99,61 @@
 </template>
 <script>
     import moment from 'moment'
+    import 'moment-duration-format'
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+
     require('moment/min/locales');
+
     export default {
         data() {
             return {
                 perPage: 50,
                 isDownloading: false,
+                isLoading: true,
                 dpOptions: {
                     firstDayOfWeek: 1,
                     shortcuts: [
                         {
                             text: '今日',
                             onClick(picker) {
-                                const start = new Date();
-                                picker.$emit('pick', [start, start]);
+                                picker.$emit('pick', [
+                                    moment().startOf('day'),
+                                    moment().startOf('day')
+                                ]);
                             }
                         },
                         {
                             text: '昨日',
                             onClick(picker) {
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 1);
-                                picker.$emit('pick', [start, start]);
+                                picker.$emit('pick', [
+                                    moment().subtract(1, 'day').startOf('day'),
+                                    moment().subtract(1, 'day').endOf('day')
+                                ]);
                             }
                         },
                         {
                             text: '過去7日間',
                             onClick(picker) {
-                                const end = new Date();
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 6);
-                                picker.$emit('pick', [start, end]);
+                                picker.$emit('pick', [
+                                    moment().subtract(6, 'day').startOf('day'),
+                                    moment().endOf('day')
+                                ]);
                             }
                         },
                         {
                             text: '過去30日間',
                             onClick(picker) {
-                                const end = new Date();
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
-                                picker.$emit('pick', [start, end]);
+                                picker.$emit('pick', [
+                                    moment().subtract(29, 'day').startOf('day'),
+                                    moment().endOf('day')
+                                ]);
                             }
                         },
                         {
                             text: '今月',
                             onClick(picker) {
-                                const end = new Date();
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
                                 picker.$emit('pick', [
                                     moment().startOf('month'),
                                     moment().endOf('month')
@@ -168,9 +162,6 @@
                         }, {
                             text: '先月',
                             onClick(picker) {
-                                const end = new Date();
-                                const start = new Date();
-                                start.setTime(start.getTime() - 3600 * 1000 * 24 * 29);
                                 picker.$emit('pick', [
                                     moment().subtract(1, 'month').startOf('month'),
                                     moment().subtract(1, 'month').endOf('month')
@@ -179,28 +170,6 @@
                         }
                     ]
                 },
-                types: [
-                    {
-                        key: 0,
-                        value: '全てを選択'
-                    },
-                    {
-                        key: 10,
-                        value: '内線通話'
-                    },
-                    {
-                        key: 21,
-                        value: '外線発信'
-                    },
-                    {
-                        key: 22,
-                        value: '外線応答'
-                    },
-                    {
-                        key: 23,
-                        value: '外線着信'
-                    }
-                ],
                 sortOrder: [
                     {
                         field: 'start_datetime',
@@ -248,12 +217,6 @@
                         callback: 'toHMS',
                     },
                     {
-                        name: 'type',
-                        title: '種別',
-                        sortField: 'type',
-                        callback: 'convertType',
-                    },
-                    {
                         name: 'sender',
                         title: '発信者',
                         sortField: 'sender',
@@ -264,10 +227,9 @@
                         sortField: 'destination',
                     },
                 ],
-                moreParams: {
+                searchParams: {
                     sender: '',
                     destination: '',
-                    type: 0,
                     datetime: [
                         moment().startOf('month'),
                         moment().endOf('month')
@@ -282,33 +244,29 @@
         },
         watch: {
             perPage: function () {
+                // 1ページに表示する件数が変更された場合は、Tableを更新する
                 this.$nextTick(function () {
                     this.$refs.vuetable.refresh()
                 })
             }
         },
         methods: {
-            convertType(value){
-                var result = this.$data.types.filter(function (item) {
-                    return item.key == value;
-                });
-
-                return result ? result[0].value : '';
-            },
+            /**
+             * 秒数を 時間 分 秒にフォーマット
+             * @param value
+             * @returns {string}
+             */
             toHMS(value){
-                var hms = "";
-                var h = value / 3600 | 0;
-                var m = value % 3600 / 60 | 0;
-                var s = value % 60;
-                if (h != 0) {
-                    hms = h + "時間" + m + "分" + s + "秒";
-                } else if (m != 0) {
-                    hms = m + "分" + s + "秒";
-                } else {
-                    hms = s + "秒";
-                }
-                return hms;
+                return (value == null)
+                    ? ''
+                    : moment.duration(value, 'seconds').format('h時間mm分ss秒')
             },
+            /**
+             * 日付のフォーマット
+             * @param value
+             * @param fmt
+             * @returns {string}
+             */
             formatDate (value, fmt) {
                 return (value == null)
                     ? ''
@@ -321,22 +279,28 @@
             onChangePage (page) {
                 this.$refs.vuetable.changePage(page)
             },
+            /**
+             * 検索
+             */
             onSearch(){
-                event.preventDefault()
-
                 this.$refs.vuetable.refresh()
             },
+            /**
+             * ダウンロード
+             */
             onDownload(){
-                var _this = this
-                this.isDownloading = true
+                var self = this
 
-                this.$message({
+                // ボタンを無効にする
+                self.isDownloading = true
+
+                self.$message({
                     type: 'info',
                     message: 'ダウンロードを開始しました。',
                 });
 
                 axios.get('/cdr/download', {
-                        params: this.moreParams
+                        params: this.searchParams
                     }
                 )
                     .then(function (response) {
@@ -351,26 +315,32 @@
                         link.download = filename
                         link.click();
 
-                        _this.isDownloading = false
+                        self.isDownloading = false
                     })
                     .catch(function (error) {
                         console.log(error)
 
-                        _this.isDownloading = false
+                        self.$message({
+                            type: 'error',
+                            message: 'ダウンロードに失敗しました。',
+                        });
+
+                        self.isDownloading = false
                     });
-            },
-            regEvent(){
-                this.$refs.vuetable.$on('vuetable:loading', () => {
-                    $('#resultLoading').css('visibility', 'visible');
-                })
-                this.$refs.vuetable.$on('vuetable:loaded', () => {
-                    $('#resultLoading').css('visibility', 'hidden');
-                })
             },
         },
         mounted() {
+            self = this
+
             moment.locale('ja')
-            this.regEvent();
+
+            // Vuetableが読み込み中の場合は、Loadingを表示する
+            this.$refs.vuetable.$on('vuetable:loading', () => {
+                self.isLoading = true;
+            })
+            this.$refs.vuetable.$on('vuetable:loaded', () => {
+                self.isLoading = false;
+            })
         },
         created() {
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar);

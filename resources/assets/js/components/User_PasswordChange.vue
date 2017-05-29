@@ -21,7 +21,7 @@
                             </div>
 
                             <div class="form-group" :class="errors.password ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputPassword">現在のパスワード</label>
+                                <label class="control-label col-xs-4" for="inputPassword">現在のパスワード</label>
                                 <div class="col-xs-7">
                                     <input type="password" class="form-control input-sm" id="inputPassword"
                                            placeholder="現在のパスワード" v-model="password">
@@ -36,7 +36,7 @@
                             </div>
 
                             <div class="form-group" :class="errors.newPassword ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputNewPassword">新しいパスワード</label>
+                                <label class="control-label col-xs-4" for="inputNewPassword">新しいパスワード</label>
                                 <div class="col-xs-7">
                                     <input type="password" class="form-control input-sm" id="inputNewPassword"
                                            placeholder="新しいパスワード" v-model="newPassword">
@@ -51,7 +51,7 @@
                             </div>
 
                             <div class="form-group" :class="errors.newPassword_confirmation ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputNewPasswordConfirm">新しいパスワード(確認)</label>
+                                <label class="control-label col-xs-4" for="inputNewPasswordConfirm">新しいパスワード(確認)</label>
                                 <div class="col-xs-7">
                                     <input type="password" class="form-control input-sm" id="inputNewPasswordConfirm"
                                            placeholder="新しいパスワード(確認)" v-model="newPassword_confirmation">
@@ -66,7 +66,10 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary pull-right">保存</button>
+                            <button type="submit" class="btn btn-primary pull-right">
+                                <i class="fa fa-save"></i>
+                                保存
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -74,7 +77,6 @@
         </div>
     </section>
 </template>
-
 <script>
     import Vue from 'vue'
 

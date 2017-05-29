@@ -12,13 +12,15 @@ machine:
 
 database:
   override:
-    - php artisan migrate
+#    - php artisan migrate
 
 test:
   pre:
     - cp .env.example .env
     - php artisan key:generate
-    - php artisan migrate
-    - php artisan db:seed
+#    - php artisan migrate
+#    - php artisan db:seed
+  post:
+    - bash <(curl -s https://codecov.io/bash)
   override:
-    - vendor/bin/phpunit -d memory_limit=512M
+    - vendor/bin/phpunit -d memory_limit=512M --coverage-clover=coverage.xml
