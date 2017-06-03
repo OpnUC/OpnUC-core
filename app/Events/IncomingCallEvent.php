@@ -57,7 +57,7 @@ class IncomingCallEvent implements ShouldBroadcast
                 ->get()
                 ->first();
 
-            if(!$record){
+            if($record !== null){
                 // レコードが無い場合は、セットしない
                 $this->callerid_name = $record->name;
             }
