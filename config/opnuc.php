@@ -12,8 +12,8 @@ return [
         'enable' => env('PBX_LINER_ENABLE', false),
         //// PBX種類
         // Asterisk: Asterisk
-        'type' => 'Asterisk',
-        // typeがAstersikの場合の設定
+        'type' => env('PBX_LINER_TYPE'),
+        // typeがAsteriskの場合の設定
         'asterisk' => [
             'host' => env('ASTERISK_HOST', '127.0.0.1'),
             'port' => env('ASTERISK_PORT', 5038),
