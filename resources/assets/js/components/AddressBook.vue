@@ -16,6 +16,17 @@
                 </h3>
             </div>
             <div class="box-body">
+                <div class="pull-left">
+                    <el-dropdown v-on:command="onDownload">
+                        <el-button>
+                            <i class="fa fa-download"></i>
+                            ダウンロード <i class="el-icon-caret-bottom el-icon--right"></i>
+                        </el-button>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item  command="hitachi-phs">PHS電話帳(日立)</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                </div>
                 <div class="form-inline pull-right">
                     <label>
                         1ページの件数：
@@ -200,6 +211,7 @@
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+    import Encoding from 'encoding-japanese'
 
     export default {
         data() {
@@ -297,6 +309,58 @@
             showDetail(item) {
                 this.detailDialog.visible = true
                 this.detailDialog.selectItem = item
+            },
+            /**
+             * ダウンロード
+             */
+            onDownload(type){
+                var self = this
+
+                //self.isDownloading = true
+
+                self.$message({
+                    type: 'info',
+                    message: 'ダウンロードを開始しました。',
+                });
+
+                axios.get('/addressbook/download', {
+                        params: self.searchParam
+                    }
+                )
+                    .then(function (response) {
+                        var str2array = function(str) {
+                            var array = [],i,il=str.length;
+                            for (i=0; i<il; i++) array.push(str.charCodeAt(i));
+                            return array;
+                        };
+
+                        var array = str2array(response.data);
+                        var sjis_array = Encoding.convert(array, 'SJIS', 'UNICODE');
+                        var uint8_array = new Uint8Array(sjis_array);
+
+                        var headers = response.headers;
+                        var blob = new Blob([uint8_array], {type: headers['content-type']});
+                        var link = document.createElement('a');
+                        var contentDisposition = response.headers['content-disposition'] || '';
+                        var filename = contentDisposition.split('filename=')[1];
+                        filename = filename ? filename.replace(/"/g, "") : 'addressbook.csv'
+
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = filename
+                        link.click();
+
+                        //self.isDownloading = false
+                    })
+                    .catch(function (error) {
+                        console.log(error)
+
+                        self.$message({
+                            type: 'error',
+                            message: 'ダウンロードに失敗しました。' + error.response.data.message,
+                        });
+
+                        //self.isDownloading = false
+                    });
             },
             // 削除
             onDelete(item) {

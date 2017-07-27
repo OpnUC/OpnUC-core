@@ -58,6 +58,7 @@ Route::group([
         });
 
         Route::get('/addressbook/search', 'AddressBookController@search');
+        Route::get('/addressbook/download', 'AddressBookController@download');
         Route::get('/addressbook/detail', 'AddressBookController@detail');
         Route::get('/addressbook/groupList', 'AddressBookController@groupList');
         Route::get('/addressbook/groups', 'AddressBookController@groups');
