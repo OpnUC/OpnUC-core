@@ -99,7 +99,11 @@ class AddressBookController extends Controller
             }
 
             // 文字数制限
-            $items[$i]['name'] = mb_strcut($items[$i]['name'], 0, 16);
+
+            // 名前はSJIS換算で16バイトにしたいため、いったんSJISに変換
+            $name = mb_strcut(mb_convert_encoding($items[$i]['name'], 'SJIS'),0,16, 'SJIS');
+            $items[$i]['name'] = mb_convert_encoding($name, mb_internal_encoding(), 'SJIS');
+
             $items[$i]['name_kana'] = mb_substr($items[$i]['name_kana'], 0, 16);
             $items[$i]['tel1'] = substr($items[$i]['tel1'], 0, 24);
             $items[$i]['tel2'] = substr($items[$i]['tel2'], 0, 24);
