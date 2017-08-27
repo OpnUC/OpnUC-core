@@ -3029,6 +3029,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -4613,6 +4616,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -4789,6 +4795,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePagination__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuetable_2_src_components_VuetablePaginationInfo__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuetable_2_src_components_VuetablePaginationInfo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vuetable_2_src_components_VuetablePaginationInfo__);
+//
+//
+//
 //
 //
 //
@@ -38159,6 +38168,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "append-params": _vm.searchParams,
       "detail-row-id": "id",
       "per-page": _vm.perPage,
+      "no-data-template": "データがありませんでした。",
       "pagination-path": ""
     },
     on: {
@@ -38169,6 +38179,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('vuetable-pagination-info', {
     ref: "paginationInfo",
     attrs: {
+      "no-data-template": "",
+      "info-template": "{from}件～{to}件目を表示({total}件中)",
       "info-class": "pull-left"
     }
   }), _vm._v(" "), _c('vuetable-pagination', {
@@ -38781,6 +38793,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "append-params": _vm.searchParam,
       "detail-row-id": "id",
       "per-page": _vm.perPage,
+      "no-data-template": "データがありませんでした。",
       "pagination-path": ""
     },
     on: {
@@ -38879,6 +38892,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('vuetable-pagination-info', {
     ref: "paginationInfo",
     attrs: {
+      "no-data-template": "",
+      "info-template": "{from}件～{to}件目を表示({total}件中)",
       "info-class": "pull-left"
     }
   }), _vm._v(" "), _c('vuetable-pagination', {
@@ -41404,6 +41419,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "sort-order": _vm.sortOrder,
       "detail-row-id": "id",
       "per-page": _vm.perPage,
+      "no-data-template": "データがありませんでした。",
       "pagination-path": ""
     },
     on: {
@@ -41445,6 +41461,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('vuetable-pagination-info', {
     ref: "paginationInfo",
     attrs: {
+      "no-data-template": "",
+      "info-template": "{from}件～{to}件目を表示({total}件中)",
       "info-class": "pull-left"
     }
   }), _vm._v(" "), _c('vuetable-pagination', {

@@ -35,6 +35,7 @@
                           detail-row-id="id"
                           :per-page="perPage"
                           @vuetable:pagination-data="onPaginationData"
+                          no-data-template="データがありませんでした。"
                           pagination-path="">
                     <template slot="actions" scope="props">
                         <div>
@@ -51,6 +52,8 @@
                 </vuetable>
                 <div class="vuetable-pagination ui basic segment grid">
                     <vuetable-pagination-info ref="paginationInfo"
+                                              no-data-template=""
+                                              info-template="{from}件～{to}件目を表示({total}件中)"
                                               info-class="pull-left">
                     </vuetable-pagination-info>
                     <vuetable-pagination ref="pagination"
