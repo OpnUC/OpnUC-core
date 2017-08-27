@@ -52,6 +52,80 @@ class AddressBookController extends Controller
      */
     public function download(Request $request)
     {
+
+        switch ($request['downloadType']) {
+            case 'standard':
+                $items = $this->_downloadStandard($request);
+                break;
+            case 'hitachi-phs':
+                $items = $this->_downloadHitachiPhs($request);
+                break;
+            default:
+                return response([
+                    'status' => 'error',
+                    'message' => '404 Not Found'
+                ], 400);
+                break;
+        }
+
+        // 一時的にストリームを作成
+        $stream = fopen('php://temp', 'w');
+
+        // CSVで書き出し
+        foreach ($items as $item) {
+            fputcsv($stream, $item);
+        }
+
+        // ファイルポインタを千頭に戻す
+        rewind($stream);
+
+        // 改行コードを \r\n に置き換える
+        $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
+
+        // HTTPヘッダー
+        // PHPではUTF-8で出力し、JavaScript側でShiftJISに変換する
+        $headers = array(
+            'Content-Type' => 'text/csv;',
+            'Content-Disposition' => 'attachment; filename="addressbook.csv"',
+        );
+
+        // レスポンスを返す
+        return \Response::make($csv, 200, $headers);
+
+    }
+
+    /**
+     * 内部処理：標準形式でダウンロード用 配列を生成
+     * @param Request $request
+     * @return array
+     */
+    private function _downloadStandard(Request $request)
+    {
+
+        $items = $this
+            ->_getItems($request)
+            ->get()
+            // 不要な項目を排除 / ModelのAppends
+            ->makeHidden(['group_name', 'tel1_status', 'tel2_status', 'tel3_status', 'avatar_path'])
+            ->toArray();
+
+        // CSVファイルの先頭に付けるヘッダー
+        $csvHeader = ['アドレス帳ID', 'アドレス帳種別ID', '所有者ユーザID', '所属グループID', '役職', 'フリガナ', '名前', '電話番号1', '電話番号2', '電話番号3', 'メールアドレス', '備考'];
+        // 配列に追加する
+        array_unshift($items, $csvHeader);
+
+        return $items;
+
+    }
+
+    /**
+     * 内部処理：日立PHS形式でダウンロード用 配列を生成
+     * @param Request $request
+     * @return array
+     */
+    private function _downloadHitachiPhs(Request $request)
+    {
+
         $items = $this
             ->_getItems($request)
             // 必要な項目を選択
@@ -63,35 +137,35 @@ class AddressBookController extends Controller
 
         $telItemCount = 0;
 
-        for($i = 0; $i < count($items); $i++){
+        for ($i = 0; $i < count($items); $i++) {
             // 読み仮名を半角カナにする
             $items[$i]['name_kana'] = mb_convert_kana($items[$i]['name_kana'], 'rnhks');
 
             // 先頭が0の場合は、外線と見なし0を付加
             // ToDo: システム側の判定と合わせた方が良い
-            if(substr($items[$i]['tel1'],0,1) === '0'){
+            if (substr($items[$i]['tel1'], 0, 1) === '0') {
                 $items[$i]['tel1'] = '0' . $items[$i]['tel1'];
             }
-            if(substr($items[$i]['tel2'],0,1) === '0'){
+            if (substr($items[$i]['tel2'], 0, 1) === '0') {
                 $items[$i]['tel2'] = '0' . $items[$i]['tel2'];
             }
-            if(substr($items[$i]['tel3'],0,1) === '0'){
+            if (substr($items[$i]['tel3'], 0, 1) === '0') {
                 $items[$i]['tel3'] = '0' . $items[$i]['tel3'];
             }
 
             // 電話番号数のカウント
-            if($items[$i]['tel1']){
+            if ($items[$i]['tel1']) {
                 $telItemCount++;
             }
-            if($items[$i]['tel2']){
+            if ($items[$i]['tel2']) {
                 $telItemCount++;
             }
-            if($items[$i]['tel3']){
+            if ($items[$i]['tel3']) {
                 $telItemCount++;
             }
 
             // 登録可能件数のチェック
-            if($telItemCount >= 1000){
+            if ($telItemCount >= 1000) {
                 return response([
                     'status' => 'error',
                     'message' => '電話番号の登録数が1000件を超えたため、ダウンロード出来ません。'
@@ -101,7 +175,7 @@ class AddressBookController extends Controller
             // 文字数制限
 
             // 名前はSJIS換算で16バイトにしたいため、いったんSJISに変換
-            $name = mb_strcut(mb_convert_encoding($items[$i]['name'], 'SJIS'),0,16, 'SJIS');
+            $name = mb_strcut(mb_convert_encoding($items[$i]['name'], 'SJIS'), 0, 16, 'SJIS');
             $items[$i]['name'] = mb_convert_encoding($name, mb_internal_encoding(), 'SJIS');
 
             $items[$i]['name_kana'] = mb_substr($items[$i]['name_kana'], 0, 16);
@@ -120,29 +194,7 @@ class AddressBookController extends Controller
         // 配列に追加する
         array_unshift($items, $csvHeader);
 
-        // 一時的にストリームを作成
-        $stream = fopen('php://temp', 'w');
-
-        // CSVで書き出し
-        foreach ($items as $user) {
-            fputcsv($stream, $user);
-        }
-
-        // ファイルポインタを千頭に戻す
-        rewind($stream);
-
-        // 改行コードを \r\n に置き換える
-        $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
-
-        // HTTPヘッダー
-        // PHPではUTF-8で出力し、JavaScript側でShiftJISに変換する
-        $headers = array(
-            'Content-Type' => 'text/csv;',
-            'Content-Disposition' => 'attachment; filename="addressbook.csv"',
-        );
-
-        // レスポンスを返す
-        return \Response::make($csv, 200, $headers);
+        return $items;
 
     }
 

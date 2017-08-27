@@ -2936,6 +2936,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -3005,7 +3006,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             searchParam: {
                 typeId: null,
                 groupId: null,
-                keyword: null
+                keyword: null,
+                downloadType: null
             },
             // ここまで：Vuetableのパラメタ
             detailDialog: {
@@ -3039,6 +3041,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
          */
         onDownload: function onDownload(type) {
             var self = this;
+
+            self.searchParam.downloadType = type;
 
             //self.isDownloading = true
 
@@ -38627,6 +38631,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('el-dropdown-menu', {
     slot: "dropdown"
   }, [_c('el-dropdown-item', {
+    attrs: {
+      "command": "standard"
+    }
+  }, [_vm._v("標準形式")]), _vm._v(" "), _c('el-dropdown-item', {
     attrs: {
       "command": "hitachi-phs"
     }
