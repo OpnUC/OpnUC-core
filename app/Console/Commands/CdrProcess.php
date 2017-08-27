@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use Log;
+use \Carbon\Carbon;
 
 class CdrProcess extends Command
 {
@@ -45,90 +46,54 @@ class CdrProcess extends Command
         $cdrs = \App\CdrBuffer::all();
 
         foreach ($cdrs as $bufCdr) {
+            Log::info("### Begen of Record");
 
-            echo "### Begen of Record\n";
-
-            if (!preg_match("/(TS|TE)?\s*(\d{2}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}) (.+) -> (.+)$/", $bufCdr->message, $parse)) {
-                echo "Log Parse Error[1000]: $bufCdr->message";
+            //// 生ログをパース
+            /// CALL: 17/08/18 11:50:03 000702(001)0543452995 -> 299 11:49:09 - 11:50:03 (00:00:54)
+            /// CALL: 17/08/19 10:24:47 410 -> 003311(001) 10:18:19 - 10:24:47 (00:06:28) 090xxxxxxxx
+            /// CALL: 17/08/16 11:49:03 310 -> 481 11:48:40 - 11:49:03 (00:00:23)
+            // 1:転送フラグ
+            // 2:日時
+            // 3:通話元
+            // 4:通話先など
+            if (!preg_match("/(TS|TE)?\s*(\d\d\/\d\d\/\d\d \d\d:\d\d:\d\d) (.+) \-> (.+) (\d\d:\d\d:\d\d) \- (\d\d:\d\d:\d\d) \((\d\d:\d\d:\d\d)\) *(.+)?/", $bufCdr->message, $parse)) {
+                Log::error("Log Parse Error[1000]: $bufCdr->message");
                 continue;
             }
-            if (!preg_match("/^(.+) (\d{2}:\d{2}:\d{2}) \- (\d{2}:\d{2}:\d{2}) \((\d{2}:\d{2}:\d{2})\) ?(\d*)/", $parse[4], $dest)) {
-                echo "Log Parse Error[1010]: $parse[4]";
-                continue;
-            }
+
             Log::debug("Parse Result[1000]");
             Log::debug(print_r($parse, true));
-            Log::debug("Parse Result[1010]");
-            Log::debug(print_r($dest, true));
 
-            // 転送種別
-            //$type = $parse[1];
-            // 時間
-            //$time = $parse[2];
-            // 発信者
-            $sender = $parse[3];
-            // 着信者
-            //$destination = $parse[4];
-            $startSec = self::convTime($dest[2]);
-            $endSec = self::convTime($dest[3]);
-            $durSec = self::convTime($dest[4]);
-            $item_start = mktime(0, 0, 0) + $startSec;
-            $item_end = mktime(0, 0, 0) + $endSec;
-            // 日付をまたいでいる場合
-            if ($startSec > $endSec) {
-                $endSec += 86400;
-            }
-            // 数字だけの場合は内線として見なす
-            $checkSender = preg_match('/^(S\d+:)?\d+$/', $sender);
-            // 数字だけの場合は内線として見なす
-            $checkDestination = preg_match('/^(S\d+:)?\d+$/', $dest[1]);
-
-            // 外線着信・外線応答時の不要な情報を削る
-            if(preg_match('/^\d+\(\d+\)(\d*)$/', $dest[1], $dest2)){
-                $dest[1] = $dest2[1];
-            }
-            if(preg_match('/^\d+\(\d+\)(\d*)$/', $sender, $sender2)){
-                $sender = $sender2[1];
-            }
-
-            $item_type = "";
-            $item_sender = $sender;
-            $item_dest = "";
-            if ($checkSender && $checkDestination) {
-                // 内線通話
-                Log::debug("# Ext Call From:$sender To:$dest[1]");
-                $item_type = 10;
-                $item_dest = $dest[1];
-            } else if ($dest[5] != "") {
-                // 外線発信
-                Log::debug("# Trk Out From:$sender To:$dest[5]");
-                $item_type = 21;
-                $item_dest = $dest[5];
-            } else if ($checkSender && $dest[1] != "") {
-                // 外線応答
-                Log::debug("# Trk Hunt From:$sender To:$dest[1]");
-                $item_type = 22;
-                $item_dest = $dest[1];
-            } else {
-                // 外線着信
-                Log::debug("# Trk Inc From:$sender To:$dest[1]");
-                $item_type = 23;
-                $item_dest = $dest[1];
-            }
+            // ログ生成日をパース(年月日はこの情報を利用する)
+            $date = date_parse_from_format('y/m/d H:i:s', $parse[2]);
 
             $cdr = new \App\Cdr;
-            $cdr->type = $item_type;
-            $cdr->sender = $item_sender;
-            $cdr->destination = $item_dest;
-            $cdr->start_datetime = date('Y/m/d H:i:s', $item_start);
-            $cdr->end_datetime = date('Y/m/d H:i:s', $item_end);
-            $cdr->duration = $durSec;
+            $cdr->type = 0;
+            $cdr->end_datetime = Carbon::create($date['year'], $date['month'], $date['day'], 0, 0, 0)->addSeconds(self::convTime($parse[6]));
+            $cdr->duration = self::convTime($parse[7]);
+            // 開始日は日付を跨ぐ可能性があるため、通話終了から通話時間を引く
+            $cdr->start_datetime = $cdr->end_datetime->subSecond($cdr->duration);
+
+            // 発信元が 000702(001)0543452995 の場合、ルート情報などをパース
+            if (preg_match('/^(\d+)\((\d+)\)(.+)$/', $parse[3], $parseSender)) {
+                $cdr->sender = sprintf('%s(RUT:%s/%s)', $parseSender[3], $parseSender[2], $parseSender[1]);
+            } else {
+                $cdr->sender = $parse[3];
+            }
+
+            // パースした結果が9個なら、8個目が通話先の番号
+            if (count($parse) == 9 && preg_match('/^(\d+)\((\d+)\)$/', $parse[4], $parseDest)) {
+                $cdr->destination = sprintf('%s(RUT:%s/%s)', $parse[8], $parseDest[2], $parseDest[1]);
+            } else {
+                $cdr->destination = $parse[4];
+            }
+
             $cdr->save();
 
             // 処理が終了したバッファレコードは削除
-            $bufCdr->delete();
+            //$bufCdr->delete();
 
-            echo "### End of Record\n";
+            Log::info("### End of Record");
         }
 
     }
@@ -138,11 +103,12 @@ class CdrProcess extends Command
      * @param string $value
      * @return int
      */
-    public function convTime($value) {
+    public function convTime($value)
+    {
         $item = explode(':', $value);
         $secs = intval($item[0]) * 60 * 60;
-        $secs+= intval($item[1]) * 60;
-        $secs+= intval($item[2]);
+        $secs += intval($item[1]) * 60;
+        $secs += intval($item[2]);
         return $secs;
     }
 }

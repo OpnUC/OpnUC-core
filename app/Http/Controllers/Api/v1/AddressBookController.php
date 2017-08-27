@@ -45,16 +45,114 @@ class AddressBookController extends Controller
     }
 
     /**
-     * アドレス帳の検索
-     * @param Request $req
-     * @return type
+     * アドレス帳をCSVでダウンロードさせる
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     * ToDo: タイプ別の処理に分ける
      */
-    public function search(Request $req)
+    public function download(Request $request)
     {
-        // 権限チェック
-        if (!\Entrust::can('addressbook-user')) {
-            abort(403);
+        $items = $this
+            ->_getItems($request)
+            // 必要な項目を選択
+            ->select('name', 'name_kana', 'tel1', 'tel2', 'tel3')
+            ->get()
+            // 不要な項目を排除 / ModelのAppends
+            ->makeHidden(['group_name', 'tel1_status', 'tel2_status', 'tel3_status', 'avatar_path'])
+            ->toArray();
+
+        $telItemCount = 0;
+
+        for($i = 0; $i < count($items); $i++){
+            // 読み仮名を半角カナにする
+            $items[$i]['name_kana'] = mb_convert_kana($items[$i]['name_kana'], 'rnhks');
+
+            // 先頭が0の場合は、外線と見なし0を付加
+            // ToDo: システム側の判定と合わせた方が良い
+            if(substr($items[$i]['tel1'],0,1) === '0'){
+                $items[$i]['tel1'] = '0' . $items[$i]['tel1'];
+            }
+            if(substr($items[$i]['tel2'],0,1) === '0'){
+                $items[$i]['tel2'] = '0' . $items[$i]['tel2'];
+            }
+            if(substr($items[$i]['tel3'],0,1) === '0'){
+                $items[$i]['tel3'] = '0' . $items[$i]['tel3'];
+            }
+
+            // 電話番号数のカウント
+            if($items[$i]['tel1']){
+                $telItemCount++;
+            }
+            if($items[$i]['tel2']){
+                $telItemCount++;
+            }
+            if($items[$i]['tel3']){
+                $telItemCount++;
+            }
+
+            // 登録可能件数のチェック
+            if($telItemCount >= 1000){
+                return response([
+                    'status' => 'error',
+                    'message' => '電話番号の登録数が1000件を超えたため、ダウンロード出来ません。'
+                ], 400);
+            }
+
+            // 文字数制限
+
+            // 名前はSJIS換算で16バイトにしたいため、いったんSJISに変換
+            $name = mb_strcut(mb_convert_encoding($items[$i]['name'], 'SJIS'),0,16, 'SJIS');
+            $items[$i]['name'] = mb_convert_encoding($name, mb_internal_encoding(), 'SJIS');
+
+            $items[$i]['name_kana'] = mb_substr($items[$i]['name_kana'], 0, 16);
+            $items[$i]['tel1'] = substr($items[$i]['tel1'], 0, 24);
+            $items[$i]['tel2'] = substr($items[$i]['tel2'], 0, 24);
+            $items[$i]['tel3'] = substr($items[$i]['tel3'], 0, 24);
+
+            // メモリ番号追加
+            array_unshift($items[$i], $i);
+            // グループ追加
+            $items[$i][] = '0';
         }
+
+        // CSVファイルの先頭に付けるヘッダー
+        $csvHeader = ['ﾒﾓﾘ番号', '名前', '読み仮名', '電話番号１', '電話番号２', '電話番号３', 'ｸﾞﾙｰﾌﾟ'];
+        // 配列に追加する
+        array_unshift($items, $csvHeader);
+
+        // 一時的にストリームを作成
+        $stream = fopen('php://temp', 'w');
+
+        // CSVで書き出し
+        foreach ($items as $user) {
+            fputcsv($stream, $user);
+        }
+
+        // ファイルポインタを千頭に戻す
+        rewind($stream);
+
+        // 改行コードを \r\n に置き換える
+        $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
+
+        // HTTPヘッダー
+        // PHPではUTF-8で出力し、JavaScript側でShiftJISに変換する
+        $headers = array(
+            'Content-Type' => 'text/csv;',
+            'Content-Disposition' => 'attachment; filename="addressbook.csv"',
+        );
+
+        // レスポンスを返す
+        return \Response::make($csv, 200, $headers);
+
+    }
+
+    /**
+     * データベースからアイテムを取得
+     * @param Request $req
+     * @return mixed
+     */
+    private function _getItems(Request $req)
+    {
 
         $column = ['id', 'type', 'owner_userid', 'groupid', 'position', 'name_kana', 'name', 'tel1', 'tel2', 'tel3', 'email', 'comment'];
         $typeId = intval($req['typeId']) ? intval($req['typeId']) : -1;
@@ -97,6 +195,24 @@ class AddressBookController extends Controller
             $items = $items
                 ->orderBy($sort[0], $sort[1]);
         }
+
+        return $items;
+
+    }
+
+    /**
+     * アドレス帳の検索
+     * @param Request $req
+     * @return type
+     */
+    public function search(Request $req)
+    {
+        // 権限チェック
+        if (!\Entrust::can('addressbook-user')) {
+            abort(403);
+        }
+
+        $items = $this->_getItems($req);
 
         $per_page = intval($req['per_page']) ? $req['per_page'] : 10;
 
