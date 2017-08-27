@@ -9,10 +9,10 @@ return [
     //// PBXとの連携
     'pbx_linker' => [
         // true: 有効, false: 無効
-        'enable' => env('PBX_LINER_ENABLE', false),
+        'enable' => env('PBX_LINKER_ENABLE', false),
         //// PBX種類
         // Asterisk: Asterisk
-        'type' => env('PBX_LINER_TYPE'),
+        'type' => env('PBX_LINKER_TYPE'),
         // typeがAsteriskの場合の設定
         'asterisk' => [
             'host' => env('ASTERISK_HOST', '127.0.0.1'),
