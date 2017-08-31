@@ -23,7 +23,8 @@
                             ダウンロード <i class="el-icon-caret-bottom el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item  command="hitachi-phs">PHS電話帳(日立)</el-dropdown-item>
+                            <el-dropdown-item command="standard">標準形式</el-dropdown-item>
+                            <el-dropdown-item command="hitachi-phs">PHS電話帳(日立)</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -47,6 +48,7 @@
                           detail-row-id="id"
                           :per-page="perPage"
                           @vuetable:pagination-data="onPaginationData"
+                          no-data-template="データがありませんでした。"
                           pagination-path="">
                     <template slot="avatar" scope="props">
                         <div class="image">
@@ -95,6 +97,8 @@
                 </vuetable>
                 <div class="vuetable-pagination ui basic segment grid">
                     <vuetable-pagination-info ref="paginationInfo"
+                                              no-data-template=""
+                                              info-template="{from}件～{to}件目を表示({total}件中)"
                                               info-class="pull-left">
                     </vuetable-pagination-info>
                     <vuetable-pagination ref="pagination"
@@ -284,6 +288,7 @@
                     typeId: null,
                     groupId: null,
                     keyword: null,
+                    downloadType: null,
                 },
                 // ここまで：Vuetableのパラメタ
                 detailDialog: {
@@ -313,8 +318,10 @@
             /**
              * ダウンロード
              */
-            onDownload(type){
+            onDownload(type) {
                 var self = this
+
+                self.searchParam.downloadType = type
 
                 //self.isDownloading = true
 
@@ -328,9 +335,9 @@
                     }
                 )
                     .then(function (response) {
-                        var str2array = function(str) {
-                            var array = [],i,il=str.length;
-                            for (i=0; i<il; i++) array.push(str.charCodeAt(i));
+                        var str2array = function (str) {
+                            var array = [], i, il = str.length;
+                            for (i = 0; i < il; i++) array.push(str.charCodeAt(i));
                             return array;
                         };
 
@@ -393,18 +400,18 @@
                     console.log(error.message);
                 });
             },
-            onPaginationData (paginationData) {
+            onPaginationData(paginationData) {
                 this.$refs.pagination.setPaginationData(paginationData)
                 this.$refs.paginationInfo.setPaginationData(paginationData)
             },
-            onChangePage (page) {
+            onChangePage(page) {
                 this.$refs.vuetable.changePage(page)
             },
-            onSearch(){
+            onSearch() {
                 this.isSearch = this.searchParam.keyword ? true : false;
                 this.$refs.vuetable.refresh()
             },
-            regEvent(){
+            regEvent() {
                 var _this = this
                 this.$refs.vuetable.$on('vuetable:loading', () => {
                     _this.isLoading = true
@@ -413,7 +420,7 @@
                     _this.isLoading = false
                 })
             },
-            updateSearchParam(){
+            updateSearchParam() {
                 // パラメタ判断
                 if (this.$route.query.groupId) {
                     // グループIDが設定されているとき
@@ -433,7 +440,7 @@
             },
         },
         watch: {
-            '$route' (to, from) {
+            '$route'(to, from) {
                 this.updateSearchParam()
             },
             perPage: function () {
