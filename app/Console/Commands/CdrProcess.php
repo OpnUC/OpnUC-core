@@ -48,10 +48,14 @@ class CdrProcess extends Command
         foreach ($cdrs as $bufCdr) {
             Log::info("### Begen of Record");
 
+            // 末尾にスペースが入る場合があるため、除去
+            $bufCdr->message = rtrim($bufCdr->message);
+
             //// 生ログをパース
-            /// CALL: 17/08/18 11:50:03 000702(001)0543452995 -> 299 11:49:09 - 11:50:03 (00:00:54)
+            /// CALL: 17/08/18 11:50:03 000702(001)054345xxxx -> 299 11:49:09 - 11:50:03 (00:00:54)
             /// CALL: 17/08/19 10:24:47 410 -> 003311(001) 10:18:19 - 10:24:47 (00:06:28) 090xxxxxxxx
             /// CALL: 17/08/16 11:49:03 310 -> 481 11:48:40 - 11:49:03 (00:00:23)
+            /// CALL: 17/08/31 09:48:45 212 -> 000702(001)054xxxxxxx 09:47:32 - 09:48:45 (00:01:13)
             // 1:転送フラグ
             // 2:日時
             // 3:通話元
@@ -74,7 +78,7 @@ class CdrProcess extends Command
             // 開始日は日付を跨ぐ可能性があるため、通話終了から通話時間を引く
             $cdr->start_datetime = $cdr->end_datetime->subSecond($cdr->duration);
 
-            // 発信元が 000702(001)0543452995 の場合、ルート情報などをパース
+            // 発信元が 000702(001)054345xxxx の場合、ルート情報などをパース
             if (preg_match('/^(\d+)\((\d+)\)(.+)$/', $parse[3], $parseSender)) {
                 $cdr->sender = sprintf('%s(RUT:%s/%s)', $parseSender[3], $parseSender[2], $parseSender[1]);
             } else {
@@ -84,6 +88,8 @@ class CdrProcess extends Command
             // パースした結果が9個なら、8個目が通話先の番号
             if (count($parse) == 9 && preg_match('/^(\d+)\((\d+)\)$/', $parse[4], $parseDest)) {
                 $cdr->destination = sprintf('%s(RUT:%s/%s)', $parse[8], $parseDest[2], $parseDest[1]);
+            } else if (count($parse) == 8 && preg_match('/^(\d+)\((\d+)\)(.+)$/', $parse[4], $parseDest)) {
+                $cdr->destination = sprintf('%s(RUT:%s/%s)', $parseDest[3], $parseDest[2], $parseDest[1]);
             } else {
                 $cdr->destination = $parse[4];
             }
