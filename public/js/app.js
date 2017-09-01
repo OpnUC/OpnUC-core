@@ -4967,6 +4967,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -5058,11 +5071,11 @@ __webpack_require__(279);
                 sortField: 'duration',
                 callback: 'toHMS'
             }, {
-                name: 'sender',
+                name: '__slot:sender',
                 title: '発信者',
                 sortField: 'sender'
             }, {
-                name: 'destination',
+                name: '__slot:destination',
                 title: '着信先',
                 sortField: 'destination'
             }],
@@ -38243,7 +38256,28 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "vuetable:pagination-data": _vm.onPaginationData
-    }
+    },
+    scopedSlots: _vm._u([{
+      key: "sender",
+      fn: function(props) {
+        return [_c('span', {
+          style: (props.rowData.sender_name ? 'border-bottom: dashed 1px gray;' : ''),
+          attrs: {
+            "title": props.rowData.sender_name
+          }
+        }, [_vm._v(_vm._s(props.rowData.sender))])]
+      }
+    }, {
+      key: "destination",
+      fn: function(props) {
+        return [_c('span', {
+          style: (props.rowData.destination_name ? 'border-bottom: dashed 1px gray;' : ''),
+          attrs: {
+            "title": props.rowData.destination_name
+          }
+        }, [_vm._v(_vm._s(props.rowData.destination))])]
+      }
+    }])
   }), _vm._v(" "), _c('div', {
     staticClass: "vuetable-pagination ui basic segment grid"
   }, [_c('vuetable-pagination-info', {
