@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\AddressBook;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Goodby\CSV\Import\Standard\Lexer;
+use Goodby\CSV\Import\Standard\Interpreter;
+use Goodby\CSV\Import\Standard\LexerConfig;
 
 /**
  * アドレス帳
@@ -271,6 +275,67 @@ class AddressBookController extends Controller
         $items = $items->paginate($per_page);
 
         return \Response::json($items);
+
+    }
+
+    /**
+     * アドレス帳のインポート
+     * @param Requests\AddressBookImportRequest $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function import(\App\Http\Requests\AddressBookImportRequest $request)
+    {
+
+        // 権限チェック
+        if (!\Entrust::can('system-admin')) {
+            abort(403);
+        }
+
+        if ($request->file('import_file')->isValid([])) {
+            $filename = $request->import_file->store('tmp/');
+
+            $config = new LexerConfig();
+            $config
+                ->setDelimiter(',')
+                // 1行目はヘッダー行のため、スキップ
+                ->setIgnoreHeaderLine(true);
+
+            $interpreter = new Interpreter();
+            $interpreter->addObserver(function (array $columns) {
+                // アップロードされたファイルの文字コードはS-JISと想定
+                // ToDo: アップロードされたファイルの文字コードを確認した方が良い
+                mb_convert_variables('UTF-8', 'SJIS', $columns);
+
+                // ToDo: Validation
+                $record = \App\AddressBook::firstOrNew(['id' => $columns[0]]);
+                $record->type = $columns[1];
+                $record->owner_userid = $columns[2];
+                $record->groupid = $columns[3];
+                $record->position = $columns[4];
+                $record->name_kana = $columns[5];
+                $record->name = $columns[6];
+                $record->tel1 = $columns[7];
+                $record->tel2 = $columns[8];
+                $record->tel3 = $columns[9];
+                $record->email = $columns[10];
+                $record->comment = $columns[11];
+
+                $record->save();
+            });
+
+            $lexer = new Lexer($config);
+            $lexer->parse(storage_path('app/' . $filename), $interpreter);
+
+            return response([
+                'status' => 'success',
+                'message' => 'アドレス帳のインポートが完了しました。'
+            ]);
+        } else {
+            return response([
+                'status' => 'error',
+                'message' => 'アドレス帳のインポートに失敗しました。'
+            ], 400);
+        }
 
     }
 

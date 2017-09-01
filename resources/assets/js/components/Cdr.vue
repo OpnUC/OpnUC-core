@@ -82,7 +82,20 @@
                               @vuetable:pagination-data="onPaginationData"
                               no-data-template="データがありませんでした。"
                               pagination-path=""
-                    ></vuetable>
+                    >
+                        <template slot="sender" scope="props">
+                            <span
+                                    :style="props.rowData.sender_name ? 'border-bottom: dashed 1px gray;' : ''"
+                                    :title="props.rowData.sender_name"
+                            >{{ props.rowData.sender }}</span>
+                        </template>
+                        <template slot="destination" scope="props">
+                            <span
+                                    :style="props.rowData.destination_name ? 'border-bottom: dashed 1px gray;' : ''"
+                                    :title="props.rowData.destination_name"
+                            >{{ props.rowData.destination }}</span>
+                        </template>
+                    </vuetable>
                     <div class="vuetable-pagination ui basic segment grid">
                         <vuetable-pagination-info ref="paginationInfo"
                                                   no-data-template=""
@@ -220,12 +233,12 @@
                         callback: 'toHMS',
                     },
                     {
-                        name: 'sender',
+                        name: '__slot:sender',
                         title: '発信者',
                         sortField: 'sender',
                     },
                     {
-                        name: 'destination',
+                        name: '__slot:destination',
                         title: '着信先',
                         sortField: 'destination',
                     },
@@ -259,7 +272,7 @@
              * @param value
              * @returns {string}
              */
-            toHMS(value){
+            toHMS(value) {
                 return (value == null)
                     ? ''
                     : moment.duration(value, 'seconds').format('h時間mm分ss秒')
@@ -270,28 +283,28 @@
              * @param fmt
              * @returns {string}
              */
-            formatDate (value, fmt) {
+            formatDate(value, fmt) {
                 return (value == null)
                     ? ''
                     : moment(value).format(fmt)
             },
-            onPaginationData (paginationData) {
+            onPaginationData(paginationData) {
                 this.$refs.pagination.setPaginationData(paginationData)
                 this.$refs.paginationInfo.setPaginationData(paginationData)
             },
-            onChangePage (page) {
+            onChangePage(page) {
                 this.$refs.vuetable.changePage(page)
             },
             /**
              * 検索
              */
-            onSearch(){
+            onSearch() {
                 this.$refs.vuetable.refresh()
             },
             /**
              * ダウンロード
              */
-            onDownload(){
+            onDownload() {
                 var self = this
 
                 // ボタンを無効にする

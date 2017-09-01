@@ -17,14 +17,18 @@
             </div>
             <div class="box-body">
                 <div class="pull-left">
-                    <el-dropdown v-on:command="onDownload">
+                    <el-dropdown v-on:command="onImportExport">
                         <el-button>
-                            <i class="fa fa-download"></i>
-                            ダウンロード <i class="el-icon-caret-bottom el-icon--right"></i>
+                            <i class="fa fa-file-o"></i>
+                            外部連携 <i class="el-icon-caret-bottom el-icon-right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command="standard">標準形式</el-dropdown-item>
-                            <el-dropdown-item command="hitachi-phs">PHS電話帳(日立)</el-dropdown-item>
+                            <el-dropdown-item command="standard">エクスポート：標準形式</el-dropdown-item>
+                            <el-dropdown-item command="hitachi-phs">エクスポート：PHS電話帳(日立)</el-dropdown-item>
+                            <el-dropdown-item command="import" divided v-if="$auth.check('system-admin')">
+                                <i class="fa fa-upload"></i>
+                                インポート
+                            </el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                 </div>
@@ -109,6 +113,16 @@
                 </div>
             </div>
         </div>
+
+        <el-dialog title="インポート" v-model="importDialog.visible" v-loading="importDialog.loading"
+                   element-loading-text="Loading...">
+            <input type="file" id="inputImportFile" name="inputImportFile"
+                   v-on:change.prevent="onImport"/>
+
+            <span slot="footer" class="dialog-footer">
+                <button class="btn btn-default" v-on:click="importDialog.visible = false">閉じる</button>
+             </span>
+        </el-dialog>
 
         <el-dialog title="詳細" v-model="detailDialog.visible">
             <table class="table table-bordered table-striped" v-if="detailDialog.selectItem != null">
@@ -295,6 +309,10 @@
                     visible: false,
                     selectItem: null,
                 },
+                importDialog: {
+                    visible: false,
+                    loading: false,
+                },
                 // ページデータ
                 addressBookType: [],
                 addressBookGroup: [],
@@ -316,10 +334,15 @@
                 this.detailDialog.selectItem = item
             },
             /**
-             * ダウンロード
+             * 外部連携
              */
-            onDownload(type) {
+            onImportExport(type) {
                 var self = this
+
+                if (type === 'import') {
+                    self.importDialog.visible = true
+                    return
+                }
 
                 self.searchParam.downloadType = type
 
@@ -368,6 +391,56 @@
 
                         //self.isDownloading = false
                     });
+            },
+            onImport: function (e) {
+                var self = this
+                // インポート
+
+                if (e.target.files.length === 0) {
+                    // ファイルが選択されていない場合は処理しない
+                    return;
+                }
+
+                self.importDialog.loading = true
+
+//                // 初期化
+//                _this.status = null
+//                _this.message = null
+//                _this.errors = []
+
+                var formData = new FormData();
+                formData.append('import_file', e.target.files[0]);
+
+                axios.post('/addressbook/import',
+                    formData, {
+                        headers: {
+                            'content-type': 'multipart/form-data'
+                        }
+                    })
+                    .then(function (response) {
+                        self.importDialog.loading = false
+                        self.importDialog.visible = false
+
+                        self.$message({
+                            type: response.data.status,
+                            message: response.data.message,
+                        });
+                    })
+                    .catch(function (error) {
+                        self.importDialog.loading = false
+                        self.importDialog.visible = false
+
+                        if (error.response.status === 422) {
+                            // 422 - Validation Error
+//                            _this.message = '入力に問題があります。'
+//                            _this.errors = error.response.data
+                        } else {
+                            self.$message({
+                                type: error.response.data.status,
+                                message: error.response.data.message,
+                            });
+                        }
+                    })
             },
             // 削除
             onDelete(item) {
