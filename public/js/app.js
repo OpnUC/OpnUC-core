@@ -3032,6 +3032,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -3109,6 +3123,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 visible: false,
                 selectItem: null
             },
+            importDialog: {
+                visible: false,
+                loading: false
+            },
             // ページデータ
             addressBookType: [],
             addressBookGroup: [],
@@ -3132,10 +3150,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         /**
-         * ダウンロード
+         * 外部連携
          */
-        onDownload: function onDownload(type) {
+        onImportExport: function onImportExport(type) {
             var self = this;
+
+            if (type === 'import') {
+                self.importDialog.visible = true;
+                return;
+            }
 
             self.searchParam.downloadType = type;
 
@@ -3186,6 +3209,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
 
+        onImport: function onImport(e) {
+            var self = this;
+            // インポート
+
+            if (e.target.files.length === 0) {
+                // ファイルが選択されていない場合は処理しない
+                return;
+            }
+
+            self.importDialog.loading = true;
+
+            //                // 初期化
+            //                _this.status = null
+            //                _this.message = null
+            //                _this.errors = []
+
+            var formData = new FormData();
+            formData.append('import_file', e.target.files[0]);
+
+            axios.post('/addressbook/import', formData, {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }).then(function (response) {
+                self.importDialog.loading = false;
+                self.importDialog.visible = false;
+
+                self.$message({
+                    type: response.data.status,
+                    message: response.data.message
+                });
+            }).catch(function (error) {
+                self.importDialog.loading = false;
+                self.importDialog.visible = false;
+
+                if (error.response.status === 422) {
+                    // 422 - Validation Error
+                    //                            _this.message = '入力に問題があります。'
+                    //                            _this.errors = error.response.data
+                } else {
+                    self.$message({
+                        type: error.response.data.status,
+                        message: error.response.data.message
+                    });
+                }
+            });
+        },
         // 削除
         onDelete: function onDelete(item) {
             var _this = this;
@@ -38739,23 +38809,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "pull-left"
   }, [_c('el-dropdown', {
     on: {
-      "command": _vm.onDownload
+      "command": _vm.onImportExport
     }
   }, [_c('el-button', [_c('i', {
-    staticClass: "fa fa-download"
-  }), _vm._v("\n                        ダウンロード "), _c('i', {
-    staticClass: "el-icon-caret-bottom el-icon--right"
+    staticClass: "fa fa-file-o"
+  }), _vm._v("\n                        外部連携 "), _c('i', {
+    staticClass: "el-icon-caret-bottom el-icon-right"
   })]), _vm._v(" "), _c('el-dropdown-menu', {
     slot: "dropdown"
   }, [_c('el-dropdown-item', {
     attrs: {
       "command": "standard"
     }
-  }, [_vm._v("標準形式")]), _vm._v(" "), _c('el-dropdown-item', {
+  }, [_vm._v("エクスポート：標準形式")]), _vm._v(" "), _c('el-dropdown-item', {
     attrs: {
       "command": "hitachi-phs"
     }
-  }, [_vm._v("PHS電話帳(日立)")])], 1)], 1)], 1), _vm._v(" "), _c('div', {
+  }, [_vm._v("エクスポート：PHS電話帳(日立)")]), _vm._v(" "), (_vm.$auth.check('system-admin')) ? _c('el-dropdown-item', {
+    attrs: {
+      "command": "import",
+      "divided": ""
+    }
+  }, [_c('i', {
+    staticClass: "fa fa-upload"
+  }), _vm._v("\n                            インポート\n                        ")]) : _vm._e()], 1)], 1)], 1), _vm._v(" "), _c('div', {
     staticClass: "form-inline pull-right"
   }, [_c('label', [_vm._v("\n                    1ページの件数：\n                    "), _c('select', {
     directives: [{
@@ -38906,6 +38983,46 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "vuetable-pagination:change-page": _vm.onChangePage
     }
   })], 1)], 1)]), _vm._v(" "), _c('el-dialog', {
+    directives: [{
+      name: "loading",
+      rawName: "v-loading",
+      value: (_vm.importDialog.loading),
+      expression: "importDialog.loading"
+    }],
+    attrs: {
+      "title": "インポート",
+      "element-loading-text": "Loading..."
+    },
+    model: {
+      value: (_vm.importDialog.visible),
+      callback: function($$v) {
+        _vm.importDialog.visible = $$v
+      },
+      expression: "importDialog.visible"
+    }
+  }, [_c('input', {
+    attrs: {
+      "type": "file",
+      "id": "inputImportFile",
+      "name": "inputImportFile"
+    },
+    on: {
+      "change": function($event) {
+        $event.preventDefault();
+        _vm.onImport($event)
+      }
+    }
+  }), _vm._v(" "), _c('span', {
+    staticClass: "dialog-footer",
+    slot: "footer"
+  }, [_c('button', {
+    staticClass: "btn btn-default",
+    on: {
+      "click": function($event) {
+        _vm.importDialog.visible = false
+      }
+    }
+  }, [_vm._v("閉じる")])])]), _vm._v(" "), _c('el-dialog', {
     attrs: {
       "title": "詳細"
     },
