@@ -508,7 +508,7 @@ class AddressBookController extends Controller
 
         // 権限が無い場合は、個人電話帳のみとする
         // ToDo 所有者チェック
-        if (!\Entrust::can('edit-addressbook') && $group['type'] != 9) {
+        if (!\Entrust::can('addressbook-admin') && $group['type'] != 9) {
             abort(403);
         }
 
