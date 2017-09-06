@@ -44,6 +44,8 @@ class CdrController extends Controller
         $items = $this
             ->_getItems($request)
             ->get()
+            // 不要な項目を排除 / ModelのAppends
+            ->makeHidden(['sender_name', 'destination_name'])
             ->toArray();
 
         // CSVファイルの先頭に付けるヘッダー
