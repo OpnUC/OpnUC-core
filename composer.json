@@ -13,7 +13,7 @@
         "laravel/tinker": "~1.0",
         "marcelog/pami": "^2.0",
         "predis/predis": "v1.1.1",
-        "tymon/jwt-auth": "0.5.10",
+        "tymon/jwt-auth": "0.5.*",
         "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
