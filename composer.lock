@@ -4,31 +4,42 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6437158ab4472c446ea334f026ba701",
+    "content-hash": "8145307e185ff2e918a21f611971d5b8",
     "packages": [
         {
             "name": "aacotroneo/laravel-saml2",
-            "version": "0.8.1",
+            "version": "0.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aacotroneo/laravel-saml2.git",
-                "reference": "93d1fc4656a0457ea307e70764cc08ded3883592"
+                "reference": "6523bd968737e435318d0392178c4d299794faa3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aacotroneo/laravel-saml2/zipball/93d1fc4656a0457ea307e70764cc08ded3883592",
-                "reference": "93d1fc4656a0457ea307e70764cc08ded3883592",
+                "url": "https://api.github.com/repos/aacotroneo/laravel-saml2/zipball/6523bd968737e435318d0392178c4d299794faa3",
+                "reference": "6523bd968737e435318d0392178c4d299794faa3",
                 "shasum": ""
             },
             "require": {
+                "ext-openssl": "*",
                 "illuminate/support": ">=5.0.0",
-                "onelogin/php-saml": "2.*",
+                "onelogin/php-saml": "^2.10",
                 "php": ">=5.4.0"
             },
             "require-dev": {
                 "mockery/mockery": "0.9.*"
             },
             "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Aacotroneo\\Saml2\\Saml2ServiceProvider"
+                    ],
+                    "aliases": {
+                        "Saml2": "Aacotroneo\\Saml2\\Facades\\Saml2Auth"
+                    }
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Aacotroneo\\Saml2\\": "src/"
@@ -52,7 +63,7 @@
                 "onelogin",
                 "saml"
             ],
-            "time": "2017-01-11T14:50:35+00:00"
+            "time": "2017-08-30T13:31:42+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
