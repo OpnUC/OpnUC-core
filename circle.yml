@@ -8,7 +8,11 @@ machine:
     DB_PASSWORD:
     CACHE_DRIVER: array
   php:
-    version: 5.6.22
+    version: 7.1.9
+
+dependencies:
+  pre:
+    - npm config set registry http://registry.npmjs.org/
 
 database:
   override:
