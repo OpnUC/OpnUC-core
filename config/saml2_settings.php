@@ -24,6 +24,7 @@ return $settings = array(
         'singleLogoutService' => array(
             'url' => env('SAML2_SLS', ''),
         ),
+        'x509cert' => '',
         'certFingerprint' => env('SAML2_IDP_FINGERPRINT', ''),
     ),
     'security' => array(

@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@websanova/vue-auth": "^2.8.2-beta",
-    "admin-lte": "^2.3.11",
+    "admin-lte": "~2.3",
     "axios": "^0.15.2",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",

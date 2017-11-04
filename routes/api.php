@@ -27,6 +27,9 @@ Route::group([
     Route::get('/auth/refresh', 'AuthController@refresh')
         ->middleware(['api', 'jwt.refresh']);
 
+    // FrontEnd Error Reporting
+    Route::post('/error/report', 'ErrorController@report');
+    
     // Login Check
     Route::group([
         'middleware' => ['jwt.auth'],
