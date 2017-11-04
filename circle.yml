@@ -9,6 +9,11 @@ machine:
     CACHE_DRIVER: array
   php:
     version: 7.1.9
+  node:
+    version: 6.3.0
+  post:
+     - npm install -g npm@3
+  timezone: Asia/Tokyo
 
 dependencies:
   pre:
@@ -22,6 +27,7 @@ test:
   pre:
     - cp .env.example .env
     - php artisan key:generate
+    - sudo service redis-server start
 #    - php artisan migrate
 #    - php artisan db:seed
   post:
