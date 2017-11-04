@@ -4,6 +4,10 @@ namespace App\Libs;
 
 use Illuminate\Support\Manager;
 
+/**
+ * Class PbxLinkerManager
+ * @package App\Libs
+ */
 class PbxLinkerManager extends Manager
 {
 
@@ -62,7 +66,7 @@ class PbxLinkerManager extends Manager
             if (method_exists($this, $driverMethod)) {
                 $this->connections[$name] = $this->{$driverMethod}();
             } else {
-                throw new InvalidArgumentException("Driver [$name] is not supported.");
+                throw new \InvalidArgumentException('Driver [$name] is not supported.');
             }
         }
 
@@ -76,6 +80,17 @@ class PbxLinkerManager extends Manager
 
         return new AsteriskLinker();
 
+    }
+
+    /**
+     * 拡張コネクションを登録する
+     * @param  string    $name
+     * @param  \Closure  $resolver
+     * @return void
+     */
+    public function extend($name, \Closure $resolver)
+    {
+        $this->connections[$name] = $resolver;
     }
 
     /**

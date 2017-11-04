@@ -7,6 +7,10 @@ use App\Libs\PbxLinkerManager;
 
 class PbxLinkerServiceProvider extends ServiceProvider
 {
+
+    // 利用するまでロードしない
+    protected $defer = true;
+
     /**
      * Bootstrap the application services.
      *
@@ -23,7 +27,9 @@ class PbxLinkerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton("pbxlinker", function ($app) {
+
+        // PBX Linkerをシングルトンで提供する
+        $this->app->singleton('pbxlinker', function ($app) {
             return new PbxLinkerManager($app);
         });
     }
