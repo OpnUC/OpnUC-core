@@ -8,7 +8,16 @@ machine:
     DB_PASSWORD:
     CACHE_DRIVER: array
   php:
-    version: 5.6.22
+    version: 7.1.9
+  node:
+    version: 6.3.0
+  post:
+     - npm install -g npm@3
+  timezone: Asia/Tokyo
+
+dependencies:
+  pre:
+    - npm config set registry http://registry.npmjs.org/
 
 database:
   override:
@@ -18,6 +27,7 @@ test:
   pre:
     - cp .env.example .env
     - php artisan key:generate
+    - sudo service redis-server start
 #    - php artisan migrate
 #    - php artisan db:seed
   post:

@@ -20,14 +20,15 @@ class DemoSeeder extends Seeder
         // 発着信履歴
         $cdrType = [10, 21, 22, 23];
 
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $cdrItem = new \App\Cdr();
 
             $cdrItem->type = $cdrType[array_rand($cdrType)];
             $cdrItem->sender = rand(200, 800);
             $cdrItem->destination = rand(200, 800);
 
-            $baseTime = time() + rand();
+            // 値がfloatになってしまうので、intval追加
+            $baseTime = intval(time() + rand());
 
             $cdrItem->duration = rand(10, 3600);
             $cdrItem->start_datetime = date('Y-m-d H:i:s', $baseTime);
