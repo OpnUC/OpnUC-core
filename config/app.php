@@ -181,8 +181,6 @@ return [
         Zizaco\Entrust\EntrustServiceProvider::class,
         // JWT-Auth
         Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
-        // SAML
-        Aacotroneo\Saml2\Saml2ServiceProvider::class,
 
         // Asterisk Linker
         App\Providers\PbxLinkerServiceProvider::class,
@@ -240,8 +238,6 @@ return [
         // JWT-Auth
         'JWTAuth'   => Tymon\JWTAuth\Facades\JWTAuth::class,
         'JWTFactory' => Tymon\JWTAuth\Facades\JWTFactory::class,
-        // SAML
-        'Saml2' => Aacotroneo\Saml2\Facades\Saml2Auth::class,
         // PBX Linker
         'PbxLinker' => App\Facades\PbxLinker::class,
     ],
