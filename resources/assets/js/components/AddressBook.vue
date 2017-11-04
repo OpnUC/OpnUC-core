@@ -433,7 +433,7 @@
                         if (error.response.status === 422) {
                             // 422 - Validation Error
 //                            _this.message = '入力に問題があります。'
-//                            _this.errors = error.response.data
+//                            _this.errors = error.response.data.errors
                         } else {
                             self.$message({
                                 type: error.response.data.status,

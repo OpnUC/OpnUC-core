@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -15,11 +16,11 @@ abstract class TestCase extends BaseTestCase
     /**
      * Set the currently logged in user for the application.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
-     * @param  string|null                                $driver
+     * @param  Authenticatable $user
+     * @param  string|null $driver
      * @return $this
      */
-    public function actingAs(\App\User $user, $driver = null)
+    public function actingAs(Authenticatable $user, $driver = null)
     {
         $this->user = $user;
         return $this;

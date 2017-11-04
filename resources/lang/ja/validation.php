@@ -47,6 +47,8 @@ return [
     'in_array' => 'The :attribute field does not exist in :other.',
     'integer' => ':attributeには、整数を指定してください。',
     'ip' => ':attributeには、有効なIPアドレスを指定してください。',
+    'ip4' => ':attributeには、有効なIPv4アドレスを指定してください。',
+    'ip6' => ':attributeには、有効なIPv6アドレスを指定してください。',
     'json' => ':attributeには、有効なJSON文字列を指定してください。',
     'max' => [
         'numeric' => ':attributeには、:max以下の数字を指定してください。',

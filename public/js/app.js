@@ -3376,7 +3376,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (error.response.status === 422) {
                     // 422 - Validation Error
                     //                            _this.message = '入力に問題があります。'
-                    //                            _this.errors = error.response.data
+                    //                            _this.errors = error.response.data.errors
                 } else {
                     self.$message({
                         type: error.response.data.status,
@@ -3794,7 +3794,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     // 422 - Validation Error
                     _this.message = '入力に問題があります。';
 
-                    _this.errors = error.response.data;
+                    _this.errors = error.response.data.errors;
                 } else {
                     _this.message = 'エラーが発生しました。';
                 }
@@ -4184,7 +4184,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     // 422 - Validation Error
                     _this.message = '入力に問題があります。';
 
-                    _this.errors = error.response.data;
+                    _this.errors = error.response.data.errors;
                 } else {
                     _this.message = 'エラーが発生しました。';
                 }
@@ -4689,7 +4689,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     // 422 - Validation Error
                     _this.message = '入力に問題があります。';
 
-                    _this.errors = error.response.data;
+                    _this.errors = error.response.data.errors;
                 } else {
                     _this.message = 'エラーが発生しました。';
                 }
@@ -5624,7 +5624,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     // 422 - Validation Error
                     _this.message = '入力に問題があります。';
 
-                    _this.errors = error.response.data;
+                    _this.errors = error.response.data.errors;
                 } else {
                     _this.message = 'エラーが発生しました。';
                 }
@@ -5722,7 +5722,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     // 422 - Validation Error
                     _this.message = '入力に問題があります。';
 
-                    _this.errors = error.response.data;
+                    _this.errors = error.response.data.errors;
                 } else {
                     _this.message = 'エラーが発生しました。';
                 }
@@ -6144,7 +6144,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     // 422 - Validation Error
                     _this.message = '入力に問題があります。';
 
-                    _this.errors = error.response.data;
+                    _this.errors = error.response.data.errors;
                 } else {
                     _this.$message({
                         type: error.response.data.status,
@@ -6214,7 +6214,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     // 422 - Validation Error
                     _this.message = '入力に問題があります。';
 
-                    _this.errors = error.response.data;
+                    _this.errors = error.response.data.errors;
                 } else {
                     _this.message = 'エラーが発生しました。';
                 }
@@ -6469,7 +6469,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     // 422 - Validation Error
                     _this.message = '入力に問題があります。';
 
-                    _this.errors = error.response.data;
+                    _this.errors = error.response.data.errors;
                 } else {
                     _this.message = 'エラーが発生しました。';
                 }
@@ -6640,7 +6640,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     // 422 - Validation Error
                     _this.message = '入力に問題があります。';
 
-                    _this.errors = error.response.data;
+                    _this.errors = error.response.data.errors;
                 } else {
                     _this.message = 'エラーが発生しました。';
                 }
