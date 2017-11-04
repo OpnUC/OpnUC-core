@@ -40,11 +40,9 @@ var myBearer = {
             token = headers.Authorization || headers.authorization;
 
         if (token) {
-            token = token.split(/Bearer\:?\s?/i);
-
             // for LaravelEcho
             if (window.echo) {
-                window.echo.options.auth.headers.Authorization = 'Bearer ' + token
+                window.echo.options.auth.headers.Authorization = token
             }
 
             return token[token.length > 1 ? 1 : 0].trim();

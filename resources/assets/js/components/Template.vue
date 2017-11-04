@@ -155,7 +155,7 @@
                     )
                 } else {
                     // end
-                    pushjs.clear('incomingcall')
+                    pushjs.close('incomingcall')
                 }
             },
         },
