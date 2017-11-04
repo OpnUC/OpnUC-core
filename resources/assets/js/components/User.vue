@@ -215,7 +215,7 @@
                             // 422 - Validation Error
                             _this.message = '入力に問題があります。'
 
-                            _this.errors = error.response.data
+                            _this.errors = error.response.data.errors
                         } else {
                             _this.$message({
                                 type: error.response.data.status,
@@ -289,7 +289,7 @@
                             // 422 - Validation Error
                             _this.message = '入力に問題があります。'
 
-                            _this.errors = error.response.data
+                            _this.errors = error.response.data.errors
                         } else {
                             _this.message = 'エラーが発生しました。'
                         }
