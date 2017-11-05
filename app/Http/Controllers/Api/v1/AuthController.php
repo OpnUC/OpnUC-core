@@ -34,9 +34,8 @@ class AuthController extends Controller
 
         // mode が restore の場合は、ログイン済みとして、Tokenで認証を試みる
         if ($request['mode'] === 'restore' && $request['token']) {
-            JWTAuth::setToken($request['token']);
-
-            $logginUser = JWTAuth::parseToken()->authenticate();
+            // Tokenからユーザを取得
+            $logginUser = JWTAuth::toUser($request['token']);
 
             if ($logginUser === null) {
                 return response([
@@ -57,7 +56,7 @@ class AuthController extends Controller
                         'status' => 'error',
                         'error' => 'invalid.credentials',
                         'message' => 'ユーザ名もしくはパスワードが正しくありません。'
-                    ], 400);
+                    ], 401);
                 }
             } catch (JWTException $e) {
                 return response()->json(['error' => 'could_not_create_token'], 500);

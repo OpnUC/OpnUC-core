@@ -28,11 +28,11 @@ class DemoSeeder extends Seeder
             $cdrItem->destination = rand(200, 800);
 
             // 値がfloatになってしまうので、intval追加
-            $baseTime = intval(time() + rand());
+            $baseTime = time() + rand();
 
             $cdrItem->duration = rand(10, 3600);
-            $cdrItem->start_datetime = date('Y-m-d H:i:s', $baseTime);
-            $cdrItem->end_datetime = date('Y-m-d H:i:s', $baseTime + $cdrItem->duration);
+            $cdrItem->start_datetime = date('Y-m-d H:i:s', intval($baseTime));
+            $cdrItem->end_datetime = date('Y-m-d H:i:s', intval($baseTime + $cdrItem->duration));
 
             $cdrItem->save();
         }
