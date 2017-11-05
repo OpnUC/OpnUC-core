@@ -60,13 +60,17 @@ class PbxLinkerManager extends Manager
     {
         $name = $name ?: $this->getDefaultDriver();
 
+        if(isset($this->customCreators[$name])){
+            return $this->callCustomCreator($name);
+        }
+
         if (!isset($this->connections[$name])) {
             $driverMethod = 'create'.ucfirst($name).'Driver';
 
             if (method_exists($this, $driverMethod)) {
                 $this->connections[$name] = $this->{$driverMethod}();
             } else {
-                throw new \InvalidArgumentException('Driver [$name] is not supported.');
+                throw new \InvalidArgumentException("Driver [$name] is not supported.");
             }
         }
 
@@ -80,17 +84,6 @@ class PbxLinkerManager extends Manager
 
         return new AsteriskLinker();
 
-    }
-
-    /**
-     * 拡張コネクションを登録する
-     * @param  string    $name
-     * @param  \Closure  $resolver
-     * @return void
-     */
-    public function extend($name, \Closure $resolver)
-    {
-        $this->connections[$name] = $resolver;
     }
 
     /**

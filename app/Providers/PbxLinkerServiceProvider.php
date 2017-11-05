@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Facades\PbxLinker;
 use Illuminate\Support\ServiceProvider;
 use App\Libs\PbxLinkerManager;
 
@@ -12,15 +13,6 @@ class PbxLinkerServiceProvider extends ServiceProvider
     protected $defer = true;
 
     /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-    }
-
-    /**
      * Register the application services.
      *
      * @return void
@@ -29,8 +21,19 @@ class PbxLinkerServiceProvider extends ServiceProvider
     {
 
         // PBX Linkerをシングルトンで提供する
-        $this->app->singleton('pbxlinker', function ($app) {
+        $this->app->singleton(PbxLinker::class, function ($app) {
             return new PbxLinkerManager($app);
         });
     }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [PbxLinker::class];
+    }
+
 }
