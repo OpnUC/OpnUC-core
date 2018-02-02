@@ -9,7 +9,11 @@ use PAMI\Message\Event\EventMessage;
 use PAMI\Message\Event\UnknownEvent;
 use PAMI\Message\Event\OriginateResponseEvent;
 
-class AsteriskLinker
+/**
+ * Class AsteriskLinker
+ * @package App\Libs
+ */
+class AsteriskLinker implements PbxLinkerInterface
 {
 
     // クライアント
@@ -56,6 +60,9 @@ class AsteriskLinker
 
     }
 
+    /**
+     * プレゼンス情報の更新
+     */
     public function processPresence()
     {
 
@@ -123,7 +130,6 @@ class AsteriskLinker
             }
         );
 
-
         // Device State
         $this->client->registerEventListener(
             function (EventMessage $event) {
@@ -151,7 +157,7 @@ class AsteriskLinker
                         $state = 'unknown';
                         break;
                     default:
-                        echo '$ext ' . $event->getKey('state') . "\n";
+                        echo "$ext " . $event->getKey('state') . "\n";
                         break;
                 }
 

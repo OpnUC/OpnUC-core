@@ -35,8 +35,8 @@ class Click2CallController extends Controller
             ->get()
             ->first();
 
-        // ユーザに内線番号の設定があるかチェック
-        if(!$addressbook->tel1){
+        // ユーザがアドレス帳を所有しているか、また内線番号の設定があるかチェック
+        if(!$addressbook || !$addressbook->tel1){
             return response([
                 'message' => 'あなたはPBX連携が設定されていないため、発信できません。',
                 'status' => 'error',

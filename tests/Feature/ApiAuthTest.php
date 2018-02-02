@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ApiAuthTest extends TestCase
 {
@@ -41,12 +42,50 @@ class ApiAuthTest extends TestCase
         ], [
             'Accept' => 'application/json'
         ])
-            ->assertStatus(400)
+            ->assertStatus(401)
             ->assertJson([
                 'status' => 'error',
                 'error' => 'invalid.credentials',
             ]);
     }
+
+    /**
+     * Login Restore Test
+     */
+    public function testLoginRestore()
+    {
+        $user = factory(\App\User::class)->create();
+
+        $this->post('/api/v1/auth/login', [
+            'mode' => 'restore',
+            'token' => JWTAuth::fromUser($user),
+        ], [
+            'Accept' => 'application/json'
+        ])
+            ->assertStatus(200)
+            ->assertJson([
+                'status' => 'success',
+            ]);
+    }
+
+    /**
+     * Login Restore Test on Fail
+     */
+//    public function testLoginRestoreFail()
+//    {
+//        $user = factory(\App\User::class)->create();
+//
+//        $this->post('/api/v1/auth/login', [
+//            'mode' => 'restore',
+//            'token' => JWTAuth::fromUser($user),
+//        ], [
+//            'Accept' => 'application/json'
+//        ])
+//            ->assertStatus(401)
+//            ->assertJson([
+//                'status' => 'invalid.credentials',
+//            ]);
+//    }
 
     /**
      * Logout Test

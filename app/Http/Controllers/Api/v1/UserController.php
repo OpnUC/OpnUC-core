@@ -55,6 +55,7 @@ class UserController extends Controller
         $id = \Auth::User()->id;
 
         // ToDo: メールアドレスの変更は確認した方がいい
+        // ToDo: ログイン中のユーザを変更出来るようにしているが、リクエスト上のユーザIDをチェックする？
 
         $record = \App\User::firstOrNew(['id' => $id]);
         $record->display_name = $request['display_name'];

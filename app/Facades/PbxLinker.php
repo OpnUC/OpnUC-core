@@ -16,6 +16,6 @@ class PbxLinker extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'pbxlinker';
+        return PbxLinker::class;
     }
 }

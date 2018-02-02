@@ -14,6 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // 古いMySQLを利用している場合にMigrationに失敗するため
         Schema::defaultStringLength(191);
     }
 

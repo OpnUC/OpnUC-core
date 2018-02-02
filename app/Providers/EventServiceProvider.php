@@ -29,22 +29,20 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        // SAMLで認証できた場合
         Event::listen('Aacotroneo\Saml2\Events\Saml2LoginEvent', function ($event) {
-
+            // SAMLのユーザ情報を取得
             $user = $event->getSaml2User();
-//            $userData = [
-//                'id' => $user->getUserId(),
-//                'attributes' => $user->getAttributes(),
-//                'assertion' => $user->getRawSamlAssertion()
-//            ];
 
+            // ユーザテーブルからユーザを検索
             $laravelUser = User::where('email', $user->getUserId())
                 ->first();
 
+            // ログインしたことにする
             Auth::login($laravelUser);
         });
 
+        // SAMLでログアウトした場合
         Event::listen('Aacotroneo\Saml2\Events\Saml2LogoutEvent', function ($event) {
             //Auth::logout();
             //Session::save();

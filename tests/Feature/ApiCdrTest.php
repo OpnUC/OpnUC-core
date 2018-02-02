@@ -26,7 +26,15 @@ class ApiCdrTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->get('/api/v1/cdr/search')
+        $this->get('/api/v1/cdr/search', [
+            'sort' => 'start_datetime|desc',
+            'sender' => '3',
+            'destination' => '3',
+            'datetime' => [
+                '2000-01-01T00:00:00.000Z',
+                '2999-12-31T23:59:59.999Z',
+            ]
+        ])
             ->assertStatus(200);
 
     }
