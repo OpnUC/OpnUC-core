@@ -17,7 +17,7 @@ Vue.use(VueAxios, axios)
 Vue.use(VueRouter);
 Vue.use(ElementUI, {locale})
 
-Vue.axios.defaults.baseURL = '/api/v1';
+axios.defaults.baseURL = '/api/v1';
 
 import routes from './routes'
 
@@ -34,26 +34,25 @@ var myBearer = {
     request: function (req, token) {
         this.options.http._setHeaders.call(this, req, {Authorization: 'Bearer ' + token});
     },
-
     response: function (res) {
         var headers = this.options.http._getHeaders.call(this, res),
             token = headers.Authorization || headers.authorization;
 
         if (token) {
             token = token.split(/Bearer\:?\s?/i);
+            token = token[token.length > 1 ? 1 : 0].trim()
 
             // for LaravelEcho
             if (window.echo) {
-                window.echo.options.auth.headers.Authorization = 'Bearer ' +  token[token.length > 1 ? 1 : 0].trim();
+                window.echo.options.auth.headers.Authorization = 'Bearer ' + token
             }
 
-            return token[token.length > 1 ? 1 : 0].trim();
+            return token
         }
     }
 }
 
 Vue.use(VueAuth, {
-    // auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
     auth: myBearer,
     http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
@@ -63,9 +62,83 @@ Vue.use(VueAuth, {
     }
 })
 
-//export {router};
-
 Vue.component('tel-contact', require('./components/common_TelContact.vue'))
+
+// VueのグローバルMixin
+Vue.mixin({
+    data() {
+        return {
+            // 1ページの件数
+            perPageList: [10, 30, 50, 100],
+            // Vuetable-2
+            vueTableCss: {
+                tableClass: 'table table-striped table-bordered',
+                loadingClass: 'loading',
+                ascendingIcon: 'glyphicon glyphicon-chevron-up',
+                descendingIcon: 'glyphicon glyphicon-chevron-down',
+                handleIcon: 'glyphicon glyphicon-menu-hamburger',
+            },
+            vueTableCssPagination: {
+                wrapperClass: 'pagination pull-right',
+                activeClass: 'btn-primary',
+                disabledClass: 'disabled',
+                pageClass: 'btn btn-border',
+                linkClass: 'btn btn-border',
+                icons: {
+                    first: '',
+                    prev: '',
+                    next: '',
+                    last: '',
+                },
+            },
+            vueTableIcons: {
+                first: '',
+                prev: '',
+                next: '',
+                last: '',
+            },
+        }
+    },
+    methods: {
+        /**
+         * Vuetable-2のページネーションデータ
+         * @param paginationData
+         */
+        onVuetablePaginationData(paginationData) {
+            this.$refs.pagination.setPaginationData(paginationData)
+            this.$refs.paginationInfo.setPaginationData(paginationData)
+        },
+        /**
+         * Vuetable-2でページが変更された時
+         * @param page
+         */
+        onVuetableChangePage(page) {
+            this.$refs.vuetable.changePage(page)
+
+            // スクロールの速度(ms)
+            var speed = 400
+            var target = $('#tableScrollTop')
+
+            // スクロール先が見つからない場合は、処理しない
+            if (target && target.length === 0)
+                return false
+
+            var position = target.offset().top
+            $('body,html').animate({scrollTop: position}, speed, 'swing')
+
+            return false
+        },
+        /**
+         * Vuetable-2から取得するための関数
+         * @param apiUrl
+         * @param httpOptions
+         * @returns {AxiosPromise<any>}
+         */
+        onVuetableHttpFetch(apiUrl, httpOptions) {
+            return axios.get(apiUrl, httpOptions)
+        },
+    }
+})
 
 const app = new Vue({
     router: Vue.router,
@@ -117,7 +190,7 @@ const app = new Vue({
                 _this.$events.$emit('LaravelEcho:reconnect')
             });
 
-            // Broadcast Channel
+            // Broadcast ChannelにJoinする
             window.echo.channel('BroadcastChannel')
                 .listen('MessageCreateBroadcastEvent', function (e) {
                     _this.$events.$emit('LaravelEcho:Broadcast', e)
@@ -126,7 +199,7 @@ const app = new Vue({
                     _this.$events.$emit('LaravelEcho:PresenceUpdated', e)
                 });
 
-            // 認証に通っている場合はPrivateChannel
+            // 認証に通っている場合はPrivateChannelにもJoinする
             if (this.$auth.check()) {
                 window.echo.private('PrivateChannel.' + this.$auth.user().id)
                     .listen('MessageCreatePrivateEvent', function (e) {
@@ -187,17 +260,3 @@ const app = new Vue({
 var timer = setInterval(function () {
     app.$auth.refresh()
 }, 30 * 60 * 1000);
-
-// window.app = app
-
-// window.axios.interceptors.response.use((response) => {
-//     return response
-// }, function (error) {
-//     var originalRequest = error.config
-//     console.log(originalRequest)
-//     if (error.response.status === 401 && !originalRequest._retry) {
-//         originalRequest._retry = true
-//     }
-//     // Do something with response error
-//     return Promise.reject(error)
-// })

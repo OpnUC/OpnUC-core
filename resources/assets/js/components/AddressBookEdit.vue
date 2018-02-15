@@ -203,13 +203,14 @@
                                             placeholder="所有ユーザ">
                                         <el-option
                                                 v-for="item in selOwnerItems"
+                                                :key="item.id"
                                                 :label="item.display_name + ' / ' + item.username"
                                                 :value="item.id">
                                         </el-option>
                                     </el-select>
                                     <span class="help-block" v-if="errors.owner_userid">
                                         <ul>
-                                            <li v-for="item in errors.owner_userid">
+                                            <li v-for="item in errors.owner_userid" :key="item">
                                                 {{ item }}
                                             </li>
                                         </ul>

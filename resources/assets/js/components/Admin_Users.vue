@@ -1,6 +1,6 @@
 <template>
     <section class="content">
-        <div class="box box-primary">
+        <div class="box box-primary" id="tableScrollTop">
             <div class="overlay" v-if="isLoading">
                 <i class="fa fa-refresh fa-spin"></i>
             </div>
@@ -29,6 +29,7 @@
                 <vuetable class="table table-striped"
                           ref="vuetable"
                           api-url="/admin/users"
+                          :http-fetch="onVuetableHttpFetch"
                           :css="css"
                           :fields="fields"
                           :sort-order="sortOrder"
@@ -37,7 +38,7 @@
                           @vuetable:pagination-data="onPaginationData"
                           no-data-template="データがありませんでした。"
                           pagination-path="">
-                    <template slot="actions" scope="props">
+                    <template slot="actions" slot-scope="props">
                         <div>
                             <router-link :to="{ name: 'AdminUserEdit', params: { id: props.rowData.id }}"
                                          class="btn btn-default btn-xs">

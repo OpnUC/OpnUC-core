@@ -27,7 +27,7 @@
                                            placeholder="ユーザID" readonly="readonly" v-model="selectItem.id">
                                     <span class="help-block" v-if="errors.id">
                                         <ul>
-                                            <li v-for="item in errors.id">
+                                            <li v-for="item in errors.id" :key="item">
                                                 {{ item }}
                                             </li>
                                         </ul>
@@ -42,7 +42,7 @@
                                            placeholder="ユーザ名" v-model="selectItem.username">
                                     <span class="help-block" v-if="errors.username">
                                         <ul>
-                                            <li v-for="item in errors.username">
+                                            <li v-for="item in errors.username" :key="item">
                                                 {{ item }}
                                             </li>
                                         </ul>
@@ -57,7 +57,7 @@
                                            placeholder="表示名" v-model="selectItem.display_name">
                                     <span class="help-block" v-if="errors.display_name">
                                         <ul>
-                                            <li v-for="item in errors.display_name">
+                                            <li v-for="item in errors.display_name" :key="item">
                                                 {{ item }}
                                             </li>
                                         </ul>
@@ -72,7 +72,7 @@
                                            placeholder="メールアドレス" v-model="selectItem.email">
                                     <span class="help-block" v-if="errors.email">
                                         <ul>
-                                            <li v-for="item in errors.email">
+                                            <li v-for="item in errors.email" :key="item">
                                                 {{ item }}
                                             </li>
                                         </ul>
@@ -86,13 +86,14 @@
                                     <el-select id="inputRoles" v-model="selectItem.roles" multiple placeholder="所属ロール">
                                         <el-option
                                                 v-for="role in roles"
+                                                :key="role.id"
                                                 :label="role.display_name"
                                                 :value="role.id">
                                         </el-option>
                                     </el-select>
                                     <span class="help-block" v-if="errors.roles">
                                         <ul>
-                                            <li v-for="item in errors.roles">
+                                            <li v-for="item in errors.roles" :key="item">
                                                 {{ item }}
                                             </li>
                                         </ul>

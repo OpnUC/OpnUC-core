@@ -16,6 +16,10 @@ var paths = {
     'fontawesome': 'node_modules/font-awesome'
 }
 
+mix.autoload({
+    jquery: ['$', 'window.jQuery', 'jQuery', 'window.$', 'jquery', 'window.jquery']
+});
+
 mix.js([
         'resources/assets/js/app.js',
         'resources/assets/js/vue.es6'
@@ -30,7 +34,7 @@ mix.js([
         // Font Awsome
         paths.fontawesome + '/css/font-awesome.css'
     ], 'public/css/vendor.css')
-    .extract(['element-ui', 'bootstrap-sass', 'axios', 'jquery', 'vue', 'vue-router', 'vue-events', 'vue-axios', 'moment', 'encoding-japanese'])
+    .extract(['libphonenumber-js', 'element-ui', 'bootstrap-sass', 'axios', 'jquery', 'vue', 'vue-router', 'vue-events', 'vue-axios', 'moment', 'encoding-japanese'])
     .copy(
         'node_modules/font-awesome/fonts',
         'public/fonts'
