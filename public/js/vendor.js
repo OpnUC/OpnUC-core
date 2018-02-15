@@ -1846,7 +1846,7 @@ function loadLocale(name) {
         try {
             oldLocale = globalLocale._abbr;
             var aliasedRequire = require;
-            __webpack_require__(406)("./" + name);
+            __webpack_require__(407)("./" + name);
             getSetGlobalLocale(oldLocale);
         } catch (e) {}
     }
@@ -4538,7 +4538,7 @@ return hooks;
 
 })));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(232)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(235)(module)))
 
 /***/ }),
 /* 1 */,
@@ -15358,7 +15358,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17), __webpack_require__(46), __webpack_require__(408).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17), __webpack_require__(46), __webpack_require__(409).setImmediate))
 
 /***/ }),
 /* 3 */
@@ -15367,7 +15367,7 @@ module.exports = Vue$3;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return warning; });
 /* harmony export (immutable) */ __webpack_exports__["e"] = format;
@@ -15571,12 +15571,12 @@ function deepMerge(target, source) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__required__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__whitespace__ = __webpack_require__(250);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__type__ = __webpack_require__(249);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__range__ = __webpack_require__(248);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__enum__ = __webpack_require__(246);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pattern__ = __webpack_require__(247);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__required__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__whitespace__ = __webpack_require__(253);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__type__ = __webpack_require__(252);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__range__ = __webpack_require__(251);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__enum__ = __webpack_require__(249);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pattern__ = __webpack_require__(250);
 
 
 
@@ -25988,7 +25988,7 @@ $exports.store = store;
 "use strict";
 
 
-var bind = __webpack_require__(87);
+var bind = __webpack_require__(88);
 
 /*global toString:true*/
 
@@ -26300,8 +26300,8 @@ if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(19);
-var IE8_DOM_DEFINE = __webpack_require__(91);
+var anObject = __webpack_require__(20);
+var IE8_DOM_DEFINE = __webpack_require__(94);
 var toPrimitive = __webpack_require__(61);
 var dP = Object.defineProperty;
 
@@ -26413,7 +26413,7 @@ module.exports = $export;
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(10);
-var createDesc = __webpack_require__(30);
+var createDesc = __webpack_require__(31);
 module.exports = __webpack_require__(12) ? function (object, key, value) {
   return dP.f(object, key, createDesc(1, value));
 } : function (object, key, value) {
@@ -26814,16 +26814,22 @@ process.umask = function() { return 0; };
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = { "default": __webpack_require__(325), __esModule: true };
+
+/***/ }),
+/* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(319);
+var _iterator = __webpack_require__(322);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(318);
+var _symbol = __webpack_require__(321);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -26838,10 +26844,10 @@ exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.d
 };
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(21);
+var isObject = __webpack_require__(22);
 module.exports = function (it) {
   if (!isObject(it)) throw TypeError(it + ' is not an object!');
   return it;
@@ -26849,7 +26855,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 var hasOwnProperty = {}.hasOwnProperty;
@@ -26859,7 +26865,7 @@ module.exports = function (it, key) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -26868,17 +26874,11 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(324), __esModule: true };
-
-/***/ }),
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // optional / simple context binding
-var aFunction = __webpack_require__(88);
+var aFunction = __webpack_require__(91);
 module.exports = function (fn, that, length) {
   aFunction(fn);
   if (that === undefined) return fn;
@@ -27028,214 +27028,908 @@ var getValueByPath = exports.getValueByPath = function getValueByPath(object, pr
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = get_country_calling_code;
-/* harmony export (immutable) */ __webpack_exports__["g"] = get_national_number_pattern;
-/* harmony export (immutable) */ __webpack_exports__["s"] = get_country_phone_number_possible_lengths;
-/* harmony export (immutable) */ __webpack_exports__["b"] = get_formats;
-/* unused harmony export get_national_prefix */
-/* unused harmony export get_national_prefix_formatting_rule */
-/* harmony export (immutable) */ __webpack_exports__["l"] = get_national_prefix_for_parsing;
-/* harmony export (immutable) */ __webpack_exports__["m"] = get_national_prefix_transform_rule;
-/* unused harmony export get_national_prefix_is_optional_when_formatting */
-/* harmony export (immutable) */ __webpack_exports__["n"] = get_leading_digits;
-/* harmony export (immutable) */ __webpack_exports__["C"] = get_types;
-/* harmony export (immutable) */ __webpack_exports__["e"] = get_format_pattern;
-/* harmony export (immutable) */ __webpack_exports__["j"] = get_format_format;
-/* harmony export (immutable) */ __webpack_exports__["d"] = get_format_leading_digits_patterns;
-/* harmony export (immutable) */ __webpack_exports__["i"] = get_format_national_prefix_formatting_rule;
-/* harmony export (immutable) */ __webpack_exports__["o"] = get_format_national_prefix_is_optional_when_formatting;
-/* harmony export (immutable) */ __webpack_exports__["h"] = get_format_national_prefix_is_mandatory_when_formatting;
-/* harmony export (immutable) */ __webpack_exports__["k"] = get_format_uses_national_prefix;
-/* harmony export (immutable) */ __webpack_exports__["c"] = get_format_international_format;
-/* harmony export (immutable) */ __webpack_exports__["f"] = get_metadata_by_country_calling_code;
-/* harmony export (immutable) */ __webpack_exports__["t"] = get_type_fixed_line;
-/* harmony export (immutable) */ __webpack_exports__["p"] = get_type_mobile;
-/* harmony export (immutable) */ __webpack_exports__["v"] = get_type_toll_free;
-/* harmony export (immutable) */ __webpack_exports__["u"] = get_type_premium_rate;
-/* harmony export (immutable) */ __webpack_exports__["y"] = get_type_personal_number;
-/* harmony export (immutable) */ __webpack_exports__["B"] = get_type_voice_mail;
-/* harmony export (immutable) */ __webpack_exports__["A"] = get_type_uan;
-/* harmony export (immutable) */ __webpack_exports__["z"] = get_type_pager;
-/* harmony export (immutable) */ __webpack_exports__["x"] = get_type_voip;
-/* harmony export (immutable) */ __webpack_exports__["w"] = get_type_shared_cost;
-/* harmony export (immutable) */ __webpack_exports__["q"] = get_type_pattern;
-/* harmony export (immutable) */ __webpack_exports__["r"] = get_type_possible_lengths;
-function get_country_calling_code(country_metadata) {
-	return country_metadata[0];
-}
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_semver_compare__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_semver_compare___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_semver_compare__);
 
-function get_national_number_pattern(country_metadata) {
-	return country_metadata[1];
-}
 
-function get_country_phone_number_possible_lengths(country_metadata) {
-	return country_metadata[2];
-}
 
-// export function get_country_phone_number_possible_lengths_local(country_metadata)
-// {
-// 	return country_metadata[3]
-// }
 
-function get_formats(country_metadata) {
-	return country_metadata[3] || [];
-}
+// Added "possibleLengths" and renamed
+// "country_phone_code_to_countries" to "country_calling_codes".
+var V2 = '1.0.18';
 
-function get_national_prefix(country_metadata) {
-	return country_metadata[4];
-}
+var Metadata = function () {
+	function Metadata(metadata) {
+		__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, Metadata);
 
-function get_national_prefix_formatting_rule(country_metadata) {
-	return country_metadata[5];
-}
+		// Metadata is required.
+		if (!metadata || !metadata.countries) {
+			throw new Error('Metadata is required');
+		}
 
-function get_national_prefix_for_parsing(country_metadata) {
-	var national_prefix_for_parsing = country_metadata[6];
+		this.metadata = metadata;
 
-	// If `national_prefix_for_parsing` is not set explicitly,
-	// then infer it from `national_prefix` (if any)
-	if (!national_prefix_for_parsing) {
-		national_prefix_for_parsing = get_national_prefix(country_metadata);
+		this.v1 = !metadata.version;
+		this.v2 = metadata.version; // && compare(version, V3) === -1
 	}
 
-	return national_prefix_for_parsing;
+	__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(Metadata, [{
+		key: 'hasCountry',
+		value: function hasCountry(country) {
+			return this.metadata.countries[country] !== undefined;
+		}
+	}, {
+		key: 'country',
+		value: function country(_country) {
+			if (!_country) {
+				this._country = undefined;
+				this.country_metadata = undefined;
+				return this;
+			}
+
+			if (!this.hasCountry(_country)) {
+				throw new Error('Unknown country: ' + _country);
+			}
+
+			this._country = _country;
+			this.country_metadata = this.metadata.countries[_country];
+			return this;
+		}
+	}, {
+		key: 'countryCallingCode',
+		value: function countryCallingCode() {
+			return this.country_metadata[0];
+		}
+	}, {
+		key: 'nationalNumberPattern',
+		value: function nationalNumberPattern() {
+			return this.country_metadata[1];
+		}
+	}, {
+		key: 'possibleLengths',
+		value: function possibleLengths() {
+			if (this.v1) return;
+			return this.country_metadata[2];
+		}
+	}, {
+		key: 'formats',
+		value: function formats() {
+			var _this = this;
+
+			var formats = this.country_metadata[this.v1 ? 2 : 3] || [];
+			return formats.map(function (_) {
+				return new Format(_, _this);
+			});
+		}
+	}, {
+		key: 'nationalPrefix',
+		value: function nationalPrefix() {
+			return this.country_metadata[this.v1 ? 3 : 4];
+		}
+	}, {
+		key: 'nationalPrefixFormattingRule',
+		value: function nationalPrefixFormattingRule() {
+			return this.country_metadata[this.v1 ? 4 : 5];
+		}
+	}, {
+		key: 'nationalPrefixForParsing',
+		value: function nationalPrefixForParsing() {
+			// If `national_prefix_for_parsing` is not set explicitly,
+			// then infer it from `national_prefix` (if any)
+			return this.country_metadata[this.v1 ? 5 : 6] || this.nationalPrefix();
+		}
+	}, {
+		key: 'nationalPrefixTransformRule',
+		value: function nationalPrefixTransformRule() {
+			return this.country_metadata[this.v1 ? 6 : 7];
+		}
+	}, {
+		key: 'nationalPrefixIsOptionalWhenFormatting',
+		value: function nationalPrefixIsOptionalWhenFormatting() {
+			return this.country_metadata[this.v1 ? 7 : 8];
+		}
+	}, {
+		key: 'leadingDigits',
+		value: function leadingDigits() {
+			return this.country_metadata[this.v1 ? 8 : 9];
+		}
+	}, {
+		key: 'types',
+		value: function types() {
+			return this.country_metadata[this.v1 ? 9 : 10];
+		}
+	}, {
+		key: 'hasTypes',
+		value: function hasTypes() {
+			return this.types() !== undefined;
+		}
+	}, {
+		key: 'type',
+		value: function type(_type) {
+			if (this.hasTypes() && getType(this.types(), _type)) {
+				return new Type(getType(this.types(), _type), this);
+			}
+		}
+	}, {
+		key: 'countryCallingCodes',
+		value: function countryCallingCodes() {
+			if (this.v1) return this.metadata.country_phone_code_to_countries;
+			return this.metadata.country_calling_codes;
+		}
+
+		// Formatting information for regions which share
+		// a country calling code is contained by only one region
+		// for performance reasons. For example, for NANPA region
+		// ("North American Numbering Plan Administration",
+		//  which includes USA, Canada, Cayman Islands, Bahamas, etc)
+		// it will be contained in the metadata for `US`.
+		//
+		// `country_calling_code` is always valid.
+		// But the actual country may not necessarily be part of the metadata.
+		//
+
+	}, {
+		key: 'chooseCountryByCountryCallingCode',
+		value: function chooseCountryByCountryCallingCode(country_calling_code) {
+			var country = this.countryCallingCodes()[country_calling_code][0];
+
+			// Do not want to test this case.
+			// (custom metadata, not all countries).
+			/* istanbul ignore else */
+			if (this.hasCountry(country)) {
+				this.country(country);
+			}
+		}
+	}, {
+		key: 'selectedCountry',
+		value: function selectedCountry() {
+			return this._country;
+		}
+	}]);
+
+	return Metadata;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = Metadata;
+
+var Format = function () {
+	function Format(format, metadata) {
+		__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, Format);
+
+		this._format = format;
+		this.metadata = metadata;
+	}
+
+	__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(Format, [{
+		key: 'pattern',
+		value: function pattern() {
+			return this._format[0];
+		}
+	}, {
+		key: 'format',
+		value: function format() {
+			return this._format[1];
+		}
+	}, {
+		key: 'leadingDigitsPatterns',
+		value: function leadingDigitsPatterns() {
+			return this._format[2] || [];
+		}
+	}, {
+		key: 'nationalPrefixFormattingRule',
+		value: function nationalPrefixFormattingRule() {
+			return this._format[3] || this.metadata.nationalPrefixFormattingRule();
+		}
+	}, {
+		key: 'nationalPrefixIsOptionalWhenFormatting',
+		value: function nationalPrefixIsOptionalWhenFormatting() {
+			return this._format[4] || this.metadata.nationalPrefixIsOptionalWhenFormatting();
+		}
+	}, {
+		key: 'nationalPrefixIsMandatoryWhenFormatting',
+		value: function nationalPrefixIsMandatoryWhenFormatting() {
+			// National prefix is omitted if there's no national prefix formatting rule
+			// set for this country, or when the national prefix formatting rule
+			// contains no national prefix itself, or when this rule is set but
+			// national prefix is optional for this phone number format
+			// (and it is not enforced explicitly)
+			return this.nationalPrefixFormattingRule() &&
+			// Check that national prefix formatting rule is not a dummy one.
+			// Check that national prefix formatting rule actually has national prefix digit(s).
+			this.usesNationalPrefix() &&
+			// Or maybe national prefix is optional for this format
+			!this.nationalPrefixIsOptionalWhenFormatting();
+		}
+
+		// Checks whether national prefix formatting rule contains national prefix
+
+	}, {
+		key: 'usesNationalPrefix',
+		value: function usesNationalPrefix() {
+			// Check that national prefix formatting rule is not a dummy one
+			return this.nationalPrefixFormattingRule() !== '$1' &&
+			// Check that national prefix formatting rule actually has national prefix digit(s)
+			/\d/.test(this.nationalPrefixFormattingRule().replace('$1', ''));
+		}
+	}, {
+		key: 'internationalFormat',
+		value: function internationalFormat() {
+			return this._format[5] || this.format();
+		}
+	}]);
+
+	return Format;
+}();
+
+var Type = function () {
+	function Type(type, metadata) {
+		__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_classCallCheck___default()(this, Type);
+
+		this.type = type;
+		this.metadata = metadata;
+	}
+
+	__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_createClass___default()(Type, [{
+		key: 'pattern',
+		value: function pattern() {
+			if (this.metadata.v1) return this.type;
+			return this.type[0];
+		}
+	}, {
+		key: 'possibleLengths',
+		value: function possibleLengths() {
+			if (this.metadata.v1) return;
+			return this.type[1] || this.metadata.possibleLengths();
+		}
+	}]);
+
+	return Type;
+}();
+
+function getType(types, type) {
+	switch (type) {
+		case 'FIXED_LINE':
+			return types[0];
+		case 'MOBILE':
+			return types[1];
+		case 'TOLL_FREE':
+			return types[2];
+		case 'PREMIUM_RATE':
+			return types[3];
+		case 'PERSONAL_NUMBER':
+			return types[4];
+		case 'VOICEMAIL':
+			return types[5];
+		case 'UAN':
+			return types[6];
+		case 'PAGER':
+			return types[7];
+		case 'VOIP':
+			return types[8];
+		case 'SHARED_COST':
+			return types[9];
+	}
 }
-
-function get_national_prefix_transform_rule(country_metadata) {
-	return country_metadata[7];
-}
-
-function get_national_prefix_is_optional_when_formatting(country_metadata) {
-	return country_metadata[8];
-}
-
-function get_leading_digits(country_metadata) {
-	return country_metadata[9];
-}
-
-function get_types(country_metadata) {
-	return country_metadata[10];
-}
-
-function get_format_pattern(format_array) {
-	return format_array[0];
-}
-
-function get_format_format(format_array) {
-	return format_array[1];
-}
-
-function get_format_leading_digits_patterns(format_array) {
-	return format_array[2] || [];
-}
-
-function get_format_national_prefix_formatting_rule(format_array, country_metadata) {
-	return format_array[3] || get_national_prefix_formatting_rule(country_metadata);
-}
-
-function get_format_national_prefix_is_optional_when_formatting(format_array, country_metadata) {
-	return format_array[4] || get_national_prefix_is_optional_when_formatting(country_metadata);
-}
-
-function get_format_national_prefix_is_mandatory_when_formatting(format_array, country_metadata) {
-	var national_prefix_formatting_rule = get_format_national_prefix_formatting_rule(format_array, country_metadata);
-
-	// National prefix is omitted if there's no national prefix formatting rule
-	// set for this country, or when the national prefix formatting rule
-	// contains no national prefix itself, or when this rule is set but
-	// national prefix is optional for this phone number format
-	// (and it is not enforced explicitly)
-	return national_prefix_formatting_rule &&
-	// Check that national prefix formatting rule is not a dummy one.
-	// Check that national prefix formatting rule actually has national prefix digit(s).
-	get_format_uses_national_prefix(national_prefix_formatting_rule) &&
-	// Or maybe national prefix is optional for this format
-	!get_format_national_prefix_is_optional_when_formatting(format_array, country_metadata);
-}
-
-// Checks whether national prefix formatting rule contains national prefix
-function get_format_uses_national_prefix(national_prefix_formatting_rule) {
-	// Check that national prefix formatting rule is not a dummy one
-	return national_prefix_formatting_rule !== '$1' &&
-	// Check that national prefix formatting rule actually has national prefix digit(s)
-	/\d/.test(national_prefix_formatting_rule.replace('$1', ''));
-}
-
-function get_format_international_format(format_array) {
-	return format_array[5] || get_format_format(format_array);
-}
-
-// Formatting information for regions which share
-// a country calling code is contained by only one region
-// for performance reasons. For example, for NANPA region
-// ("North American Numbering Plan Administration",
-//  which includes USA, Canada, Cayman Islands, Bahamas, etc)
-// it will be contained in the metadata for `US`.
-function get_metadata_by_country_calling_code(country_calling_code, metadata) {
-	var country_code = metadata.country_phone_code_to_countries[country_calling_code][0];
-	return metadata.countries[country_code];
-}
-
-function get_type(country_metadata, index) {
-	return get_types(country_metadata) ? get_types(country_metadata)[index] : undefined;
-}
-
-function get_type_fixed_line(country_metadata) {
-	return get_type(country_metadata, 0);
-}
-
-function get_type_mobile(country_metadata) {
-	return get_type(country_metadata, 1);
-}
-
-function get_type_toll_free(country_metadata) {
-	return get_type(country_metadata, 2);
-}
-
-function get_type_premium_rate(country_metadata) {
-	return get_type(country_metadata, 3);
-}
-
-function get_type_personal_number(country_metadata) {
-	return get_type(country_metadata, 4);
-}
-
-function get_type_voice_mail(country_metadata) {
-	return get_type(country_metadata, 5);
-}
-
-function get_type_uan(country_metadata) {
-	return get_type(country_metadata, 6);
-}
-
-function get_type_pager(country_metadata) {
-	return get_type(country_metadata, 7);
-}
-
-function get_type_voip(country_metadata) {
-	return get_type(country_metadata, 8);
-}
-
-function get_type_shared_cost(country_metadata) {
-	return get_type(country_metadata, 9);
-}
-
-function get_type_pattern(type) {
-	return type[0];
-}
-
-function get_type_possible_lengths(type) {
-	return type[1];
-}
-
-// export function get_type_possible_lengths_local(type)
-// {
-// 	return type[2]
-// }
 //# sourceMappingURL=metadata.js.map
 
 /***/ }),
 /* 30 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__metadata__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__types__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__RFC3966__ = __webpack_require__(71);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return VALID_DIGITS; });
+/* harmony export (immutable) */ __webpack_exports__["a"] = parse;
+/* harmony export (immutable) */ __webpack_exports__["f"] = is_viable_phone_number;
+/* harmony export (immutable) */ __webpack_exports__["c"] = extract_formatted_phone_number;
+/* harmony export (immutable) */ __webpack_exports__["d"] = strip_national_prefix;
+/* harmony export (immutable) */ __webpack_exports__["e"] = find_country_code;
+
+
+// This is a port of Google Android `libphonenumber`'s
+// `phonenumberutil.js` of 17th November, 2016.
+//
+// https://github.com/googlei18n/libphonenumber/commits/master/javascript/i18n/phonenumbers/phonenumberutil.js
+
+
+
+
+
+
+
+
+
+// The minimum length of the national significant number.
+var MIN_LENGTH_FOR_NSN = 2;
+
+// The ITU says the maximum length should be 15,
+// but one can find longer numbers in Germany.
+var MAX_LENGTH_FOR_NSN = 17;
+
+// We don't allow input strings for parsing to be longer than 250 chars.
+// This prevents malicious input from consuming CPU.
+var MAX_INPUT_STRING_LENGTH = 250;
+
+// Digits accepted in phone numbers
+// (ascii, fullwidth, arabic-indic, and eastern arabic digits).
+var VALID_DIGITS = '0-9\uFF10-\uFF19\u0660-\u0669\u06F0-\u06F9';
+
+// Pattern to capture digits used in an extension.
+// Places a maximum length of '7' for an extension.
+var CAPTURING_EXTN_DIGITS = '([' + VALID_DIGITS + ']{1,7})';
+
+// The RFC 3966 format for extensions.
+var RFC3966_EXTN_PREFIX = ';ext=';
+
+/**
+ * Regexp of all possible ways to write extensions, for use when parsing. This
+ * will be run as a case-insensitive regexp match. Wide character versions are
+ * also provided after each ASCII version. There are three regular expressions
+ * here. The first covers RFC 3966 format, where the extension is added using
+ * ';ext='. The second more generic one starts with optional white space and
+ * ends with an optional full stop (.), followed by zero or more spaces/tabs
+ * /commas and then the numbers themselves. The other one covers the special
+ * case of American numbers where the extension is written with a hash at the
+ * end, such as '- 503#'. Note that the only capturing groups should be around
+ * the digits that you want to capture as part of the extension, or else parsing
+ * will fail! We allow two options for representing the accented o - the
+ * character itself, and one in the unicode decomposed form with the combining
+ * acute accent.
+ */
+var EXTN_PATTERNS_FOR_PARSING = RFC3966_EXTN_PREFIX + CAPTURING_EXTN_DIGITS + '|' + '[ \xA0\\t,]*' + '(?:e?xt(?:ensi(?:o\u0301?|\xF3))?n?|\uFF45?\uFF58\uFF54\uFF4E?|' + '[;,x\uFF58#\uFF03~\uFF5E]|int|anexo|\uFF49\uFF4E\uFF54)' + '[:\\.\uFF0E]?[ \xA0\\t,-]*' + CAPTURING_EXTN_DIGITS + '#?|' + '[- ]+([' + VALID_DIGITS + ']{1,5})#';
+
+// Regexp of all known extension prefixes used by different regions followed by
+// 1 or more valid digits, for use when parsing.
+var EXTN_PATTERN = new RegExp('(?:' + EXTN_PATTERNS_FOR_PARSING + ')$', 'i');
+
+//  Regular expression of viable phone numbers. This is location independent.
+//  Checks we have at least three leading digits, and only valid punctuation,
+//  alpha characters and digits in the phone number. Does not include extension
+//  data. The symbol 'x' is allowed here as valid punctuation since it is often
+//  used as a placeholder for carrier codes, for example in Brazilian phone
+//  numbers. We also allow multiple '+' characters at the start.
+//
+//  Corresponds to the following:
+//  [digits]{minLengthNsn}|
+//  plus_sign*
+//  (([punctuation]|[star])*[digits]){3,}([punctuation]|[star]|[digits]|[alpha])*
+//
+//  The first reg-ex is to allow short numbers (two digits long) to be parsed if
+//  they are entered as "15" etc, but only if there is no punctuation in them.
+//  The second expression restricts the number of digits to three or more, but
+//  then allows them to be in international form, and to have alpha-characters
+//  and punctuation. We split up the two reg-exes here and combine them when
+//  creating the reg-ex VALID_PHONE_NUMBER_PATTERN itself so we can prefix it
+//  with ^ and append $ to each branch.
+//
+//  "Note VALID_PUNCTUATION starts with a -,
+//   so must be the first in the range" (c) Google devs.
+//  (wtf did they mean by saying that; probably nothing)
+//
+var MIN_LENGTH_PHONE_NUMBER_PATTERN = '[' + VALID_DIGITS + ']{' + MIN_LENGTH_FOR_NSN + '}';
+//
+// And this is the second reg-exp:
+// (see MIN_LENGTH_PHONE_NUMBER_PATTERN for a full description of this reg-exp)
+//
+var VALID_PHONE_NUMBER = '[' + __WEBPACK_IMPORTED_MODULE_2__common__["c" /* PLUS_CHARS */] + ']{0,1}' + '(?:' + '[' + __WEBPACK_IMPORTED_MODULE_2__common__["b" /* VALID_PUNCTUATION */] + ']*' + '[' + VALID_DIGITS + ']' + '){3,}' + '[' + __WEBPACK_IMPORTED_MODULE_2__common__["b" /* VALID_PUNCTUATION */] + VALID_DIGITS + ']*';
+
+// The combined regular expression for valid phone numbers:
+//
+var VALID_PHONE_NUMBER_PATTERN = new RegExp(
+// Either a short two-digit-only phone number
+'^' + MIN_LENGTH_PHONE_NUMBER_PATTERN + '$' + '|' +
+// Or a longer fully parsed phone number (min 3 characters)
+'^' + VALID_PHONE_NUMBER +
+// Phone number extensions
+'(?:' + EXTN_PATTERNS_FOR_PARSING + ')?' + '$', 'i');
+
+// This consists of the plus symbol, digits, and arabic-indic digits.
+var PHONE_NUMBER_START_PATTERN = new RegExp('[' + __WEBPACK_IMPORTED_MODULE_2__common__["c" /* PLUS_CHARS */] + VALID_DIGITS + ']');
+
+// Regular expression of trailing characters that we want to remove.
+var AFTER_PHONE_NUMBER_END_PATTERN = new RegExp('[^' + VALID_DIGITS + ']+$');
+
+var default_options = {
+	country: {}
+
+	// `options`:
+	//  {
+	//    country:
+	//    {
+	//      restrict - (a two-letter country code)
+	//                 the phone number must be in this country
+	//
+	//      default - (a two-letter country code)
+	//                default country to use for phone number parsing and validation
+	//                (if no country code could be derived from the phone number)
+	//    }
+	//  }
+	//
+	// Returns `{ country, number }`
+	//
+	// Example use cases:
+	//
+	// ```js
+	// parse('8 (800) 555-35-35', 'RU')
+	// parse('8 (800) 555-35-35', 'RU', metadata)
+	// parse('8 (800) 555-35-35', { country: { default: 'RU' } })
+	// parse('8 (800) 555-35-35', { country: { default: 'RU' } }, metadata)
+	// parse('+7 800 555 35 35')
+	// parse('+7 800 555 35 35', metadata)
+	// ```
+	//
+};function parse(arg_1, arg_2, arg_3, arg_4) {
+	var _sort_out_arguments = sort_out_arguments(arg_1, arg_2, arg_3, arg_4),
+	    text = _sort_out_arguments.text,
+	    options = _sort_out_arguments.options,
+	    metadata = _sort_out_arguments.metadata;
+
+	// Validate `defaultCountry`.
+
+
+	if (options.defaultCountry && !metadata.hasCountry(options.defaultCountry)) {
+		throw new Error('Unknown country: ' + options.defaultCountry);
+	}
+
+	// Parse the phone number.
+
+	var _parse_input = parse_input(text),
+	    formatted_phone_number = _parse_input.number,
+	    ext = _parse_input.ext;
+
+	// If the phone number is not viable then return nothing.
+
+
+	if (!formatted_phone_number) {
+		return {};
+	}
+
+	var _parse_phone_number = parse_phone_number(formatted_phone_number, options.defaultCountry, metadata),
+	    country = _parse_phone_number.country,
+	    national_number = _parse_phone_number.national_number,
+	    countryCallingCode = _parse_phone_number.countryCallingCode;
+
+	if (!metadata.selectedCountry()) {
+		return options.extended ? { countryCallingCode: countryCallingCode } : {};
+	}
+
+	// Validate national (significant) number length.
+	//
+	// A sidenote:
+	//
+	// They say that sometimes national (significant) numbers
+	// can be longer than `MAX_LENGTH_FOR_NSN` (e.g. in Germany).
+	// https://github.com/googlei18n/libphonenumber/blob/7e1748645552da39c4e1ba731e47969d97bdb539/resources/phonenumber.proto#L36
+	// Such numbers will just be discarded.
+	//
+	if (national_number.length < MIN_LENGTH_FOR_NSN || national_number.length > MAX_LENGTH_FOR_NSN) {
+		// Google's demo just throws an error in this case.
+		return {};
+	}
+
+	// Check if national phone number pattern matches the number
+	// National number pattern is different for each country,
+	// even for those ones which are part of the "NANPA" group.
+	var valid = country && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* matches_entirely */])(national_number, new RegExp(metadata.nationalNumberPattern())) ? true : false;
+
+	if (!options.extended) {
+		return valid ? result(country, national_number, ext) : {};
+	}
+
+	return {
+		country: country,
+		countryCallingCode: countryCallingCode,
+		valid: valid,
+		possible: valid ? true : options.extended === true && metadata.possibleLengths() && is_possible_number(national_number, countryCallingCode !== undefined, metadata),
+		phone: national_number,
+		ext: ext
+	};
+}
+
+// Checks to see if the string of characters could possibly be a phone number at
+// all. At the moment, checks to see that the string begins with at least 2
+// digits, ignoring any punctuation commonly found in phone numbers. This method
+// does not require the number to be normalized in advance - but does assume
+// that leading non-number symbols have been removed, such as by the method
+// `extract_possible_number`.
+//
+function is_viable_phone_number(number) {
+	return number.length >= MIN_LENGTH_FOR_NSN && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* matches_entirely */])(number, VALID_PHONE_NUMBER_PATTERN);
+}
+
+function extract_formatted_phone_number(text) {
+	if (!text || text.length > MAX_INPUT_STRING_LENGTH) {
+		return '';
+	}
+
+	// Attempt to extract a possible number from the string passed in
+
+	var starts_at = text.search(PHONE_NUMBER_START_PATTERN);
+
+	if (starts_at < 0) {
+		return '';
+	}
+
+	return text
+	// Trim everything to the left of the phone number
+	.slice(starts_at)
+	// Remove trailing non-numerical characters
+	.replace(AFTER_PHONE_NUMBER_END_PATTERN, '');
+}
+
+// Strips any national prefix (such as 0, 1) present in the number provided
+function strip_national_prefix(number, metadata) {
+	if (!number || !metadata.nationalPrefixForParsing()) {
+		return number;
+	}
+
+	// Attempt to parse the first digits as a national prefix
+	var national_prefix_pattern = new RegExp('^(?:' + metadata.nationalPrefixForParsing() + ')');
+	var national_prefix_matcher = national_prefix_pattern.exec(number);
+
+	// If no national prefix is present in the phone number,
+	// but if the national prefix is optional for this country,
+	// then consider this phone number valid.
+	//
+	// Google's reference `libphonenumber` implementation
+	// wouldn't recognize such phone numbers as valid,
+	// but I think it would perfectly make sense
+	// to consider such phone numbers as valid
+	// because if a national phone number was originally
+	// formatted without the national prefix
+	// then it must be parseable back into the original national number.
+	// In other words, `parse(format(number))`
+	// must always be equal to `number`.
+	//
+	if (!national_prefix_matcher) {
+		return number;
+	}
+
+	var national_significant_number = void 0;
+
+	// `national_prefix_for_parsing` capturing groups
+	// (used only for really messy cases: Argentina, Brazil, Mexico, Somalia)
+	var any_groups_were_captured = national_prefix_matcher[national_prefix_matcher.length - 1];
+
+	// If the national number tranformation is needed then do it
+	if (metadata.nationalPrefixTransformRule() && any_groups_were_captured) {
+		national_significant_number = number.replace(national_prefix_pattern, metadata.nationalPrefixTransformRule());
+	}
+	// Else, no transformation is necessary,
+	// and just strip the national prefix.
+	else {
+			national_significant_number = number.slice(national_prefix_matcher[0].length);
+		}
+
+	// // Verify the parsed national (significant) number for this country
+	// const national_number_rule = new RegExp(metadata.nationalNumberPattern())
+	// //
+	// // If the original number (before stripping national prefix) was viable,
+	// // and the resultant number is not, then prefer the original phone number.
+	// // This is because for some countries (e.g. Russia) the same digit could be both
+	// // a national prefix and a leading digit of a valid national phone number,
+	// // like `8` is the national prefix for Russia and both
+	// // `8 800 555 35 35` and `800 555 35 35` are valid numbers.
+	// if (matches_entirely(number, national_number_rule) &&
+	// 		!matches_entirely(national_significant_number, national_number_rule))
+	// {
+	// 	return number
+	// }
+
+	// Return the parsed national (significant) number
+	return national_significant_number;
+}
+
+function find_country_code(country_calling_code, national_phone_number, metadata) {
+	// Is always non-empty, because `country_calling_code` is always valid
+	var possible_countries = metadata.countryCallingCodes()[country_calling_code];
+
+	// If there's just one country corresponding to the country code,
+	// then just return it, without further phone number digits validation.
+	if (possible_countries.length === 1) {
+		return possible_countries[0];
+	}
+
+	var original_country = metadata.selectedCountry();
+	var country = _find_country_code(possible_countries, national_phone_number, metadata);
+	metadata.country(original_country);
+	return country;
+}
+
+// Changes `metadata` `country`.
+function _find_country_code(possible_countries, national_phone_number, metadata) {
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator___default()(possible_countries), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var country = _step.value;
+
+			metadata.country(country);
+
+			// Leading digits check would be the simplest one
+			if (metadata.leadingDigits()) {
+				if (national_phone_number && national_phone_number.search(metadata.leadingDigits()) === 0) {
+					return country;
+				}
+			}
+			// Else perform full validation with all of those
+			// fixed-line/mobile/etc regular expressions.
+			else if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__types__["a" /* default */])({ phone: national_phone_number, country: country }, metadata.metadata)) {
+					return country;
+				}
+		}
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
+}
+
+// Sort out arguments
+function sort_out_arguments(arg_1, arg_2, arg_3, arg_4) {
+	var text = void 0;
+	var options = void 0;
+	var metadata = void 0;
+
+	// If the phone number is passed as a string.
+	// `parse('88005553535', ...)`.
+	if (typeof arg_1 === 'string') {
+		text = arg_1;
+	} else throw new TypeError('A phone number for parsing must be a string.');
+
+	// If "default country" argument is being passed
+	// then move it to `options`.
+	// `parse('88005553535', 'RU', [options], metadata)`.
+	if (typeof arg_2 === 'string') {
+		if (arg_4) {
+			options = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({ defaultCountry: arg_2 }, arg_3);
+			metadata = arg_4;
+		} else {
+			options = { defaultCountry: arg_2 };
+			metadata = arg_3;
+		}
+	}
+	// No "resrict country" argument is being passed.
+	// International phone number is passed.
+	// `parse('+78005553535', [options], metadata)`.
+	else {
+			if (arg_3) {
+				options = arg_2;
+				metadata = arg_3;
+			} else {
+				metadata = arg_2;
+			}
+		}
+
+	// Metadata is required.
+	if (!metadata || !metadata.countries) {
+		throw new Error('Metadata is required');
+	}
+
+	// Apply default options.
+	if (options) {
+		options = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, default_options, options);
+	} else {
+		options = default_options;
+	}
+
+	return { text: text, options: options, metadata: new __WEBPACK_IMPORTED_MODULE_3__metadata__["a" /* default */](metadata) };
+}
+
+// Strips any extension (as in, the part of the number dialled after the call is
+// connected, usually indicated with extn, ext, x or similar) from the end of
+// the number, and returns it.
+function strip_extension(number) {
+	var start = number.search(EXTN_PATTERN);
+	if (start < 0) {
+		return {};
+	}
+
+	// If we find a potential extension, and the number preceding this is a viable
+	// number, we assume it is an extension.
+	var number_without_extension = number.slice(0, start);
+	/* istanbul ignore if - seems a bit of a redundant check */
+	if (!is_viable_phone_number(number_without_extension)) {
+		return {};
+	}
+
+	var matches = number.match(EXTN_PATTERN);
+	var i = 1;
+	while (i < matches.length) {
+		if (matches[i] != null && matches[i].length > 0) {
+			return {
+				number: number_without_extension,
+				ext: matches[i]
+			};
+		}
+		i++;
+	}
+}
+
+function is_possible_number(national_number, is_international, metadata) {
+	switch (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__types__["b" /* check_number_length_for_type */])(national_number, undefined, metadata)) {
+		case 'IS_POSSIBLE':
+			return true;
+		// case 'IS_POSSIBLE_LOCAL_ONLY':
+		// 	return !is_international
+		default:
+			return false;
+	}
+}
+
+/**
+ * Parses a viable international phone number.
+ * Returns `{ country, national_number }`.
+ */
+function get_country_and_national_number_international(country_calling_code, national_number, metadata) {
+	// Sometimes there are several countries
+	// corresponding to the same country phone code
+	// (e.g. NANPA countries all having `1` country phone code).
+	// Therefore, to reliably determine the exact country,
+	// national (significant) number should have been parsed first.
+	//
+	// When `metadata.json` is generated, all "ambiguous" country phone codes
+	// get their countries populated with the full set of
+	// "phone number type" regular expressions.
+	//
+	var country = find_country_code(country_calling_code, national_number, metadata);
+
+	// Formatting information for regions which share
+	// a country calling code is contained by only one region
+	// for performance reasons. For example, for NANPA region
+	// ("North American Numbering Plan Administration",
+	//  which includes USA, Canada, Cayman Islands, Bahamas, etc)
+	// it will be contained in the metadata for `US`.
+	country ? metadata.country(country) : metadata.chooseCountryByCountryCallingCode(country_calling_code);
+
+	return { national_number: national_number, country: country };
+}
+
+/**
+ * Parses a viable local phone number.
+ * Returns `{ country, national_number }`.
+ */
+function get_country_and_national_number_local(formatted_phone_number, default_country, metadata) {
+	var country = default_country;
+	metadata.country(country);
+
+	var national_number = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["e" /* parse_phone_number_digits */])(formatted_phone_number);
+
+	// Only strip national prefixes for non-international phone numbers
+	// because national prefixes can't be present in international phone numbers.
+	// Otherwise, while forgiving, it would parse a NANPA number `+1 1877 215 5230`
+	// first to `1877 215 5230` and then, stripping the leading `1`, to `877 215 5230`,
+	// and then it would assume that's a valid number which it isn't.
+	// So no forgiveness for grandmas here.
+	// The issue asking for this fix:
+	// https://github.com/catamphetamine/libphonenumber-js/issues/159
+	var potential_national_number = strip_national_prefix(national_number, metadata);
+
+	// If metadata has "possible lengths" then employ the new algorythm.
+	if (metadata.possibleLengths()) {
+		// We require that the NSN remaining after stripping the national prefix and
+		// carrier code be long enough to be a possible length for the region.
+		// Otherwise, we don't do the stripping, since the original number could be
+		// a valid short number.
+		switch (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__types__["b" /* check_number_length_for_type */])(potential_national_number, undefined, metadata)) {
+			case 'TOO_SHORT':
+			// case 'IS_POSSIBLE_LOCAL_ONLY':
+			case 'INVALID_LENGTH':
+				break;
+			default:
+				national_number = potential_national_number;
+		}
+	} else {
+		// If the original number (before stripping national prefix) was viable,
+		// and the resultant number is not, then prefer the original phone number.
+		// This is because for some countries (e.g. Russia) the same digit could be both
+		// a national prefix and a leading digit of a valid national phone number,
+		// like `8` is the national prefix for Russia and both
+		// `8 800 555 35 35` and `800 555 35 35` are valid numbers.
+		if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* matches_entirely */])(national_number, metadata.nationalNumberPattern()) && !__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* matches_entirely */])(potential_national_number, metadata.nationalNumberPattern())) {
+			// Keep the number without stripping national prefix.
+		} else {
+			national_number = potential_national_number;
+		}
+	}
+
+	return { national_number: national_number, country: country };
+}
+
+/**
+ * @param  {string} text - Input.
+ * @return {object} `{ ?number, ?ext }`.
+ */
+function parse_input(text) {
+	// Parse RFC 3966 phone number URI.
+	if (text && text.indexOf('tel:') === 0) {
+		return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__RFC3966__["a" /* parseRFC3966 */])(text);
+	}
+
+	var number = extract_formatted_phone_number(text);
+
+	// If the phone number is not viable, then abort.
+	if (!is_viable_phone_number(number)) {
+		return {};
+	}
+
+	// Attempt to parse extension first, since it doesn't require region-specific
+	// data and we want to have the non-normalised number here.
+	var with_extension_stripped = strip_extension(number);
+	if (with_extension_stripped.ext) {
+		return with_extension_stripped;
+	}
+
+	return { number: number };
+}
+
+function result(country, national_number, ext) {
+	var result = {
+		country: country,
+		phone: national_number
+	};
+
+	if (ext) {
+		result.ext = ext;
+	}
+
+	return result;
+}
+
+/**
+ * Parses a viable phone number.
+ * Returns `{ country, countryCallingCode, national_number }`.
+ */
+function parse_phone_number(formatted_phone_number, default_country, metadata) {
+	var _parse_national_numbe = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["f" /* parse_national_number_and_country_calling_code */])(formatted_phone_number, metadata),
+	    countryCallingCode = _parse_national_numbe.countryCallingCode,
+	    number = _parse_national_numbe.number;
+
+	if (!number) {
+		return { countryCallingCode: countryCallingCode };
+	}
+
+	if (countryCallingCode) {
+		var _result = get_country_and_national_number_international(countryCallingCode, number, metadata);
+		_result.countryCallingCode = countryCallingCode;
+		return _result;
+	}
+
+	if (default_country) {
+		var _result2 = get_country_and_national_number_local(formatted_phone_number, default_country, metadata);
+		metadata.country(default_country);
+		_result2.countryCallingCode = metadata.countryCallingCode();
+		return _result2;
+	}
+
+	return {};
+}
+//# sourceMappingURL=parse.js.map
+
+/***/ }),
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = function (bitmap, value) {
@@ -27249,12 +27943,12 @@ module.exports = function (bitmap, value) {
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var $at = __webpack_require__(353)(true);
+var $at = __webpack_require__(354)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
 __webpack_require__(53)(String, 'String', function (iterated) {
@@ -27273,11 +27967,11 @@ __webpack_require__(53)(String, 'String', function (iterated) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return VALID_PUNCTUATION; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return PLUS_CHARS; });
@@ -27401,11 +28095,11 @@ function parse_national_number_and_country_calling_code(number, metadata) {
 	// if a valid country code is found,
 	// that means that it is the country code.
 	//
-	var i = 1;
+	var i = 2;
 	while (i - 1 <= MAX_LENGTH_COUNTRY_CODE && i <= number.length) {
 		var countryCallingCode = number.slice(1, i);
 
-		if (metadata.country_phone_code_to_countries[countryCallingCode]) {
+		if (metadata.countryCallingCodes()[countryCallingCode]) {
 			return {
 				countryCallingCode: countryCallingCode,
 				number: number.slice(i)
@@ -27471,683 +28165,20 @@ function drop_and_substitute_characters(text, replacements) {
 //# sourceMappingURL=common.js.map
 
 /***/ }),
-/* 33 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_slicedToArray__ = __webpack_require__(322);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_slicedToArray___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_slicedToArray__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_get_iterator__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_get_iterator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_get_iterator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__metadata__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__types__ = __webpack_require__(34);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return VALID_DIGITS; });
-/* harmony export (immutable) */ __webpack_exports__["a"] = parse;
-/* harmony export (immutable) */ __webpack_exports__["f"] = is_viable_phone_number;
-/* harmony export (immutable) */ __webpack_exports__["c"] = extract_formatted_phone_number;
-/* harmony export (immutable) */ __webpack_exports__["d"] = strip_national_prefix;
-/* harmony export (immutable) */ __webpack_exports__["e"] = find_country_code;
-
-
-
-// This is a port of Google Android `libphonenumber`'s
-// `phonenumberutil.js` of 17th November, 2016.
-//
-// https://github.com/googlei18n/libphonenumber/commits/master/javascript/i18n/phonenumbers/phonenumberutil.js
-
-
-
-
-
-
-
-// The minimum length of the national significant number.
-var MIN_LENGTH_FOR_NSN = 2;
-
-// The ITU says the maximum length should be 15,
-// but one can find longer numbers in Germany.
-var MAX_LENGTH_FOR_NSN = 17;
-
-// We don't allow input strings for parsing to be longer than 250 chars.
-// This prevents malicious input from consuming CPU.
-var MAX_INPUT_STRING_LENGTH = 250;
-
-// Digits accepted in phone numbers
-// (ascii, fullwidth, arabic-indic, and eastern arabic digits).
-var VALID_DIGITS = '0-9\uFF10-\uFF19\u0660-\u0669\u06F0-\u06F9';
-
-// Pattern to capture digits used in an extension.
-// Places a maximum length of '7' for an extension.
-var CAPTURING_EXTN_DIGITS = '([' + VALID_DIGITS + ']{1,7})';
-
-// The RFC 3966 format for extensions.
-var RFC3966_EXTN_PREFIX = ';ext=';
-
-/**
- * Regexp of all possible ways to write extensions, for use when parsing. This
- * will be run as a case-insensitive regexp match. Wide character versions are
- * also provided after each ASCII version. There are three regular expressions
- * here. The first covers RFC 3966 format, where the extension is added using
- * ';ext='. The second more generic one starts with optional white space and
- * ends with an optional full stop (.), followed by zero or more spaces/tabs
- * /commas and then the numbers themselves. The other one covers the special
- * case of American numbers where the extension is written with a hash at the
- * end, such as '- 503#'. Note that the only capturing groups should be around
- * the digits that you want to capture as part of the extension, or else parsing
- * will fail! We allow two options for representing the accented o - the
- * character itself, and one in the unicode decomposed form with the combining
- * acute accent.
- */
-var EXTN_PATTERNS_FOR_PARSING = RFC3966_EXTN_PREFIX + CAPTURING_EXTN_DIGITS + '|' + '[ \xA0\\t,]*' + '(?:e?xt(?:ensi(?:o\u0301?|\xF3))?n?|\uFF45?\uFF58\uFF54\uFF4E?|' + '[;,x\uFF58#\uFF03~\uFF5E]|int|anexo|\uFF49\uFF4E\uFF54)' + '[:\\.\uFF0E]?[ \xA0\\t,-]*' + CAPTURING_EXTN_DIGITS + '#?|' + '[- ]+([' + VALID_DIGITS + ']{1,5})#';
-
-// Regexp of all known extension prefixes used by different regions followed by
-// 1 or more valid digits, for use when parsing.
-var EXTN_PATTERN = new RegExp('(?:' + EXTN_PATTERNS_FOR_PARSING + ')$', 'i');
-
-//  Regular expression of viable phone numbers. This is location independent.
-//  Checks we have at least three leading digits, and only valid punctuation,
-//  alpha characters and digits in the phone number. Does not include extension
-//  data. The symbol 'x' is allowed here as valid punctuation since it is often
-//  used as a placeholder for carrier codes, for example in Brazilian phone
-//  numbers. We also allow multiple '+' characters at the start.
-//
-//  Corresponds to the following:
-//  [digits]{minLengthNsn}|
-//  plus_sign*
-//  (([punctuation]|[star])*[digits]){3,}([punctuation]|[star]|[digits]|[alpha])*
-//
-//  The first reg-ex is to allow short numbers (two digits long) to be parsed if
-//  they are entered as "15" etc, but only if there is no punctuation in them.
-//  The second expression restricts the number of digits to three or more, but
-//  then allows them to be in international form, and to have alpha-characters
-//  and punctuation. We split up the two reg-exes here and combine them when
-//  creating the reg-ex VALID_PHONE_NUMBER_PATTERN itself so we can prefix it
-//  with ^ and append $ to each branch.
-//
-//  "Note VALID_PUNCTUATION starts with a -,
-//   so must be the first in the range" (c) Google devs.
-//  (wtf did they mean by saying that; probably nothing)
-//
-var MIN_LENGTH_PHONE_NUMBER_PATTERN = '[' + VALID_DIGITS + ']{' + MIN_LENGTH_FOR_NSN + '}';
-//
-// And this is the second reg-exp:
-// (see MIN_LENGTH_PHONE_NUMBER_PATTERN for a full description of this reg-exp)
-//
-var VALID_PHONE_NUMBER = '[' + __WEBPACK_IMPORTED_MODULE_3__common__["c" /* PLUS_CHARS */] + ']{0,1}' + '(?:' + '[' + __WEBPACK_IMPORTED_MODULE_3__common__["b" /* VALID_PUNCTUATION */] + ']*' + '[' + VALID_DIGITS + ']' + '){3,}' + '[' + __WEBPACK_IMPORTED_MODULE_3__common__["b" /* VALID_PUNCTUATION */] + VALID_DIGITS + ']*';
-
-// The combined regular expression for valid phone numbers:
-//
-var VALID_PHONE_NUMBER_PATTERN = new RegExp(
-// Either a short two-digit-only phone number
-'^' + MIN_LENGTH_PHONE_NUMBER_PATTERN + '$' + '|' +
-// Or a longer fully parsed phone number (min 3 characters)
-'^' + VALID_PHONE_NUMBER +
-// Phone number extensions
-'(?:' + EXTN_PATTERNS_FOR_PARSING + ')?' + '$', 'i');
-
-// This consists of the plus symbol, digits, and arabic-indic digits.
-var PHONE_NUMBER_START_PATTERN = new RegExp('[' + __WEBPACK_IMPORTED_MODULE_3__common__["c" /* PLUS_CHARS */] + VALID_DIGITS + ']');
-
-// Regular expression of trailing characters that we want to remove.
-var AFTER_PHONE_NUMBER_END_PATTERN = new RegExp('[^' + VALID_DIGITS + ']+$');
-
-var default_options = {
-	country: {}
-
-	// `options`:
-	//  {
-	//    country:
-	//    {
-	//      restrict - (a two-letter country code)
-	//                 the phone number must be in this country
-	//
-	//      default - (a two-letter country code)
-	//                default country to use for phone number parsing and validation
-	//                (if no country code could be derived from the phone number)
-	//    }
-	//  }
-	//
-	// Returns `{ country, number }`
-	//
-	// Example use cases:
-	//
-	// ```js
-	// parse('8 (800) 555-35-35', 'RU')
-	// parse('8 (800) 555-35-35', 'RU', metadata)
-	// parse('8 (800) 555-35-35', { country: { default: 'RU' } })
-	// parse('8 (800) 555-35-35', { country: { default: 'RU' } }, metadata)
-	// parse('+7 800 555 35 35')
-	// parse('+7 800 555 35 35', metadata)
-	// ```
-	//
-};function parse(arg_1, arg_2, arg_3, arg_4) {
-	var _sort_out_arguments = sort_out_arguments(arg_1, arg_2, arg_3, arg_4),
-	    text = _sort_out_arguments.text,
-	    options = _sort_out_arguments.options,
-	    metadata = _sort_out_arguments.metadata;
-
-	// Validate `defaultCountry`.
-
-
-	if (options.defaultCountry && !metadata.countries[options.defaultCountry]) {
-		throw new Error('Unknown country code: ' + options.defaultCountry);
-	}
-
-	// Parse the phone number.
-
-	var _parse_input = parse_input(text),
-	    formatted_phone_number = _parse_input.number,
-	    extension = _parse_input.extension;
-
-	// If the phone number is not viable then return nothing.
-
-
-	if (!formatted_phone_number) {
-		return {};
-	}
-
-	var _parse_phone_number = parse_phone_number(formatted_phone_number, options.defaultCountry, metadata),
-	    country = _parse_phone_number.country,
-	    country_metadata = _parse_phone_number.country_metadata,
-	    national_number = _parse_phone_number.national_number,
-	    countryCallingCode = _parse_phone_number.countryCallingCode;
-
-	// If no `country_metadata` is returned
-	// then no `national_number` was returned either.
-
-
-	if (!country_metadata) {
-		return options.extended ? { countryCallingCode: countryCallingCode } : {};
-	}
-
-	// Validate national (significant) number length.
-	//
-	// A sidenote:
-	//
-	// They say that sometimes national (significant) numbers
-	// can be longer than `MAX_LENGTH_FOR_NSN` (e.g. in Germany).
-	// https://github.com/googlei18n/libphonenumber/blob/7e1748645552da39c4e1ba731e47969d97bdb539/resources/phonenumber.proto#L36
-	// Such numbers will just be discarded.
-	//
-	if (national_number.length < MIN_LENGTH_FOR_NSN || national_number.length > MAX_LENGTH_FOR_NSN) {
-		// Google's demo just throws an error in this case.
-		return {};
-	}
-
-	// Check if national phone number pattern matches the number
-	// National number pattern is different for each country,
-	// even for those ones which are part of the "NANPA" group.
-	var valid = country && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__common__["d" /* matches_entirely */])(national_number, new RegExp(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["g" /* get_national_number_pattern */])(country_metadata))) ? true : false;
-
-	if (!options.extended) {
-		return valid ? result(country, national_number, extension) : {};
-	}
-
-	return {
-		country: country,
-		countryCallingCode: countryCallingCode,
-		valid: valid,
-		possible: valid ? true : options.extended && is_possible_number(national_number, countryCallingCode !== undefined, country_metadata),
-		phone: national_number,
-		ext: extension
-	};
-}
-
-// Checks to see if the string of characters could possibly be a phone number at
-// all. At the moment, checks to see that the string begins with at least 2
-// digits, ignoring any punctuation commonly found in phone numbers. This method
-// does not require the number to be normalized in advance - but does assume
-// that leading non-number symbols have been removed, such as by the method
-// `extract_possible_number`.
-//
-function is_viable_phone_number(number) {
-	return number.length >= MIN_LENGTH_FOR_NSN && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__common__["d" /* matches_entirely */])(number, VALID_PHONE_NUMBER_PATTERN);
-}
-
-function extract_formatted_phone_number(text) {
-	if (!text || text.length > MAX_INPUT_STRING_LENGTH) {
-		return '';
-	}
-
-	// Attempt to extract a possible number from the string passed in
-
-	var starts_at = text.search(PHONE_NUMBER_START_PATTERN);
-
-	if (starts_at < 0) {
-		return '';
-	}
-
-	return text
-	// Trim everything to the left of the phone number
-	.slice(starts_at)
-	// Remove trailing non-numerical characters
-	.replace(AFTER_PHONE_NUMBER_END_PATTERN, '');
-}
-
-// Strips any national prefix (such as 0, 1) present in the number provided
-function strip_national_prefix(number, country_metadata) {
-	var national_prefix_for_parsing = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["l" /* get_national_prefix_for_parsing */])(country_metadata);
-
-	if (!number || !national_prefix_for_parsing) {
-		return number;
-	}
-
-	// Attempt to parse the first digits as a national prefix
-	var national_prefix_pattern = new RegExp('^(?:' + national_prefix_for_parsing + ')');
-	var national_prefix_matcher = national_prefix_pattern.exec(number);
-
-	// If no national prefix is present in the phone number,
-	// but if the national prefix is optional for this country,
-	// then consider this phone number valid.
-	//
-	// Google's reference `libphonenumber` implementation
-	// wouldn't recognize such phone numbers as valid,
-	// but I think it would perfectly make sense
-	// to consider such phone numbers as valid
-	// because if a national phone number was originally
-	// formatted without the national prefix
-	// then it must be parseable back into the original national number.
-	// In other words, `parse(format(number))`
-	// must always be equal to `number`.
-	//
-	if (!national_prefix_matcher) {
-		return number;
-	}
-
-	var national_significant_number = void 0;
-
-	// `national_prefix_for_parsing` capturing groups
-	// (used only for really messy cases: Argentina, Brazil, Mexico, Somalia)
-	var any_groups_were_captured = national_prefix_matcher[national_prefix_matcher.length - 1];
-	var national_prefix_transform_rule = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["m" /* get_national_prefix_transform_rule */])(country_metadata);
-
-	// If the national number tranformation is needed then do it
-	if (national_prefix_transform_rule && any_groups_were_captured) {
-		national_significant_number = number.replace(national_prefix_pattern, national_prefix_transform_rule);
-	}
-	// Else, no transformation is necessary,
-	// and just strip the national prefix.
-	else {
-			national_significant_number = number.slice(national_prefix_matcher[0].length);
-		}
-
-	// // Verify the parsed national (significant) number for this country
-	// const national_number_rule = new RegExp(get_national_number_pattern(country_metadata))
-	// //
-	// // If the original number (before stripping national prefix) was viable,
-	// // and the resultant number is not, then prefer the original phone number.
-	// // This is because for some countries (e.g. Russia) the same digit could be both
-	// // a national prefix and a leading digit of a valid national phone number,
-	// // like `8` is the national prefix for Russia and both
-	// // `8 800 555 35 35` and `800 555 35 35` are valid numbers.
-	// if (matches_entirely(number, national_number_rule) &&
-	// 		!matches_entirely(national_significant_number, national_number_rule))
-	// {
-	// 	return number
-	// }
-
-	// Return the parsed national (significant) number
-	return national_significant_number;
-}
-
-function find_country_code(country_calling_code, national_phone_number, metadata) {
-	// Is always non-empty, because `country_calling_code` is always valid
-	var possible_countries = metadata.country_phone_code_to_countries[country_calling_code];
-
-	// If there's just one country corresponding to the country code,
-	// then just return it, without further phone number digits validation.
-	if (possible_countries.length === 1) {
-		return possible_countries[0];
-	}
-
-	var _iteratorNormalCompletion = true;
-	var _didIteratorError = false;
-	var _iteratorError = undefined;
-
-	try {
-		for (var _iterator = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_get_iterator___default()(possible_countries), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-			var country_code = _step.value;
-
-			var country = metadata.countries[country_code];
-
-			// Leading digits check would be the simplest one
-			if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["n" /* get_leading_digits */])(country)) {
-				if (national_phone_number && national_phone_number.search(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["n" /* get_leading_digits */])(country)) === 0) {
-					return country_code;
-				}
-			}
-			// Else perform full validation with all of those bulky
-			// fixed-line/mobile/etc regular expressions.
-			else if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__types__["a" /* default */])({ phone: national_phone_number, country: country_code }, metadata)) {
-					return country_code;
-				}
-		}
-	} catch (err) {
-		_didIteratorError = true;
-		_iteratorError = err;
-	} finally {
-		try {
-			if (!_iteratorNormalCompletion && _iterator.return) {
-				_iterator.return();
-			}
-		} finally {
-			if (_didIteratorError) {
-				throw _iteratorError;
-			}
-		}
-	}
-}
-
-// Sort out arguments
-function sort_out_arguments(arg_1, arg_2, arg_3, arg_4) {
-	var text = void 0;
-	var options = void 0;
-	var metadata = void 0;
-
-	// If the phone number is passed as a string.
-	// `parse('88005553535', ...)`.
-	if (typeof arg_1 === 'string') {
-		text = arg_1;
-	} else throw new TypeError('A phone number for parsing must be a string.');
-
-	// If "default country" argument is being passed
-	// then move it to `options`.
-	// `parse('88005553535', 'RU', [options], metadata)`.
-	if (typeof arg_2 === 'string') {
-		if (arg_4) {
-			options = __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default()({ defaultCountry: arg_2 }, arg_3);
-			metadata = arg_4;
-		} else {
-			options = { defaultCountry: arg_2 };
-			metadata = arg_3;
-		}
-	}
-	// No "resrict country" argument is being passed.
-	// International phone number is passed.
-	// `parse('+78005553535', [options], metadata)`.
-	else {
-			if (arg_3) {
-				options = arg_2;
-				metadata = arg_3;
-			} else {
-				metadata = arg_2;
-			}
-		}
-
-	// Metadata is required.
-	if (!metadata || !metadata.countries) {
-		throw new Error('Metadata is required');
-	}
-
-	// Apply default options.
-	if (options) {
-		options = __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default()({}, default_options, options);
-	} else {
-		options = default_options;
-	}
-
-	return { text: text, options: options, metadata: metadata };
-}
-
-// Strips any extension (as in, the part of the number dialled after the call is
-// connected, usually indicated with extn, ext, x or similar) from the end of
-// the number, and returns it.
-function strip_extension(number) {
-	var start = number.search(EXTN_PATTERN);
-	if (start < 0) {
-		return {};
-	}
-
-	// If we find a potential extension, and the number preceding this is a viable
-	// number, we assume it is an extension.
-	var number_without_extension = number.slice(0, start);
-	/* istanbul ignore if - seems a bit of a redundant check */
-	if (!is_viable_phone_number(number_without_extension)) {
-		return {};
-	}
-
-	var matches = number.match(EXTN_PATTERN);
-	var i = 1;
-	while (i < matches.length) {
-		if (matches[i] != null && matches[i].length > 0) {
-			return {
-				number: number_without_extension,
-				extension: matches[i]
-			};
-		}
-		i++;
-	}
-}
-
-function is_possible_number(national_number, is_international, country_metadata) {
-	switch (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__types__["b" /* check_number_length_for_type */])(national_number, undefined, country_metadata)) {
-		case 'IS_POSSIBLE':
-			return true;
-		// case 'IS_POSSIBLE_LOCAL_ONLY':
-		// 	return !is_international
-		default:
-			return false;
-	}
-}
-
-/**
- * Parses a viable international phone number.
- * Returns `{ country, country_metadata, national_number }`.
- */
-function get_country_and_national_number_international(country_calling_code, national_number, metadata) {
-	// Sometimes there are several countries
-	// corresponding to the same country phone code
-	// (e.g. NANPA countries all having `1` country phone code).
-	// Therefore, to reliably determine the exact country,
-	// national (significant) number should have been parsed first.
-	//
-	// When `metadata.json` is generated, all "ambiguous" country phone codes
-	// get their countries populated with the full set of
-	// "phone number type" regular expressions.
-	//
-	var country = find_country_code(country_calling_code, national_number, metadata);
-
-	// Formatting information for regions which share
-	// a country calling code is contained by only one region
-	// for performance reasons. For example, for NANPA region
-	// ("North American Numbering Plan Administration",
-	//  which includes USA, Canada, Cayman Islands, Bahamas, etc)
-	// it will be contained in the metadata for `US`.
-	var country_metadata = country ? metadata.countries[country] : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["f" /* get_metadata_by_country_calling_code */])(country_calling_code, metadata);
-
-	return { national_number: national_number, country: country, country_metadata: country_metadata };
-}
-
-/**
- * Parses a viable local phone number.
- * Returns `{ country, country_metadata, national_number }`.
- */
-function get_country_and_national_number_local(formatted_phone_number, default_country, metadata) {
-	var country = default_country;
-	var country_metadata = metadata.countries[country];
-
-	var national_number = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__common__["e" /* parse_phone_number_digits */])(formatted_phone_number);
-
-	// Only strip national prefixes for non-international phone numbers
-	// because national prefixes can't be present in international phone numbers.
-	// Otherwise, while forgiving, it would parse a NANPA number `+1 1877 215 5230`
-	// first to `1877 215 5230` and then, stripping the leading `1`, to `877 215 5230`,
-	// and then it would assume that's a valid number which it isn't.
-	// So no forgiveness for grandmas here.
-	// The issue asking for this fix:
-	// https://github.com/catamphetamine/libphonenumber-js/issues/159
-	var potential_national_number = strip_national_prefix(national_number, country_metadata);
-
-	// We require that the NSN remaining after stripping the national prefix and
-	// carrier code be long enough to be a possible length for the region.
-	// Otherwise, we don't do the stripping, since the original number could be
-	// a valid short number.
-	switch (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__types__["b" /* check_number_length_for_type */])(potential_national_number, undefined, country_metadata)) {
-		case 'TOO_SHORT':
-		// case 'IS_POSSIBLE_LOCAL_ONLY':
-		case 'INVALID_LENGTH':
-			break;
-		default:
-			national_number = potential_national_number;
-	}
-
-	return { national_number: national_number, country: country, country_metadata: country_metadata };
-}
-
-/**
- * @param  {string} text - Input.
- * @return {object} `{ ?number, ?extension }`.
- */
-function parse_input(text) {
-	// Parse RFC 3966 phone number URI.
-	if (text && text.indexOf('tel:') === 0) {
-		return parse_phone_uri_input(text);
-	}
-
-	var number = extract_formatted_phone_number(text);
-	var extension = void 0;
-
-	// If the phone number is not viable, then abort.
-	if (!is_viable_phone_number(number)) {
-		return {};
-	}
-
-	// Attempt to parse extension first, since it doesn't require region-specific
-	// data and we want to have the non-normalised number here.
-	var with_extension_stripped = strip_extension(number);
-	if (with_extension_stripped.extension) {
-		return with_extension_stripped;
-	}
-
-	return {
-		number: number,
-		extension: extension
-	};
-}
-
-/**
- * @param  {string} text - Phone URI (RFC 3966).
- * @return {object} `{ ?number, ?extension }`.
- */
-function parse_phone_uri_input(text) {
-	var number = void 0;
-	var extension = void 0;
-
-	var _iteratorNormalCompletion2 = true;
-	var _didIteratorError2 = false;
-	var _iteratorError2 = undefined;
-
-	try {
-		for (var _iterator2 = __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_get_iterator___default()(text.split(';')), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-			var part = _step2.value;
-
-			var _part$split = part.split(':'),
-			    _part$split2 = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_slicedToArray___default()(_part$split, 2),
-			    name = _part$split2[0],
-			    value = _part$split2[1];
-
-			switch (name) {
-				case 'tel':
-					number = value;
-					break;
-				case 'ext':
-					extension = value;
-					break;
-				case 'phone-context':
-					// Domain contexts are ignored.
-					if (value[0] === '+') {
-						number = value + number;
-					}
-					break;
-			}
-		}
-
-		// If the phone number is not viable, then abort.
-	} catch (err) {
-		_didIteratorError2 = true;
-		_iteratorError2 = err;
-	} finally {
-		try {
-			if (!_iteratorNormalCompletion2 && _iterator2.return) {
-				_iterator2.return();
-			}
-		} finally {
-			if (_didIteratorError2) {
-				throw _iteratorError2;
-			}
-		}
-	}
-
-	if (!is_viable_phone_number(number)) {
-		return {};
-	}
-
-	return {
-		number: number,
-		extension: extension
-	};
-}
-
-function result(country, national_number, extension) {
-	var result = {
-		country: country,
-		phone: national_number
-	};
-
-	if (extension) {
-		result.ext = extension;
-	}
-
-	return result;
-}
-
-/**
- * Parses a viable phone number.
- * Returns `{ country, country_metadata, countryCallingCode, national_number }`.
- */
-function parse_phone_number(formatted_phone_number, default_country, metadata) {
-	var _parse_national_numbe = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__common__["f" /* parse_national_number_and_country_calling_code */])(formatted_phone_number, metadata),
-	    countryCallingCode = _parse_national_numbe.countryCallingCode,
-	    number = _parse_national_numbe.number;
-
-	if (!number) {
-		return { countryCallingCode: countryCallingCode };
-	}
-
-	if (countryCallingCode) {
-		var _result = get_country_and_national_number_international(countryCallingCode, number, metadata);
-		_result.countryCallingCode = countryCallingCode;
-		return _result;
-	}
-
-	if (default_country) {
-		var _result2 = get_country_and_national_number_local(formatted_phone_number, default_country, metadata);
-		_result2.countryCallingCode = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["a" /* get_country_calling_code */])(metadata.countries[default_country]);
-		return _result2;
-	}
-
-	return {};
-}
-//# sourceMappingURL=parse.js.map
-
-/***/ }),
 /* 34 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_array_from__ = __webpack_require__(313);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_array_from__ = __webpack_require__(316);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_array_from___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_array_from__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_set__ = __webpack_require__(317);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_set__ = __webpack_require__(320);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_set___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_set__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_typeof__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_typeof__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_typeof__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_get_iterator__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_get_iterator__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_get_iterator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_get_iterator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__parse__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__parse__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__metadata__ = __webpack_require__(29);
 /* harmony export (immutable) */ __webpack_exports__["a"] = get_number_type;
 /* unused harmony export is_of_type */
@@ -28184,31 +28215,42 @@ function get_number_type(arg_1, arg_2, arg_3) {
 		return;
 	}
 
+	if (!metadata.hasCountry(input.country)) {
+		throw new Error('Unknown country: ' + input.country);
+	}
+
 	var national_number = input.phone;
-	var country_metadata = metadata.countries[input.country];
+	metadata.country(input.country);
 
 	// The following is copy-pasted from the original function:
 	// https://github.com/googlei18n/libphonenumber/blob/3ea547d4fbaa2d0b67588904dfa5d3f2557c27ff/javascript/i18n/phonenumbers/phonenumberutil.js#L2835
 
 	// Is this national number even valid for this country
-	if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__common__["d" /* matches_entirely */])(national_number, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["g" /* get_national_number_pattern */])(country_metadata))) {
+	if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__common__["d" /* matches_entirely */])(national_number, metadata.nationalNumberPattern())) {
 		return;
 	}
 
 	// Is it fixed line number
-	if (is_of_type(national_number, 'FIXED_LINE', country_metadata)) {
+	if (is_of_type(national_number, 'FIXED_LINE', metadata)) {
 		// Because duplicate regular expressions are removed
 		// to reduce metadata size, if "mobile" pattern is ""
 		// then it means it was removed due to being a duplicate of the fixed-line pattern.
 		//
-		if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["p" /* get_type_mobile */])(country_metadata) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["q" /* get_type_pattern */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["p" /* get_type_mobile */])(country_metadata)) === '') {
+		if (metadata.type('MOBILE') && metadata.type('MOBILE').pattern() === '') {
+			return 'FIXED_LINE_OR_MOBILE';
+		}
+
+		// v1 metadata.
+		// Legacy.
+		// Deprecated.
+		if (!metadata.type('MOBILE')) {
 			return 'FIXED_LINE_OR_MOBILE';
 		}
 
 		// Check if the number happens to qualify as both fixed line and mobile.
 		// (no such country in the minimal metadata set)
 		/* istanbul ignore if */
-		if (is_of_type(national_number, 'MOBILE', country_metadata)) {
+		if (is_of_type(national_number, 'MOBILE', metadata)) {
 			return 'FIXED_LINE_OR_MOBILE';
 		}
 
@@ -28223,7 +28265,7 @@ function get_number_type(arg_1, arg_2, arg_3) {
 		for (var _iterator = __WEBPACK_IMPORTED_MODULE_3_babel_runtime_core_js_get_iterator___default()(non_fixed_line_types), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 			var _type = _step.value;
 
-			if (is_of_type(national_number, _type, country_metadata)) {
+			if (is_of_type(national_number, _type, metadata)) {
 				return _type;
 			}
 		}
@@ -28244,9 +28286,9 @@ function get_number_type(arg_1, arg_2, arg_3) {
 }
 
 function is_of_type(national_number, type, metadata) {
-	type = get_type_info(type, metadata);
+	type = metadata.type(type);
 
-	if (!type || !__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["q" /* get_type_pattern */])(type)) {
+	if (!type || !type.pattern()) {
 		return false;
 	}
 
@@ -28256,11 +28298,11 @@ function is_of_type(national_number, type, metadata) {
 	// If they are absent, this means they match
 	// the general description, which we have
 	// already checked before a specific number type.
-	if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["r" /* get_type_possible_lengths */])(type) && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["r" /* get_type_possible_lengths */])(type).indexOf(national_number.length) < 0) {
+	if (type.possibleLengths() && type.possibleLengths().indexOf(national_number.length) < 0) {
 		return false;
 	}
 
-	return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__common__["d" /* matches_entirely */])(national_number, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["q" /* get_type_pattern */])(type));
+	return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__common__["d" /* matches_entirely */])(national_number, type.pattern());
 }
 
 // Sort out arguments
@@ -28319,16 +28361,12 @@ function sort_out_arguments(arg_1, arg_2, arg_3) {
 		throw new Error('Metadata is required');
 	}
 
-	return { input: input, metadata: metadata };
+	return { input: input, metadata: new __WEBPACK_IMPORTED_MODULE_6__metadata__["a" /* default */](metadata) };
 }
 
+// Should only be called for the "new" metadata which has "possible lengths".
 function check_number_length_for_type(national_number, type, metadata) {
-	var type_info = get_type_info(type, metadata);
-
-	// If the type doesn't exist then return 'INVALID_LENGTH'.
-	if (type && type !== 'FIXED_LINE_OR_MOBILE' && !type_info) {
-		return 'INVALID_LENGTH';
-	}
+	var type_info = metadata.type(type);
 
 	// There should always be "<possiblePengths/>" set for every type element.
 	// This is declared in the XML schema.
@@ -28337,19 +28375,19 @@ function check_number_length_for_type(national_number, type, metadata) {
 	// so we fall back to the "general description". Where no numbers of the type
 	// exist at all, there is one possible length (-1) which is guaranteed
 	// not to match the length of any real phone number.
-	var possible_lengths = type_info && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["r" /* get_type_possible_lengths */])(type_info) || __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["s" /* get_country_phone_number_possible_lengths */])(metadata);
-	// let local_lengths    = type_info && get_type_possible_lengths_local(type_info) || get_country_phone_number_possible_lengths_local(metadata)
+	var possible_lengths = type_info && type_info.possibleLengths() || metadata.possibleLengths();
+	// let local_lengths    = type_info && type.possibleLengthsLocal() || metadata.possibleLengthsLocal()
 
 	if (type === 'FIXED_LINE_OR_MOBILE') {
 		// No such country in metadata.
 		/* istanbul ignore next */
-		if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["t" /* get_type_fixed_line */])(metadata)) {
+		if (!metadata.type('FIXED_LINE')) {
 			// The rare case has been encountered where no fixedLine data is available
 			// (true for some non-geographical entities), so we just check mobile.
 			return test_number_length_for_type(national_number, 'MOBILE', metadata);
 		}
 
-		var mobile_type = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["p" /* get_type_mobile */])(metadata);
+		var mobile_type = metadata.type('MOBILE');
 
 		if (mobile_type) {
 			// Merge the mobile data in if there was any. "Concat" creates a new
@@ -28357,21 +28395,25 @@ function check_number_length_for_type(national_number, type, metadata) {
 			// Note that when adding the possible lengths from mobile, we have
 			// to again check they aren't empty since if they are this indicates
 			// they are the same as the general desc and should be obtained from there.
-			possible_lengths = merge_arrays(possible_lengths, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["r" /* get_type_possible_lengths */])(mobile_type) || __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["s" /* get_country_phone_number_possible_lengths */])(metadata));
+			possible_lengths = merge_arrays(possible_lengths, mobile_type.possibleLengths());
 			// The current list is sorted; we need to merge in the new list and
 			// re-sort (duplicates are okay). Sorting isn't so expensive because
 			// the lists are very small.
 
 			// if (local_lengths)
 			// {
-			// 	local_lengths = merge_arrays(local_lengths, get_type_possible_lengths_local(mobile_type) || get_country_phone_number_possible_lengths_local(metadata))
+			// 	local_lengths = merge_arrays(local_lengths, mobile_type.possibleLengthsLocal())
 			// }
 			// else
 			// {
-			// 	local_lengths = get_type_possible_lengths_local(mobile_type)
+			// 	local_lengths = mobile_type.possibleLengthsLocal()
 			// }
 		}
 	}
+	// If the type doesn't exist then return 'INVALID_LENGTH'.
+	else if (type && !type_info) {
+			return 'INVALID_LENGTH';
+		}
 
 	var actual_length = national_number.length;
 
@@ -28398,33 +28440,6 @@ function check_number_length_for_type(national_number, type, metadata) {
 
 	// We skip the first element since we've already checked it.
 	return possible_lengths.indexOf(actual_length, 1) >= 0 ? 'IS_POSSIBLE' : 'INVALID_LENGTH';
-}
-
-function get_type_info(type, metadata) {
-	switch (type) {
-		case 'FIXED_LINE':
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["t" /* get_type_fixed_line */])(metadata);
-		case 'MOBILE':
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["p" /* get_type_mobile */])(metadata);
-		case 'PREMIUM_RATE':
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["u" /* get_type_premium_rate */])(metadata);
-		case 'TOLL_FREE':
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["v" /* get_type_toll_free */])(metadata);
-		case 'SHARED_COST':
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["w" /* get_type_shared_cost */])(metadata);
-		case 'VOIP':
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["x" /* get_type_voip */])(metadata);
-		case 'PERSONAL_NUMBER':
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["y" /* get_type_personal_number */])(metadata);
-		case 'PAGER':
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["z" /* get_type_pager */])(metadata);
-		case 'UAN':
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["A" /* get_type_uan */])(metadata);
-		case 'VOICEMAIL':
-			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__metadata__["B" /* get_type_voice_mail */])(metadata);
-		// default:
-		// 	throw new Error(`Unknown phone number type: ${type}`)
-	}
 }
 
 // Babel transforms `typeof` into some "branches"
@@ -28474,7 +28489,7 @@ function merge_arrays(a, b) {
 /* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(266);
+module.exports = __webpack_require__(269);
 
 /***/ }),
 /* 36 */
@@ -28485,7 +28500,7 @@ module.exports = __webpack_require__(266);
 
 exports.__esModule = true;
 
-var _assign = __webpack_require__(315);
+var _assign = __webpack_require__(318);
 
 var _assign2 = _interopRequireDefault(_assign);
 
@@ -28510,9 +28525,9 @@ exports.default = _assign2.default || function (target) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(23);
-var call = __webpack_require__(94);
-var isArrayIter = __webpack_require__(92);
-var anObject = __webpack_require__(19);
+var call = __webpack_require__(97);
+var isArrayIter = __webpack_require__(95);
+var anObject = __webpack_require__(20);
 var toLength = __webpack_require__(41);
 var getIterFn = __webpack_require__(64);
 var BREAK = {};
@@ -28541,7 +28556,7 @@ exports.RETURN = RETURN;
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 / 15.2.3.14 Object.keys(O)
-var $keys = __webpack_require__(97);
+var $keys = __webpack_require__(100);
 var enumBugKeys = __webpack_require__(51);
 
 module.exports = Object.keys || function keys(O) {
@@ -28561,7 +28576,7 @@ exports.f = {}.propertyIsEnumerable;
 /***/ (function(module, exports, __webpack_require__) {
 
 var def = __webpack_require__(10).f;
-var has = __webpack_require__(20);
+var has = __webpack_require__(21);
 var TAG = __webpack_require__(6)('toStringTag');
 
 module.exports = function (it, tag, stat) {
@@ -28607,7 +28622,7 @@ module.exports = function (key) {
 /* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(358);
+__webpack_require__(359);
 var global = __webpack_require__(13);
 var hide = __webpack_require__(15);
 var Iterators = __webpack_require__(25);
@@ -28634,7 +28649,7 @@ for (var i = 0; i < DOMIterables.length; i++) {
 
 /* eslint-disable no-undefined */
 
-var throttle = __webpack_require__(230);
+var throttle = __webpack_require__(233);
 
 /**
  * Debounce execution of a function. Debouncing, unlike throttling,
@@ -28690,7 +28705,7 @@ module.exports = g;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(7);
-var normalizeHeaderName = __webpack_require__(280);
+var normalizeHeaderName = __webpack_require__(283);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 var DEFAULT_CONTENT_TYPE = {
@@ -28707,10 +28722,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(83);
+    adapter = __webpack_require__(84);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(83);
+    adapter = __webpack_require__(84);
   }
   return adapter;
 }
@@ -28864,13 +28879,13 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 
 var LIBRARY = __webpack_require__(54);
 var $export = __webpack_require__(14);
-var redefine = __webpack_require__(99);
+var redefine = __webpack_require__(102);
 var hide = __webpack_require__(15);
-var has = __webpack_require__(20);
+var has = __webpack_require__(21);
 var Iterators = __webpack_require__(25);
-var $iterCreate = __webpack_require__(343);
+var $iterCreate = __webpack_require__(344);
 var setToStringTag = __webpack_require__(40);
-var getPrototypeOf = __webpack_require__(349);
+var getPrototypeOf = __webpack_require__(350);
 var ITERATOR = __webpack_require__(6)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 var FF_ITERATOR = '@@iterator';
@@ -28945,8 +28960,8 @@ module.exports = true;
 /***/ (function(module, exports, __webpack_require__) {
 
 var META = __webpack_require__(43)('meta');
-var isObject = __webpack_require__(21);
-var has = __webpack_require__(20);
+var isObject = __webpack_require__(22);
+var has = __webpack_require__(21);
 var setDesc = __webpack_require__(10).f;
 var id = 0;
 var isExtensible = Object.isExtensible || function () {
@@ -29004,8 +29019,8 @@ var meta = module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
-var anObject = __webpack_require__(19);
-var dPs = __webpack_require__(346);
+var anObject = __webpack_require__(20);
+var dPs = __webpack_require__(347);
 var enumBugKeys = __webpack_require__(51);
 var IE_PROTO = __webpack_require__(58)('IE_PROTO');
 var Empty = function () { /* empty */ };
@@ -29014,13 +29029,13 @@ var PROTOTYPE = 'prototype';
 // Create object with fake `null` prototype: use iframe Object with cleared prototype
 var createDict = function () {
   // Thrash, waste and sodomy: IE GC bug
-  var iframe = __webpack_require__(90)('iframe');
+  var iframe = __webpack_require__(93)('iframe');
   var i = enumBugKeys.length;
   var lt = '<';
   var gt = '>';
   var iframeDocument;
   iframe.style.display = 'none';
-  __webpack_require__(342).appendChild(iframe);
+  __webpack_require__(343).appendChild(iframe);
   iframe.src = 'javascript:'; // eslint-disable-line no-script-url
   // createDict = iframe.contentWindow.Object;
   // html.removeChild(iframe);
@@ -29093,7 +29108,7 @@ module.exports = function (it) {
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = __webpack_require__(21);
+var isObject = __webpack_require__(22);
 // instead of the ES6 spec version, we didn't implement @@toPrimitive case
 // and the second argument - flag - preferred type is a string
 module.exports = function (it, S) {
@@ -29705,7 +29720,7 @@ module.exports =
 exports.__esModule = true;
 exports.i18n = exports.use = exports.t = undefined;
 
-var _zhCN = __webpack_require__(388);
+var _zhCN = __webpack_require__(389);
 
 var _zhCN2 = _interopRequireDefault(_zhCN);
 
@@ -29713,11 +29728,11 @@ var _vue = __webpack_require__(2);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _deepmerge = __webpack_require__(380);
+var _deepmerge = __webpack_require__(381);
 
 var _deepmerge2 = _interopRequireDefault(_deepmerge);
 
-var _format = __webpack_require__(386);
+var _format = __webpack_require__(387);
 
 var _format2 = _interopRequireDefault(_format);
 
@@ -30044,11 +30059,11 @@ var _vue = __webpack_require__(2);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-var _popup = __webpack_require__(106);
+var _popup = __webpack_require__(109);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var PopperJS = _vue2.default.prototype.$isServer ? function () {} : __webpack_require__(396);
+var PopperJS = _vue2.default.prototype.$isServer ? function () {} : __webpack_require__(397);
 var stop = function stop(e) {
   return e.stopPropagation();
 };
@@ -30226,20 +30241,122 @@ exports.default = {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_slicedToArray__ = __webpack_require__(323);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_slicedToArray___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_slicedToArray__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__parse__ = __webpack_require__(30);
+/* harmony export (immutable) */ __webpack_exports__["a"] = parseRFC3966;
+/* harmony export (immutable) */ __webpack_exports__["b"] = formatRFC3966;
+
+
+
+
+// https://www.ietf.org/rfc/rfc3966.txt
+
+/**
+ * @param  {string} text - Phone URI (RFC 3966).
+ * @return {object} `{ ?number, ?ext }`.
+ */
+function parseRFC3966(text) {
+	var number = void 0;
+	var ext = void 0;
+
+	var _iteratorNormalCompletion = true;
+	var _didIteratorError = false;
+	var _iteratorError = undefined;
+
+	try {
+		for (var _iterator = __WEBPACK_IMPORTED_MODULE_1_babel_runtime_core_js_get_iterator___default()(text.split(';')), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+			var part = _step.value;
+
+			var _part$split = part.split(':'),
+			    _part$split2 = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_slicedToArray___default()(_part$split, 2),
+			    name = _part$split2[0],
+			    value = _part$split2[1];
+
+			switch (name) {
+				case 'tel':
+					number = value;
+					break;
+				case 'ext':
+					ext = value;
+					break;
+				case 'phone-context':
+					// Only "country contexts" are supported.
+					// "Domain contexts" are ignored.
+					if (value[0] === '+') {
+						number = value + number;
+					}
+					break;
+			}
+		}
+
+		// If the phone number is not viable, then abort.
+	} catch (err) {
+		_didIteratorError = true;
+		_iteratorError = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion && _iterator.return) {
+				_iterator.return();
+			}
+		} finally {
+			if (_didIteratorError) {
+				throw _iteratorError;
+			}
+		}
+	}
+
+	if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__parse__["f" /* is_viable_phone_number */])(number)) {
+		return {};
+	}
+
+	return {
+		number: number,
+		ext: ext
+	};
+}
+
+/**
+ * @param  {object} - `{ ?number, ?extension }`.
+ * @return {string} Phone URI (RFC 3966).
+ */
+function formatRFC3966(_ref) {
+	var number = _ref.number,
+	    ext = _ref.ext;
+
+	if (!number) {
+		return '';
+	}
+
+	if (number[0] !== '+') {
+		throw new Error('"formatRFC3966()" expects "number" to be in E.164 format.');
+	}
+
+	return 'tel:' + number + (ext ? ';ext=' + ext : '');
+}
+//# sourceMappingURL=RFC3966.js.map
+
+/***/ }),
+/* 72 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_get_iterator__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_get_iterator__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_get_iterator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_core_js_get_iterator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__common__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__metadata__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__RFC3966__ = __webpack_require__(71);
 /* harmony export (immutable) */ __webpack_exports__["a"] = format;
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return FIRST_GROUP_PATTERN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return FIRST_GROUP_PATTERN; });
 /* harmony export (immutable) */ __webpack_exports__["b"] = format_national_number_using_format;
-/* unused harmony export format_national_number */
 /* unused harmony export choose_format_for_number */
-/* harmony export (immutable) */ __webpack_exports__["d"] = local_to_international_style;
+/* harmony export (immutable) */ __webpack_exports__["c"] = local_to_international_style;
 
 
 
@@ -30247,6 +30364,8 @@ exports.default = {
 // `phonenumberutil.js` of 17th November, 2016.
 //
 // https://github.com/googlei18n/libphonenumber/commits/master/javascript/i18n/phonenumbers/phonenumberutil.js
+
+
 
 
 
@@ -30277,10 +30396,8 @@ var default_options = {
 	    options = _sort_out_arguments.options,
 	    metadata = _sort_out_arguments.metadata;
 
-	var country_metadata = void 0;
-
-	if (input.country) {
-		country_metadata = metadata.countries[input.country];
+	if (input.country && metadata.hasCountry(input.country)) {
+		metadata.country(input.country);
 	}
 
 	var _parse_national_numbe = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__common__["f" /* parse_national_number_and_country_calling_code */])(input.phone, metadata),
@@ -30291,45 +30408,42 @@ var default_options = {
 
 	if (countryCallingCode) {
 		// Check country restriction
-		if (input.country && country_metadata && countryCallingCode !== __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["a" /* get_country_calling_code */])(country_metadata)) {
+		if (input.country && metadata.selectedCountry() && countryCallingCode !== metadata.countryCallingCode()) {
 			return input.phone;
 		}
 
-		country_metadata = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["f" /* get_metadata_by_country_calling_code */])(countryCallingCode, metadata);
+		metadata.chooseCountryByCountryCallingCode(countryCallingCode);
 	}
 
-	if (!country_metadata) {
+	if (!metadata.selectedCountry()) {
 		return input.phone;
 	}
 
 	switch (format_type) {
 		case 'International':
 			if (!number) {
-				return '+' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["a" /* get_country_calling_code */])(country_metadata);
+				return '+' + metadata.countryCallingCode();
 			}
-			var national_number = format_national_number(number, 'International', false, country_metadata);
-			var international_number = '+' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["a" /* get_country_calling_code */])(country_metadata) + ' ' + national_number;
-			if (input.ext || input.ext === 0) {
-				return options.formatExtension(international_number, input.ext);
-			}
-			return international_number;
+			number = format_national_number(number, 'International', false, metadata);
+			number = '+' + metadata.countryCallingCode() + ' ' + number;
+			return add_extension(number, input.ext, options.formatExtension);
 
 		case 'E.164':
 			// `E.164` doesn't define "phone number extensions".
-			return '+' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["a" /* get_country_calling_code */])(country_metadata) + input.phone;
+			return '+' + metadata.countryCallingCode() + input.phone;
 
 		case 'RFC3966':
-			return 'tel:+' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["a" /* get_country_calling_code */])(country_metadata) + input.phone + (input.ext || input.ext === 0 ? ';ext=' + input.ext : '');
+			return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__RFC3966__["b" /* formatRFC3966 */])({
+				number: '+' + metadata.countryCallingCode() + input.phone,
+				ext: input.ext
+			});
 
 		case 'National':
 			if (!number) {
 				return '';
 			}
-			var _national_number = format_national_number(number, 'National', false, country_metadata);
-			if (input.ext || input.ext === 0) {
-				return options.formatExtension(_national_number, input.ext);
-			}
-			return _national_number;
+			number = format_national_number(number, 'National', false, metadata);
+			return add_extension(number, input.ext, options.formatExtension);
 	}
 }
 
@@ -30339,22 +30453,20 @@ var default_options = {
 // group actually used in the pattern will be matched.
 var FIRST_GROUP_PATTERN = /(\$\d)/;
 
-function format_national_number_using_format(number, format, international, enforce_national_prefix, country_metadata) {
-	var format_pattern_matcher = new RegExp(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["e" /* get_format_pattern */])(format));
-
-	var national_prefix_formatting_rule = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["i" /* get_format_national_prefix_formatting_rule */])(format, country_metadata);
+function format_national_number_using_format(number, format, international, enforce_national_prefix, metadata) {
+	var format_pattern_matcher = new RegExp(format.pattern());
 
 	// National prefix is omitted if there's no national prefix formatting rule
 	// set for this country, or when this rule is set but
 	// national prefix is optional for this phone number format
 	// (and it is not enforced explicitly)
-	var national_prefix_may_be_omitted = !national_prefix_formatting_rule || national_prefix_formatting_rule && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["o" /* get_format_national_prefix_is_optional_when_formatting */])(format, country_metadata) && !enforce_national_prefix;
+	var national_prefix_may_be_omitted = !format.nationalPrefixFormattingRule() || format.nationalPrefixFormattingRule() && format.nationalPrefixIsOptionalWhenFormatting() && !enforce_national_prefix;
 
 	if (!international && !national_prefix_may_be_omitted) {
-		return number.replace(format_pattern_matcher, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["j" /* get_format_format */])(format).replace(FIRST_GROUP_PATTERN, national_prefix_formatting_rule));
+		return number.replace(format_pattern_matcher, format.format().replace(FIRST_GROUP_PATTERN, format.nationalPrefixFormattingRule()));
 	}
 
-	var formatted_number = number.replace(format_pattern_matcher, international ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["c" /* get_format_international_format */])(format) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["j" /* get_format_format */])(format));
+	var formatted_number = number.replace(format_pattern_matcher, international ? format.internationalFormat() : format.format());
 
 	if (international) {
 		return local_to_international_style(formatted_number);
@@ -30363,14 +30475,14 @@ function format_national_number_using_format(number, format, international, enfo
 	return formatted_number;
 }
 
-function format_national_number(number, format_as, enforce_national_prefix, country_metadata) {
-	var format = choose_format_for_number(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["b" /* get_formats */])(country_metadata), number);
+function format_national_number(number, format_as, enforce_national_prefix, metadata) {
+	var format = choose_format_for_number(metadata.formats(), number);
 
 	if (!format) {
 		return number;
 	}
 
-	return format_national_number_using_format(number, format, format_as === 'International', enforce_national_prefix, country_metadata);
+	return format_national_number_using_format(number, format, format_as === 'International', enforce_national_prefix, metadata);
 }
 
 function choose_format_for_number(available_formats, national_number) {
@@ -30383,9 +30495,9 @@ function choose_format_for_number(available_formats, national_number) {
 			var _format = _step.value;
 
 			// Validate leading digits
-			if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["d" /* get_format_leading_digits_patterns */])(_format).length > 0) {
+			if (_format.leadingDigitsPatterns().length > 0) {
 				// The last leading_digits_pattern is used here, as it is the most detailed
-				var last_leading_digits_pattern = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["d" /* get_format_leading_digits_patterns */])(_format)[__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["d" /* get_format_leading_digits_patterns */])(_format).length - 1];
+				var last_leading_digits_pattern = _format.leadingDigitsPatterns()[_format.leadingDigitsPatterns().length - 1];
 
 				// If leading digits don't match then move on to the next phone number format
 				if (national_number.search(last_leading_digits_pattern) !== 0) {
@@ -30394,7 +30506,7 @@ function choose_format_for_number(available_formats, national_number) {
 			}
 
 			// Check that the national number matches the phone number format regular expression
-			if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__common__["d" /* matches_entirely */])(national_number, new RegExp(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__metadata__["e" /* get_format_pattern */])(_format)))) {
+			if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__common__["d" /* matches_entirely */])(national_number, new RegExp(_format.pattern()))) {
 				return _format;
 			}
 		}
@@ -30511,7 +30623,7 @@ function sort_out_arguments(arg_1, arg_2, arg_3, arg_4, arg_5) {
 		options = default_options;
 	}
 
-	return { input: input, format_type: format_type, options: options, metadata: metadata };
+	return { input: input, format_type: format_type, options: options, metadata: new __WEBPACK_IMPORTED_MODULE_4__metadata__["a" /* default */](metadata) };
 }
 
 // Babel transforms `typeof` into some "branches"
@@ -30520,13 +30632,17 @@ function sort_out_arguments(arg_1, arg_2, arg_3, arg_4, arg_5) {
 var is_object = function is_object(_) {
 	return (typeof _ === 'undefined' ? 'undefined' : __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default()(_)) === 'object';
 };
+
+function add_extension(number, ext, formatExtension) {
+	return ext ? formatExtension(number, ext) : number;
+}
 //# sourceMappingURL=format.js.map
 
 /***/ }),
-/* 72 */,
 /* 73 */,
 /* 74 */,
-/* 75 */
+/* 75 */,
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery) {/*!
@@ -32910,7 +33026,7 @@ if (typeof jQuery === 'undefined') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
-/* 76 */
+/* 77 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports =
@@ -34135,19 +34251,19 @@ module.exports =
 /* 8 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(392);
+	module.exports = __webpack_require__(393);
 
 /***/ },
 /* 9 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(390);
+	module.exports = __webpack_require__(391);
 
 /***/ },
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(102);
+	module.exports = __webpack_require__(105);
 
 /***/ },
 /* 11 */
@@ -34356,7 +34472,7 @@ module.exports =
 /* 14 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(106);
+	module.exports = __webpack_require__(109);
 
 /***/ },
 /* 15 */
@@ -34692,7 +34808,7 @@ module.exports =
 /* 21 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(105);
+	module.exports = __webpack_require__(108);
 
 /***/ },
 /* 22 */
@@ -34833,7 +34949,7 @@ module.exports =
 /* 25 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(103);
+	module.exports = __webpack_require__(106);
 
 /***/ },
 /* 26 */
@@ -35188,13 +35304,13 @@ module.exports =
 /* 31 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(382);
+	module.exports = __webpack_require__(383);
 
 /***/ },
 /* 32 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(381);
+	module.exports = __webpack_require__(382);
 
 /***/ },
 /* 33 */
@@ -35929,7 +36045,7 @@ module.exports =
 /* 49 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(394);
+	module.exports = __webpack_require__(395);
 
 /***/ },
 /* 50 */
@@ -36171,7 +36287,7 @@ module.exports =
 /* 55 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(393);
+	module.exports = __webpack_require__(394);
 
 /***/ },
 /* 56 */
@@ -39655,7 +39771,7 @@ module.exports =
 /* 110 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(104);
+	module.exports = __webpack_require__(107);
 
 /***/ },
 /* 111 */
@@ -39673,7 +39789,7 @@ module.exports =
 /* 113 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(107);
+	module.exports = __webpack_require__(110);
 
 /***/ },
 /* 114 */
@@ -40787,13 +40903,13 @@ module.exports =
 /* 131 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(384);
+	module.exports = __webpack_require__(385);
 
 /***/ },
 /* 132 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(230);
+	module.exports = __webpack_require__(233);
 
 /***/ },
 /* 133 */
@@ -42791,7 +42907,7 @@ module.exports =
 /* 143 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(383);
+	module.exports = __webpack_require__(384);
 
 /***/ },
 /* 144 */
@@ -44593,7 +44709,7 @@ module.exports =
 /* 154 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(395);
+	module.exports = __webpack_require__(396);
 
 /***/ },
 /* 155 */
@@ -48875,7 +48991,7 @@ module.exports =
 /* 194 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(108);
+	module.exports = __webpack_require__(111);
 
 /***/ },
 /* 195 */
@@ -50225,7 +50341,7 @@ module.exports =
 /* 215 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(244);
+	module.exports = __webpack_require__(247);
 
 /***/ },
 /* 216 */
@@ -53303,7 +53419,7 @@ module.exports =
 /* 255 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(385);
+	module.exports = __webpack_require__(386);
 
 /***/ },
 /* 256 */
@@ -54723,7 +54839,7 @@ module.exports =
 /* 279 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(391);
+	module.exports = __webpack_require__(392);
 
 /***/ },
 /* 280 */
@@ -55460,7 +55576,7 @@ module.exports =
 /* 289 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(389);
+	module.exports = __webpack_require__(390);
 
 /***/ },
 /* 290 */
@@ -58995,13 +59111,13 @@ module.exports =
 /* 353 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(283);
+	module.exports = __webpack_require__(286);
 
 /***/ },
 /* 354 */
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(398);
+	module.exports = __webpack_require__(399);
 
 /***/ },
 /* 355 */
@@ -61149,7 +61265,7 @@ module.exports =
 /******/ ]);
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var require;var require;/*!
@@ -67146,22 +67262,26 @@ exports.base64decode = base64decode;
 });
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__metadata_min_json__ = __webpack_require__(403);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__metadata_min_json__ = __webpack_require__(404);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__metadata_min_json___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__metadata_min_json__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__es6_parse__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__es6_parse__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__es6_types__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__es6_format__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__es6_validate__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__es6_AsYouType__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__es6_format__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__es6_validate__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__es6_AsYouType__ = __webpack_require__(112);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__es6_metadata__ = __webpack_require__(29);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Metadata", function() { return __WEBPACK_IMPORTED_MODULE_6__es6_metadata__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__es6_RFC3966__ = __webpack_require__(71);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "parseRFC3966", function() { return __WEBPACK_IMPORTED_MODULE_7__es6_RFC3966__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "formatRFC3966", function() { return __WEBPACK_IMPORTED_MODULE_7__es6_RFC3966__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "parseCustom", function() { return __WEBPACK_IMPORTED_MODULE_1__es6_parse__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__es6_common__ = __webpack_require__(32);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "DIGITS", function() { return __WEBPACK_IMPORTED_MODULE_7__es6_common__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__es6_common__ = __webpack_require__(33);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "DIGITS", function() { return __WEBPACK_IMPORTED_MODULE_8__es6_common__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "formatCustom", function() { return __WEBPACK_IMPORTED_MODULE_3__es6_format__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "isValidNumberCustom", function() { return __WEBPACK_IMPORTED_MODULE_4__es6_validate__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "getNumberTypeCustom", function() { return __WEBPACK_IMPORTED_MODULE_2__es6_types__["a"]; });
@@ -67176,6 +67296,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (immutable) */ __webpack_exports__["getCountryCallingCodeCustom"] = getCountryCallingCodeCustom;
 /* harmony export (immutable) */ __webpack_exports__["getPhoneCode"] = getPhoneCode;
 /* harmony export (immutable) */ __webpack_exports__["getPhoneCodeCustom"] = getPhoneCodeCustom;
+
+
+
 
 
 
@@ -67239,12 +67362,14 @@ function getCountryCallingCode(country)
 
 function getCountryCallingCodeCustom(country, metadata)
 {
-	if (!metadata.countries[country])
+	metadata = new __WEBPACK_IMPORTED_MODULE_6__es6_metadata__["a" /* default */](metadata)
+
+	if (!metadata.hasCountry(country))
 	{
-		throw new Error('Unknown country: "' + country + '"')
+		throw new Error('Unknown country: ' + country)
 	}
 
-	return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__es6_metadata__["a" /* get_country_calling_code */])(metadata.countries[country])
+	return metadata.country(country).countryCallingCode()
 }
 
 // `getPhoneCode` name is deprecated, use `getCountryCallingCode` instead.
@@ -67260,7 +67385,7 @@ function getPhoneCodeCustom(country, metadata)
 }
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67268,7 +67393,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof="fun
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):window.Vue&&window.axios&&Vue.use(f,window.axios)}();
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -67425,7 +67550,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 exports.default = plugin;
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70057,7 +70182,7 @@ if (inBrowser && window.Vue) {
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(17)))
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -70084,19 +70209,19 @@ function required(rule, value, source, errors, options, type) {
 /* harmony default export */ __webpack_exports__["a"] = required;
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(7);
-var settle = __webpack_require__(272);
-var buildURL = __webpack_require__(275);
-var parseHeaders = __webpack_require__(281);
-var isURLSameOrigin = __webpack_require__(279);
-var createError = __webpack_require__(86);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(274);
+var settle = __webpack_require__(275);
+var buildURL = __webpack_require__(278);
+var parseHeaders = __webpack_require__(284);
+var isURLSameOrigin = __webpack_require__(282);
+var createError = __webpack_require__(87);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(277);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -70192,7 +70317,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(277);
+      var cookies = __webpack_require__(280);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -70269,7 +70394,7 @@ module.exports = function xhrAdapter(config) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70295,7 +70420,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70307,13 +70432,13 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var enhanceError = __webpack_require__(271);
+var enhanceError = __webpack_require__(274);
 
 /**
  * Create an Error with the specified message, config, error code, and response.
@@ -70331,7 +70456,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70349,7 +70474,55 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 88 */
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+exports.default = function (instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+};
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.__esModule = true;
+
+var _defineProperty = __webpack_require__(319);
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
+    }
+  }
+
+  return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) defineProperties(Constructor, staticProps);
+    return Constructor;
+  };
+}();
+
+/***/ }),
+/* 91 */
 /***/ (function(module, exports) {
 
 module.exports = function (it) {
@@ -70359,7 +70532,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 89 */
+/* 92 */
 /***/ (function(module, exports) {
 
 module.exports = function (it, Constructor, name, forbiddenField) {
@@ -70370,10 +70543,10 @@ module.exports = function (it, Constructor, name, forbiddenField) {
 
 
 /***/ }),
-/* 90 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(21);
+var isObject = __webpack_require__(22);
 var document = __webpack_require__(13).document;
 // typeof document.createElement is 'object' in old IE
 var is = isObject(document) && isObject(document.createElement);
@@ -70383,16 +70556,16 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 91 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = !__webpack_require__(12) && !__webpack_require__(24)(function () {
-  return Object.defineProperty(__webpack_require__(90)('div'), 'a', { get: function () { return 7; } }).a != 7;
+  return Object.defineProperty(__webpack_require__(93)('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
 
 
 /***/ }),
-/* 92 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // check on default Array iterator
@@ -70406,7 +70579,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 93 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -70417,11 +70590,11 @@ module.exports = Array.isArray || function isArray(arg) {
 
 
 /***/ }),
-/* 94 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // call something on iterator step with safe closing on error
-var anObject = __webpack_require__(19);
+var anObject = __webpack_require__(20);
 module.exports = function (iterator, fn, value, entries) {
   try {
     return entries ? fn(anObject(value)[0], value[1]) : fn(value);
@@ -70435,7 +70608,7 @@ module.exports = function (iterator, fn, value, entries) {
 
 
 /***/ }),
-/* 95 */
+/* 98 */
 /***/ (function(module, exports) {
 
 module.exports = function (done, value) {
@@ -70444,11 +70617,11 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 96 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
-var $keys = __webpack_require__(97);
+var $keys = __webpack_require__(100);
 var hiddenKeys = __webpack_require__(51).concat('length', 'prototype');
 
 exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
@@ -70457,12 +70630,12 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 
 /***/ }),
-/* 97 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var has = __webpack_require__(20);
+var has = __webpack_require__(21);
 var toIObject = __webpack_require__(26);
-var arrayIndexOf = __webpack_require__(333)(false);
+var arrayIndexOf = __webpack_require__(334)(false);
 var IE_PROTO = __webpack_require__(58)('IE_PROTO');
 
 module.exports = function (object, names) {
@@ -70480,7 +70653,7 @@ module.exports = function (object, names) {
 
 
 /***/ }),
-/* 98 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var hide = __webpack_require__(15);
@@ -70493,17 +70666,17 @@ module.exports = function (target, src, safe) {
 
 
 /***/ }),
-/* 99 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(15);
 
 
 /***/ }),
-/* 100 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(21);
+var isObject = __webpack_require__(22);
 module.exports = function (it, TYPE) {
   if (!isObject(it) || it._t !== TYPE) throw TypeError('Incompatible receiver, ' + TYPE + ' required!');
   return it;
@@ -70511,13 +70684,13 @@ module.exports = function (it, TYPE) {
 
 
 /***/ }),
-/* 101 */
+/* 104 */
 /***/ (function(module, exports) {
 
 
 
 /***/ }),
-/* 102 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -70540,7 +70713,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 103 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports =
@@ -70967,7 +71140,7 @@ module.exports =
 /******/ });
 
 /***/ }),
-/* 104 */
+/* 107 */
 /***/ (function(module, exports) {
 
 module.exports =
@@ -71218,7 +71391,7 @@ module.exports =
 /******/ });
 
 /***/ }),
-/* 105 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71297,7 +71470,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 106 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71314,7 +71487,7 @@ var _merge = __webpack_require__(67);
 
 var _merge2 = _interopRequireDefault(_merge);
 
-var _popupManager = __webpack_require__(397);
+var _popupManager = __webpack_require__(398);
 
 var _popupManager2 = _interopRequireDefault(_popupManager);
 
@@ -71602,7 +71775,7 @@ exports.default = {
 exports.PopupManager = _popupManager2.default;
 
 /***/ }),
-/* 107 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71638,7 +71811,7 @@ function scrollIntoView(container, selected) {
 }
 
 /***/ }),
-/* 108 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -71664,20 +71837,20 @@ function getFirstComponentChild(children) {
 };
 
 /***/ }),
-/* 109 */
+/* 112 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(320);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__ = __webpack_require__(321);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_babel_runtime_helpers_createClass__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__metadata__ = __webpack_require__(29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__parse__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__format__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__common__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__parse__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__format__ = __webpack_require__(72);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__types__ = __webpack_require__(34);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return DIGIT_PLACEHOLDER; });
 /* unused harmony export close_dangling_braces */
@@ -71753,16 +71926,11 @@ var AsYouType = function () {
 	function AsYouType(country_code, metadata) {
 		__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_classCallCheck___default()(this, AsYouType);
 
-		// Metadata is required.
-		if (!metadata || !metadata.countries) {
-			throw new Error('Metadata is required');
-		}
+		this.metadata = new __WEBPACK_IMPORTED_MODULE_3__metadata__["a" /* default */](metadata);
 
-		if (country_code && metadata.countries[country_code]) {
+		if (country_code && this.metadata.hasCountry(country_code)) {
 			this.default_country = country_code;
 		}
-
-		this.metadata = metadata;
 
 		this.reset();
 	}
@@ -71821,6 +71989,14 @@ var AsYouType = function () {
 
 			if (this.is_international()) {
 				if (!this.countryCallingCode) {
+					// No need to format anything
+					// if there's no national phone number.
+					// (e.g. just the country calling code)
+					if (!this.national_number) {
+						// Return raw phone number
+						return this.parsed_input;
+					}
+
 					// If one looks at country phone codes
 					// then he can notice that no one country phone code
 					// is ever a (leftmost) substring of another country phone code.
@@ -72022,12 +72198,12 @@ var AsYouType = function () {
 			this.reset_country();
 
 			if (this.default_country && !this.is_international()) {
-				this.country_metadata = this.metadata.countries[this.default_country];
-				this.countryCallingCode = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["a" /* get_country_calling_code */])(this.country_metadata);
+				this.metadata.country(this.default_country);
+				this.countryCallingCode = this.metadata.countryCallingCode();
 
 				this.initialize_phone_number_formats_for_this_country_calling_code();
 			} else {
-				this.country_metadata = undefined;
+				this.metadata.country(undefined);
 				this.countryCallingCode = undefined;
 
 				this.available_formats = [];
@@ -72057,8 +72233,8 @@ var AsYouType = function () {
 		key: 'initialize_phone_number_formats_for_this_country_calling_code',
 		value: function initialize_phone_number_formats_for_this_country_calling_code() {
 			// Get all "eligible" phone number formats for this country
-			this.available_formats = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["b" /* get_formats */])(this.country_metadata).filter(function (format) {
-				return ELIGIBLE_FORMAT_PATTERN.test(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["c" /* get_format_international_format */])(format));
+			this.available_formats = this.metadata.formats().filter(function (format) {
+				return ELIGIBLE_FORMAT_PATTERN.test(format.internationalFormat());
 			});
 
 			this.matching_formats = this.available_formats;
@@ -72080,7 +72256,7 @@ var AsYouType = function () {
 			}
 
 			this.matching_formats = this.matching_formats.filter(function (format) {
-				var leading_digits_pattern_count = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["d" /* get_format_leading_digits_patterns */])(format).length;
+				var leading_digits_pattern_count = format.leadingDigitsPatterns().length;
 
 				// Keep everything that isn't restricted by leading digits.
 				if (leading_digits_pattern_count === 0) {
@@ -72088,7 +72264,7 @@ var AsYouType = function () {
 				}
 
 				var leading_digits_pattern_index = Math.min(index_of_leading_digits_pattern, leading_digits_pattern_count - 1);
-				var leading_digits_pattern = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["d" /* get_format_leading_digits_patterns */])(format)[leading_digits_pattern_index];
+				var leading_digits_pattern = format.leadingDigitsPatterns()[leading_digits_pattern_index];
 
 				// Brackets are required for `^` to be applied to
 				// all or-ed (`|`) parts, not just the first one.
@@ -72125,7 +72301,7 @@ var AsYouType = function () {
 
 		// Check to see if there is an exact pattern match for these digits. If so, we
 		// should use this instead of any other formatting template whose
-		// leadingDigitsPattern also matches the input.
+		// `leadingDigitsPattern` also matches the input.
 
 	}, {
 		key: 'attempt_to_format_complete_phone_number',
@@ -72138,13 +72314,13 @@ var AsYouType = function () {
 				for (var _iterator = __WEBPACK_IMPORTED_MODULE_0_babel_runtime_core_js_get_iterator___default()(this.matching_formats), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 					var format = _step.value;
 
-					var matcher = new RegExp('^(?:' + __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["e" /* get_format_pattern */])(format) + ')$');
+					var matcher = new RegExp('^(?:' + format.pattern() + ')$');
 
 					if (!matcher.test(this.national_number)) {
 						continue;
 					}
 
-					if (!this.validate_format(format)) {
+					if (!this.is_format_applicable(format)) {
 						continue;
 					}
 
@@ -72152,7 +72328,7 @@ var AsYouType = function () {
 					this.reset_format();
 					this.chosen_format = format;
 
-					var formatted_number = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__format__["b" /* format_national_number_using_format */])(this.national_number, format, this.is_international(), this.national_prefix.length > 0, this.country_metadata);
+					var formatted_number = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__format__["b" /* format_national_number_using_format */])(this.national_number, format, this.is_international(), this.national_prefix.length > 0, this.metadata);
 
 					// Set `this.template` and `this.partially_populated_template`.
 					//
@@ -72208,10 +72384,6 @@ var AsYouType = function () {
 	}, {
 		key: 'extract_country_calling_code',
 		value: function extract_country_calling_code() {
-			if (!this.national_number) {
-				return;
-			}
-
 			var _parse_national_numbe = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__common__["f" /* parse_national_number_and_country_calling_code */])(this.parsed_input, this.metadata),
 			    countryCallingCode = _parse_national_numbe.countryCallingCode,
 			    number = _parse_national_numbe.number;
@@ -72223,14 +72395,15 @@ var AsYouType = function () {
 			this.countryCallingCode = countryCallingCode;
 			this.national_number = number;
 
-			return this.country_metadata = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["f" /* get_metadata_by_country_calling_code */])(countryCallingCode, this.metadata);
+			this.metadata.chooseCountryByCountryCallingCode(countryCallingCode);
+			return this.metadata.selectedCountry() !== undefined;
 		}
 	}, {
 		key: 'extract_national_prefix',
 		value: function extract_national_prefix() {
 			this.national_prefix = '';
 
-			if (!this.country_metadata) {
+			if (!this.metadata.selectedCountry()) {
 				return;
 			}
 
@@ -72242,15 +72415,15 @@ var AsYouType = function () {
 			// So no forgiveness for grandmas here.
 			// The issue asking for this fix:
 			// https://github.com/catamphetamine/libphonenumber-js/issues/159
-			var potential_national_number = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__parse__["d" /* strip_national_prefix */])(this.national_number, this.country_metadata);
+			var potential_national_number = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__parse__["d" /* strip_national_prefix */])(this.national_number, this.metadata);
 
 			// We require that the NSN remaining after stripping the national prefix and
 			// carrier code be long enough to be a possible length for the region.
 			// Otherwise, we don't do the stripping, since the original number could be
 			// a valid short number.
-			if (this.is_possible_number(this.national_number) && !this.is_possible_number(potential_national_number)) {
+			if (!this.metadata.possibleLengths() || this.is_possible_number(this.national_number) && !this.is_possible_number(potential_national_number)) {
 				// Verify the parsed national (significant) number for this country
-				var national_number_rule = new RegExp(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["g" /* get_national_number_pattern */])(this.country_metadata));
+				var national_number_rule = new RegExp(this.metadata.nationalNumberPattern());
 				//
 				// If the original number (before stripping national prefix) was viable,
 				// and the resultant number is not, then prefer the original phone number.
@@ -72271,7 +72444,7 @@ var AsYouType = function () {
 	}, {
 		key: 'is_possible_number',
 		value: function is_possible_number(number) {
-			var validation_result = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__types__["b" /* check_number_length_for_type */])(number, undefined, this.country_metadata);
+			var validation_result = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__types__["b" /* check_number_length_for_type */])(number, undefined, this.metadata);
 			switch (validation_result) {
 				case 'IS_POSSIBLE':
 					return true;
@@ -72304,7 +72477,7 @@ var AsYouType = function () {
 					// then extract the template from this format
 					// and use it to format the phone number being input.
 
-					if (!this.validate_format(format)) {
+					if (!this.is_format_applicable(format)) {
 						continue;
 					}
 
@@ -72345,13 +72518,13 @@ var AsYouType = function () {
 			this.reset_format();
 		}
 	}, {
-		key: 'validate_format',
-		value: function validate_format(format) {
+		key: 'is_format_applicable',
+		value: function is_format_applicable(format) {
 			// If national prefix is mandatory for this phone number format
 			// and the user didn't input the national prefix,
 			// then this phone number format isn't suitable.
-			if (!this.is_international() && !this.national_prefix && __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["h" /* get_format_national_prefix_is_mandatory_when_formatting */])(format, this.country_metadata)) {
-				return;
+			if (!this.is_international() && !this.national_prefix && format.nationalPrefixIsMandatoryWhenFormatting()) {
+				return false;
 			}
 
 			return true;
@@ -72363,7 +72536,7 @@ var AsYouType = function () {
 			// (20|3)\d{4}. In those cases we quickly return.
 			// (Though there's no such format in current metadata)
 			/* istanbul ignore if */
-			if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["e" /* get_format_pattern */])(format).indexOf('|') >= 0) {
+			if (format.pattern().indexOf('|') >= 0) {
 				return;
 			}
 
@@ -72402,10 +72575,8 @@ var AsYouType = function () {
 	}, {
 		key: 'get_template_for_phone_number_format_pattern',
 		value: function get_template_for_phone_number_format_pattern(format) {
-			var national_prefix_formatting_rule = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["i" /* get_format_national_prefix_formatting_rule */])(format, this.country_metadata);
-
 			// A very smart trick by the guys at Google
-			var number_pattern = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["e" /* get_format_pattern */])(format)
+			var number_pattern = format.pattern()
 			// Replace anything in the form of [..] with \d
 			.replace(CHARACTER_CLASS_PATTERN, '\\d')
 			// Replace any standalone digit (not the one in `{}`) with \d
@@ -72424,7 +72595,7 @@ var AsYouType = function () {
 			}
 
 			// Prepare the phone number format
-			var number_format = this.get_format_format(format, national_prefix_formatting_rule);
+			var number_format = this.get_format_format(format);
 
 			// Get a formatting template which can be used to efficiently format
 			// a partial number where digits are added one by one.
@@ -72530,26 +72701,24 @@ var AsYouType = function () {
 		}
 	}, {
 		key: 'get_format_format',
-		value: function get_format_format(format, national_prefix_formatting_rule) {
-			var number_format = this.is_international() ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["c" /* get_format_international_format */])(format) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["j" /* get_format_format */])(format);
+		value: function get_format_format(format) {
+			if (this.is_international()) {
+				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__format__["c" /* local_to_international_style */])(format.internationalFormat());
+			}
 
 			// If national prefix formatting rule is set
 			// for this phone number format
-			if (national_prefix_formatting_rule) {
+			if (format.nationalPrefixFormattingRule()) {
 				// If the user did input the national prefix
 				// (or if the national prefix formatting rule does not require national prefix)
 				// then maybe make it part of the phone number template
-				if (this.national_prefix || !__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__metadata__["k" /* get_format_uses_national_prefix */])(national_prefix_formatting_rule)) {
+				if (this.national_prefix || !format.usesNationalPrefix()) {
 					// Make the national prefix part of the phone number template
-					number_format = number_format.replace(__WEBPACK_IMPORTED_MODULE_6__format__["c" /* FIRST_GROUP_PATTERN */], national_prefix_formatting_rule);
+					return format.format().replace(__WEBPACK_IMPORTED_MODULE_6__format__["d" /* FIRST_GROUP_PATTERN */], format.nationalPrefixFormattingRule());
 				}
 			}
 
-			if (this.is_international()) {
-				return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__format__["d" /* local_to_international_style */])(number_format);
-			}
-
-			return number_format;
+			return format.format();
 		}
 
 		// Determines the country of the phone number
@@ -72649,16 +72818,13 @@ function repeat(string, times) {
 //# sourceMappingURL=AsYouType.js.map
 
 /***/ }),
-/* 110 */
+/* 113 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__parse__ = __webpack_require__(33);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__parse__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__types__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__metadata__ = __webpack_require__(29);
 /* harmony export (immutable) */ __webpack_exports__["a"] = is_valid;
-
-
 
 
 
@@ -72688,12 +72854,14 @@ function is_valid(arg_1, arg_2, arg_3) {
 		return false;
 	}
 
-	var country_metadata = metadata.countries[input.country];
+	if (!metadata.hasCountry(input.country)) {
+		throw new Error('Unknown country: ' + input.country);
+	}
 
-	if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__metadata__["C" /* get_types */])(country_metadata)) {
-		if (!__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__types__["a" /* default */])(input, metadata)) {
-			return false;
-		}
+	metadata.country(input.country);
+
+	if (metadata.hasTypes()) {
+		return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__types__["a" /* default */])(input, metadata.metadata) !== undefined;
 	}
 
 	return true;
@@ -72701,7 +72869,7 @@ function is_valid(arg_1, arg_2, arg_3) {
 //# sourceMappingURL=validate.js.map
 
 /***/ }),
-/* 111 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -72780,7 +72948,7 @@ return af;
 
 
 /***/ }),
-/* 112 */
+/* 115 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -72845,7 +73013,7 @@ return arDz;
 
 
 /***/ }),
-/* 113 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -72910,7 +73078,7 @@ return arKw;
 
 
 /***/ }),
-/* 114 */
+/* 117 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -73042,7 +73210,7 @@ return arLy;
 
 
 /***/ }),
-/* 115 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -73108,7 +73276,7 @@ return arMa;
 
 
 /***/ }),
-/* 116 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -73219,7 +73387,7 @@ return arSa;
 
 
 /***/ }),
-/* 117 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -73284,7 +73452,7 @@ return arTn;
 
 
 /***/ }),
-/* 118 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -73432,7 +73600,7 @@ return ar;
 
 
 /***/ }),
-/* 119 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -73543,7 +73711,7 @@ return az;
 
 
 /***/ }),
-/* 120 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -73683,7 +73851,7 @@ return be;
 
 
 /***/ }),
-/* 121 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -73779,7 +73947,7 @@ return bg;
 
 
 /***/ }),
-/* 122 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -73844,7 +74012,7 @@ return bm;
 
 
 /***/ }),
-/* 123 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -73969,7 +74137,7 @@ return bn;
 
 
 /***/ }),
-/* 124 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -74094,7 +74262,7 @@ return bo;
 
 
 /***/ }),
-/* 125 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -74208,7 +74376,7 @@ return br;
 
 
 /***/ }),
-/* 126 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -74366,7 +74534,7 @@ return bs;
 
 
 /***/ }),
-/* 127 */
+/* 130 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -74460,7 +74628,7 @@ return ca;
 
 
 /***/ }),
-/* 128 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -74645,7 +74813,7 @@ return cs;
 
 
 /***/ }),
-/* 129 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -74714,7 +74882,7 @@ return cv;
 
 
 /***/ }),
-/* 130 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -74801,7 +74969,7 @@ return cy;
 
 
 /***/ }),
-/* 131 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -74867,7 +75035,7 @@ return da;
 
 
 /***/ }),
-/* 132 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -74952,7 +75120,7 @@ return deAt;
 
 
 /***/ }),
-/* 133 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75036,7 +75204,7 @@ return deCh;
 
 
 /***/ }),
-/* 134 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75120,7 +75288,7 @@ return de;
 
 
 /***/ }),
-/* 135 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75226,7 +75394,7 @@ return dv;
 
 
 /***/ }),
-/* 136 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75332,7 +75500,7 @@ return el;
 
 
 /***/ }),
-/* 137 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75405,7 +75573,7 @@ return enAu;
 
 
 /***/ }),
-/* 138 */
+/* 141 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75474,7 +75642,7 @@ return enCa;
 
 
 /***/ }),
-/* 139 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75547,7 +75715,7 @@ return enGb;
 
 
 /***/ }),
-/* 140 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75620,7 +75788,7 @@ return enIe;
 
 
 /***/ }),
-/* 141 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75693,7 +75861,7 @@ return enNz;
 
 
 /***/ }),
-/* 142 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75772,7 +75940,7 @@ return eo;
 
 
 /***/ }),
-/* 143 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75869,7 +76037,7 @@ return esDo;
 
 
 /***/ }),
-/* 144 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -75958,7 +76126,7 @@ return esUs;
 
 
 /***/ }),
-/* 145 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -76056,7 +76224,7 @@ return es;
 
 
 /***/ }),
-/* 146 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -76143,7 +76311,7 @@ return et;
 
 
 /***/ }),
-/* 147 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -76215,7 +76383,7 @@ return eu;
 
 
 /***/ }),
-/* 148 */
+/* 151 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -76328,7 +76496,7 @@ return fa;
 
 
 /***/ }),
-/* 149 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -76443,7 +76611,7 @@ return fi;
 
 
 /***/ }),
-/* 150 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -76509,7 +76677,7 @@ return fo;
 
 
 /***/ }),
-/* 151 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -76589,7 +76757,7 @@ return frCa;
 
 
 /***/ }),
-/* 152 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -76673,7 +76841,7 @@ return frCh;
 
 
 /***/ }),
-/* 153 */
+/* 156 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -76762,7 +76930,7 @@ return fr;
 
 
 /***/ }),
-/* 154 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -76843,7 +77011,7 @@ return fy;
 
 
 /***/ }),
-/* 155 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -76925,7 +77093,7 @@ return gd;
 
 
 /***/ }),
-/* 156 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -77008,7 +77176,7 @@ return gl;
 
 
 /***/ }),
-/* 157 */
+/* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -77137,7 +77305,7 @@ return gomLatn;
 
 
 /***/ }),
-/* 158 */
+/* 161 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -77267,7 +77435,7 @@ return gu;
 
 
 /***/ }),
-/* 159 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -77372,7 +77540,7 @@ return he;
 
 
 /***/ }),
-/* 160 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -77502,7 +77670,7 @@ return hi;
 
 
 /***/ }),
-/* 161 */
+/* 164 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -77662,7 +77830,7 @@ return hr;
 
 
 /***/ }),
-/* 162 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -77778,7 +77946,7 @@ return hu;
 
 
 /***/ }),
-/* 163 */
+/* 166 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -77879,7 +78047,7 @@ return hyAm;
 
 
 /***/ }),
-/* 164 */
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -77968,7 +78136,7 @@ return id;
 
 
 /***/ }),
-/* 165 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -78106,7 +78274,7 @@ return is;
 
 
 /***/ }),
-/* 166 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -78182,7 +78350,7 @@ return it;
 
 
 /***/ }),
-/* 167 */
+/* 170 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -78268,7 +78436,7 @@ return ja;
 
 
 /***/ }),
-/* 168 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -78357,7 +78525,7 @@ return jv;
 
 
 /***/ }),
-/* 169 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -78452,7 +78620,7 @@ return ka;
 
 
 /***/ }),
-/* 170 */
+/* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -78545,7 +78713,7 @@ return kk;
 
 
 /***/ }),
-/* 171 */
+/* 174 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -78609,7 +78777,7 @@ return km;
 
 
 /***/ }),
-/* 172 */
+/* 175 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -78741,7 +78909,7 @@ return kn;
 
 
 /***/ }),
-/* 173 */
+/* 176 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -78829,7 +78997,7 @@ return ko;
 
 
 /***/ }),
-/* 174 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -78923,7 +79091,7 @@ return ky;
 
 
 /***/ }),
-/* 175 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -79066,7 +79234,7 @@ return lb;
 
 
 /***/ }),
-/* 176 */
+/* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -79142,7 +79310,7 @@ return lo;
 
 
 /***/ }),
-/* 177 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -79266,7 +79434,7 @@ return lt;
 
 
 /***/ }),
-/* 178 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -79370,7 +79538,7 @@ return lv;
 
 
 /***/ }),
-/* 179 */
+/* 182 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -79488,7 +79656,7 @@ return me;
 
 
 /***/ }),
-/* 180 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -79558,7 +79726,7 @@ return mi;
 
 
 /***/ }),
-/* 181 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -79654,7 +79822,7 @@ return mk;
 
 
 /***/ }),
-/* 182 */
+/* 185 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -79741,7 +79909,7 @@ return ml;
 
 
 /***/ }),
-/* 183 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -79908,7 +80076,7 @@ return mr;
 
 
 /***/ }),
-/* 184 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -79997,7 +80165,7 @@ return msMy;
 
 
 /***/ }),
-/* 185 */
+/* 188 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -80085,7 +80253,7 @@ return ms;
 
 
 /***/ }),
-/* 186 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -80151,7 +80319,7 @@ return mt;
 
 
 /***/ }),
-/* 187 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -80253,7 +80421,7 @@ return my;
 
 
 /***/ }),
-/* 188 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -80322,7 +80490,7 @@ return nb;
 
 
 /***/ }),
-/* 189 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -80451,7 +80619,7 @@ return ne;
 
 
 /***/ }),
-/* 190 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -80545,7 +80713,7 @@ return nlBe;
 
 
 /***/ }),
-/* 191 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -80639,7 +80807,7 @@ return nl;
 
 
 /***/ }),
-/* 192 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -80705,7 +80873,7 @@ return nn;
 
 
 /***/ }),
-/* 193 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -80835,7 +81003,7 @@ return paIn;
 
 
 /***/ }),
-/* 194 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -80967,7 +81135,7 @@ return pl;
 
 
 /***/ }),
-/* 195 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -81034,7 +81202,7 @@ return ptBr;
 
 
 /***/ }),
-/* 196 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -81105,7 +81273,7 @@ return pt;
 
 
 /***/ }),
-/* 197 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -81187,7 +81355,7 @@ return ro;
 
 
 /***/ }),
-/* 198 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -81377,7 +81545,7 @@ return ru;
 
 
 /***/ }),
-/* 199 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -81481,7 +81649,7 @@ return sd;
 
 
 /***/ }),
-/* 200 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -81548,7 +81716,7 @@ return se;
 
 
 /***/ }),
-/* 201 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -81625,7 +81793,7 @@ return si;
 
 
 /***/ }),
-/* 202 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -81788,7 +81956,7 @@ return sk;
 
 
 /***/ }),
-/* 203 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -81967,7 +82135,7 @@ return sl;
 
 
 /***/ }),
-/* 204 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -82043,7 +82211,7 @@ return sq;
 
 
 /***/ }),
-/* 205 */
+/* 208 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -82160,7 +82328,7 @@ return srCyrl;
 
 
 /***/ }),
-/* 206 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -82277,7 +82445,7 @@ return sr;
 
 
 /***/ }),
-/* 207 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -82372,7 +82540,7 @@ return ss;
 
 
 /***/ }),
-/* 208 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -82447,7 +82615,7 @@ return sv;
 
 
 /***/ }),
-/* 209 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -82512,7 +82680,7 @@ return sw;
 
 
 /***/ }),
-/* 210 */
+/* 213 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -82648,7 +82816,7 @@ return ta;
 
 
 /***/ }),
-/* 211 */
+/* 214 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -82743,7 +82911,7 @@ return te;
 
 
 /***/ }),
-/* 212 */
+/* 215 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -82817,7 +82985,7 @@ return tet;
 
 
 /***/ }),
-/* 213 */
+/* 216 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -82890,7 +83058,7 @@ return th;
 
 
 /***/ }),
-/* 214 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -82958,7 +83126,7 @@ return tlPh;
 
 
 /***/ }),
-/* 215 */
+/* 218 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -83086,7 +83254,7 @@ return tlh;
 
 
 /***/ }),
-/* 216 */
+/* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -83182,7 +83350,7 @@ return tr;
 
 
 /***/ }),
-/* 217 */
+/* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -83280,7 +83448,7 @@ return tzl;
 
 
 /***/ }),
-/* 218 */
+/* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -83344,7 +83512,7 @@ return tzmLatn;
 
 
 /***/ }),
-/* 219 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -83408,7 +83576,7 @@ return tzm;
 
 
 /***/ }),
-/* 220 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -83566,7 +83734,7 @@ return uk;
 
 
 /***/ }),
-/* 221 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -83671,7 +83839,7 @@ return ur;
 
 
 /***/ }),
-/* 222 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -83735,7 +83903,7 @@ return uzLatn;
 
 
 /***/ }),
-/* 223 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -83799,7 +83967,7 @@ return uz;
 
 
 /***/ }),
-/* 224 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -83884,7 +84052,7 @@ return vi;
 
 
 /***/ }),
-/* 225 */
+/* 228 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -83958,7 +84126,7 @@ return xPseudo;
 
 
 /***/ }),
-/* 226 */
+/* 229 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -84024,7 +84192,7 @@ return yo;
 
 
 /***/ }),
-/* 227 */
+/* 230 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -84141,7 +84309,7 @@ return zhCn;
 
 
 /***/ }),
-/* 228 */
+/* 231 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -84252,7 +84420,7 @@ return zhHk;
 
 
 /***/ }),
-/* 229 */
+/* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
 //! moment.js locale configuration
@@ -84362,7 +84530,7 @@ return zhTw;
 
 
 /***/ }),
-/* 230 */
+/* 233 */
 /***/ (function(module, exports) {
 
 /* eslint-disable no-undefined,no-param-reassign,no-shadow */
@@ -84459,8 +84627,8 @@ module.exports = function ( delay, noTrailing, callback, debounceMode ) {
 
 
 /***/ }),
-/* 231 */,
-/* 232 */
+/* 234 */,
+/* 235 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -84488,9 +84656,6 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 233 */,
-/* 234 */,
-/* 235 */,
 /* 236 */,
 /* 237 */,
 /* 238 */,
@@ -84499,18 +84664,21 @@ module.exports = function(module) {
 /* 241 */,
 /* 242 */,
 /* 243 */,
-/* 244 */
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(36);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_babel_runtime_helpers_typeof__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__validator___ = __webpack_require__(256);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__messages__ = __webpack_require__(245);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__validator___ = __webpack_require__(259);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__messages__ = __webpack_require__(248);
 
 
 
@@ -84775,7 +84943,7 @@ Schema.messages = __WEBPACK_IMPORTED_MODULE_4__messages__["a" /* messages */];
 /* harmony default export */ __webpack_exports__["default"] = Schema;
 
 /***/ }),
-/* 245 */
+/* 248 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -84839,7 +85007,7 @@ function newMessages() {
 var messages = newMessages();
 
 /***/ }),
-/* 246 */
+/* 249 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -84868,7 +85036,7 @@ function enumerable(rule, value, source, errors, options) {
 /* harmony default export */ __webpack_exports__["a"] = enumerable;
 
 /***/ }),
-/* 247 */
+/* 250 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -84908,7 +85076,7 @@ function pattern(rule, value, source, errors, options) {
 /* harmony default export */ __webpack_exports__["a"] = pattern;
 
 /***/ }),
-/* 248 */
+/* 251 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -84967,14 +85135,14 @@ function range(rule, value, source, errors, options) {
 /* harmony default export */ __webpack_exports__["a"] = range;
 
 /***/ }),
-/* 249 */
+/* 252 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__required__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__required__ = __webpack_require__(83);
 
 
 
@@ -85065,7 +85233,7 @@ function type(rule, value, source, errors, options) {
 /* harmony default export */ __webpack_exports__["a"] = type;
 
 /***/ }),
-/* 250 */
+/* 253 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85092,7 +85260,7 @@ function whitespace(rule, value, source, errors, options) {
 /* harmony default export */ __webpack_exports__["a"] = whitespace;
 
 /***/ }),
-/* 251 */
+/* 254 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85129,7 +85297,7 @@ function array(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = array;
 
 /***/ }),
-/* 252 */
+/* 255 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85166,7 +85334,7 @@ function boolean(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = boolean;
 
 /***/ }),
-/* 253 */
+/* 256 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85198,7 +85366,7 @@ function date(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = date;
 
 /***/ }),
-/* 254 */
+/* 257 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85236,7 +85404,7 @@ function enumerable(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = enumerable;
 
 /***/ }),
-/* 255 */
+/* 258 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85274,24 +85442,24 @@ function floatFn(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = floatFn;
 
 /***/ }),
-/* 256 */
+/* 259 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__string__ = __webpack_require__(264);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__method__ = __webpack_require__(258);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__number__ = __webpack_require__(259);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__boolean__ = __webpack_require__(252);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__regexp__ = __webpack_require__(262);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__integer__ = __webpack_require__(257);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__float__ = __webpack_require__(255);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__array__ = __webpack_require__(251);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__object__ = __webpack_require__(260);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__enum__ = __webpack_require__(254);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pattern__ = __webpack_require__(261);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__date__ = __webpack_require__(253);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__required__ = __webpack_require__(263);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__type__ = __webpack_require__(265);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__string__ = __webpack_require__(267);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__method__ = __webpack_require__(261);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__number__ = __webpack_require__(262);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__boolean__ = __webpack_require__(255);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__regexp__ = __webpack_require__(265);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__integer__ = __webpack_require__(260);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__float__ = __webpack_require__(258);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__array__ = __webpack_require__(254);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__object__ = __webpack_require__(263);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__enum__ = __webpack_require__(257);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pattern__ = __webpack_require__(264);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__date__ = __webpack_require__(256);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__required__ = __webpack_require__(266);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__type__ = __webpack_require__(268);
 
 
 
@@ -85327,7 +85495,7 @@ function floatFn(rule, value, callback, source, options) {
 };
 
 /***/ }),
-/* 257 */
+/* 260 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85365,7 +85533,7 @@ function integer(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = integer;
 
 /***/ }),
-/* 258 */
+/* 261 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85402,7 +85570,7 @@ function method(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = method;
 
 /***/ }),
-/* 259 */
+/* 262 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85440,7 +85608,7 @@ function number(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = number;
 
 /***/ }),
-/* 260 */
+/* 263 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85477,7 +85645,7 @@ function object(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = object;
 
 /***/ }),
-/* 261 */
+/* 264 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85517,7 +85685,7 @@ function pattern(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = pattern;
 
 /***/ }),
-/* 262 */
+/* 265 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85554,11 +85722,11 @@ function regexp(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = regexp;
 
 /***/ }),
-/* 263 */
+/* 266 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_typeof__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rule___ = __webpack_require__(4);
 
@@ -85574,7 +85742,7 @@ function required(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = required;
 
 /***/ }),
-/* 264 */
+/* 267 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85616,7 +85784,7 @@ function string(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = string;
 
 /***/ }),
-/* 265 */
+/* 268 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -85644,15 +85812,15 @@ function type(rule, value, callback, source, options) {
 /* harmony default export */ __webpack_exports__["a"] = type;
 
 /***/ }),
-/* 266 */
+/* 269 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(7);
-var bind = __webpack_require__(87);
-var Axios = __webpack_require__(268);
+var bind = __webpack_require__(88);
+var Axios = __webpack_require__(271);
 var defaults = __webpack_require__(47);
 
 /**
@@ -85686,15 +85854,15 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(84);
-axios.CancelToken = __webpack_require__(267);
-axios.isCancel = __webpack_require__(85);
+axios.Cancel = __webpack_require__(85);
+axios.CancelToken = __webpack_require__(270);
+axios.isCancel = __webpack_require__(86);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(282);
+axios.spread = __webpack_require__(285);
 
 module.exports = axios;
 
@@ -85703,13 +85871,13 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 267 */
+/* 270 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var Cancel = __webpack_require__(84);
+var Cancel = __webpack_require__(85);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -85767,7 +85935,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 268 */
+/* 271 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85775,10 +85943,10 @@ module.exports = CancelToken;
 
 var defaults = __webpack_require__(47);
 var utils = __webpack_require__(7);
-var InterceptorManager = __webpack_require__(269);
-var dispatchRequest = __webpack_require__(270);
-var isAbsoluteURL = __webpack_require__(278);
-var combineURLs = __webpack_require__(276);
+var InterceptorManager = __webpack_require__(272);
+var dispatchRequest = __webpack_require__(273);
+var isAbsoluteURL = __webpack_require__(281);
+var combineURLs = __webpack_require__(279);
 
 /**
  * Create a new instance of Axios
@@ -85859,7 +86027,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 269 */
+/* 272 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -85918,15 +86086,15 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 270 */
+/* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(7);
-var transformData = __webpack_require__(273);
-var isCancel = __webpack_require__(85);
+var transformData = __webpack_require__(276);
+var isCancel = __webpack_require__(86);
 var defaults = __webpack_require__(47);
 
 /**
@@ -86004,7 +86172,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 271 */
+/* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86030,13 +86198,13 @@ module.exports = function enhanceError(error, config, code, response) {
 
 
 /***/ }),
-/* 272 */
+/* 275 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var createError = __webpack_require__(86);
+var createError = __webpack_require__(87);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -86062,7 +86230,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 273 */
+/* 276 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86089,7 +86257,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 274 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86132,7 +86300,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 275 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86207,7 +86375,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 276 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86226,7 +86394,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 277 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86286,7 +86454,7 @@ module.exports = (
 
 
 /***/ }),
-/* 278 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86307,7 +86475,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 279 */
+/* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86382,7 +86550,7 @@ module.exports = (
 
 
 /***/ }),
-/* 280 */
+/* 283 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86401,7 +86569,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 281 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86445,7 +86613,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 282 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86479,7 +86647,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 283 */
+/* 286 */
 /***/ (function(module, exports) {
 
 var nestRE = /^(attrs|props|on|nativeOn|class|style|hook)$/
@@ -86535,9 +86703,6 @@ function mergeFn (a, b) {
 
 
 /***/ }),
-/* 284 */,
-/* 285 */,
-/* 286 */,
 /* 287 */,
 /* 288 */,
 /* 289 */,
@@ -86564,97 +86729,52 @@ function mergeFn (a, b) {
 /* 310 */,
 /* 311 */,
 /* 312 */,
-/* 313 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(323), __esModule: true };
-
-/***/ }),
-/* 314 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(325), __esModule: true };
-
-/***/ }),
-/* 315 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(326), __esModule: true };
-
-/***/ }),
+/* 313 */,
+/* 314 */,
+/* 315 */,
 /* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(327), __esModule: true };
+module.exports = { "default": __webpack_require__(324), __esModule: true };
 
 /***/ }),
 /* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(328), __esModule: true };
+module.exports = { "default": __webpack_require__(326), __esModule: true };
 
 /***/ }),
 /* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(329), __esModule: true };
+module.exports = { "default": __webpack_require__(327), __esModule: true };
 
 /***/ }),
 /* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(330), __esModule: true };
+module.exports = { "default": __webpack_require__(328), __esModule: true };
 
 /***/ }),
 /* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-exports.__esModule = true;
-
-exports.default = function (instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-};
+module.exports = { "default": __webpack_require__(329), __esModule: true };
 
 /***/ }),
 /* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-exports.__esModule = true;
-
-var _defineProperty = __webpack_require__(316);
-
-var _defineProperty2 = _interopRequireDefault(_defineProperty);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.default = function () {
-  function defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      (0, _defineProperty2.default)(target, descriptor.key, descriptor);
-    }
-  }
-
-  return function (Constructor, protoProps, staticProps) {
-    if (protoProps) defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) defineProperties(Constructor, staticProps);
-    return Constructor;
-  };
-}();
+module.exports = { "default": __webpack_require__(330), __esModule: true };
 
 /***/ }),
 /* 322 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = { "default": __webpack_require__(331), __esModule: true };
+
+/***/ }),
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -86662,11 +86782,11 @@ exports.default = function () {
 
 exports.__esModule = true;
 
-var _isIterable2 = __webpack_require__(314);
+var _isIterable2 = __webpack_require__(317);
 
 var _isIterable3 = _interopRequireDefault(_isIterable2);
 
-var _getIterator2 = __webpack_require__(22);
+var _getIterator2 = __webpack_require__(18);
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
@@ -86711,21 +86831,12 @@ exports.default = function () {
 }();
 
 /***/ }),
-/* 323 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(31);
-__webpack_require__(357);
-module.exports = __webpack_require__(9).Array.from;
-
-
-/***/ }),
 /* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(44);
-__webpack_require__(31);
-module.exports = __webpack_require__(355);
+__webpack_require__(32);
+__webpack_require__(358);
+module.exports = __webpack_require__(9).Array.from;
 
 
 /***/ }),
@@ -86733,7 +86844,7 @@ module.exports = __webpack_require__(355);
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(44);
-__webpack_require__(31);
+__webpack_require__(32);
 module.exports = __webpack_require__(356);
 
 
@@ -86741,8 +86852,9 @@ module.exports = __webpack_require__(356);
 /* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(359);
-module.exports = __webpack_require__(9).Object.assign;
+__webpack_require__(44);
+__webpack_require__(32);
+module.exports = __webpack_require__(357);
 
 
 /***/ }),
@@ -86750,6 +86862,14 @@ module.exports = __webpack_require__(9).Object.assign;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(360);
+module.exports = __webpack_require__(9).Object.assign;
+
+
+/***/ }),
+/* 328 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(361);
 var $Object = __webpack_require__(9).Object;
 module.exports = function defineProperty(it, key, desc) {
   return $Object.defineProperty(it, key, desc);
@@ -86757,48 +86877,48 @@ module.exports = function defineProperty(it, key, desc) {
 
 
 /***/ }),
-/* 328 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(101);
-__webpack_require__(31);
-__webpack_require__(44);
-__webpack_require__(361);
-__webpack_require__(365);
-__webpack_require__(364);
-__webpack_require__(363);
-module.exports = __webpack_require__(9).Set;
-
-
-/***/ }),
 /* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
+__webpack_require__(104);
+__webpack_require__(32);
+__webpack_require__(44);
 __webpack_require__(362);
-__webpack_require__(101);
 __webpack_require__(366);
-__webpack_require__(367);
-module.exports = __webpack_require__(9).Symbol;
+__webpack_require__(365);
+__webpack_require__(364);
+module.exports = __webpack_require__(9).Set;
 
 
 /***/ }),
 /* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(31);
+__webpack_require__(363);
+__webpack_require__(104);
+__webpack_require__(367);
+__webpack_require__(368);
+module.exports = __webpack_require__(9).Symbol;
+
+
+/***/ }),
+/* 331 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(32);
 __webpack_require__(44);
 module.exports = __webpack_require__(63).f('iterator');
 
 
 /***/ }),
-/* 331 */
+/* 332 */
 /***/ (function(module, exports) {
 
 module.exports = function () { /* empty */ };
 
 
 /***/ }),
-/* 332 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var forOf = __webpack_require__(37);
@@ -86811,14 +86931,14 @@ module.exports = function (iter, ITERATOR) {
 
 
 /***/ }),
-/* 333 */
+/* 334 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(26);
 var toLength = __webpack_require__(41);
-var toAbsoluteIndex = __webpack_require__(354);
+var toAbsoluteIndex = __webpack_require__(355);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIObject($this);
@@ -86840,7 +86960,7 @@ module.exports = function (IS_INCLUDES) {
 
 
 /***/ }),
-/* 334 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 0 -> Array#forEach
@@ -86854,7 +86974,7 @@ var ctx = __webpack_require__(23);
 var IObject = __webpack_require__(52);
 var toObject = __webpack_require__(42);
 var toLength = __webpack_require__(41);
-var asc = __webpack_require__(336);
+var asc = __webpack_require__(337);
 module.exports = function (TYPE, $create) {
   var IS_MAP = TYPE == 1;
   var IS_FILTER = TYPE == 2;
@@ -86890,11 +87010,11 @@ module.exports = function (TYPE, $create) {
 
 
 /***/ }),
-/* 335 */
+/* 336 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(21);
-var isArray = __webpack_require__(93);
+var isObject = __webpack_require__(22);
+var isArray = __webpack_require__(96);
 var SPECIES = __webpack_require__(6)('species');
 
 module.exports = function (original) {
@@ -86912,11 +87032,11 @@ module.exports = function (original) {
 
 
 /***/ }),
-/* 336 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 9.4.2.3 ArraySpeciesCreate(originalArray, length)
-var speciesConstructor = __webpack_require__(335);
+var speciesConstructor = __webpack_require__(336);
 
 module.exports = function (original, length) {
   return new (speciesConstructor(original))(length);
@@ -86924,23 +87044,23 @@ module.exports = function (original, length) {
 
 
 /***/ }),
-/* 337 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var dP = __webpack_require__(10).f;
 var create = __webpack_require__(56);
-var redefineAll = __webpack_require__(98);
+var redefineAll = __webpack_require__(101);
 var ctx = __webpack_require__(23);
-var anInstance = __webpack_require__(89);
+var anInstance = __webpack_require__(92);
 var forOf = __webpack_require__(37);
 var $iterDefine = __webpack_require__(53);
-var step = __webpack_require__(95);
-var setSpecies = __webpack_require__(352);
+var step = __webpack_require__(98);
+var setSpecies = __webpack_require__(353);
 var DESCRIPTORS = __webpack_require__(12);
 var fastKey = __webpack_require__(55).fastKey;
-var validate = __webpack_require__(100);
+var validate = __webpack_require__(103);
 var SIZE = DESCRIPTORS ? '_s' : 'size';
 
 var getEntry = function (that, key) {
@@ -87075,12 +87195,12 @@ module.exports = {
 
 
 /***/ }),
-/* 338 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://github.com/DavidBruant/Map-Set.prototype.toJSON
 var classof = __webpack_require__(48);
-var from = __webpack_require__(332);
+var from = __webpack_require__(333);
 module.exports = function (NAME) {
   return function toJSON() {
     if (classof(this) != NAME) throw TypeError(NAME + "#toJSON isn't generic");
@@ -87090,7 +87210,7 @@ module.exports = function (NAME) {
 
 
 /***/ }),
-/* 339 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87100,13 +87220,13 @@ var $export = __webpack_require__(14);
 var meta = __webpack_require__(55);
 var fails = __webpack_require__(24);
 var hide = __webpack_require__(15);
-var redefineAll = __webpack_require__(98);
+var redefineAll = __webpack_require__(101);
 var forOf = __webpack_require__(37);
-var anInstance = __webpack_require__(89);
-var isObject = __webpack_require__(21);
+var anInstance = __webpack_require__(92);
+var isObject = __webpack_require__(22);
 var setToStringTag = __webpack_require__(40);
 var dP = __webpack_require__(10).f;
-var each = __webpack_require__(334)(0);
+var each = __webpack_require__(335)(0);
 var DESCRIPTORS = __webpack_require__(12);
 
 module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
@@ -87156,13 +87276,13 @@ module.exports = function (NAME, wrapper, methods, common, IS_MAP, IS_WEAK) {
 
 
 /***/ }),
-/* 340 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var $defineProperty = __webpack_require__(10);
-var createDesc = __webpack_require__(30);
+var createDesc = __webpack_require__(31);
 
 module.exports = function (object, index, value) {
   if (index in object) $defineProperty.f(object, index, createDesc(0, value));
@@ -87171,7 +87291,7 @@ module.exports = function (object, index, value) {
 
 
 /***/ }),
-/* 341 */
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
@@ -87192,7 +87312,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 342 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var document = __webpack_require__(13).document;
@@ -87200,13 +87320,13 @@ module.exports = document && document.documentElement;
 
 
 /***/ }),
-/* 343 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 var create = __webpack_require__(56);
-var descriptor = __webpack_require__(30);
+var descriptor = __webpack_require__(31);
 var setToStringTag = __webpack_require__(40);
 var IteratorPrototype = {};
 
@@ -87220,7 +87340,7 @@ module.exports = function (Constructor, NAME, next) {
 
 
 /***/ }),
-/* 344 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ITERATOR = __webpack_require__(6)('iterator');
@@ -87248,7 +87368,7 @@ module.exports = function (exec, skipClosing) {
 
 
 /***/ }),
-/* 345 */
+/* 346 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87289,11 +87409,11 @@ module.exports = !$assign || __webpack_require__(24)(function () {
 
 
 /***/ }),
-/* 346 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(10);
-var anObject = __webpack_require__(19);
+var anObject = __webpack_require__(20);
 var getKeys = __webpack_require__(38);
 
 module.exports = __webpack_require__(12) ? Object.defineProperties : function defineProperties(O, Properties) {
@@ -87308,15 +87428,15 @@ module.exports = __webpack_require__(12) ? Object.defineProperties : function de
 
 
 /***/ }),
-/* 347 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var pIE = __webpack_require__(39);
-var createDesc = __webpack_require__(30);
+var createDesc = __webpack_require__(31);
 var toIObject = __webpack_require__(26);
 var toPrimitive = __webpack_require__(61);
-var has = __webpack_require__(20);
-var IE8_DOM_DEFINE = __webpack_require__(91);
+var has = __webpack_require__(21);
+var IE8_DOM_DEFINE = __webpack_require__(94);
 var gOPD = Object.getOwnPropertyDescriptor;
 
 exports.f = __webpack_require__(12) ? gOPD : function getOwnPropertyDescriptor(O, P) {
@@ -87330,12 +87450,12 @@ exports.f = __webpack_require__(12) ? gOPD : function getOwnPropertyDescriptor(O
 
 
 /***/ }),
-/* 348 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 var toIObject = __webpack_require__(26);
-var gOPN = __webpack_require__(96).f;
+var gOPN = __webpack_require__(99).f;
 var toString = {}.toString;
 
 var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -87355,11 +87475,11 @@ module.exports.f = function getOwnPropertyNames(it) {
 
 
 /***/ }),
-/* 349 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
-var has = __webpack_require__(20);
+var has = __webpack_require__(21);
 var toObject = __webpack_require__(42);
 var IE_PROTO = __webpack_require__(58)('IE_PROTO');
 var ObjectProto = Object.prototype;
@@ -87374,14 +87494,14 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 
 /***/ }),
-/* 350 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // https://tc39.github.io/proposal-setmap-offrom/
 var $export = __webpack_require__(14);
-var aFunction = __webpack_require__(88);
+var aFunction = __webpack_require__(91);
 var ctx = __webpack_require__(23);
 var forOf = __webpack_require__(37);
 
@@ -87409,7 +87529,7 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 351 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87428,7 +87548,7 @@ module.exports = function (COLLECTION) {
 
 
 /***/ }),
-/* 352 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87449,7 +87569,7 @@ module.exports = function (KEY) {
 
 
 /***/ }),
-/* 353 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(60);
@@ -87472,7 +87592,7 @@ module.exports = function (TO_STRING) {
 
 
 /***/ }),
-/* 354 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(60);
@@ -87485,10 +87605,10 @@ module.exports = function (index, length) {
 
 
 /***/ }),
-/* 355 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var anObject = __webpack_require__(19);
+var anObject = __webpack_require__(20);
 var get = __webpack_require__(64);
 module.exports = __webpack_require__(9).getIterator = function (it) {
   var iterFn = get(it);
@@ -87498,7 +87618,7 @@ module.exports = __webpack_require__(9).getIterator = function (it) {
 
 
 /***/ }),
-/* 356 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var classof = __webpack_require__(48);
@@ -87514,7 +87634,7 @@ module.exports = __webpack_require__(9).isIterable = function (it) {
 
 
 /***/ }),
-/* 357 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -87522,13 +87642,13 @@ module.exports = __webpack_require__(9).isIterable = function (it) {
 var ctx = __webpack_require__(23);
 var $export = __webpack_require__(14);
 var toObject = __webpack_require__(42);
-var call = __webpack_require__(94);
-var isArrayIter = __webpack_require__(92);
+var call = __webpack_require__(97);
+var isArrayIter = __webpack_require__(95);
 var toLength = __webpack_require__(41);
-var createProperty = __webpack_require__(340);
+var createProperty = __webpack_require__(341);
 var getIterFn = __webpack_require__(64);
 
-$export($export.S + $export.F * !__webpack_require__(344)(function (iter) { Array.from(iter); }), 'Array', {
+$export($export.S + $export.F * !__webpack_require__(345)(function (iter) { Array.from(iter); }), 'Array', {
   // 22.1.2.1 Array.from(arrayLike, mapfn = undefined, thisArg = undefined)
   from: function from(arrayLike /* , mapfn = undefined, thisArg = undefined */) {
     var O = toObject(arrayLike);
@@ -87558,13 +87678,13 @@ $export($export.S + $export.F * !__webpack_require__(344)(function (iter) { Arra
 
 
 /***/ }),
-/* 358 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(331);
-var step = __webpack_require__(95);
+var addToUnscopables = __webpack_require__(332);
+var step = __webpack_require__(98);
 var Iterators = __webpack_require__(25);
 var toIObject = __webpack_require__(26);
 
@@ -87599,17 +87719,17 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 359 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
 var $export = __webpack_require__(14);
 
-$export($export.S + $export.F, 'Object', { assign: __webpack_require__(345) });
+$export($export.S + $export.F, 'Object', { assign: __webpack_require__(346) });
 
 
 /***/ }),
-/* 360 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(14);
@@ -87618,17 +87738,17 @@ $export($export.S + $export.F * !__webpack_require__(12), 'Object', { defineProp
 
 
 /***/ }),
-/* 361 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var strong = __webpack_require__(337);
-var validate = __webpack_require__(100);
+var strong = __webpack_require__(338);
+var validate = __webpack_require__(103);
 var SET = 'Set';
 
 // 23.2 Set Objects
-module.exports = __webpack_require__(339)(SET, function (get) {
+module.exports = __webpack_require__(340)(SET, function (get) {
   return function Set() { return get(this, arguments.length > 0 ? arguments[0] : undefined); };
 }, {
   // 23.2.3.1 Set.prototype.add(value)
@@ -87639,17 +87759,17 @@ module.exports = __webpack_require__(339)(SET, function (get) {
 
 
 /***/ }),
-/* 362 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 // ECMAScript 6 symbols shim
 var global = __webpack_require__(13);
-var has = __webpack_require__(20);
+var has = __webpack_require__(21);
 var DESCRIPTORS = __webpack_require__(12);
 var $export = __webpack_require__(14);
-var redefine = __webpack_require__(99);
+var redefine = __webpack_require__(102);
 var META = __webpack_require__(55).KEY;
 var $fails = __webpack_require__(24);
 var shared = __webpack_require__(59);
@@ -87658,15 +87778,15 @@ var uid = __webpack_require__(43);
 var wks = __webpack_require__(6);
 var wksExt = __webpack_require__(63);
 var wksDefine = __webpack_require__(62);
-var enumKeys = __webpack_require__(341);
-var isArray = __webpack_require__(93);
-var anObject = __webpack_require__(19);
+var enumKeys = __webpack_require__(342);
+var isArray = __webpack_require__(96);
+var anObject = __webpack_require__(20);
 var toIObject = __webpack_require__(26);
 var toPrimitive = __webpack_require__(61);
-var createDesc = __webpack_require__(30);
+var createDesc = __webpack_require__(31);
 var _create = __webpack_require__(56);
-var gOPNExt = __webpack_require__(348);
-var $GOPD = __webpack_require__(347);
+var gOPNExt = __webpack_require__(349);
+var $GOPD = __webpack_require__(348);
 var $DP = __webpack_require__(10);
 var $keys = __webpack_require__(38);
 var gOPD = $GOPD.f;
@@ -87791,7 +87911,7 @@ if (!USE_NATIVE) {
 
   $GOPD.f = $getOwnPropertyDescriptor;
   $DP.f = $defineProperty;
-  __webpack_require__(96).f = gOPNExt.f = $getOwnPropertyNames;
+  __webpack_require__(99).f = gOPNExt.f = $getOwnPropertyNames;
   __webpack_require__(39).f = $propertyIsEnumerable;
   __webpack_require__(57).f = $getOwnPropertySymbols;
 
@@ -87880,18 +88000,10 @@ setToStringTag(global.JSON, 'JSON', true);
 
 
 /***/ }),
-/* 363 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
-__webpack_require__(350)('Set');
-
-
-/***/ }),
 /* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// https://tc39.github.io/proposal-setmap-offrom/#sec-set.of
+// https://tc39.github.io/proposal-setmap-offrom/#sec-set.from
 __webpack_require__(351)('Set');
 
 
@@ -87899,28 +88011,35 @@ __webpack_require__(351)('Set');
 /* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// https://github.com/DavidBruant/Map-Set.prototype.toJSON
-var $export = __webpack_require__(14);
-
-$export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(338)('Set') });
+// https://tc39.github.io/proposal-setmap-offrom/#sec-set.of
+__webpack_require__(352)('Set');
 
 
 /***/ }),
 /* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(62)('asyncIterator');
+// https://github.com/DavidBruant/Map-Set.prototype.toJSON
+var $export = __webpack_require__(14);
+
+$export($export.P + $export.R, 'Set', { toJSON: __webpack_require__(339)('Set') });
 
 
 /***/ }),
 /* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
+__webpack_require__(62)('asyncIterator');
+
+
+/***/ }),
+/* 368 */
+/***/ (function(module, exports, __webpack_require__) {
+
 __webpack_require__(62)('observable');
 
 
 /***/ }),
-/* 368 */,
 /* 369 */,
 /* 370 */,
 /* 371 */,
@@ -87932,7 +88051,8 @@ __webpack_require__(62)('observable');
 /* 377 */,
 /* 378 */,
 /* 379 */,
-/* 380 */
+/* 380 */,
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -88036,7 +88156,7 @@ module.exports = deepmerge_1;
 
 
 /***/ }),
-/* 381 */
+/* 382 */
 /***/ (function(module, exports) {
 
 module.exports =
@@ -88257,7 +88377,7 @@ module.exports =
 /******/ });
 
 /***/ }),
-/* 382 */
+/* 383 */
 /***/ (function(module, exports) {
 
 module.exports =
@@ -88548,7 +88668,7 @@ module.exports =
 /******/ });
 
 /***/ }),
-/* 383 */
+/* 384 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports =
@@ -88790,7 +88910,7 @@ module.exports =
 /******/ });
 
 /***/ }),
-/* 384 */
+/* 385 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports =
@@ -89243,7 +89363,7 @@ module.exports =
 /******/ });
 
 /***/ }),
-/* 385 */
+/* 386 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports =
@@ -89756,7 +89876,7 @@ module.exports =
 /******/ });
 
 /***/ }),
-/* 386 */
+/* 387 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -89818,8 +89938,8 @@ var RE_NARGS = /(%|)\{([0-9a-zA-Z_]+)\}/g;
  */
 
 /***/ }),
-/* 387 */,
-/* 388 */
+/* 388 */,
+/* 389 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -89932,7 +90052,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 389 */
+/* 390 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -90001,7 +90121,7 @@ exports.default = {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ }),
-/* 390 */
+/* 391 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports =
@@ -90412,7 +90532,7 @@ module.exports =
 /******/ });
 
 /***/ }),
-/* 391 */
+/* 392 */
 /***/ (function(module, exports) {
 
 module.exports =
@@ -90798,7 +90918,7 @@ module.exports =
 /******/ });
 
 /***/ }),
-/* 392 */
+/* 393 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports =
@@ -90948,7 +91068,7 @@ module.exports =
 /***/ 10:
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(105);
+	module.exports = __webpack_require__(108);
 
 /***/ },
 
@@ -90969,7 +91089,7 @@ module.exports =
 /***/ 15:
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(103);
+	module.exports = __webpack_require__(106);
 
 /***/ },
 
@@ -90983,14 +91103,14 @@ module.exports =
 /***/ 60:
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(107);
+	module.exports = __webpack_require__(110);
 
 /***/ },
 
 /***/ 61:
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(102);
+	module.exports = __webpack_require__(105);
 
 /***/ },
 
@@ -92179,7 +92299,7 @@ module.exports =
 /***/ 271:
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(104);
+	module.exports = __webpack_require__(107);
 
 /***/ },
 
@@ -92389,7 +92509,7 @@ module.exports =
 /******/ });
 
 /***/ }),
-/* 393 */
+/* 394 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports =
@@ -92469,7 +92589,7 @@ module.exports =
 /***/ 198:
 /***/ function(module, exports) {
 
-	module.exports = __webpack_require__(108);
+	module.exports = __webpack_require__(111);
 
 /***/ },
 
@@ -92701,7 +92821,7 @@ module.exports =
 /******/ });
 
 /***/ }),
-/* 394 */
+/* 395 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -92798,7 +92918,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 395 */
+/* 396 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -93150,7 +93270,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;
 })(undefined);
 
 /***/ }),
-/* 396 */
+/* 397 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -94420,7 +94540,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 });
 
 /***/ }),
-/* 397 */
+/* 398 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -94616,7 +94736,7 @@ if (!_vue2.default.prototype.$isServer) {
 exports.default = PopupManager;
 
 /***/ }),
-/* 398 */
+/* 399 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -94629,260 +94749,260 @@ function isDef(val) {
 }
 
 /***/ }),
-/* 399 */,
 /* 400 */,
 /* 401 */,
 /* 402 */,
-/* 403 */
+/* 403 */,
+/* 404 */
 /***/ (function(module, exports) {
 
-module.exports = {"country_phone_code_to_countries":{"1":["US","AG","AI","AS","BB","BM","BS","CA","DM","DO","GD","GU","JM","KN","KY","LC","MP","MS","PR","SX","TC","TT","VC","VG","VI"],"7":["RU","KZ"],"20":["EG"],"27":["ZA"],"30":["GR"],"31":["NL"],"32":["BE"],"33":["FR"],"34":["ES"],"36":["HU"],"39":["IT","VA"],"40":["RO"],"41":["CH"],"43":["AT"],"44":["GB","GG","IM","JE"],"45":["DK"],"46":["SE"],"47":["NO","SJ"],"48":["PL"],"49":["DE"],"51":["PE"],"52":["MX"],"53":["CU"],"54":["AR"],"55":["BR"],"56":["CL"],"57":["CO"],"58":["VE"],"60":["MY"],"61":["AU","CC","CX"],"62":["ID"],"63":["PH"],"64":["NZ"],"65":["SG"],"66":["TH"],"81":["JP"],"82":["KR"],"84":["VN"],"86":["CN"],"90":["TR"],"91":["IN"],"92":["PK"],"93":["AF"],"94":["LK"],"95":["MM"],"98":["IR"],"211":["SS"],"212":["MA","EH"],"213":["DZ"],"216":["TN"],"218":["LY"],"220":["GM"],"221":["SN"],"222":["MR"],"223":["ML"],"224":["GN"],"225":["CI"],"226":["BF"],"227":["NE"],"228":["TG"],"229":["BJ"],"230":["MU"],"231":["LR"],"232":["SL"],"233":["GH"],"234":["NG"],"235":["TD"],"236":["CF"],"237":["CM"],"238":["CV"],"239":["ST"],"240":["GQ"],"241":["GA"],"242":["CG"],"243":["CD"],"244":["AO"],"245":["GW"],"246":["IO"],"247":["AC"],"248":["SC"],"249":["SD"],"250":["RW"],"251":["ET"],"252":["SO"],"253":["DJ"],"254":["KE"],"255":["TZ"],"256":["UG"],"257":["BI"],"258":["MZ"],"260":["ZM"],"261":["MG"],"262":["RE","YT"],"263":["ZW"],"264":["NA"],"265":["MW"],"266":["LS"],"267":["BW"],"268":["SZ"],"269":["KM"],"290":["SH","TA"],"291":["ER"],"297":["AW"],"298":["FO"],"299":["GL"],"350":["GI"],"351":["PT"],"352":["LU"],"353":["IE"],"354":["IS"],"355":["AL"],"356":["MT"],"357":["CY"],"358":["FI","AX"],"359":["BG"],"370":["LT"],"371":["LV"],"372":["EE"],"373":["MD"],"374":["AM"],"375":["BY"],"376":["AD"],"377":["MC"],"378":["SM"],"380":["UA"],"381":["RS"],"382":["ME"],"383":["XK"],"385":["HR"],"386":["SI"],"387":["BA"],"389":["MK"],"420":["CZ"],"421":["SK"],"423":["LI"],"500":["FK"],"501":["BZ"],"502":["GT"],"503":["SV"],"504":["HN"],"505":["NI"],"506":["CR"],"507":["PA"],"508":["PM"],"509":["HT"],"590":["GP","BL","MF"],"591":["BO"],"592":["GY"],"593":["EC"],"594":["GF"],"595":["PY"],"596":["MQ"],"597":["SR"],"598":["UY"],"599":["CW","BQ"],"670":["TL"],"672":["NF"],"673":["BN"],"674":["NR"],"675":["PG"],"676":["TO"],"677":["SB"],"678":["VU"],"679":["FJ"],"680":["PW"],"681":["WF"],"682":["CK"],"683":["NU"],"685":["WS"],"686":["KI"],"687":["NC"],"688":["TV"],"689":["PF"],"690":["TK"],"691":["FM"],"692":["MH"],"800":["001"],"808":["001"],"850":["KP"],"852":["HK"],"853":["MO"],"855":["KH"],"856":["LA"],"870":["001"],"878":["001"],"880":["BD"],"881":["001"],"882":["001"],"883":["001"],"886":["TW"],"888":["001"],"960":["MV"],"961":["LB"],"962":["JO"],"963":["SY"],"964":["IQ"],"965":["KW"],"966":["SA"],"967":["YE"],"968":["OM"],"970":["PS"],"971":["AE"],"972":["IL"],"973":["BH"],"974":["QA"],"975":["BT"],"976":["MN"],"977":["NP"],"979":["001"],"992":["TJ"],"993":["TM"],"994":["AZ"],"995":["GE"],"996":["KG"],"998":["UZ"]},"countries":{"AC":["247","[46]\\d{4}|[01589]\\d{5}",[5,6]],"AD":["376","[16]\\d{5,8}|[37-9]\\d{5}",[6,8,9],[["(\\d{3})(\\d{3})","$1 $2",["[137-9]|6[0-8]"]],["(\\d{4})(\\d{4})","$1 $2",["180","180[02]"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["690"]]]],"AE":["971","[2-79]\\d{7,8}|800\\d{2,9}",[5,6,7,8,9,10,11,12],[["([2-4679])(\\d{3})(\\d{4})","$1 $2 $3",["[2-4679][2-8]"]],["(5\\d)(\\d{3})(\\d{4})","$1 $2 $3",["5"]],["([479]00)(\\d)(\\d{5})","$1 $2 $3",["[479]00"],"$1"],["([68]00)(\\d{2,9})","$1 $2",["[68]00"],"$1"]],"0","0$1"],"AF":["93","[2-7]\\d{8}",[9],[["([2-7]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[2-7]"]]],"0","0$1"],"AG":["1","[2589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"268"],"AI":["1","[2589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"264"],"AL":["355","[2-57]\\d{7}|6\\d{8}|8\\d{5,7}|9\\d{5}",[6,7,8,9],[["(4)(\\d{3})(\\d{4})","$1 $2 $3",["4[0-6]"]],["(6\\d)(\\d{3})(\\d{4})","$1 $2 $3",["6"]],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[2358][2-5]|4[7-9]"]],["(\\d{3})(\\d{3,5})","$1 $2",["[235][16-9]|[79]|8[016-9]"]]],"0","0$1"],"AM":["374","[1-9]\\d{7}",[8],[["(\\d{2})(\\d{6})","$1 $2",["1|47"]],["(\\d{2})(\\d{6})","$1 $2",["4[1349]|[5-7]|88|9[1-9]"],"0$1"],["(\\d{3})(\\d{5})","$1 $2",["[23]"]],["(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3",["8|90"],"0 $1"]],"0","(0$1)"],"AO":["244","[29]\\d{8}",[9],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3"]]],"AR":["54","11\\d{8}|[2368]\\d{9}|9\\d{10}",[10,11],[["([68]\\d{2})(\\d{3})(\\d{4})","$1-$2-$3",["[68]"]],["(9)(11)(\\d{4})(\\d{4})","$2 15-$3-$4",["911"],null,null,"$1 $2 $3-$4"],["(9)(\\d{3})(\\d{3})(\\d{4})","$2 15-$3-$4",["9(?:2[2-4689]|3[3-8])","9(?:2(?:2[013]|3[067]|49|6[01346]|8|9[147-9])|3(?:36|4[1-358]|5[138]|6|7[069]|8[013578]))","9(?:2(?:2(?:0[013-9]|[13])|3(?:0[013-9]|[67])|49|6(?:[0136]|4[0-59])|8|9(?:[19]|44|7[013-9]|8[14]))|3(?:36|4(?:[12]|3[4-6]|[58]4)|5(?:1|3[0-24-689]|8[46])|6|7[069]|8(?:[01]|34|[578][45])))","9(?:2(?:2(?:0[013-9]|[13])|3(?:0[013-9]|[67])|49|6(?:[0136]|4[0-59])|8|9(?:[19]|44|7[013-9]|8[14]))|3(?:36|4(?:[12]|3(?:4|5[014]|6[1-39])|[58]4)|5(?:1|3[0-24-689]|8[46])|6|7[069]|8(?:[01]|34|[578][45])))"],null,null,"$1 $2 $3-$4"],["(9)(\\d{4})(\\d{2})(\\d{4})","$2 15-$3-$4",["9[23]"],null,null,"$1 $2 $3-$4"],["(11)(\\d{4})(\\d{4})","$1 $2-$3",["11"],null,"true"],["(\\d{3})(\\d{3})(\\d{4})","$1 $2-$3",["2(?:2[013]|3[067]|49|6[01346]|8|9[147-9])|3(?:36|4[1-358]|5[138]|6|7[069]|8[013578])","2(?:2(?:0[013-9]|[13])|3(?:0[013-9]|[67])|49|6(?:[0136]|4[0-59])|8|9(?:[19]|44|7[013-9]|8[14]))|3(?:36|4(?:[12]|3[4-6]|[58]4)|5(?:1|3[0-24-689]|8[46])|6|7[069]|8(?:[01]|34|[578][45]))","2(?:2(?:0[013-9]|[13])|3(?:0[013-9]|[67])|49|6(?:[0136]|4[0-59])|8|9(?:[19]|44|7[013-9]|8[14]))|3(?:36|4(?:[12]|3(?:4|5[014]|6[1-39])|[58]4)|5(?:1|3[0-24-689]|8[46])|6|7[069]|8(?:[01]|34|[578][45]))"],null,"true"],["(\\d{4})(\\d{2})(\\d{4})","$1 $2-$3",["[23]"],null,"true"]],"0","0$1","0?(?:(11|2(?:2(?:02?|[13]|2[13-79]|4[1-6]|5[2457]|6[124-8]|7[1-4]|8[13-6]|9[1267])|3(?:02?|1[467]|2[03-6]|3[13-8]|[49][2-6]|5[2-8]|[67])|4(?:7[3-578]|9)|6(?:[0136]|2[24-6]|4[6-8]?|5[15-8])|80|9(?:0[1-3]|[19]|2\\d|3[1-6]|4[02568]?|5[2-4]|6[2-46]|72?|8[23]?))|3(?:3(?:2[79]|6|8[2578])|4(?:0[0-24-9]|[12]|3[5-8]?|4[24-7]|5[4-68]?|6[02-9]|7[126]|8[2379]?|9[1-36-8])|5(?:1|2[1245]|3[237]?|4[1-46-9]|6[2-4]|7[1-6]|8[2-5]?)|6[24]|7(?:[069]|1[1568]|2[15]|3[145]|4[13]|5[14-8]|7[2-57]|8[126])|8(?:[01]|2[15-7]|3[2578]?|4[13-6]|5[4-8]?|6[1-357-9]|7[36-8]?|8[5-8]?|9[124])))?15)?","9$1"],"AS":["1","[5689]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"684"],"AT":["43","[1-9]\\d{3,12}",[4,5,6,7,8,9,10,11,12,13],[["(116\\d{3})","$1",["116"],"$1"],["(1)(\\d{3,12})","$1 $2",["1"]],["(5\\d)(\\d{3,5})","$1 $2",["5[079]"]],["(5\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["5[079]"]],["(5\\d)(\\d{4})(\\d{4,7})","$1 $2 $3",["5[079]"]],["(\\d{3})(\\d{3,10})","$1 $2",["(?:31|4)6|51|6(?:5[0-3579]|[6-9])|7(?:[28]0|32)|[89]"]],["(\\d{4})(\\d{3,9})","$1 $2",["2|3(?:1[1-578]|[3-8])|4[2378]|5[2-6]|6(?:[12]|4[1-9]|5[468])|7(?:[24][1-8]|35|[5-79])"]]],"0","0$1"],"AU":["61","1\\d{4,9}|[2-578]\\d{8}",[5,6,7,8,9,10],[["([2378])(\\d{4})(\\d{4})","$1 $2 $3",["[2378]"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["14|[45]"],"0$1"],["(16)(\\d{3,4})","$1 $2",["16"],"0$1"],["(16)(\\d{3})(\\d{2,4})","$1 $2 $3",["16"],"0$1"],["(1[389]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["1[389]0","1(?:[38]0|9)0"]],["(180)(2\\d{3})","$1 $2",["180","1802"]],["(19\\d)(\\d{3})","$1 $2",["19[13]"]],["(19\\d{2})(\\d{4})","$1 $2",["19[679]"]],["(13)(\\d{2})(\\d{2})","$1 $2 $3",["13[1-9]"]]],"0",null,null,null,null,null,[["[237]\\d{8}|8(?:51(?:0(?:0[03-9]|[1247]\\d|3[2-9]|5[0-8]|6[1-9]|8[0-6])|1(?:1[69]|[23]\\d|4[0-4]))|[6-8]\\d{4}|9(?:[02-9]\\d{3}|1(?:[0-57-9]\\d{2}|6[0135-9]\\d)))\\d{3}",[9]],["14(?:5\\d|71)\\d{5}|4(?:[0-3]\\d|4[047-9]|5[0-25-9]|6[6-9]|7[02-9]|8[12457-9]|9[017-9])\\d{6}",[9]],["180(?:0\\d{3}|2)\\d{3}",[7,10]],["19(?:0[0126]\\d|[679])\\d{5}",[8,10]],["500\\d{6}",[9]],null,null,["16\\d{3,7}",[5,6,7,8,9]],["550\\d{6}",[9]],["13(?:00\\d{3}|45[0-4]|\\d)\\d{3}",[6,8,10]]]],"AW":["297","[25-9]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"AX":["358","1\\d{5,11}|[35]\\d{5,9}|2\\d{4,9}|4\\d{5,10}|6\\d{7,9}|7\\d{4,9}|8\\d{6,9}",[5,6,7,8,9,10,11,12],[["(\\d{3})(\\d{3,7})","$1 $2",["(?:[1-3]0|[6-8])0"]],["(75\\d{3})","$1",["75[12]"]],["(116\\d{3})","$1",["116"],"$1"],["(\\d{2})(\\d{4,10})","$1 $2",["[14]|2[09]|50|7[135]"]],["(\\d)(\\d{4,11})","$1 $2",["[25689][1-8]|3"]]],"0",null,null,null,null,null,[["18[1-8]\\d{3,9}",[6,7,8,9,10,11,12]],["4\\d{5,10}|50\\d{4,8}",[6,7,8,9,10,11]],["800\\d{4,7}",[7,8,9,10]],["[67]00\\d{5,6}",[8,9]],null,null,["[13]0\\d{4,8}|2(?:0(?:[016-8]\\d{3,7}|[2-59]\\d{2,7})|9\\d{4,8})|60(?:[12]\\d{5,6}|6\\d{7})|7(?:1\\d{7}|3\\d{8}|5[03-9]\\d{2,7})",[5,6,7,8,9,10]]]],"AZ":["994","[1-9]\\d{8}",[9],[["(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["1[28]|2(?:[0-36]|[45]2)|365"]],["(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[4-8]"],"0$1"],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["9"],"0$1"]],"0","(0$1)"],"BA":["387","[3-9]\\d{7,8}",[8,9],[["(\\d{2})(\\d{3})(\\d{3})","$1 $2-$3",["[3-5]"]],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["6[1-356]|[7-9]"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3 $4",["6[047]"]]],"0","0$1"],"BB":["1","[2589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"246"],"BD":["880","[2-79]\\d{5,9}|1\\d{9}|8[0-7]\\d{4,8}",[6,7,8,9,10],[["(2)(\\d{7,8})","$1-$2",["2"]],["(\\d{2})(\\d{4,6})","$1-$2",["[3-79]1"]],["(\\d{4})(\\d{3,6})","$1-$2",["1|3(?:0|[2-58]2)|4(?:0|[25]2|3[23]|[4689][25])|5(?:[02-578]2|6[25])|6(?:[0347-9]2|[26][25])|7[02-9]2|8(?:[023][23]|[4-7]2)|9(?:[02][23]|[458]2|6[016])"]],["(\\d{3})(\\d{3,7})","$1-$2",["[3-79][2-9]|8"]]],"0","0$1"],"BE":["32","[1-9]\\d{7,8}",[8,9],[["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["4[5-9]"]],["(\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[23]|4[23]|9[2-4]"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[156]|7[018]|8(?:0[1-9]|[1-79])"]],["(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3",["(?:80|9)0"]]],"0","0$1"],"BF":["226","[25-7]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"BG":["359","[23567]\\d{5,7}|[489]\\d{6,8}",[6,7,8,9],[["(2)(\\d)(\\d{2})(\\d{2})","$1 $2 $3 $4",["2"]],["(2)(\\d{3})(\\d{3,4})","$1 $2 $3",["2"]],["(\\d{3})(\\d{4})","$1 $2",["43[124-7]|70[1-9]"]],["(\\d{3})(\\d{3})(\\d{2})","$1 $2 $3",["43[124-7]|70[1-9]"]],["(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3",["[78]00"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["99[69]"]],["(\\d{2})(\\d{3})(\\d{2,3})","$1 $2 $3",["[356]|4[124-7]|7[1-9]|8[1-6]|9[1-7]"]],["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["48|8[7-9]|9[08]"]]],"0","0$1"],"BH":["973","[136-9]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1 $2"]]],"BI":["257","[267]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"BJ":["229","[2689]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[2689]"]]]],"BL":["590","[56]\\d{8}",[9],[["([56]\\d{2})(\\d{2})(\\d{4})","$1 $2-$3",["590|69[01]"]]],"0",null,null,null,null,null,[["590(?:2[7-9]|5[12]|87)\\d{4}"],["69(?:0\\d{2}|1(?:2[29]|3[0-5]))\\d{4}"]]],"BM":["1","[4589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"441"],"BN":["673","[2-578]\\d{6}",[7],[["([2-578]\\d{2})(\\d{4})","$1 $2",["[2-578]"]]]],"BO":["591","[23467]\\d{7}|8\\d{8}",[8,9],[["([234])(\\d{7})","$1 $2",["[2-4]"]],["([67]\\d{7})","$1",["[67]"]],["(800)(\\d{2})(\\d{4})","$1 $2 $3",["800"]]],"0",null,"0(1\\d)?"],"BQ":["599","[347]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2",["[13-7]"]],["(9)(\\d{3})(\\d{4})","$1 $2 $3",["9"]]],null,null,null,null,null,null,[["(?:318[023]|41(?:6[023]|70)|7(?:1[578]|50)\\d)\\d{3}"],["(?:31(?:8[14-8]|9[14578])|416[145-9]|7(?:0[01]|7[07]|8\\d|9[056])\\d)\\d{3}"]]],"BR":["55","[1-46-9]\\d{7,10}|5(?:[0-4]\\d{7,9}|5(?:[2-8]\\d{7}|9\\d{7,8}))",[8,9,10,11],[["(\\d{4})(\\d{4})","$1-$2",["300|40[02]","300|40(?:0|20)"]],["([3589]00)(\\d{2,3})(\\d{4})","$1 $2 $3",["[3589]00"],"0$1"],["(\\d{2})(\\d{4})(\\d{4})","$1 $2-$3",["[1-9][1-9]"],"($1)"],["(\\d{2})(\\d{5})(\\d{4})","$1 $2-$3",["[1-9][1-9]9"],"($1)"]],"0",null,"0(?:(1[245]|2[1-35]|31|4[13]|[56]5|99)(\\d{10,11}))?","$2"],"BS":["1","[2589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"242"],"BT":["975","[1-8]\\d{6,7}",[7,8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["1|77"]],["([2-8])(\\d{3})(\\d{3})","$1 $2 $3",["[2-68]|7[246]"]]]],"BW":["267","[2-79]\\d{6,7}",[7,8],[["(\\d{3})(\\d{4})","$1 $2",["[2-6]"]],["(7\\d)(\\d{3})(\\d{3})","$1 $2 $3",["7"]],["(90)(\\d{5})","$1 $2",["90"]]]],"BY":["375","[1-4]\\d{8}|8(?:0(?:0\\d{3,7}|[13]\\d{7})|(?:10|20\\d)\\d{7})|9\\d{9,10}",[6,7,8,9,10,11],[["(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2-$3-$4",["17[0-3589]|2[4-9]|[34]","17(?:[02358]|1[0-2]|9[0189])|2[4-9]|[34]"],"8 0$1"],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2-$3-$4",["1(?:5[24]|6[235]|7[467])|2(?:1[246]|2[25]|3[26])","1(?:5[24]|6(?:2|3[04-9]|5[0346-9])|7(?:[46]|7[37-9]))|2(?:1[246]|2[25]|3[26])"],"8 0$1"],["(\\d{4})(\\d{2})(\\d{3})","$1 $2-$3",["1(?:5[169]|6[3-5]|7[179])|2(?:1[35]|2[34]|3[3-5])","1(?:5[169]|6(?:3[1-3]|4|5[125])|7(?:1[3-9]|7[0-24-6]|9[2-7]))|2(?:1[35]|2[34]|3[3-5])"],"8 0$1"],["([89]\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["8[01]|9"],"8 $1"],["(82\\d)(\\d{4})(\\d{4})","$1 $2 $3",["82"],"8 $1"],["(800)(\\d{3})","$1 $2",["800"],"8 $1"],["(800)(\\d{2})(\\d{2,4})","$1 $2 $3",["800"],"8 $1"]],"8",null,"8?0?"],"BZ":["501","[2-8]\\d{6}|0\\d{10}",[7,11],[["(\\d{3})(\\d{4})","$1-$2",["[2-8]"]],["(0)(800)(\\d{4})(\\d{3})","$1-$2-$3-$4",["080","0800"]]]],"CA":["1","[2-9]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,null,[["(?:2(?:04|[23]6|[48]9|50)|3(?:06|43|65)|4(?:03|1[68]|3[178]|50)|5(?:06|1[49]|48|79|8[17])|6(?:0[04]|13|22|39|47)|7(?:0[59]|78|8[02])|8(?:[06]7|19|25|73)|90[25])[2-9]\\d{6}"],[""],["8(?:00|33|44|55|66|77|88)[2-9]\\d{6}"],["900[2-9]\\d{6}"],["5(?:(?:00|22|33|44|66|77|88)[2-9]|21[23])\\d{6}"]]],"CC":["61","[1458]\\d{5,9}",[6,7,8,9,10],[["([2378])(\\d{4})(\\d{4})","$1 $2 $3",["[2378]"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["14|[45]"],"0$1"],["(16)(\\d{3,4})","$1 $2",["16"],"0$1"],["(16)(\\d{3})(\\d{2,4})","$1 $2 $3",["16"],"0$1"],["(1[389]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["1[389]0","1(?:[38]0|9)0"]],["(180)(2\\d{3})","$1 $2",["180","1802"]],["(19\\d)(\\d{3})","$1 $2",["19[13]"]],["(19\\d{2})(\\d{4})","$1 $2",["19[679]"]],["(13)(\\d{2})(\\d{2})","$1 $2 $3",["13[1-9]"]]],"0",null,null,null,null,null,[["8(?:51(?:0(?:02|31|60)|118)|91(?:0(?:1[0-2]|29)|1(?:[28]2|50|79)|2(?:10|64)|3(?:08|22|68)|4[29]8|62\\d|70[23]|959))\\d{3}",[9]],["14(?:5\\d|71)\\d{5}|4(?:[0-3]\\d|4[047-9]|5[0-25-9]|6[6-9]|7[02-9]|8[12547-9]|9[017-9])\\d{6}",[9]],["180(?:0\\d{3}|2)\\d{3}",[7,10]],["19(?:0[0126]\\d|[679])\\d{5}",[8,10]],["500\\d{6}",[9]],null,null,null,["550\\d{6}",[9]],["13(?:00\\d{2})?\\d{4}",[6,10]]]],"CD":["243","[2-6]\\d{6}|[18]\\d{6,8}|9\\d{8}",[7,9],[["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["12"]],["([89]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["8[0-2459]|9"]],["(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["88"]],["(\\d{2})(\\d{5})","$1 $2",["[1-6]"]]],"0","0$1"],"CF":["236","[278]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"CG":["242","[028]\\d{8}",[9],[["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["801"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[02]"]],["(\\d)(\\d{4})(\\d{4})","$1 $2 $3",["800"]]]],"CH":["41","[2-9]\\d{8}|860\\d{9}",[9],[["([2-9]\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[2-7]|[89]1"]],["([89]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["8[047]|90"]],["(\\d{3})(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4 $5",["860"]]],"0","0$1"],"CI":["225","[02-8]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"CK":["682","[2-8]\\d{4}",[5],[["(\\d{2})(\\d{3})","$1 $2"]]],"CL":["56","1230\\d{7}|[2-46-9]\\d{8,10}|5[1-3578]\\d{7}",[9,10,11],[["(\\d)(\\d{4})(\\d{4})","$1 $2 $3",["2[23]"],"($1)"],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[357]|4[1-35]|6[13-57]"],"($1)"],["(9)(\\d{4})(\\d{4})","$1 $2 $3",["9"]],["(44)(\\d{3})(\\d{4})","$1 $2 $3",["44"]],["([68]00)(\\d{3})(\\d{3,4})","$1 $2 $3",["[68]00"],"$1"],["(600)(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3 $4",["600"],"$1"],["(1230)(\\d{3})(\\d{4})","$1 $2 $3",["123","1230"],"$1"],["(\\d{5})(\\d{4})","$1 $2",["219"],"($1)"]],"0","0$1","0|(1(?:1[0-69]|2[0-57]|5[13-58]|69|7[0167]|8[018]))"],"CM":["237","[2368]\\d{7,8}",[8,9],[["([26])(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4 $5",["[26]"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[23]|88"]]]],"CN":["86","[1-7]\\d{6,11}|8[0-357-9]\\d{6,9}|9\\d{7,10}",[7,8,9,10,11,12],[["([48]00)(\\d{3})(\\d{4})","$1 $2 $3",["[48]00"]],["(\\d{2})(\\d{5,6})","$1 $2",["(?:10|2\\d)[19]","(?:10|2\\d)(?:10|9[56])","(?:10|2\\d)(?:100|9[56])"],"0$1"],["(\\d{3})(\\d{5,6})","$1 $2",["[3-9]","[3-9]\\d\\d[19]","[3-9]\\d\\d(?:10|9[56])"],"0$1"],["(21)(\\d{4})(\\d{4,6})","$1 $2 $3",["21"],"0$1","true"],["([12]\\d)(\\d{4})(\\d{4})","$1 $2 $3",["10[1-9]|2[02-9]","10[1-9]|2[02-9]","10(?:[1-79]|8(?:0[1-9]|[1-9]))|2[02-9]"],"0$1","true"],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["3(?:1[02-9]|35|49|5|7[02-68]|9[1-68])|4(?:1[02-9]|2[179]|[35][2-9]|6[47-9]|7|8[23])|5(?:3[03-9]|4[36]|5[02-9]|6[1-46]|7[028]|80|9[2-46-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]|2[248]|3[04-9]|4[3-6]|6[2368])|8(?:1[236-8]|2[5-7]|3|5[1-9]|7[02-9]|8[36-8]|9[1-7])|9(?:0[1-3689]|1[1-79]|[379]|4[13]|5[1-5])"],"0$1","true"],["(\\d{3})(\\d{4})(\\d{4})","$1 $2 $3",["3(?:11|7[179])|4(?:[15]1|3[1-35])|5(?:1|2[37]|3[12]|51|7[13-79]|9[15])|7(?:[39]1|5[457]|6[09])|8(?:[57]1|98)"],"0$1","true"],["(\\d{4})(\\d{3})(\\d{4})","$1 $2 $3",["807","8078"],"0$1","true"],["(\\d{3})(\\d{4})(\\d{4})","$1 $2 $3",["1(?:[3-57-9]|66)"]],["(10800)(\\d{3})(\\d{4})","$1 $2 $3",["108","1080","10800"]],["(\\d{3})(\\d{7,8})","$1 $2",["950"]]],"0",null,"(1(?:[129]\\d{3}|79\\d{2}))|0"],"CO":["57","(?:[13]\\d{0,3}|[24-8])\\d{7}",[8,10,11],[["(\\d)(\\d{7})","$1 $2",["1(?:[2-7]|8[2-9]|9[0-3])|[24-8]","1(?:[2-7]|8[2-9]|9(?:09|[1-3]))|[24-8]"],"($1)"],["(\\d{3})(\\d{7})","$1 $2",["3"]],["(1)(\\d{3})(\\d{7})","$1-$2-$3",["1(?:80|9[04])","1(?:800|9(?:0[01]|4[78]))"],"0$1",null,"$1 $2 $3"]],"0",null,"0([3579]|4(?:44|56))?"],"CR":["506","[24-9]\\d{7,9}",[8,10],[["(\\d{4})(\\d{4})","$1 $2",["[24-7]|8[3-9]"]],["(\\d{3})(\\d{3})(\\d{4})","$1-$2-$3",["[89]0"]]],null,null,"(19(?:0[012468]|1[09]|20|66|77|99))"],"CU":["53","[2-57]\\d{5,7}",[6,7,8],[["(\\d)(\\d{6,7})","$1 $2",["7"]],["(\\d{2})(\\d{4,6})","$1 $2",["[2-4]"]],["(\\d)(\\d{7})","$1 $2",["5"],"0$1"]],"0","(0$1)"],"CV":["238","[2-59]\\d{6}",[7],[["(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3"]]],"CW":["599","[134679]\\d{6,7}",[7,8],[["(\\d{3})(\\d{4})","$1 $2",["[13-7]"]],["(9)(\\d{3})(\\d{4})","$1 $2 $3",["9"]]],null,null,null,null,null,null,[["9(?:[48]\\d{2}|50\\d|7(?:2[0-24]|[34]\\d|6[35-7]|77|8[7-9]))\\d{4}",[8]],["9(?:5(?:[12467]\\d|3[01])|6(?:[15-9]\\d|3[01]))\\d{4}",[8]],null,null,null,null,null,["955\\d{5}",[8]],null,["60[0-2]\\d{4}",[7]]]],"CX":["61","[1458]\\d{5,9}",[6,7,8,9,10],[["([2378])(\\d{4})(\\d{4})","$1 $2 $3",["[2378]"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["14|[45]"],"0$1"],["(16)(\\d{3,4})","$1 $2",["16"],"0$1"],["(16)(\\d{3})(\\d{2,4})","$1 $2 $3",["16"],"0$1"],["(1[389]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["1[389]0","1(?:[38]0|9)0"]],["(180)(2\\d{3})","$1 $2",["180","1802"]],["(19\\d)(\\d{3})","$1 $2",["19[13]"]],["(19\\d{2})(\\d{4})","$1 $2",["19[679]"]],["(13)(\\d{2})(\\d{2})","$1 $2 $3",["13[1-9]"]]],"0",null,null,null,null,null,[["8(?:51(?:0(?:01|30|59)|117)|91(?:00[6-9]|1(?:21|49|78|81)|2(?:09|63)|3(?:12|26|75)|4(?:56|97)|64\\d|7(?:0[01]|1[0-2])|958))\\d{3}",[9]],["14(?:5\\d|71)\\d{5}|4(?:[0-3]\\d|4[047-9]|5[0-25-9]|6[6-9]|7[02-9]|8[12547-9]|9[017-9])\\d{6}",[9]],["180(?:0\\d{3}|2)\\d{3}",[7,10]],["19(?:0[0126]\\d|[679])\\d{5}",[8,10]],["500\\d{6}",[9]],null,null,null,["550\\d{6}",[9]],["13(?:00\\d{2})?\\d{4}",[6,8,10]]]],"CY":["357","[257-9]\\d{7}",[8],[["(\\d{2})(\\d{6})","$1 $2"]]],"CZ":["420","[2-8]\\d{8}|9\\d{8,11}",[9],[["([2-9]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[2-8]|9[015-7]"]],["(96\\d)(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3 $4",["96"]],["(9\\d)(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3 $4",["9[36]"]]]],"DE":["49","[1-35-9]\\d{3,14}|4(?:[0-8]\\d{3,12}|9(?:[0-37]\\d|4(?:[1-35-8]|4\\d?)|5\\d{1,2}|6[1-8]\\d?)\\d{2,8})",[4,5,6,7,8,9,10,11,12,13,14,15],[["(1\\d{2})(\\d{7,8})","$1 $2",["1[67]"]],["(15\\d{3})(\\d{6})","$1 $2",["15[0568]"]],["(1\\d{3})(\\d{7})","$1 $2",["15"]],["(\\d{2})(\\d{3,11})","$1 $2",["3[02]|40|[68]9"]],["(\\d{3})(\\d{3,11})","$1 $2",["2(?:0[1-389]|1[124]|2[18]|3[14]|[4-9]1)|3(?:[35-9][15]|4[015])|[4-8][1-9]1|9(?:06|[1-9]1)"]],["(\\d{4})(\\d{2,11})","$1 $2",["[24-6]|3(?:[3569][02-46-9]|4[2-4679]|7[2-467]|8[2-46-8])|[7-9](?:0[1-9]|[1-9])","[24-6]|3(?:3(?:0[1-467]|2[127-9]|3[124578]|[46][1246]|7[1257-9]|8[1256]|9[145])|4(?:2[135]|3[1357]|4[13578]|6[1246]|7[1356]|9[1346])|5(?:0[14]|2[1-3589]|3[1357]|[49][1246]|6[1-4]|7[13468]|8[13568])|6(?:0[356]|2[1-489]|3[124-6]|4[1347]|6[13]|7[12579]|8[1-356]|9[135])|7(?:2[1-7]|3[1357]|4[145]|6[1-5]|7[1-4])|8(?:21|3[1468]|4[1347]|6[0135-9]|7[1467]|8[136])|9(?:0[12479]|2[1358]|3[1357]|4[134679]|6[1-9]|7[136]|8[147]|9[1468]))|[7-9](?:0[1-9]|[1-9])"]],["(3\\d{4})(\\d{1,10})","$1 $2",["3"]],["(800)(\\d{7,12})","$1 $2",["800"]],["(\\d{3})(\\d)(\\d{4,10})","$1 $2 $3",["1(?:37|80)|900","1(?:37|80)|900[1359]"]],["(1\\d{2})(\\d{5,11})","$1 $2",["181"]],["(18\\d{3})(\\d{6})","$1 $2",["185","1850","18500"]],["(18\\d{2})(\\d{7})","$1 $2",["18[68]"]],["(18\\d)(\\d{8})","$1 $2",["18[2-579]"]],["(700)(\\d{4})(\\d{4})","$1 $2 $3",["700"]],["(138)(\\d{4})","$1 $2",["138"]],["(15[013-68])(\\d{2})(\\d{8})","$1 $2 $3",["15[013-68]"]],["(15[279]\\d)(\\d{2})(\\d{7})","$1 $2 $3",["15[279]"]],["(1[67]\\d)(\\d{2})(\\d{7,8})","$1 $2 $3",["1(?:6[023]|7)"]]],"0","0$1"],"DJ":["253","[27]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"DK":["45","[2-9]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"DM":["1","[57-9]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"767"],"DO":["1","[589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"8[024]9"],"DZ":["213","(?:[1-4]|[5-9]\\d)\\d{7}",[8,9],[["([1-4]\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[1-4]"]],["([5-8]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[5-8]"]],["(9\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["9"]]],"0","0$1"],"EC":["593","1\\d{9,10}|[2-8]\\d{7}|9\\d{8}",[8,9,10,11],[["(\\d)(\\d{3})(\\d{4})","$1 $2-$3",["[247]|[356][2-8]"],null,null,"$1-$2-$3"],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["9"],"0$1"],["(1800)(\\d{3})(\\d{3,4})","$1 $2 $3",["180","1800"],"$1"]],"0","(0$1)"],"EE":["372","[3-9]\\d{6,7}|800\\d{6,7}",[7,8,10],[["([3-79]\\d{2})(\\d{4})","$1 $2",["[369]|4[3-8]|5(?:[0-2]|5[0-478]|6[45])|7[1-9]","[369]|4[3-8]|5(?:[02]|1(?:[0-8]|95)|5[0-478]|6(?:4[0-4]|5[1-589]))|7[1-9]"]],["(70)(\\d{2})(\\d{4})","$1 $2 $3",["70"]],["(8000)(\\d{3})(\\d{3})","$1 $2 $3",["800","8000"]],["([458]\\d{3})(\\d{3,4})","$1 $2",["40|5|8(?:00|[1-5])","40|5|8(?:00[1-9]|[1-5])"]]]],"EG":["20","1\\d{4,9}|[24-6]\\d{8}|3\\d{7}|[89]\\d{8,9}",[8,9,10],[["(\\d)(\\d{7,8})","$1 $2",["[23]"]],["(\\d{2})(\\d{6,7})","$1 $2",["1(?:3|5[239])|[4-6]|[89][2-9]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1[0-25]|[89]00"]]],"0","0$1"],"EH":["212","[5-9]\\d{8}",[9],[["([5-7]\\d{2})(\\d{6})","$1-$2",["5(?:2[015-7]|3[0-4])|[67]"]],["([58]\\d{3})(\\d{5})","$1-$2",["5(?:2[2-489]|3[5-9]|92)|892","5(?:2(?:[2-48]|9[0-7])|3(?:[5-79]|8[0-7])|924)|892"]],["(5\\d{4})(\\d{4})","$1-$2",["5(?:29|38)","5(?:29|38)[89]"]],["([5]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["5(?:4[067]|5[03])"]],["(8[09])(\\d{7})","$1-$2",["8(?:0|9[013-9])"]]],"0",null,null,null,null,"528[89]"],"ER":["291","[178]\\d{6}",[7],[["(\\d)(\\d{3})(\\d{3})","$1 $2 $3"]],"0","0$1"],"ES":["34","[5-9]\\d{8}",[9],[["([89]00)(\\d{3})(\\d{3})","$1 $2 $3",["[89]00"]],["([5-9]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[568]|[79][0-8]"]]]],"ET":["251","[1-59]\\d{8}",[9],[["([1-59]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[1-59]"]]],"0","0$1"],"FI":["358","1\\d{4,11}|[2-9]\\d{4,10}",[5,6,7,8,9,10,11,12],[["(\\d{3})(\\d{3,7})","$1 $2",["(?:[1-3]0|[6-8])0"]],["(75\\d{3})","$1",["75[12]"]],["(116\\d{3})","$1",["116"],"$1"],["(\\d{2})(\\d{4,10})","$1 $2",["[14]|2[09]|50|7[135]"]],["(\\d)(\\d{4,11})","$1 $2",["[25689][1-8]|3"]]],"0","0$1",null,null,null,null,[["1(?:[3569][1-8]\\d{3,9}|[47]\\d{5,10})|2[1-8]\\d{3,9}|3(?:[1-8]\\d{3,9}|9\\d{4,8})|[5689][1-8]\\d{3,9}"],["4(?:[0-8]\\d{4,9}|9\\d{3,8})|50\\d{4,8}",[6,7,8,9,10,11]],["800\\d{4,7}",[7,8,9,10]],["[67]00\\d{5,6}",[8,9]],null,null,["[13]0\\d{4,8}|2(?:0(?:[016-8]\\d{3,7}|[2-59]\\d{2,7})|9\\d{4,8})|60(?:[12]\\d{5,6}|6\\d{7})|7(?:1\\d{7}|3\\d{8}|5[03-9]\\d{3,7})",[5,6,7,8,9,10]]]],"FJ":["679","[2-9]\\d{6}|0\\d{10}",[7,11],[["(\\d{3})(\\d{4})","$1 $2",["[2-9]"]],["(\\d{4})(\\d{3})(\\d{4})","$1 $2 $3",["0"]]]],"FK":["500","[2-7]\\d{4}",[5]],"FM":["691","[39]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"FO":["298","[2-9]\\d{5}",[6],[["(\\d{6})","$1"]],null,null,"(10(?:01|[12]0|88))"],"FR":["33","[1-9]\\d{8}",[9],[["([1-79])(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4 $5",["[1-79]"]],["(8\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["8"],"0 $1"]],"0","0$1"],"GA":["241","0?\\d{7}",[7,8],[["(\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[2-7]"],"0$1"],["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["0"]]]],"GB":["44","\\d{7,10}",[7,9,10],[["(7\\d{3})(\\d{6})","$1 $2",["7(?:[1-57-9]|62)","7(?:[1-57-9]|624)"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["2|5[56]|7[06]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1(?:[02-9]1|1)|3|9[018]"]],["(\\d{5})(\\d{4,5})","$1 $2",["1(?:38|5[23]|69|76|94)","1(?:(?:38|69)7|5(?:24|39)|768|946)","1(?:3873|5(?:242|39[4-6])|(?:697|768)[347]|9467)"]],["(1\\d{3})(\\d{5,6})","$1 $2",["1"]],["(800)(\\d{4})","$1 $2",["800","8001","80011","800111","8001111"]],["(845)(46)(4\\d)","$1 $2 $3",["845","8454","84546","845464"]],["(8\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["8(?:4[2-5]|7[0-3])"]],["(80\\d)(\\d{3})(\\d{4})","$1 $2 $3",["80"]],["(800)(\\d{6})","$1 $2",["800"]]],"0","0$1",null,null,null,null,[["2(?:0[01378]|3[0189]|4[017]|8[0-46-9]|9[0-2])\\d{7}|1(?:1(?:3[0-48]|[46][0-4]|5[0-26-9]|[78][0-49])|21[0-7]|31[0-8]|[4-69]1\\d)\\d{6}|1(?:2(?:0[024-9]|2[3-9]|3[3-79]|4[1-689]|[58][02-9]|6[0-47-9]|7[013-9]|9\\d)|3(?:0\\d|[25][02-9]|3[02-579]|[468][0-46-9]|7[1-35-79]|9[2-578])|4(?:0[03-9]|[28][02-57-9]|[37]\\d|4[02-69]|5[0-8]|[69][0-79])|5(?:0[1-35-9]|2[024-9]|3[015689]|4[02-9]|5[03-9]|6\\d|7[0-35-9]|8[0-468]|9[0-57-9])|6(?:0[034689]|2[0-35689]|[38][013-9]|4[1-467]|5[0-69]|6[13-9]|7[0-8]|9[0124578])|7(?:0[0246-9]|2\\d|3[0236-8]|4[03-9]|5[0-46-9]|6[013-9]|7[0-35-9]|8[024-9]|9[02-9])|8(?:0[35-9]|2[1-57-9]|3[02-578]|4[0-578]|5[124-9]|6[2-69]|7\\d|8[02-9]|9[02569])|9(?:0[02-589]|2[02-689]|3[1-57-9]|4[2-9]|5[0-579]|6[2-47-9]|7[0-24578]|8\\d|9[2-57]))\\d{6}|1(?:2(?:0(?:46[1-4]|87[2-9])|545[1-79]|76(?:2\\d|3[1-8]|6[1-6])|9(?:7(?:2[0-4]|3[2-5])|8(?:2[2-8]|7[0-47-9]|8[345])))|3(?:638[2-5]|647[23]|8(?:47[04-9]|64[0157-9]))|4(?:044[1-7]|20(?:2[23]|8\\d)|6(?:0(?:30|5[2-57]|6[1-8]|7[2-8])|140)|8(?:052|87[123]))|5(?:24(?:3[2-79]|6\\d)|276\\d|6(?:26[06-9]|686))|6(?:06(?:4\\d|7[4-79])|295[567]|35[34]\\d|47(?:24|61)|59(?:5[08]|6[67]|74)|955[0-4])|7(?:26(?:6[13-9]|7[0-7])|442\\d|50(?:2[0-3]|[3-68]2|76))|8(?:27[56]\\d|37(?:5[2-5]|8[239])|84(?:3[2-58]))|9(?:0(?:0(?:6[1-8]|85)|52\\d)|3583|4(?:66[1-8]|9(?:2[01]|81))|63(?:23|3[1-4])|9561))\\d{3}|176888[2-46-8]\\d{2}|16977[23]\\d{3}",[9,10]],["7(?:[1-3]\\d{3}|4(?:[0-46-9]\\d{2}|5(?:[0-689]\\d|7[0-57-9]))|5(?:0[0-8]|[13-9]\\d|2[0-35-9])\\d|7(?:0(?:0[01]|[1-9]\\d)|[1-7]\\d{2}|8[02-9]\\d|9[0-689]\\d)|8(?:[014-9]\\d|[23][0-8])\\d|9(?:[024-9]\\d{2}|1(?:[02-9]\\d|1[028])|3[0-689]\\d))\\d{5}",[10]],["80(?:0(?:1111|\\d{6,7})|8\\d{7})"],["(?:87[123]|9(?:[01]\\d|8[2349]))\\d{7}",[10]],["70\\d{8}",[10]],null,["(?:3[0347]|55)\\d{8}",[10]],["76(?:0[012]|2[356]|4[0134]|5[49]|6[0-369]|77|81|9[39])\\d{6}",[10]],["56\\d{8}",[10]],["8(?:4(?:5464\\d|[2-5]\\d{7})|70\\d{7})",[7,10]]]],"GD":["1","[4589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"473"],"GE":["995","[34578]\\d{8}",[9],[["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[348]"],"0$1"],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["7"],"0$1"],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["5"]]],"0"],"GF":["594","[56]\\d{8}",[9],[["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]],"0","0$1"],"GG":["44","[135789]\\d{6,9}",[7,9,10],[["(7\\d{3})(\\d{6})","$1 $2",["7(?:[1-57-9]|62)","7(?:[1-57-9]|624)"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["2|5[56]|7[06]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1(?:[02-9]1|1)|3|9[018]"]],["(\\d{5})(\\d{4,5})","$1 $2",["1(?:38|5[23]|69|76|94)","1(?:(?:38|69)7|5(?:24|39)|768|946)","1(?:3873|5(?:242|39[4-6])|(?:697|768)[347]|9467)"]],["(1\\d{3})(\\d{5,6})","$1 $2",["1"]],["(800)(\\d{4})","$1 $2",["800","8001","80011","800111","8001111"]],["(845)(46)(4\\d)","$1 $2 $3",["845","8454","84546","845464"]],["(8\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["8(?:4[2-5]|7[0-3])"]],["(80\\d)(\\d{3})(\\d{4})","$1 $2 $3",["80"]],["(800)(\\d{6})","$1 $2",["800"]]],"0",null,null,null,null,null,[["1481[25-9]\\d{5}",[10]],["7(?:781\\d|839\\d|911[17])\\d{5}",[10]],["80(?:0(?:1111|\\d{6,7})|8\\d{7})"],["(?:87[123]|9(?:[01]\\d|8[0-3]))\\d{7}",[10]],["70\\d{8}",[10]],null,["(?:3[0347]|55)\\d{8}",[10]],["76(?:0[012]|2[356]|4[0134]|5[49]|6[0-369]|77|81|9[39])\\d{6}",[10]],["56\\d{8}",[10]],["8(?:4(?:5464\\d|[2-5]\\d{7})|70\\d{7})",[7,10]]]],"GH":["233","[235]\\d{8}|8\\d{7}",[8,9],[["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[235]"]],["(\\d{3})(\\d{5})","$1 $2",["8"]]],"0","0$1"],"GI":["350","[256]\\d{7}",[8],[["(\\d{3})(\\d{5})","$1 $2",["2"]]]],"GL":["299","[1-689]\\d{5}",[6],[["(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3"]]],"GM":["220","[2-9]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"GN":["224","[367]\\d{7,8}",[8,9],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["3"]],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[67]"]]]],"GP":["590","[56]\\d{8}",[9],[["([56]\\d{2})(\\d{2})(\\d{4})","$1 $2-$3",["590|69[01]"]]],"0","0$1",null,null,null,null,[["590(?:0[1-68]|1[0-2]|2[0-68]|3[1289]|4[0-24-9]|5[3-579]|6[0189]|7[08]|8[0-689]|9\\d)\\d{4}"],["69(?:0\\d{2}|1(?:2[29]|3[0-5]))\\d{4}"]]],"GQ":["240","[23589]\\d{8}",[9],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["[235]"]],["(\\d{3})(\\d{6})","$1 $2",["[89]"]]]],"GR":["30","[26-9]\\d{9}",[10],[["([27]\\d)(\\d{4})(\\d{4})","$1 $2 $3",["21|7"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["2[2-9]1|[689]"]],["(2\\d{3})(\\d{6})","$1 $2",["2[2-9][02-9]"]]]],"GT":["502","[2-7]\\d{7}|1[89]\\d{9}",[8,11],[["(\\d{4})(\\d{4})","$1 $2",["[2-7]"]],["(\\d{4})(\\d{3})(\\d{4})","$1 $2 $3",["1"]]]],"GU":["1","[5689]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"671"],"GW":["245","(?:4(?:0\\d{5}|4\\d{7})|9\\d{8})",[7,9],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["44|9[5-7]"]],["(\\d{3})(\\d{4})","$1 $2",["40"]]]],"GY":["592","[2-46-9]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"HK":["852","[2-7]\\d{7}|8[0-3]\\d{6,7}|9\\d{4,10}",[5,6,7,8,9,11],[["(\\d{4})(\\d{4})","$1 $2",["[2-7]|[89](?:0[1-9]|[1-9])"]],["(800)(\\d{3})(\\d{3})","$1 $2 $3",["800"]],["(900)(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3 $4",["900"]],["(900)(\\d{2,5})","$1 $2",["900"]]]],"HN":["504","[237-9]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1-$2"]]],"HR":["385","[1-7]\\d{5,8}|[89]\\d{6,8}",[6,7,8,9],[["(1)(\\d{4})(\\d{3})","$1 $2 $3",["1"]],["([2-5]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["[2-5]"]],["(9\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["9"]],["(6[01])(\\d{2})(\\d{2,3})","$1 $2 $3",["6[01]"]],["([67]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["[67]"]],["(80[01])(\\d{2})(\\d{2,3})","$1 $2 $3",["80[01]"]],["(80[01])(\\d{3})(\\d{3})","$1 $2 $3",["80[01]"]]],"0","0$1"],"HT":["509","[2-489]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{4})","$1 $2 $3"]]],"HU":["36","[1-9]\\d{7,8}",[8,9],[["(1)(\\d{3})(\\d{4})","$1 $2 $3",["1"]],["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["[2-9]"]]],"06","($1)"],"ID":["62","(?:[1-79]\\d{6,10}|8\\d{7,11})",[7,8,9,10,11,12],[["(\\d{2})(\\d{5,8})","$1 $2",["2[124]|[36]1"],"(0$1)"],["(\\d{3})(\\d{5,8})","$1 $2",["2[035-9]|[36][02-9]|[4579]"],"(0$1)"],["(8\\d{2})(\\d{3,4})(\\d{3})","$1-$2-$3",["8[1-35-9]"]],["(8\\d{2})(\\d{4})(\\d{4,5})","$1-$2-$3",["8[1-35-9]"]],["(1)(500)(\\d{3})","$1 $2 $3",["150","1500"],"$1"],["(177)(\\d{6,8})","$1 $2",["177"]],["(800)(\\d{5,7})","$1 $2",["800"]],["(804)(\\d{3})(\\d{4})","$1 $2 $3",["804"]],["(80\\d)(\\d)(\\d{3})(\\d{3})","$1 $2 $3 $4",["80[79]"]]],"0","0$1"],"IE":["353","[124-9]\\d{6,9}",[7,8,9,10],[["(1)(\\d{3,4})(\\d{4})","$1 $2 $3",["1"]],["(\\d{2})(\\d{5})","$1 $2",["2[24-9]|47|58|6[237-9]|9[35-9]"]],["(\\d{3})(\\d{5})","$1 $2",["40[24]|50[45]"]],["(48)(\\d{4})(\\d{4})","$1 $2 $3",["48"]],["(818)(\\d{3})(\\d{3})","$1 $2 $3",["818"]],["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["[24-69]|7[14]"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["76|8[35-9]"],"0$1"],["(8\\d)(\\d)(\\d{3})(\\d{4})","$1 $2 $3 $4",["8[35-9]5"],"0$1"],["(700)(\\d{3})(\\d{3})","$1 $2 $3",["700"],"0$1"],["(\\d{4})(\\d{3})(\\d{3})","$1 $2 $3",["1(?:5|8[059])","1(?:5|8[059]0)"],"$1"]],"0","(0$1)"],"IL":["972","1\\d{6,11}|[2-589]\\d{3}(?:\\d{3,6})?|6\\d{3}|7\\d{6,9}",[4,7,8,9,10,11,12],[["([2-489])(\\d{3})(\\d{4})","$1-$2-$3",["[2-489]"],"0$1"],["([57]\\d)(\\d{3})(\\d{4})","$1-$2-$3",["[57]"],"0$1"],["(153)(\\d{1,2})(\\d{3})(\\d{4})","$1 $2 $3 $4",["153"]],["(1)([7-9]\\d{2})(\\d{3})(\\d{3})","$1-$2-$3-$4",["1[7-9]"]],["(1255)(\\d{3})","$1-$2",["125","1255"]],["(1200)(\\d{3})(\\d{3})","$1-$2-$3",["120","1200"]],["(1212)(\\d{2})(\\d{2})","$1-$2-$3",["121","1212"]],["(1599)(\\d{6})","$1-$2",["159","1599"]],["(151)(\\d{1,2})(\\d{3})(\\d{4})","$1-$2 $3-$4",["151"]],["(\\d{4})","*$1",["[2-689]"]]],"0"],"IM":["44","[135789]\\d{6,9}",[10],[["(7\\d{3})(\\d{6})","$1 $2",["7(?:[1-57-9]|62)","7(?:[1-57-9]|624)"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["2|5[56]|7[06]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1(?:[02-9]1|1)|3|9[018]"]],["(\\d{5})(\\d{4,5})","$1 $2",["1(?:38|5[23]|69|76|94)","1(?:(?:38|69)7|5(?:24|39)|768|946)","1(?:3873|5(?:242|39[4-6])|(?:697|768)[347]|9467)"]],["(1\\d{3})(\\d{5,6})","$1 $2",["1"]],["(800)(\\d{4})","$1 $2",["800","8001","80011","800111","8001111"]],["(845)(46)(4\\d)","$1 $2 $3",["845","8454","84546","845464"]],["(8\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["8(?:4[2-5]|7[0-3])"]],["(80\\d)(\\d{3})(\\d{4})","$1 $2 $3",["80"]],["(800)(\\d{6})","$1 $2",["800"]]],"0",null,null,null,null,null,[["1624[5-8]\\d{5}"],["7(?:4576|[59]24\\d|624[0-4689])\\d{5}"],["808162\\d{4}"],["(?:872299|90[0167]624)\\d{4}"],["70\\d{8}"],null,["3(?:08162\\d|3\\d{5}|4(?:40[49]06|5624\\d)|7(?:0624\\d|2299\\d))\\d{3}|55\\d{8}"],null,["56\\d{8}"],["8(?:4(?:40[49]06|5624\\d)|70624\\d)\\d{3}"]]],"IN":["91","008\\d{9}|1\\d{7,12}|[2-9]\\d{9,10}",[8,9,10,11,12,13],[["(\\d{8})","$1",["561","5616","56161"],"$1"],["(\\d{5})(\\d{5})","$1 $2",["6(?:[09]0|12|2[03689]|3[05-9])|7(?:[02-8]|19|9[037-9])|8(?:0[015-9]|[1-9])|9","6(?:[09]0|127|2(?:0[01]|39|6[02]|8[0-2]|9[04])|3(?:0[01]|5[0-2]|60|7[05]|81|9[02-5]))|7(?:[07]|19[0-5]|2(?:[0235-9]|[14][017-9])|3(?:[025-9]|[134][017-9])|4(?:[0-35689]|[47][017-9])|5(?:[02-46-9]|[15][017-9])|6(?:[02-9]|1[0-257-9])|8(?:[0-79]|8[0189])|9(?:[089]|31|7[02-9]))|8(?:0(?:[01589]|6[67]|7[02-9])|1(?:[0-57-9]|6[07-9])|2(?:[014][07-9]|[235-9])|3(?:[03-57-9]|[126][07-9])|[45]|6(?:[02457-9]|[136][07-9])|7(?:[078][07-9]|[1-69])|8(?:[0-25-9]|3[07-9]|4[047-9])|9(?:[02-9]|1[027-9]))|9","6(?:[09]0|1279|2(?:0[01]|39|6[02]|8[0-2]|9[04])|3(?:0[01]|5[0-2]|60|7[05]|81|9[02-5]))|7(?:0|19[0-5]|2(?:[0235-79]|[14][017-9]|8(?:[0-69]|[78][089]))|3(?:[05-8]|1(?:[0189]|7[5-9])|2(?:[0-49][089]|[5-8])|3[017-9]|4(?:[07-9]|11)|9(?:[01689]|[2-5][089]|7[0189]))|4(?:[056]|1(?:[0135-9]|[24][089])|[29](?:[0-7][089]|[89])|3(?:[0-8][089]|9)|[47](?:[089]|11|7[02-8])|8(?:[0-24-7][089]|[389]))|5(?:[0346-9]|[15][017-9]|2(?:[03-9]|[12][089]))|6(?:[0346-9]|1[0-257-9]|2(?:[0-4]|[5-9][089])|5(?:[0-367][089]|[4589]))|7(?:0(?:[02-9]|1[089])|[1-9])|8(?:[0-79]|8(?:0[0189]|11|8[013-9]|9))|9(?:[089]|313|7(?:[02-8]|9[07-9])))|8(?:0(?:[01589]|6[67]|7(?:[02-8]|9[04-9]))|1(?:[02-57-9]|1(?:[0-35-9]|4[0-46-9])|6(?:[089]|7[02-8]))|2(?:[014](?:[089]|7[02-8])|[235-9])|3(?:[03-57-9]|[16](?:[089]|7[02-7])|2(?:[09]|7[02-8]|8[0-689]))|[45]|6(?:[02457-9]|[136](?:[089]|7[02-8]))|7(?:0[07-9]|[1-69]|[78](?:[089]|7[02-8]))|8(?:[0-25-9]|3(?:[089]|7[02-8])|4(?:[0489]|7[02-8]))|9(?:[02-9]|1(?:[0289]|7[02-8])))|9"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["11|2[02]|33|4[04]|79[1-9]|80[2-46]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1(?:2[0-249]|3[0-25]|4[145]|[59][14]|[68][1-9]|7[1257])|2(?:1[257]|3[013]|4[01]|5[0137]|6[0158]|78|8[1568]|9[14])|3(?:26|4[1-3]|5[34]|6[01489]|7[02-46]|8[159])|4(?:1[36]|2[1-47]|3[15]|5[12]|6[0-26-9]|7[0-24-9]|8[013-57]|9[014-7])|5(?:1[025]|22|[36][25]|4[28]|5[12]|[78]1|9[15])|6(?:12|[2-4]1|5[17]|6[13]|7[14]|80)|7(?:12|2[14]|3[134]|4[47]|5[15]|[67]1|88)|8(?:16|2[014]|3[126]|6[136]|7[078]|8[34]|91)"]],["(\\d{4})(\\d{3})(\\d{3})","$1 $2 $3",["1(?:[23579]|[468][1-9])|[2-8]"]],["(\\d{2})(\\d{3})(\\d{4})(\\d{3})","$1 $2 $3 $4",["008"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["140"],"$1"],["(\\d{4})(\\d{2})(\\d{4})","$1 $2 $3",["160","1600"],"$1"],["(\\d{4})(\\d{4,5})","$1 $2",["180","1800"],"$1"],["(\\d{4})(\\d{2,4})(\\d{4})","$1 $2 $3",["180","1800"],"$1"],["(\\d{4})(\\d{3,4})(\\d{4})","$1 $2 $3",["186","1860"],"$1"],["(\\d{4})(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3 $4",["18[06]"],"$1"]],"0","0$1",null,null,true],"IO":["246","3\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"IQ":["964","[1-7]\\d{7,9}",[8,9,10],[["(1)(\\d{3})(\\d{4})","$1 $2 $3",["1"]],["([2-6]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["[2-6]"]],["(7\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["7"]]],"0","0$1"],"IR":["98","[1-8]\\d{5,9}|9(?:[0-4]\\d{8}|9\\d{8})",[6,7,10],[["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["[1-8]"]],["(\\d{2})(\\d{4,5})","$1 $2",["[1-8]"]],["(\\d{4,5})","$1",["96"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["9"]]],"0","0$1"],"IS":["354","[4-9]\\d{6}|38\\d{7}",[7,9],[["(\\d{3})(\\d{4})","$1 $2",["[4-9]"]],["(3\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["3"]]]],"IT":["39","[01589]\\d{5,10}|3(?:[12457-9]\\d{8}|[36]\\d{7,9})",[6,7,8,9,10,11],[["(\\d{2})(\\d{3,4})(\\d{4})","$1 $2 $3",["0[26]|55"]],["(0[26])(\\d{4})(\\d{5})","$1 $2 $3",["0[26]"]],["(0[26])(\\d{4,6})","$1 $2",["0[26]"]],["(0\\d{2})(\\d{3,4})(\\d{4})","$1 $2 $3",["0[13-57-9][0159]"]],["(\\d{3})(\\d{3,6})","$1 $2",["0[13-57-9][0159]|8(?:03|4[17]|9[245])","0[13-57-9][0159]|8(?:03|4[17]|9(?:2|[45][0-4]))"]],["(0\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["0[13-57-9][2-46-8]"]],["(0\\d{3})(\\d{2,6})","$1 $2",["0[13-57-9][2-46-8]"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["[13]|8(?:00|4[08]|9[59])","[13]|8(?:00|4[08]|9(?:5[5-9]|9))"]],["(\\d{4})(\\d{4})","$1 $2",["894","894[5-9]"]],["(\\d{3})(\\d{4})(\\d{4})","$1 $2 $3",["3"]]],null,null,null,null,null,null,[["0(?:[26]\\d{4,9}|(?:1(?:[0159]\\d|[27][1-5]|31|4[1-4]|6[1356]|8[2-57])|3(?:[0159]\\d|2[1-4]|3[12]|[48][1-6]|6[2-59]|7[1-7])|4(?:[0159]\\d|[23][1-9]|4[245]|6[1-5]|7[1-4]|81)|5(?:[0159]\\d|2[1-5]|3[2-6]|4[1-79]|6[4-6]|7[1-578]|8[3-8])|7(?:[0159]\\d|2[12]|3[1-7]|4[2346]|6[13569]|7[13-6]|8[1-59])|8(?:[0159]\\d|2[34578]|3[1-356]|[6-8][1-5])|9(?:[0159]\\d|[238][1-5]|4[12]|6[1-8]|7[1-6]))\\d{2,7})"],["3(?:[12457-9]\\d{8}|6\\d{7,8}|3\\d{7,9})",[9,10,11]],["80(?:0\\d{6}|3\\d{3})",[6,9]],["0878\\d{5}|1(?:44|6[346])\\d{6}|89(?:2\\d{3}|4(?:[0-4]\\d{2}|[5-9]\\d{4})|5(?:[0-4]\\d{2}|[5-9]\\d{6})|9\\d{6})",[6,8,9,10]],["1(?:78\\d|99)\\d{6}",[9,10]],null,null,null,["55\\d{8}",[10]],["84(?:[08]\\d{6}|[17]\\d{3})",[6,9]]]],"JE":["44","[135789]\\d{6,9}",[10],[["(7\\d{3})(\\d{6})","$1 $2",["7(?:[1-57-9]|62)","7(?:[1-57-9]|624)"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["2|5[56]|7[06]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1(?:[02-9]1|1)|3|9[018]"]],["(\\d{5})(\\d{4,5})","$1 $2",["1(?:38|5[23]|69|76|94)","1(?:(?:38|69)7|5(?:24|39)|768|946)","1(?:3873|5(?:242|39[4-6])|(?:697|768)[347]|9467)"]],["(1\\d{3})(\\d{5,6})","$1 $2",["1"]],["(800)(\\d{4})","$1 $2",["800","8001","80011","800111","8001111"]],["(845)(46)(4\\d)","$1 $2 $3",["845","8454","84546","845464"]],["(8\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["8(?:4[2-5]|7[0-3])"]],["(80\\d)(\\d{3})(\\d{4})","$1 $2 $3",["80"]],["(800)(\\d{6})","$1 $2",["800"]]],"0",null,null,null,null,null,[["1534[0-24-8]\\d{5}"],["7(?:509\\d|7(?:00[378]|97[7-9])|829\\d|937\\d)\\d{5}"],["80(?:07(?:35|81)|8901)\\d{4}"],["(?:871206|90(?:066[59]|1810|71(?:07|55)))\\d{4}"],["701511\\d{4}"],null,["3(?:0(?:07(?:35|81)|8901)|3\\d{4}|4(?:4(?:4(?:05|42|69)|703)|5(?:041|800))|7(?:0002|1206))\\d{4}|55\\d{8}"],["76(?:0[012]|2[356]|4[0134]|5[49]|6[0-369]|77|81|9[39])\\d{6}"],["56\\d{8}"],["8(?:4(?:4(?:4(?:05|42|69)|703)|5(?:041|800))|70002)\\d{4}"]]],"JM":["1","[589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"876"],"JO":["962","[235-9]\\d{7,8}",[8,9],[["(\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[2356]|87"],"(0$1)"],["(7)(\\d{4})(\\d{4})","$1 $2 $3",["7[457-9]"]],["(\\d{2})(\\d{7})","$1 $2",["70"]],["(\\d{3})(\\d{5,6})","$1 $2",["8[0158]|9"]]],"0","0$1"],"JP":["81","[1-9]\\d{8,9}|00(?:[36]\\d{7,14}|7\\d{5,7}|8\\d{7})",[8,9,10,11,12,13,14,15,16,17],[["(\\d{3})(\\d{3})(\\d{3})","$1-$2-$3",["(?:12|57|99)0"]],["(\\d{3})(\\d{3})(\\d{4})","$1-$2-$3",["800"]],["(\\d{2})(\\d{4})(\\d{4})","$1-$2-$3",["[2579]0|80[1-9]"]],["(\\d{4})(\\d)(\\d{4})","$1-$2-$3",["1(?:26|3[79]|4[56]|5[4-68]|6[3-5])|499|5(?:76|97)|746|8(?:3[89]|47|51|63)|9(?:49|80|9[16])","1(?:267|3(?:7[247]|9[278])|4(?:5[67]|66)|5(?:47|58|64|8[67])|6(?:3[245]|48|5[4-68]))|499[2468]|5(?:76|97)9|7468|8(?:3(?:8[78]|96)|477|51[24]|636)|9(?:496|802|9(?:1[23]|69))","1(?:267|3(?:7[247]|9[278])|4(?:5[67]|66)|5(?:47|58|64|8[67])|6(?:3[245]|48|5[4-68]))|499[2468]|5(?:769|979[2-69])|7468|8(?:3(?:8[78]|96[2457-9])|477|51[24]|636[2-57-9])|9(?:496|802|9(?:1[23]|69))"]],["(\\d{3})(\\d{2})(\\d{4})","$1-$2-$3",["1(?:2[3-6]|3[3-9]|4[2-6]|5[2-8]|[68][2-7]|7[2-689]|9[1-578])|2(?:2[03-689]|3[3-58]|4[0-468]|5[04-8]|6[013-8]|7[06-9]|8[02-57-9]|9[13])|4(?:2[28]|3[689]|6[035-7]|7[05689]|80|9[3-5])|5(?:3[1-36-9]|4[4578]|5[013-8]|6[1-9]|7[2-8]|8[14-7]|9[4-9])|7(?:2[15]|3[5-9]|4[02-9]|6[135-8]|7[0-4689]|9[014-9])|8(?:2[49]|3[3-8]|4[5-8]|5[2-9]|6[35-9]|7[579]|8[03-579]|9[2-8])|9(?:[23]0|4[02-46-9]|5[024-79]|6[4-9]|7[2-47-9]|8[02-7]|9[3-7])","1(?:2[3-6]|3[3-9]|4[2-6]|5(?:[236-8]|[45][2-69])|[68][2-7]|7[2-689]|9[1-578])|2(?:2(?:[04-689]|3[23])|3[3-58]|4[0-468]|5(?:[0468][2-9]|5[78]|7[2-4])|6(?:[0135-8]|4[2-5])|7(?:[0679]|8[2-7])|8(?:[024578]|3[25-9]|9[6-9])|9(?:11|3[2-4]))|4(?:2(?:2[2-9]|8[237-9])|3[689]|6[035-7]|7(?:[059][2-8]|[68])|80|9[3-5])|5(?:3[1-36-9]|4[4578]|5[013-8]|6[1-9]|7[2-8]|8[14-7]|9(?:[4-7]|[89][2-8]))|7(?:2[15]|3[5-9]|4[02-9]|6[135-8]|7[0-4689]|9(?:[017-9]|4[6-8]|5[2-478]|6[2-589]))|8(?:2(?:4[4-8]|9[2-8])|3(?:[3-6][2-9]|7[2-6]|8[2-5])|4[5-8]|5[2-9]|6(?:[37]|5[4-7]|6[2-9]|8[2-8]|9[236-9])|7[579]|8[03-579]|9[2-8])|9(?:[23]0|4[02-46-9]|5[024-79]|6[4-9]|7[2-47-9]|8[02-7]|9(?:3[34]|4[2-69]|[5-7]))","1(?:2[3-6]|3[3-9]|4[2-6]|5(?:[236-8]|[45][2-69])|[68][2-7]|7[2-689]|9[1-578])|2(?:2(?:[04-689]|3[23])|3[3-58]|4[0-468]|5(?:[0468][2-9]|5[78]|7[2-4])|6(?:[0135-8]|4[2-5])|7(?:[0679]|8[2-7])|8(?:[024578]|3[25-9]|9[6-9])|9(?:11|3[2-4]))|4(?:2(?:2[2-9]|8[237-9])|3[689]|6[035-7]|7(?:[059][2-8]|[68])|80|9[3-5])|5(?:3[1-36-9]|4[4578]|5[013-8]|6[1-9]|7[2-8]|8[14-7]|9(?:[4-7]|[89][2-8]))|7(?:2[15]|3[5-9]|4[02-9]|6[135-8]|7[0-4689]|9(?:[017-9]|4[6-8]|5[2-478]|6[2-589]))|8(?:2(?:4[4-8]|9(?:20|[3578]|4[04-9]|6[56]))|3(?:[3-6][2-9]|7(?:[2-5]|6[0-59])|8[2-5])|4[5-8]|5[2-9]|6(?:[37]|5(?:[467]|5[014-9])|6(?:[2-8]|9[02-69])|8[2-8]|9(?:[236-8]|9[23]))|7[579]|8[03-579]|9[2-8])|9(?:[23]0|4[02-46-9]|5[024-79]|6[4-9]|7[2-47-9]|8[02-7]|9(?:3(?:3[02-9]|4[0-24689])|4[2-69]|[5-7]))","1(?:2[3-6]|3[3-9]|4[2-6]|5(?:[236-8]|[45][2-69])|[68][2-7]|7[2-689]|9[1-578])|2(?:2(?:[04-689]|3[23])|3[3-58]|4[0-468]|5(?:[0468][2-9]|5[78]|7[2-4])|6(?:[0135-8]|4[2-5])|7(?:[0679]|8[2-7])|8(?:[024578]|3[25-9]|9[6-9])|9(?:11|3[2-4]))|4(?:2(?:2[2-9]|8[237-9])|3[689]|6[035-7]|7(?:[059][2-8]|[68])|80|9[3-5])|5(?:3[1-36-9]|4[4578]|5[013-8]|6[1-9]|7[2-8]|8[14-7]|9(?:[4-7]|[89][2-8]))|7(?:2[15]|3[5-9]|4[02-9]|6[135-8]|7[0-4689]|9(?:[017-9]|4[6-8]|5[2-478]|6[2-589]))|8(?:2(?:4[4-8]|9(?:20|[3578]|4[04-9]|6(?:5[25]|60)))|3(?:[3-6][2-9]|7(?:[2-5]|6[0-59])|8[2-5])|4[5-8]|5[2-9]|6(?:[37]|5(?:[467]|5[014-9])|6(?:[2-8]|9[02-69])|8[2-8]|9(?:[236-8]|9[23]))|7[579]|8[03-579]|9[2-8])|9(?:[23]0|4[02-46-9]|5[024-79]|6[4-9]|7[2-47-9]|8[02-7]|9(?:3(?:3[02-9]|4[0-24689])|4[2-69]|[5-7]))"]],["(\\d{2})(\\d{3})(\\d{4})","$1-$2-$3",["1|2(?:2[37]|5[5-9]|64|78|8[39]|91)|4(?:2[2689]|64|7[347])|5[2-589]|60|8(?:2[124589]|3[279]|[46-9])|9(?:[235-8]|93)","1|2(?:2[37]|5(?:[57]|[68]0|9[19])|64|78|8[39]|917)|4(?:2(?:20|[68]|9[178])|64|7[347])|5[2-589]|60|8(?:2[124589]|3[279]|[46-9])|9(?:[235-8]|93[34])","1|2(?:2[37]|5(?:[57]|[68]0|9(?:17|99))|64|78|8[39]|917)|4(?:2(?:20|[68]|9[178])|64|7[347])|5[2-589]|60|8(?:2[124589]|3[279]|[46-9])|9(?:[235-8]|93(?:31|4))"]],["(\\d{3})(\\d{2})(\\d{4})","$1-$2-$3",["2(?:[34]7|[56]9|74|9[14-79])|82|993"]],["(\\d)(\\d{4})(\\d{4})","$1-$2-$3",["3|4(?:2[09]|7[01])|6[1-9]"]],["(\\d{2})(\\d{3})(\\d{4})","$1-$2-$3",["[2479][1-9]"]]],"0","0$1"],"KE":["254","20\\d{6,7}|[4-9]\\d{6,9}",[7,8,9,10],[["(\\d{2})(\\d{5,7})","$1 $2",["[24-6]"]],["(\\d{3})(\\d{6})","$1 $2",["7"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["[89]"]]],"0","0$1","005|0"],"KG":["996","[235-8]\\d{8,9}",[9,10],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["[25-7]|31[25]"]],["(\\d{4})(\\d{5})","$1 $2",["3(?:1[36]|[2-9])"]],["(\\d{3})(\\d{3})(\\d)(\\d{3})","$1 $2 $3 $4",["8"]]],"0","0$1"],"KH":["855","[1-9]\\d{7,9}",[8,9,10],[["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["1\\d[1-9]|[2-9]"],"0$1"],["(1[89]00)(\\d{3})(\\d{3})","$1 $2 $3",["1[89]0","1[89]00"]]],"0"],"KI":["686","[2458]\\d{4}|3\\d{4,7}|[67]\\d{7}",[5,8],[],null,null,"0"],"KM":["269","[3478]\\d{6}",[7],[["(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3"]]],"KN":["1","[589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"869"],"KP":["850","1\\d{9}|[28]\\d{7}",[8,10],[["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1"]],["(\\d)(\\d{3})(\\d{4})","$1 $2 $3",["2"]],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["8"]]],"0","0$1"],"KR":["82","00(?:3\\d{8,9}|7\\d{9,11})|[1-7]\\d{4,9}|8\\d{8}",[5,6,8,9,10,11,12,13,14],[["(\\d{2})(\\d{3,4})","$1-$2",["(?:3[1-3]|[46][1-4]|5[1-5])1"]],["(\\d{4})(\\d{4})","$1-$2",["1(?:5[246-9]|6[046-8]|8[03579])","1(?:5(?:22|44|66|77|88|99)|6(?:[07]0|44|6[16]|88)|8(?:00|33|55|77|99))"],"$1"],["(\\d{5})","$1",["1[016-9]1","1[016-9]11","1[016-9]114"]],["(\\d)(\\d{3,4})(\\d{4})","$1-$2-$3",["2[1-9]"]],["(\\d{2})(\\d{3})(\\d{4})","$1-$2-$3",["60[2-9]|80"]],["(\\d{2})(\\d{3,4})(\\d{4})","$1-$2-$3",["1[0-25-9]|(?:3[1-3]|[46][1-4]|5[1-5])[1-9]"]],["(\\d{2})(\\d{4})(\\d{4})","$1-$2-$3",["[57]0"]]],"0","0$1","0(8[1-46-8]|85\\d{2})?"],"KW":["965","[12569]\\d{6,7}",[7,8],[["(\\d{4})(\\d{3,4})","$1 $2",["[16]|2(?:[0-35-9]|4[0-35-9])|52[25]|9[024-9]"]],["(\\d{3})(\\d{5})","$1 $2",["244|5(?:[015]|6[56])"]]]],"KY":["1","[3589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"345"],"KZ":["7","(?:33\\d|7\\d{2}|80[089])\\d{7}",[10],[["([3489]\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2-$3-$4",["[3489]"]],["(7\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["7"]]],"8",null,null,null,null,null,[["33622\\d{5}|7(?:1(?:0(?:[23]\\d|4[0-3]|59|63)|1(?:[23]\\d|4[0-79]|59)|2(?:[23]\\d|59)|3(?:2\\d|3[0-79]|4[0-35-9]|59)|4(?:[24]\\d|3[013-9]|5[1-9])|5(?:2\\d|3[1-9]|4[0-7]|59)|6(?:[234]\\d|5[19]|61)|72\\d|8(?:[27]\\d|3[1-46-9]|4[0-5]))|2(?:1(?:[23]\\d|4[46-9]|5[3469])|2(?:2\\d|3[0679]|46|5[12679])|3(?:[234]\\d|5[139])|4(?:2\\d|3[1235-9]|59)|5(?:[23]\\d|4[01246-8]|59|61)|6(?:2\\d|3[1-9]|4[0-4]|59)|7(?:[2379]\\d|40|5[279])|8(?:[23]\\d|4[0-3]|59)|9(?:2\\d|3[124578]|59)))\\d{5}"],["7(?:0[012578]|47|6[02-4]|7[15-8]|85)\\d{7}"],["800\\d{7}"],["809\\d{7}"],["808\\d{7}"],null,null,null,["751\\d{7}"]]],"LA":["856","[2-8]\\d{7,9}",[8,9,10],[["(20)(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3 $4",["20"]],["([2-8]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["2[13]|3[14]|[4-8]"]],["(30)(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3 $4",["30"]]],"0","0$1"],"LB":["961","[13-9]\\d{6,7}",[7,8],[["(\\d)(\\d{3})(\\d{3})","$1 $2 $3",["[13-69]|7(?:[2-57]|62|8[0-7]|9[04-9])|8[02-9]"],"0$1"],["([7-9]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["7(?:[01]|6[013-9]|8[89]|9[1-3])|[89][01]"]]],"0"],"LC":["1","[5789]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"758"],"LI":["423","6\\d{8}|[23789]\\d{6}",[7,9],[["(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3",["[237-9]"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["6[56]"]],["(69)(7\\d{2})(\\d{4})","$1 $2 $3",["697"]]],"0",null,"0|10(?:01|20|66)"],"LK":["94","[1-9]\\d{8}",[9],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["[1-689]"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["7"]]],"0","0$1"],"LR":["231","2\\d{7,8}|[378]\\d{8}|4\\d{6}|5\\d{6,8}",[7,8,9],[["(2\\d)(\\d{3})(\\d{3})","$1 $2 $3",["2"]],["([4-5])(\\d{3})(\\d{3})","$1 $2 $3",["[45]"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[23578]"]]],"0","0$1"],"LS":["266","[2568]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1 $2"]]],"LT":["370","[3-9]\\d{7}",[8],[["([34]\\d)(\\d{6})","$1 $2",["37|4(?:1|5[45]|6[2-4])"]],["([3-6]\\d{2})(\\d{5})","$1 $2",["3[148]|4(?:[24]|6[09])|528|6"]],["([7-9]\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["[7-9]"],"8 $1"],["(5)(2\\d{2})(\\d{4})","$1 $2 $3",["52[0-79]"]]],"8","(8-$1)","[08]",null,true],"LU":["352","[24-9]\\d{3,10}|3(?:[0-46-9]\\d{2,9}|5[013-9]\\d{1,8})",[4,5,6,7,8,9,10,11],[["(\\d{2})(\\d{3})","$1 $2",["[2-5]|7[1-9]|[89](?:0[2-9]|[1-9])"]],["(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3",["[2-5]|7[1-9]|[89](?:0[2-9]|[1-9])"]],["(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["20"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{1,2})","$1 $2 $3 $4",["2(?:[0367]|4[3-8])"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3 $4",["20"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{1,2})","$1 $2 $3 $4 $5",["2(?:[0367]|4[3-8])"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{1,4})","$1 $2 $3 $4",["2(?:[12589]|4[12])|[3-5]|7[1-9]|8(?:0[2-9]|[1-9])|9(?:0[2-46-9]|[1-9])"]],["(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3",["70|80[01]|90[015]"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["6"]]],null,null,"(15(?:0[06]|1[12]|35|4[04]|55|6[26]|77|88|99)\\d)"],"LV":["371","[2689]\\d{7}",[8],[["([2689]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["[2689]"]]]],"LY":["218","[25679]\\d{8}",[9],[["([25-79]\\d)(\\d{7})","$1-$2",["[25-79]"]]],"0","0$1"],"MA":["212","[5-9]\\d{8}",[9],[["([5-7]\\d{2})(\\d{6})","$1-$2",["5(?:2[015-7]|3[0-4])|[67]"]],["([58]\\d{3})(\\d{5})","$1-$2",["5(?:2[2-489]|3[5-9]|92)|892","5(?:2(?:[2-48]|9[0-7])|3(?:[5-79]|8[0-7])|924)|892"]],["(5\\d{4})(\\d{4})","$1-$2",["5(?:29|38)","5(?:29|38)[89]"]],["([5]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["5(?:4[067]|5[03])"]],["(8[09])(\\d{7})","$1-$2",["8(?:0|9[013-9])"]]],"0","0$1",null,null,null,null,[["5(?:2(?:[015-79]\\d|2[02-9]|3[2-57]|4[2-8]|8[235-7])\\d|3(?:[0-48]\\d|[57][2-9]|6[2-8]|9[3-9])\\d|4[067]\\d{2}|5[03]\\d{2})\\d{4}"],["(?:6(?:[0-79]\\d|8[0-247-9])|7(?:0[067]|6[1267]|7[07]))\\d{6}"],["80\\d{7}"],["89\\d{7}"],null,null,null,null,["5924[01]\\d{4}"]]],"MC":["377","[34689]\\d{7,8}",[8,9],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[39]"],"$1"],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["4"]],["(6)(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4 $5",["6"]],["(\\d{3})(\\d{3})(\\d{2})","$1 $2 $3",["8"],"$1"]],"0","0$1"],"MD":["373","[235-9]\\d{7}",[8],[["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["22|3"]],["([25-7]\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["2[13-9]|[5-7]"]],["([89]\\d{2})(\\d{5})","$1 $2",["[89]"]]],"0","0$1"],"ME":["382","[2-9]\\d{7,8}",[8],[["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[2-57-9]|6[036-9]"]]],"0","0$1"],"MF":["590","[56]\\d{8}",[9],[["([56]\\d{2})(\\d{2})(\\d{4})","$1 $2-$3",["590|69[01]"]]],"0",null,null,null,null,null,[["590(?:0[079]|13|2[79]|30|43|5[0-268]|7[79]|87)\\d{4}"],["69(?:0\\d{2}|1(?:2[29]|3[0-5]))\\d{4}"]]],"MG":["261","[23]\\d{8}",[9],[["([23]\\d)(\\d{2})(\\d{3})(\\d{2})","$1 $2 $3 $4",["[23]"]]],"0","0$1"],"MH":["692","[2-6]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1-$2"]],"1"],"MK":["389","[2-578]\\d{7}",[8],[["(2)(\\d{3})(\\d{4})","$1 $2 $3",["2"]],["([347]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["[347]"]],["([58]\\d{2})(\\d)(\\d{2})(\\d{2})","$1 $2 $3 $4",["[58]"]]],"0","0$1"],"ML":["223","[246-9]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[246-9]"]]]],"MM":["95","[178]\\d{5,7}|[24-6]\\d{5,8}|9(?:[279]\\d{0,2}|5|[34]\\d{1,2}|6(?:\\d{1,2})?|8(?:\\d{2})?)\\d{6}",[6,7,8,9,10],[["(\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["1|2[245]"]],["(2)(\\d{4})(\\d{4})","$1 $2 $3",["251"]],["(\\d)(\\d{2})(\\d{3})","$1 $2 $3",["16|2"]],["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["432|67|81"]],["(\\d{2})(\\d{2})(\\d{3,4})","$1 $2 $3",["[4-8]"]],["(9)(\\d{3})(\\d{4,6})","$1 $2 $3",["9(?:2[0-4]|[35-9]|4[137-9])"]],["(9)([34]\\d{4})(\\d{4})","$1 $2 $3",["9(?:3[0-36]|4[0-57-9])"]],["(9)(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3 $4",["92[56]"]],["(9)(\\d{3})(\\d{3})(\\d{2})","$1 $2 $3 $4",["93"]]],"0","0$1"],"MN":["976","[12]\\d{7,9}|[57-9]\\d{7}",[8,9,10],[["([12]\\d)(\\d{2})(\\d{4})","$1 $2 $3",["[12]1"]],["([12]2\\d)(\\d{5,6})","$1 $2",["[12]2[1-3]"]],["([12]\\d{3})(\\d{5})","$1 $2",["[12](?:27|[3-5])","[12](?:27|[3-5]\\d)2"]],["(\\d{4})(\\d{4})","$1 $2",["[57-9]"],"$1"],["([12]\\d{4})(\\d{4,5})","$1 $2",["[12](?:27|[3-5])","[12](?:27|[3-5]\\d)[4-9]"]]],"0","0$1"],"MO":["853","[268]\\d{7}",[8],[["([268]\\d{3})(\\d{4})","$1 $2",["[268]"]]]],"MP":["1","[5689]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"670"],"MQ":["596","[56]\\d{8}",[9],[["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]],"0","0$1"],"MR":["222","[2-48]\\d{7}",[8],[["([2-48]\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[2-48]"]]]],"MS":["1","[5689]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"664"],"MT":["356","[2357-9]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1 $2"]]],"MU":["230","[2-9]\\d{6,7}",[7,8],[["([2-46-9]\\d{2})(\\d{4})","$1 $2",["[2-46-9]"]],["(5\\d{3})(\\d{4})","$1 $2",["5"]]]],"MV":["960","[346-8]\\d{6,9}|9(?:00\\d{7}|\\d{6})",[7,10],[["(\\d{3})(\\d{4})","$1-$2",["[3467]|9(?:0[1-9]|[1-9])"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["[89]00"]]]],"MW":["265","(?:1(?:\\d{2})?|[2789]\\d{2}|31\\d)\\d{6}",[7,9],[["(\\d)(\\d{3})(\\d{3})","$1 $2 $3",["1"]],["(2\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["2"]],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[17-9]"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["31"]]],"0","0$1"],"MX":["52","[1-9]\\d{9,10}",[10,11],[["([358]\\d)(\\d{4})(\\d{4})","$1 $2 $3",["33|55|81"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["[2467]|3[0-2457-9]|5[089]|8[02-9]|9[0-35-9]"]],["(1)([358]\\d)(\\d{4})(\\d{4})","044 $2 $3 $4",["1(?:33|55|81)"],"$1",null,"$1 $2 $3 $4"],["(1)(\\d{3})(\\d{3})(\\d{4})","044 $2 $3 $4",["1(?:[2467]|3[0-2457-9]|5[089]|8[2-9]|9[1-35-9])"],"$1",null,"$1 $2 $3 $4"]],"01","01 $1","0[12]|04[45](\\d{10})","1$1",true],"MY":["60","[13-9]\\d{7,9}",[8,9,10],[["([4-79])(\\d{3})(\\d{4})","$1-$2 $3",["[4-79]"],"0$1"],["(3)(\\d{4})(\\d{4})","$1-$2 $3",["3"],"0$1"],["([18]\\d)(\\d{3})(\\d{3,4})","$1-$2 $3",["1[02-46-9][1-9]|8"],"0$1"],["(1)([36-8]00)(\\d{2})(\\d{4})","$1-$2-$3-$4",["1[36-8]0","1[36-8]00"]],["(11)(\\d{4})(\\d{4})","$1-$2 $3",["11"],"0$1"],["(15[49])(\\d{3})(\\d{4})","$1-$2 $3",["15[49]"],"0$1"]],"0"],"MZ":["258","[28]\\d{7,8}",[8,9],[["([28]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["2|8[2-7]"]],["(80\\d)(\\d{3})(\\d{3})","$1 $2 $3",["80"]]]],"NA":["264","[68]\\d{7,8}",[8,9],[["(8\\d)(\\d{3})(\\d{4})","$1 $2 $3",["8[1-35]"]],["(6\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["6"]],["(88)(\\d{3})(\\d{3})","$1 $2 $3",["88"]],["(870)(\\d{3})(\\d{3})","$1 $2 $3",["870"]]],"0","0$1"],"NC":["687","[2-57-9]\\d{5}",[6],[["(\\d{2})(\\d{2})(\\d{2})","$1.$2.$3",["[2-46-9]|5[0-4]"]]]],"NE":["227","[0289]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["09|[289]"]],["(08)(\\d{3})(\\d{3})","$1 $2 $3",["08"]]]],"NF":["672","[13]\\d{5}",[6],[["(\\d{2})(\\d{4})","$1 $2",["1"]],["(\\d)(\\d{5})","$1 $2",["3"]]]],"NG":["234","[1-6]\\d{5,8}|9\\d{5,9}|[78]\\d{5,13}",[7,8,10,11,12,13,14],[["(\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["[12]|9(?:0[3-9]|[1-9])"]],["(\\d{2})(\\d{3})(\\d{2,3})","$1 $2 $3",["[3-6]|7(?:0[1-9]|[1-79])|8[2-9]"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["70|8[01]|90[235-9]"]],["([78]00)(\\d{4})(\\d{4,5})","$1 $2 $3",["[78]00"]],["([78]00)(\\d{5})(\\d{5,6})","$1 $2 $3",["[78]00"]],["(78)(\\d{2})(\\d{3})","$1 $2 $3",["78"]]],"0","0$1"],"NI":["505","[125-8]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1 $2"]]],"NL":["31","1\\d{4,8}|[2-7]\\d{8}|[89]\\d{6,9}",[5,6,7,8,9,10],[["([1-578]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["1[035]|2[0346]|3[03568]|4[0356]|5[0358]|7|8[4578]"]],["([1-5]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["1[16-8]|2[259]|3[124]|4[17-9]|5[124679]"]],["(6)(\\d{8})","$1 $2",["6[0-57-9]"]],["(66)(\\d{7})","$1 $2",["66"]],["(14)(\\d{3,4})","$1 $2",["14"],"$1"],["([89]0\\d)(\\d{4,7})","$1 $2",["[89]0"]]],"0","0$1"],"NO":["47","0\\d{4}|[2-9]\\d{7}",[5,8],[["([489]\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["[489]"]],["([235-7]\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[235-7]"]]],null,null,null,null,null,null,[["(?:2[1-4]|3[1-3578]|5[1-35-7]|6[1-4679]|7[0-8])\\d{6}",[8]],["(?:4[015-8]|5[89]|87|9\\d)\\d{6}",[8]],["80[01]\\d{5}",[8]],["82[09]\\d{5}",[8]],["880\\d{5}",[8]],null,["0\\d{4}|81(?:0(?:0[7-9]|1\\d)|5\\d{2})\\d{3}"],null,["85[0-5]\\d{5}",[8]],["810(?:0[0-6]|[2-8]\\d)\\d{3}",[8]]]],"NP":["977","[1-8]\\d{7}|9(?:[1-69]\\d{6,8}|7[2-6]\\d{5,7}|8\\d{8})",[8,10],[["(1)(\\d{7})","$1-$2",["1[2-6]"]],["(\\d{2})(\\d{6})","$1-$2",["1[01]|[2-8]|9(?:[1-69]|7[15-9])"]],["(9\\d{2})(\\d{7})","$1-$2",["9(?:6[013]|7[245]|8)"],"$1"]],"0","0$1"],"NR":["674","[458]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"NU":["683","[1-5]\\d{3}",[4]],"NZ":["64","6[235-9]\\d{6}|[2-57-9]\\d{7,9}",[8,9,10],[["(\\d)(\\d{3})(\\d{4})","$1-$2 $3",["240|[346]|7[2-57-9]|9[1-9]"]],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["21"]],["(\\d{2})(\\d{3})(\\d{3,5})","$1 $2 $3",["2(?:1[1-9]|[69]|7[0-35-9])|70|86"]],["(2\\d)(\\d{3,4})(\\d{4})","$1 $2 $3",["2[028]"]],["(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3",["90"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["2(?:10|74)|5|[89]0"]]],"0","0$1"],"OM":["968","(?:5|[279]\\d)\\d{6}|800\\d{5,6}",[7,8,9],[["(2\\d)(\\d{6})","$1 $2",["2"]],["([79]\\d{3})(\\d{4})","$1 $2",["[79]"]],["([58]00)(\\d{4,6})","$1 $2",["[58]00"]]]],"PA":["507","[1-9]\\d{6,7}",[7,8],[["(\\d{3})(\\d{4})","$1-$2",["[1-57-9]"]],["(\\d{4})(\\d{4})","$1-$2",["6"]]]],"PE":["51","[14-9]\\d{7,8}",[8,9],[["(1)(\\d{7})","$1 $2",["1"]],["([4-8]\\d)(\\d{6})","$1 $2",["[4-7]|8[2-4]"]],["(\\d{3})(\\d{5})","$1 $2",["80"]],["(9\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["9"],"$1"]],"0","(0$1)"],"PF":["689","4\\d{5,7}|8\\d{7}",[6,8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["4[09]|8[79]"]],["(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3",["44"]]]],"PG":["675","[1-9]\\d{6,7}",[7,8],[["(\\d{3})(\\d{4})","$1 $2",["[13-689]|27"]],["(\\d{4})(\\d{4})","$1 $2",["20|7"]]]],"PH":["63","1\\d{10,12}|2\\d{5,7}|[3-7]\\d{8}|8\\d{7,9}|9\\d{9}",[6,8,9,10,11,12,13],[["(2)(\\d{3})(\\d{4})","$1 $2 $3",["2"],"(0$1)"],["(2)(\\d{5})","$1 $2",["2"],"(0$1)"],["(\\d{4})(\\d{4,6})","$1 $2",["3(?:23|39|46)|4(?:2[3-6]|[35]9|4[26]|76)|5(?:22|44)|642|8(?:62|8[245])","3(?:230|397|461)|4(?:2(?:35|[46]4|51)|396|4(?:22|63)|59[347]|76[15])|5(?:221|446)|642[23]|8(?:622|8(?:[24]2|5[13]))"],"(0$1)"],["(\\d{5})(\\d{4})","$1 $2",["346|4(?:27|9[35])|883","3469|4(?:279|9(?:30|56))|8834"],"(0$1)"],["([3-8]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[3-8]"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["81|9"],"0$1"],["(1800)(\\d{3})(\\d{4})","$1 $2 $3",["180","1800"]],["(1800)(\\d{1,2})(\\d{3})(\\d{4})","$1 $2 $3 $4",["180","1800"]]],"0"],"PK":["92","1\\d{8}|[2-8]\\d{5,11}|9(?:[013-9]\\d{4,10}|2\\d(?:111\\d{6}|\\d{3,7}))",[8,9,10,11,12],[["([89]00)(\\d{3})(\\d{2})","$1 $2 $3",["[89]00"],"0$1"],["(1\\d{3})(\\d{5})","$1 $2",["1"],"$1"],["(\\d{2})(\\d{7,8})","$1 $2",["(?:2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91)[2-9]"]],["(\\d{3})(\\d{6,7})","$1 $2",["2[349]|45|54|60|72|8[2-5]|9[2-469]","(?:2[349]|45|54|60|72|8[2-5]|9[2-469])\\d[2-9]"]],["(58\\d{3})(\\d{5})","$1 $2",["58[126]"]],["(3\\d{2})(\\d{7})","$1 $2",["3"],"0$1"],["(\\d{2})(111)(\\d{3})(\\d{3})","$1 $2 $3 $4",["(?:2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91)1","(?:2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91)11","(?:2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91)111"]],["(\\d{3})(111)(\\d{3})(\\d{3})","$1 $2 $3 $4",["2[349]|45|54|60|72|8[2-5]|9[2-9]","(?:2[349]|45|54|60|72|8[2-5]|9[2-9])\\d1","(?:2[349]|45|54|60|72|8[2-5]|9[2-9])\\d11","(?:2[349]|45|54|60|72|8[2-5]|9[2-9])\\d111"]]],"0","(0$1)"],"PL":["48","[1-57-9]\\d{6,8}|6\\d{5,8}",[6,7,8,9],[["(\\d{3})(\\d{3})","$1 $2",["11[68]|64"]],["(\\d{5})","$1",["19"]],["(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["1[2-8]|2[2-69]|3[2-4]|4[1-468]|5[24-689]|6[1-3578]|7[14-7]|8[1-79]|9[145]"]],["(\\d{3})(\\d{2})(\\d{2,3})","$1 $2 $3",["64"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["26|39|45|5[0137]|6[0469]|7[02389]|8[08]"]],["(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[14]|2[0-57-9]|3[2-4]|5[24-689]|6[1-3578]|7[14-7]|8[1-79]|9[145]"]]]],"PM":["508","[45]\\d{5}",[6],[["([45]\\d)(\\d{2})(\\d{2})","$1 $2 $3",["[45]"]]],"0","0$1"],"PR":["1","[5789]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"787|939"],"PS":["970","1\\d{9}|[24589]\\d{7,8}",[8,9,10],[["([2489])(2\\d{2})(\\d{4})","$1 $2 $3",["[2489]2"]],["(5[69]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["5[69]"]],["(1[78]00)(\\d{3})(\\d{3})","$1 $2 $3",["1[78]0","1[78]00"],"$1"]],"0","0$1"],"PT":["351","[2-46-9]\\d{8}",[9],[["(2\\d)(\\d{3})(\\d{4})","$1 $2 $3",["2[12]"]],["([2-46-9]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["2[3-9]|[346-9]"]]]],"PW":["680","[2-9]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"PY":["595","5[0-5]\\d{4,7}|[2-46-9]\\d{5,8}",[6,7,8,9],[["(\\d{2})(\\d{5})","$1 $2",["[26]1|3[289]|4[1246-8]|7[1-3]|8[1-36]"],"(0$1)"],["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["[26]1|3[289]|4[1246-8]|7[1-3]|8[1-36]"],"(0$1)"],["(\\d{3})(\\d{3,6})","$1 $2",["[2-9]0"],"0$1"],["(\\d{3})(\\d{6})","$1 $2",["9[1-9]"],"0$1"],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["870","8700"]],["(\\d{3})(\\d{4,5})","$1 $2",["[2-8][1-9]"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["[2-8][1-9]"],"0$1"]],"0"],"QA":["974","[2-8]\\d{6,7}",[7,8],[["([28]\\d{2})(\\d{4})","$1 $2",["[28]"]],["([3-7]\\d{3})(\\d{4})","$1 $2",["[3-7]"]]]],"RE":["262","[268]\\d{8}",[9],[["([268]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[268]"]]],"0","0$1",null,null,null,"262|69|8"],"RO":["40","[23]\\d{5,8}|[7-9]\\d{8}",[6,9],[["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[23]1"]],["(\\d{2})(\\d{4})","$1 $2",["[23]1"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["[23][3-7]|[7-9]"]],["(2\\d{2})(\\d{3})","$1 $2",["2[3-6]"]]],"0","0$1"],"RS":["381","[126-9]\\d{4,11}|3(?:[0-79]\\d{3,10}|8[2-9]\\d{2,9})",[6,7,8,9,10,11,12],[["([23]\\d{2})(\\d{4,9})","$1 $2",["(?:2[389]|39)0"]],["([1-3]\\d)(\\d{5,10})","$1 $2",["1|2(?:[0-24-7]|[389][1-9])|3(?:[0-8]|9[1-9])"]],["(6\\d)(\\d{6,8})","$1 $2",["6"]],["([89]\\d{2})(\\d{3,9})","$1 $2",["[89]"]],["(7[26])(\\d{4,9})","$1 $2",["7[26]"]],["(7[08]\\d)(\\d{4,9})","$1 $2",["7[08]"]]],"0","0$1"],"RU":["7","[347-9]\\d{9}",[10],[["([3489]\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2-$3-$4",["[3489]"]],["(7\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["7"]]],"8","8 ($1)",null,null,true,null,[["(?:3(?:0[12]|4[1-35-79]|5[1-3]|65|8[1-58]|9[0145])|4(?:01|1[1356]|2[13467]|7[1-5]|8[1-7]|9[1-689])|8(?:1[1-8]|2[01]|3[13-6]|4[0-8]|5[15]|6[1-35-79]|7[1-37-9]))\\d{7}"],["9\\d{9}"],["80[04]\\d{7}"],["80[39]\\d{7}"],["808\\d{7}"]]],"RW":["250","[027-9]\\d{7,8}",[8,9],[["(2\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["2"]],["([7-9]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[7-9]"],"0$1"],["(0\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["0"]]],"0"],"SA":["966","[15]\\d{8}|8\\d{9}|92\\d{7}",[9,10],[["(1\\d)(\\d{3})(\\d{4})","$1 $2 $3",["1[1-467]"]],["(5\\d)(\\d{3})(\\d{4})","$1 $2 $3",["5"]],["(92\\d{2})(\\d{5})","$1 $2",["92"],"$1"],["(800)(\\d{3})(\\d{4})","$1 $2 $3",["800"],"$1"],["(811)(\\d{3})(\\d{3,4})","$1 $2 $3",["811"]]],"0","0$1"],"SB":["677","[1-9]\\d{4,6}",[5,7],[["(\\d{2})(\\d{5})","$1 $2",["[7-9]"]]]],"SC":["248","[24689]\\d{5,6}",[7],[["(\\d)(\\d{3})(\\d{3})","$1 $2 $3",["[246]"]]]],"SD":["249","[19]\\d{8}",[9],[["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3"]],"0","0$1"],"SE":["46","[1-35-9]\\d{5,11}|4\\d{6,8}",[6,7,8,9,10],[["(8)(\\d{2,3})(\\d{2,3})(\\d{2})","$1-$2 $3 $4",["8"],null,null,"$1 $2 $3 $4"],["([1-69]\\d)(\\d{2,3})(\\d{2})(\\d{2})","$1-$2 $3 $4",["1[013689]|2[0136]|3[1356]|4[0246]|54|6[03]|90"],null,null,"$1 $2 $3 $4"],["([1-469]\\d)(\\d{3})(\\d{2})","$1-$2 $3",["[12][136]|3[356]|4[0246]|6[03]|90"],null,null,"$1 $2 $3"],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1-$2 $3 $4",["1[2457]|2(?:[247-9]|5[0138])|3[0247-9]|4[1357-9]|5[0-35-9]|6(?:[124-689]|7[0-2])|9(?:[125-8]|3[0-5]|4[0-3])"],null,null,"$1 $2 $3 $4"],["(\\d{3})(\\d{2,3})(\\d{2})","$1-$2 $3",["1[2457]|2(?:[247-9]|5[0138])|3[0247-9]|4[1357-9]|5[0-35-9]|6(?:[124-689]|7[0-2])|9(?:[125-8]|3[0-5]|4[0-3])"],null,null,"$1 $2 $3"],["(7\\d)(\\d{3})(\\d{2})(\\d{2})","$1-$2 $3 $4",["7"],null,null,"$1 $2 $3 $4"],["(77)(\\d{2})(\\d{2})","$1-$2$3",["77"],null,null,"$1 $2 $3"],["(20)(\\d{2,3})(\\d{2})","$1-$2 $3",["20"],null,null,"$1 $2 $3"],["(9[034]\\d)(\\d{2})(\\d{2})(\\d{3})","$1-$2 $3 $4",["9[034]"],null,null,"$1 $2 $3 $4"],["(9[034]\\d)(\\d{4})","$1-$2",["9[034]"],null,null,"$1 $2"],["(\\d{3})(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1-$2 $3 $4 $5",["25[245]|67[3-6]"],null,null,"$1 $2 $3 $4 $5"]],"0","0$1"],"SG":["65","[36]\\d{7}|[17-9]\\d{7,10}",[8,10,11],[["([3689]\\d{3})(\\d{4})","$1 $2",["[369]|8[1-9]"]],["(1[89]00)(\\d{3})(\\d{4})","$1 $2 $3",["1[89]0","1[89]00"]],["(7000)(\\d{4})(\\d{3})","$1 $2 $3",["700","7000"]],["(800)(\\d{3})(\\d{4})","$1 $2 $3",["800"]]]],"SH":["290","[256]\\d{4}|8\\d{3}",[4,5],[],null,null,null,null,null,null,[["2(?:[0-57-9]\\d|6[4-9])\\d{2}"],["[56]\\d{4}",[5]],null,null,null,null,null,null,["262\\d{2}",[5]]]],"SI":["386","[1-7]\\d{6,7}|[89]\\d{4,7}",[5,6,7,8],[["(\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[12]|[34][24-8]|5[2-8]|7[3-8]"],"(0$1)"],["([3-7]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["[37][01]|4[0139]|51|6"]],["([89][09])(\\d{3,6})","$1 $2",["[89][09]"]],["([58]\\d{2})(\\d{5})","$1 $2",["59|8[1-3]"]]],"0","0$1"],"SJ":["47","0\\d{4}|[45789]\\d{7}",[5,8],[["([489]\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["[489]"]],["([235-7]\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[235-7]"]]],null,null,null,null,null,null,[["79\\d{6}",[8]],["(?:4[015-8]|5[89]|9\\d)\\d{6}",[8]],["80[01]\\d{5}",[8]],["82[09]\\d{5}",[8]],["880\\d{5}",[8]],null,["0\\d{4}|81(?:0(?:0[7-9]|1\\d)|5\\d{2})\\d{3}"],null,["85[0-5]\\d{5}",[8]],["810(?:0[0-6]|[2-8]\\d)\\d{3}",[8]]]],"SK":["421","(?:[2-68]\\d{5,8}|9\\d{6,8})",[6,7,9],[["(2)(1[67])(\\d{3,4})","$1 $2 $3",["21[67]"]],["([3-5]\\d)(\\d{2})(\\d{2,3})","$1 $2 $3",["[3-5]"]],["(2)(\\d{3})(\\d{3})(\\d{2})","$1/$2 $3 $4",["2"]],["([3-5]\\d)(\\d{3})(\\d{2})(\\d{2})","$1/$2 $3 $4",["[3-5]"]],["([689]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[689]"]],["(9090)(\\d{3})","$1 $2",["909","9090"]]],"0","0$1"],"SL":["232","[2-9]\\d{7}",[8],[["(\\d{2})(\\d{6})","$1 $2"]],"0","(0$1)"],"SM":["378","[05-7]\\d{7,9}",[8,10],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[5-7]"]],["(0549)(\\d{6})","$1 $2",["054","0549"],null,null,"($1) $2"],["(\\d{6})","0549 $1",["[89]"],null,null,"(0549) $1"]],null,null,"([89]\\d{5})","0549$1"],"SN":["221","[3789]\\d{8}",[9],[["(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[379]"]],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["8"]]]],"SO":["252","[1-9]\\d{5,8}",[6,7,8,9],[["(\\d{6})","$1",["[134]"]],["(\\d)(\\d{6})","$1 $2",["[13-5]|2[0-79]"]],["(\\d)(\\d{7})","$1 $2",["24|[67]"]],["(\\d{2})(\\d{4})","$1 $2",["8[125]"]],["(\\d{2})(\\d{5,7})","$1 $2",["15|28|6[1-35-9]|799|9[2-9]"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["3[59]|4[89]|6[24-6]|79|8[08]|90"]]],"0"],"SR":["597","[2-8]\\d{5,6}",[6,7],[["(\\d{3})(\\d{3})","$1-$2",["[2-4]|5[2-58]"]],["(\\d{2})(\\d{2})(\\d{2})","$1-$2-$3",["56"]],["(\\d{3})(\\d{4})","$1-$2",["[6-8]"]]]],"SS":["211","[19]\\d{8}",[9],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",null,"0$1"]],"0"],"ST":["239","[29]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"SV":["503","[267]\\d{7}|[89]\\d{6}(?:\\d{4})?",[7,8,11],[["(\\d{4})(\\d{4})","$1 $2",["[267]"]],["(\\d{3})(\\d{4})","$1 $2",["[89]"]],["(\\d{3})(\\d{4})(\\d{4})","$1 $2 $3",["[89]"]]]],"SX":["1","[5789]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"721"],"SY":["963","[1-59]\\d{7,8}",[8,9],[["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["[1-5]"]],["(9\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["9"]]],"0","0$1",null,null,true],"SZ":["268","[027]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1 $2",["[027]"]]]],"TA":["290","8\\d{3}",[4],[],null,null,null,null,null,null,[["8\\d{3}"]]],"TC":["1","[5689]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"649"],"TD":["235","[2679]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"TG":["228","[279]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[279]"]]]],"TH":["66","1\\d{8,9}|[2-9]\\d{7,8}",[8,9,10],[["(2)(\\d{3})(\\d{4})","$1 $2 $3",["2"]],["([13-9]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["14|[3-9]"]],["(1[89]00)(\\d{3})(\\d{3})","$1 $2 $3",["1[89]0","1[89]00"],"$1"]],"0","0$1"],"TJ":["992","[3-57-9]\\d{8}",[9],[["([349]\\d{2})(\\d{2})(\\d{4})","$1 $2 $3",["[34]7|91[78]"]],["([457-9]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["4[148]|[578]|9(?:[0235-9]|1[59])"]],["(331700)(\\d)(\\d{2})","$1 $2 $3",["331","3317","33170","331700"]],["(\\d{4})(\\d)(\\d{4})","$1 $2 $3",["3[1-5]","3(?:[1245]|3(?:[02-9]|1[0-589]))"]]],"8",null,null,null,true],"TK":["690","[2-47]\\d{3,6}",[4,5,6,7]],"TL":["670","[2-489]\\d{6}|7\\d{6,7}",[7,8],[["(\\d{3})(\\d{4})","$1 $2",["[2-489]|70"]],["(\\d{4})(\\d{4})","$1 $2",["7[3-8]"]]]],"TM":["993","[1-6]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2-$3-$4",["12"]],["(\\d{2})(\\d{6})","$1 $2",["6"],"8 $1"],["(\\d{3})(\\d)(\\d{2})(\\d{2})","$1 $2-$3-$4",["13|[2-5]"]]],"8","(8 $1)"],"TN":["216","[2-57-9]\\d{7}",[8],[["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3"]]],"TO":["676","[02-8]\\d{4,6}",[5,7],[["(\\d{2})(\\d{3})","$1-$2",["[1-6]|7[0-4]|8[05]"]],["(\\d{3})(\\d{4})","$1 $2",["7[5-9]|8[47-9]"]],["(\\d{4})(\\d{3})","$1 $2",["0"]]]],"TR":["90","[2-589]\\d{9}|444\\d{4}",[7,10],[["(\\d{3})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[23]|4(?:[0-35-9]|4[0-35-9])"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["5[02-69]"],"0$1"],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["51|[89]"],"0$1"],["(444)(\\d{1})(\\d{3})","$1 $2 $3",["444"]]],"0",null,null,null,true],"TT":["1","[589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"868"],"TV":["688","[279]\\d{4,6}",[5,6,7]],"TW":["886","2\\d{6,8}|[3-689]\\d{7,8}|7\\d{7,9}",[7,8,9,10],[["(20)(\\d)(\\d{4})","$1 $2 $3",["202"]],["([258]0)(\\d{3})(\\d{4})","$1 $2 $3",["20[013-9]|50[0-46-9]|80[0-79]"]],["([2-8])(\\d{3,4})(\\d{4})","$1 $2 $3",["[25][2-8]|[346]|[78][1-9]"]],["(9\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["9"]],["(70)(\\d{4})(\\d{4})","$1 $2 $3",["70"]]],"0","0$1"],"TZ":["255","\\d{9}",[7,9],[["([24]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[24]"]],["([67]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[67]"]],["([89]\\d{2})(\\d{2})(\\d{4})","$1 $2 $3",["[89]"]]],"0","0$1"],"UA":["380","[3-9]\\d{8}",[9],[["([3-9]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[38]9|4(?:[45][0-5]|87)|5(?:0|[67][37])|6[36-8]|7|9[1-9]","[38]9|4(?:[45][0-5]|87)|5(?:0|6(?:3[14-7]|7)|7[37])|6[36-8]|7|9[1-9]"]],["([3-689]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["(?:3[1-8]|4[136-8])2|5(?:[12457]2|6[24])|6(?:[12][29]|[49]2|5[24])|8[0-8]|90","3(?:[1-46-8]2[013-9]|52)|4(?:[1378]2|62[013-9])|5(?:[12457]2|6[24])|6(?:[12][29]|[49]2|5[24])|8[0-8]|90"]],["([3-6]\\d{3})(\\d{5})","$1 $2",["3(?:[1-46-8]|5[013-9])|4(?:[137][013-9]|[45][6-9]|6|8[4-6])|5(?:[1245][013-9]|3|6[0135689]|7[4-6])|6(?:[12][13-8]|[49][013-9]|5[0135-9])","3(?:[1-46-8](?:[013-9]|22)|5[013-9])|4(?:[137][013-9]|[45][6-9]|6(?:[013-9]|22)|8[4-6])|5(?:[1245][013-9]|3|6(?:[015689]|3[02389])|7[4-6])|6(?:[12][13-8]|[49][013-9]|5[0135-9])"]]],"0","0$1"],"UG":["256","\\d{9}",[9],[["(\\d{3})(\\d{6})","$1 $2",["20[0-8]|4(?:6[45]|[7-9])|[7-9]","20(?:[013-8]|2[5-9])|4(?:6[45]|[7-9])|[7-9]"]],["(\\d{2})(\\d{7})","$1 $2",["3|4(?:[1-5]|6[0-36-9])"]],["(2024)(\\d{5})","$1 $2",["202","2024"]]],"0","0$1"],"US":["1","[2-9]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,true,null,[["(?:2(?:0[1-35-9]|1[02-9]|2[03-589]|3[149]|4[08]|5[1-46]|6[0279]|7[026]|8[13])|3(?:0[1-57-9]|1[02-9]|2[0135]|3[0-24679]|4[67]|5[12]|6[014]|8[056])|4(?:0[124-9]|1[02-579]|2[3-5]|3[0245]|4[0235]|58|6[39]|7[0589]|8[04])|5(?:0[1-57-9]|1[0235-8]|20|3[0149]|4[01]|5[19]|6[1-47]|7[013-5]|8[056])|6(?:0[1-35-9]|1[024-9]|2[03689]|3[016]|4[16]|5[017]|6[0-279]|78|8[012])|7(?:0[1-46-8]|1[02-9]|2[04-7]|3[1247]|4[037]|5[47]|6[02359]|7[02-59]|8[156])|8(?:0[1-68]|1[02-8]|28|3[0-258]|4[3578]|5[046-9]|6[02-5]|7[028])|9(?:0[1346-9]|1[02-9]|2[0589]|3[014678]|4[0179]|5[12469]|7[0-3589]|8[04-69]))[2-9]\\d{6}"],[""],["8(?:00|33|44|55|66|77|88)[2-9]\\d{6}"],["900[2-9]\\d{6}"],["5(?:(?:00|22|33|44|66|77|88)[2-9]|21[23])\\d{6}"]]],"UY":["598","[2489]\\d{6,7}",[7,8],[["(\\d{4})(\\d{4})","$1 $2",["[24]"]],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["9[1-9]"],"0$1"],["(\\d{3})(\\d{4})","$1 $2",["[89]0"],"0$1"]],"0"],"UZ":["998","[679]\\d{8}",[9],[["([679]\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[679]"]]],"8","8 $1"],"VA":["39","(?:0(?:878\\d{5}|6698\\d{5})|[1589]\\d{5,10}|3(?:[12457-9]\\d{8}|[36]\\d{7,9}))",[6,8,9,10,11],[["(\\d{2})(\\d{3,4})(\\d{4})","$1 $2 $3",["0[26]|55"]],["(0[26])(\\d{4})(\\d{5})","$1 $2 $3",["0[26]"]],["(0[26])(\\d{4,6})","$1 $2",["0[26]"]],["(0\\d{2})(\\d{3,4})(\\d{4})","$1 $2 $3",["0[13-57-9][0159]"]],["(\\d{3})(\\d{3,6})","$1 $2",["0[13-57-9][0159]|8(?:03|4[17]|9[245])","0[13-57-9][0159]|8(?:03|4[17]|9(?:2|[45][0-4]))"]],["(0\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["0[13-57-9][2-46-8]"]],["(0\\d{3})(\\d{2,6})","$1 $2",["0[13-57-9][2-46-8]"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["[13]|8(?:00|4[08]|9[59])","[13]|8(?:00|4[08]|9(?:5[5-9]|9))"]],["(\\d{4})(\\d{4})","$1 $2",["894","894[5-9]"]],["(\\d{3})(\\d{4})(\\d{4})","$1 $2 $3",["3"]]],null,null,null,null,null,null,[["06698\\d{5}",[10]],["3(?:[12457-9]\\d{8}|6\\d{7,8}|3\\d{7,9})",[9,10,11]],["80(?:0\\d{6}|3\\d{3})",[6,9]],["0878\\d{5}|1(?:44|6[346])\\d{6}|89(?:2\\d{3}|4(?:[0-4]\\d{2}|[5-9]\\d{4})|5(?:[0-4]\\d{2}|[5-9]\\d{6})|9\\d{6})",[6,8,9,10]],["1(?:78\\d|99)\\d{6}",[9,10]],null,null,null,["55\\d{8}",[10]],["84(?:[08]\\d{6}|[17]\\d{3})",[6,9]]]],"VC":["1","[5789]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"784"],"VE":["58","[24589]\\d{9}",[10],[["(\\d{3})(\\d{7})","$1-$2"]],"0","0$1"],"VG":["1","[2589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"284"],"VI":["1","[3589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"340"],"VN":["84","1\\d{6,9}|2\\d{9}|6\\d{6,7}|7\\d{6}|8\\d{6,8}|9\\d{8}",[7,8,9,10],[["([17]99)(\\d{4})","$1 $2",["[17]99"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["2[48]"]],["(80)(\\d{5})","$1 $2",["80"]],["(69\\d)(\\d{4,5})","$1 $2",["69"]],["(\\d{3})(\\d{4})(\\d{3})","$1 $2 $3",["2[0-35-79]"]],["([89]\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["8(?:8|9[89])|9"]],["(1[2689]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["1(?:[26]|8[68]|99)"]],["(86[89])(\\d{3})(\\d{3})","$1 $2 $3",["86[89]"]],["(1[89]00)(\\d{4,6})","$1 $2",["1[89]0","1[89]00"],"$1"]],"0","0$1",null,null,true],"VU":["678","[2-57-9]\\d{4,6}",[5,7],[["(\\d{3})(\\d{4})","$1 $2",["[579]"]]]],"WF":["681","[4-8]\\d{5}",[6],[["(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3"]]],"WS":["685","[2-8]\\d{4,6}",[5,6,7],[["(8\\d{2})(\\d{3,4})","$1 $2",["8"]],["(7\\d)(\\d{5})","$1 $2",["7"]],["(\\d{5})","$1",["[2-6]"]]]],"XK":["383","[23][89]\\d{6,7}|4[3-79]\\d{6}|[89]00\\d{5}",[8,9],[["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[23][89]|4[3-79]"]],["(\\d{3})(\\d{5})","$1 $2",["[89]00"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3"]],"0","0$1"],"YE":["967","[1-7]\\d{6,8}",[7,8,9],[["([1-7])(\\d{3})(\\d{3,4})","$1 $2 $3",["[1-6]|7[24-68]"]],["(7\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["7[0137]"]]],"0","0$1"],"YT":["262","[268]\\d{8}",[9],[["([268]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[268]"]]],"0",null,null,null,null,"269|63"],"ZA":["27","[1-79]\\d{8}|8\\d{4,8}",[5,6,7,8,9],[["(860)(\\d{3})(\\d{3})","$1 $2 $3",["860"]],["(\\d{2})(\\d{3,4})","$1 $2",["8[1-4]"]],["(\\d{2})(\\d{3})(\\d{2,3})","$1 $2 $3",["8[1-4]"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[1-79]|8(?:[0-57]|6[1-9])"]]],"0","0$1"],"ZM":["260","[289]\\d{8}",[9],[["(\\d{2})(\\d{4})","$1 $2",null,"$1"],["([1-8])(\\d{2})(\\d{4})","$1 $2 $3",["[1-8]"],"$1"],["([29]\\d)(\\d{7})","$1 $2",["[29]"]],["(800)(\\d{3})(\\d{3})","$1 $2 $3",["800"]]],"0","0$1"],"ZW":["263","2(?:[0-57-9]\\d{3,8}|6(?:[14]\\d{7}|\\d{4}))|[13-69]\\d{4,9}|7\\d{8}|8[06]\\d{5,8}",[5,6,7,8,9,10],[["([49])(\\d{3})(\\d{2,4})","$1 $2 $3",["4|9[2-9]"]],["(7\\d)(\\d{3})(\\d{4})","$1 $2 $3",["7"]],["(86\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["86[24]"]],["([2356]\\d{2})(\\d{3,5})","$1 $2",["2(?:0[45]|2[278]|[49]8|[78])|3(?:[09]8|17|3[78]|7[1569]|8[37])|5[15][78]|6(?:[29]8|37|[68][78]|75)"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["2(?:1[39]|2[0157]|31|[56][14]|7[35]|84)|329"]],["([1-356]\\d)(\\d{3,5})","$1 $2",["1[3-9]|2[02569]|3[0-69]|5[05689]|6"]],["([235]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["[23]9|54"]],["([25]\\d{3})(\\d{3,5})","$1 $2",["(?:25|54)8","258[23]|5483"]],["(8\\d{3})(\\d{6})","$1 $2",["86"]],["(80\\d)(\\d{4})","$1 $2",["80"]]],"0","0$1"],"001":["979","\\d{9}",[9],[["(\\d)(\\d{4})(\\d{4})","$1 $2 $3"]]]}}
+module.exports = {"version":"1.0.24","country_calling_codes":{"1":["US","AG","AI","AS","BB","BM","BS","CA","DM","DO","GD","GU","JM","KN","KY","LC","MP","MS","PR","SX","TC","TT","VC","VG","VI"],"7":["RU","KZ"],"20":["EG"],"27":["ZA"],"30":["GR"],"31":["NL"],"32":["BE"],"33":["FR"],"34":["ES"],"36":["HU"],"39":["IT","VA"],"40":["RO"],"41":["CH"],"43":["AT"],"44":["GB","GG","IM","JE"],"45":["DK"],"46":["SE"],"47":["NO","SJ"],"48":["PL"],"49":["DE"],"51":["PE"],"52":["MX"],"53":["CU"],"54":["AR"],"55":["BR"],"56":["CL"],"57":["CO"],"58":["VE"],"60":["MY"],"61":["AU","CC","CX"],"62":["ID"],"63":["PH"],"64":["NZ"],"65":["SG"],"66":["TH"],"81":["JP"],"82":["KR"],"84":["VN"],"86":["CN"],"90":["TR"],"91":["IN"],"92":["PK"],"93":["AF"],"94":["LK"],"95":["MM"],"98":["IR"],"211":["SS"],"212":["MA","EH"],"213":["DZ"],"216":["TN"],"218":["LY"],"220":["GM"],"221":["SN"],"222":["MR"],"223":["ML"],"224":["GN"],"225":["CI"],"226":["BF"],"227":["NE"],"228":["TG"],"229":["BJ"],"230":["MU"],"231":["LR"],"232":["SL"],"233":["GH"],"234":["NG"],"235":["TD"],"236":["CF"],"237":["CM"],"238":["CV"],"239":["ST"],"240":["GQ"],"241":["GA"],"242":["CG"],"243":["CD"],"244":["AO"],"245":["GW"],"246":["IO"],"247":["AC"],"248":["SC"],"249":["SD"],"250":["RW"],"251":["ET"],"252":["SO"],"253":["DJ"],"254":["KE"],"255":["TZ"],"256":["UG"],"257":["BI"],"258":["MZ"],"260":["ZM"],"261":["MG"],"262":["RE","YT"],"263":["ZW"],"264":["NA"],"265":["MW"],"266":["LS"],"267":["BW"],"268":["SZ"],"269":["KM"],"290":["SH","TA"],"291":["ER"],"297":["AW"],"298":["FO"],"299":["GL"],"350":["GI"],"351":["PT"],"352":["LU"],"353":["IE"],"354":["IS"],"355":["AL"],"356":["MT"],"357":["CY"],"358":["FI","AX"],"359":["BG"],"370":["LT"],"371":["LV"],"372":["EE"],"373":["MD"],"374":["AM"],"375":["BY"],"376":["AD"],"377":["MC"],"378":["SM"],"380":["UA"],"381":["RS"],"382":["ME"],"383":["XK"],"385":["HR"],"386":["SI"],"387":["BA"],"389":["MK"],"420":["CZ"],"421":["SK"],"423":["LI"],"500":["FK"],"501":["BZ"],"502":["GT"],"503":["SV"],"504":["HN"],"505":["NI"],"506":["CR"],"507":["PA"],"508":["PM"],"509":["HT"],"590":["GP","BL","MF"],"591":["BO"],"592":["GY"],"593":["EC"],"594":["GF"],"595":["PY"],"596":["MQ"],"597":["SR"],"598":["UY"],"599":["CW","BQ"],"670":["TL"],"672":["NF"],"673":["BN"],"674":["NR"],"675":["PG"],"676":["TO"],"677":["SB"],"678":["VU"],"679":["FJ"],"680":["PW"],"681":["WF"],"682":["CK"],"683":["NU"],"685":["WS"],"686":["KI"],"687":["NC"],"688":["TV"],"689":["PF"],"690":["TK"],"691":["FM"],"692":["MH"],"800":["001"],"808":["001"],"850":["KP"],"852":["HK"],"853":["MO"],"855":["KH"],"856":["LA"],"870":["001"],"878":["001"],"880":["BD"],"881":["001"],"882":["001"],"883":["001"],"886":["TW"],"888":["001"],"960":["MV"],"961":["LB"],"962":["JO"],"963":["SY"],"964":["IQ"],"965":["KW"],"966":["SA"],"967":["YE"],"968":["OM"],"970":["PS"],"971":["AE"],"972":["IL"],"973":["BH"],"974":["QA"],"975":["BT"],"976":["MN"],"977":["NP"],"979":["001"],"992":["TJ"],"993":["TM"],"994":["AZ"],"995":["GE"],"996":["KG"],"998":["UZ"]},"countries":{"AC":["247","[46]\\d{4}|[01589]\\d{5}",[5,6]],"AD":["376","[16]\\d{5,8}|[37-9]\\d{5}",[6,8,9],[["(\\d{3})(\\d{3})","$1 $2",["[137-9]|6[0-8]"]],["(\\d{4})(\\d{4})","$1 $2",["180","180[02]"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["690"]]]],"AE":["971","[2-79]\\d{7,8}|800\\d{2,9}",[5,6,7,8,9,10,11,12],[["([2-4679])(\\d{3})(\\d{4})","$1 $2 $3",["[2-4679][2-8]"]],["(5\\d)(\\d{3})(\\d{4})","$1 $2 $3",["5"]],["([479]00)(\\d)(\\d{5})","$1 $2 $3",["[479]00"],"$1"],["([68]00)(\\d{2,9})","$1 $2",["[68]00"],"$1"]],"0","0$1"],"AF":["93","[2-7]\\d{8}",[9],[["([2-7]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[2-7]"]]],"0","0$1"],"AG":["1","[2589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"268"],"AI":["1","[2589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"264"],"AL":["355","[2-57]\\d{7}|6\\d{8}|8\\d{5,7}|9\\d{5}",[6,7,8,9],[["(4)(\\d{3})(\\d{4})","$1 $2 $3",["4[0-6]"]],["(6\\d)(\\d{3})(\\d{4})","$1 $2 $3",["6"]],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[2358][2-5]|4[7-9]"]],["(\\d{3})(\\d{3,5})","$1 $2",["[235][16-9]|[79]|8[016-9]"]]],"0","0$1"],"AM":["374","[1-9]\\d{7}",[8],[["(\\d{2})(\\d{6})","$1 $2",["1|47"]],["(\\d{2})(\\d{6})","$1 $2",["4[1349]|[5-7]|88|9[1-9]"],"0$1"],["(\\d{3})(\\d{5})","$1 $2",["[23]"]],["(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3",["8|90"],"0 $1"]],"0","(0$1)"],"AO":["244","[29]\\d{8}",[9],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3"]]],"AR":["54","11\\d{8}|[2368]\\d{9}|9\\d{10}",[10,11],[["([68]\\d{2})(\\d{3})(\\d{4})","$1-$2-$3",["[68]"]],["(9)(11)(\\d{4})(\\d{4})","$2 15-$3-$4",["911"],null,null,"$1 $2 $3-$4"],["(9)(\\d{3})(\\d{3})(\\d{4})","$2 15-$3-$4",["9(?:2[2-4689]|3[3-8])","9(?:2(?:2[013]|3[067]|49|6[01346]|8|9[147-9])|3(?:36|4[1-358]|5[138]|6|7[069]|8[013578]))","9(?:2(?:2(?:0[013-9]|[13])|3(?:0[013-9]|[67])|49|6(?:[0136]|4[0-59])|8|9(?:[19]|44|7[013-9]|8[14]))|3(?:36|4(?:[12]|3[4-6]|[58]4)|5(?:1|3[0-24-689]|8[46])|6|7[069]|8(?:[01]|34|[578][45])))","9(?:2(?:2(?:0[013-9]|[13])|3(?:0[013-9]|[67])|49|6(?:[0136]|4[0-59])|8|9(?:[19]|44|7[013-9]|8[14]))|3(?:36|4(?:[12]|3(?:4|5[014]|6[1-39])|[58]4)|5(?:1|3[0-24-689]|8[46])|6|7[069]|8(?:[01]|34|[578][45])))"],null,null,"$1 $2 $3-$4"],["(9)(\\d{4})(\\d{2})(\\d{4})","$2 15-$3-$4",["9[23]"],null,null,"$1 $2 $3-$4"],["(11)(\\d{4})(\\d{4})","$1 $2-$3",["11"],null,"true"],["(\\d{3})(\\d{3})(\\d{4})","$1 $2-$3",["2(?:2[013]|3[067]|49|6[01346]|8|9[147-9])|3(?:36|4[1-358]|5[138]|6|7[069]|8[013578])","2(?:2(?:0[013-9]|[13])|3(?:0[013-9]|[67])|49|6(?:[0136]|4[0-59])|8|9(?:[19]|44|7[013-9]|8[14]))|3(?:36|4(?:[12]|3[4-6]|[58]4)|5(?:1|3[0-24-689]|8[46])|6|7[069]|8(?:[01]|34|[578][45]))","2(?:2(?:0[013-9]|[13])|3(?:0[013-9]|[67])|49|6(?:[0136]|4[0-59])|8|9(?:[19]|44|7[013-9]|8[14]))|3(?:36|4(?:[12]|3(?:4|5[014]|6[1-39])|[58]4)|5(?:1|3[0-24-689]|8[46])|6|7[069]|8(?:[01]|34|[578][45]))"],null,"true"],["(\\d{4})(\\d{2})(\\d{4})","$1 $2-$3",["[23]"],null,"true"]],"0","0$1","0?(?:(11|2(?:2(?:02?|[13]|2[13-79]|4[1-6]|5[2457]|6[124-8]|7[1-4]|8[13-6]|9[1267])|3(?:02?|1[467]|2[03-6]|3[13-8]|[49][2-6]|5[2-8]|[67])|4(?:7[3-578]|9)|6(?:[0136]|2[24-6]|4[6-8]?|5[15-8])|80|9(?:0[1-3]|[19]|2\\d|3[1-6]|4[02568]?|5[2-4]|6[2-46]|72?|8[23]?))|3(?:3(?:2[79]|6|8[2578])|4(?:0[0-24-9]|[12]|3[5-8]?|4[24-7]|5[4-68]?|6[02-9]|7[126]|8[2379]?|9[1-36-8])|5(?:1|2[1245]|3[237]?|4[1-46-9]|6[2-4]|7[1-6]|8[2-5]?)|6[24]|7(?:[069]|1[1568]|2[15]|3[145]|4[13]|5[14-8]|7[2-57]|8[126])|8(?:[01]|2[15-7]|3[2578]?|4[13-6]|5[4-8]?|6[1-357-9]|7[36-8]?|8[5-8]?|9[124])))?15)?","9$1"],"AS":["1","[5689]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"684"],"AT":["43","[1-9]\\d{3,12}",[4,5,6,7,8,9,10,11,12,13],[["(116\\d{3})","$1",["116"],"$1"],["(1)(\\d{3,12})","$1 $2",["1"]],["(5\\d)(\\d{3,5})","$1 $2",["5[079]"]],["(5\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["5[079]"]],["(5\\d)(\\d{4})(\\d{4,7})","$1 $2 $3",["5[079]"]],["(\\d{3})(\\d{3,10})","$1 $2",["(?:31|4)6|51|6(?:5[0-3579]|[6-9])|7(?:[28]0|32)|[89]"]],["(\\d{4})(\\d{3,9})","$1 $2",["2|3(?:1[1-578]|[3-8])|4[2378]|5[2-6]|6(?:[12]|4[1-9]|5[468])|7(?:[24][1-8]|35|[5-79])"]]],"0","0$1"],"AU":["61","1\\d{4,9}|[2-578]\\d{8}",[5,6,7,8,9,10],[["([2378])(\\d{4})(\\d{4})","$1 $2 $3",["[2378]"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["14|[45]"],"0$1"],["(16)(\\d{3,4})","$1 $2",["16"],"0$1"],["(16)(\\d{3})(\\d{2,4})","$1 $2 $3",["16"],"0$1"],["(1[389]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["1[389]0","1(?:[38]0|9)0"]],["(180)(2\\d{3})","$1 $2",["180","1802"]],["(19\\d)(\\d{3})","$1 $2",["19[13]"]],["(19\\d{2})(\\d{4})","$1 $2",["19[679]"]],["(13)(\\d{2})(\\d{2})","$1 $2 $3",["13[1-9]"]]],"0",null,null,null,null,null,[["[237]\\d{8}|8(?:51(?:0(?:0[03-9]|[1247]\\d|3[2-9]|5[0-8]|6[1-9]|8[0-6])|1(?:1[69]|[23]\\d|4[0-4]))|[6-8]\\d{4}|9(?:[02-9]\\d{3}|1(?:[0-57-9]\\d{2}|6[0135-9]\\d)))\\d{3}",[9]],["14(?:5\\d|71)\\d{5}|4(?:[0-3]\\d|4[047-9]|5[0-25-9]|6[6-9]|7[02-9]|8[12457-9]|9[017-9])\\d{6}",[9]],["180(?:0\\d{3}|2)\\d{3}",[7,10]],["19(?:0[0126]\\d|[679])\\d{5}",[8,10]],["500\\d{6}",[9]],null,null,["16\\d{3,7}",[5,6,7,8,9]],["550\\d{6}",[9]],["13(?:00\\d{3}|45[0-4]|\\d)\\d{3}",[6,8,10]]]],"AW":["297","[25-9]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"AX":["358","1\\d{5,11}|[35]\\d{5,9}|2\\d{4,9}|4\\d{5,10}|6\\d{7,9}|7\\d{4,9}|8\\d{6,9}",[5,6,7,8,9,10,11,12],[["(\\d{3})(\\d{3,7})","$1 $2",["(?:[1-3]0|[6-8])0"]],["(75\\d{3})","$1",["75[12]"]],["(116\\d{3})","$1",["116"],"$1"],["(\\d{2})(\\d{4,10})","$1 $2",["[14]|2[09]|50|7[135]"]],["(\\d)(\\d{4,11})","$1 $2",["[25689][1-8]|3"]]],"0",null,null,null,null,null,[["18[1-8]\\d{3,9}",[6,7,8,9,10,11,12]],["4\\d{5,10}|50\\d{4,8}",[6,7,8,9,10,11]],["800\\d{4,7}",[7,8,9,10]],["[67]00\\d{5,6}",[8,9]],null,null,["[13]0\\d{4,8}|2(?:0(?:[016-8]\\d{3,7}|[2-59]\\d{2,7})|9\\d{4,8})|60(?:[12]\\d{5,6}|6\\d{7})|7(?:1\\d{7}|3\\d{8}|5[03-9]\\d{2,7})",[5,6,7,8,9,10]]]],"AZ":["994","[1-9]\\d{8}",[9],[["(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["1[28]|2(?:[0-36]|[45]2)|365"]],["(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[4-8]"],"0$1"],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["9"],"0$1"]],"0","(0$1)"],"BA":["387","[3-9]\\d{7,8}",[8,9],[["(\\d{2})(\\d{3})(\\d{3})","$1 $2-$3",["[3-5]"]],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["6[1-356]|[7-9]"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3 $4",["6[047]"]]],"0","0$1"],"BB":["1","[2589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"246"],"BD":["880","[2-79]\\d{5,9}|1\\d{9}|8[0-7]\\d{4,8}",[6,7,8,9,10],[["(2)(\\d{7,8})","$1-$2",["2"]],["(\\d{2})(\\d{4,6})","$1-$2",["[3-79]1"]],["(\\d{4})(\\d{3,6})","$1-$2",["1|3(?:0|[2-58]2)|4(?:0|[25]2|3[23]|[4689][25])|5(?:[02-578]2|6[25])|6(?:[0347-9]2|[26][25])|7[02-9]2|8(?:[023][23]|[4-7]2)|9(?:[02][23]|[458]2|6[016])"]],["(\\d{3})(\\d{3,7})","$1-$2",["[3-79][2-9]|8"]]],"0","0$1"],"BE":["32","[1-9]\\d{7,8}",[8,9],[["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["4[5-9]"]],["(\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[23]|4[23]|9[2-4]"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[156]|7[018]|8(?:0[1-9]|[1-79])"]],["(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3",["(?:80|9)0"]]],"0","0$1"],"BF":["226","[25-7]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"BG":["359","[23567]\\d{5,7}|[489]\\d{6,8}",[6,7,8,9],[["(2)(\\d)(\\d{2})(\\d{2})","$1 $2 $3 $4",["2"]],["(2)(\\d{3})(\\d{3,4})","$1 $2 $3",["2"]],["(\\d{3})(\\d{4})","$1 $2",["43[124-7]|70[1-9]"]],["(\\d{3})(\\d{3})(\\d{2})","$1 $2 $3",["43[124-7]|70[1-9]"]],["(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3",["[78]00"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["99[69]"]],["(\\d{2})(\\d{3})(\\d{2,3})","$1 $2 $3",["[356]|4[124-7]|7[1-9]|8[1-6]|9[1-7]"]],["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["48|8[7-9]|9[08]"]]],"0","0$1"],"BH":["973","[136-9]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1 $2"]]],"BI":["257","[267]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"BJ":["229","[2689]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[2689]"]]]],"BL":["590","[56]\\d{8}",[9],[["([56]\\d{2})(\\d{2})(\\d{4})","$1 $2-$3",["590|69[01]"]]],"0",null,null,null,null,null,[["590(?:2[7-9]|5[12]|87)\\d{4}"],["69(?:0\\d{2}|1(?:2[29]|3[0-5]))\\d{4}"]]],"BM":["1","[4589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"441"],"BN":["673","[2-578]\\d{6}",[7],[["([2-578]\\d{2})(\\d{4})","$1 $2",["[2-578]"]]]],"BO":["591","[23467]\\d{7}|8\\d{8}",[8,9],[["([234])(\\d{7})","$1 $2",["[2-4]"]],["([67]\\d{7})","$1",["[67]"]],["(800)(\\d{2})(\\d{4})","$1 $2 $3",["800"]]],"0",null,"0(1\\d)?"],"BQ":["599","[347]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2",["[13-7]"]],["(9)(\\d{3})(\\d{4})","$1 $2 $3",["9"]]],null,null,null,null,null,null,[["(?:318[023]|41(?:6[023]|70)|7(?:1[578]|50)\\d)\\d{3}"],["(?:31(?:8[14-8]|9[14578])|416[145-9]|7(?:0[01]|7[07]|8\\d|9[056])\\d)\\d{3}"]]],"BR":["55","[1-46-9]\\d{7,10}|5(?:[0-4]\\d{7,9}|5(?:[2-8]\\d{7}|9\\d{7,8}))",[8,9,10,11],[["(\\d{4})(\\d{4})","$1-$2",["300|40[02]","300|40(?:0|20)"]],["([3589]00)(\\d{2,3})(\\d{4})","$1 $2 $3",["[3589]00"],"0$1"],["(\\d{2})(\\d{4})(\\d{4})","$1 $2-$3",["[1-9][1-9]"],"($1)"],["(\\d{2})(\\d{5})(\\d{4})","$1 $2-$3",["[1-9][1-9]9"],"($1)"]],"0",null,"0(?:(1[245]|2[1-35]|31|4[13]|[56]5|99)(\\d{10,11}))?","$2"],"BS":["1","[2589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"242"],"BT":["975","[1-8]\\d{6,7}",[7,8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["1|77"]],["([2-8])(\\d{3})(\\d{3})","$1 $2 $3",["[2-68]|7[246]"]]]],"BW":["267","[2-79]\\d{6,7}",[7,8],[["(\\d{3})(\\d{4})","$1 $2",["[2-6]"]],["(7\\d)(\\d{3})(\\d{3})","$1 $2 $3",["7"]],["(90)(\\d{5})","$1 $2",["90"]]]],"BY":["375","[1-4]\\d{8}|8(?:0(?:0\\d{3,7}|[13]\\d{7})|(?:10|20\\d)\\d{7})|9\\d{9,10}",[6,7,8,9,10,11],[["(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2-$3-$4",["17[0-3589]|2[4-9]|[34]","17(?:[02358]|1[0-2]|9[0189])|2[4-9]|[34]"],"8 0$1"],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2-$3-$4",["1(?:5[24]|6[235]|7[467])|2(?:1[246]|2[25]|3[26])","1(?:5[24]|6(?:2|3[04-9]|5[0346-9])|7(?:[46]|7[37-9]))|2(?:1[246]|2[25]|3[26])"],"8 0$1"],["(\\d{4})(\\d{2})(\\d{3})","$1 $2-$3",["1(?:5[169]|6[3-5]|7[179])|2(?:1[35]|2[34]|3[3-5])","1(?:5[169]|6(?:3[1-3]|4|5[125])|7(?:1[3-9]|7[0-24-6]|9[2-7]))|2(?:1[35]|2[34]|3[3-5])"],"8 0$1"],["([89]\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["8[01]|9"],"8 $1"],["(82\\d)(\\d{4})(\\d{4})","$1 $2 $3",["82"],"8 $1"],["(800)(\\d{3})","$1 $2",["800"],"8 $1"],["(800)(\\d{2})(\\d{2,4})","$1 $2 $3",["800"],"8 $1"]],"8",null,"8?0?"],"BZ":["501","[2-8]\\d{6}|0\\d{10}",[7,11],[["(\\d{3})(\\d{4})","$1-$2",["[2-8]"]],["(0)(800)(\\d{4})(\\d{3})","$1-$2-$3-$4",["080","0800"]]]],"CA":["1","[2-9]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,null,[["(?:2(?:04|[23]6|[48]9|50)|3(?:06|43|65)|4(?:03|1[68]|3[178]|50)|5(?:06|1[49]|48|79|8[17])|6(?:0[04]|13|22|39|47)|7(?:0[59]|78|8[02])|8(?:[06]7|19|25|73)|90[25])[2-9]\\d{6}"],[""],["8(?:00|33|44|55|66|77|88)[2-9]\\d{6}"],["900[2-9]\\d{6}"],["5(?:(?:00|22|33|44|66|77|88)[2-9]|21[23])\\d{6}"]]],"CC":["61","[1458]\\d{5,9}",[6,7,8,9,10],[["([2378])(\\d{4})(\\d{4})","$1 $2 $3",["[2378]"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["14|[45]"],"0$1"],["(16)(\\d{3,4})","$1 $2",["16"],"0$1"],["(16)(\\d{3})(\\d{2,4})","$1 $2 $3",["16"],"0$1"],["(1[389]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["1[389]0","1(?:[38]0|9)0"]],["(180)(2\\d{3})","$1 $2",["180","1802"]],["(19\\d)(\\d{3})","$1 $2",["19[13]"]],["(19\\d{2})(\\d{4})","$1 $2",["19[679]"]],["(13)(\\d{2})(\\d{2})","$1 $2 $3",["13[1-9]"]]],"0",null,null,null,null,null,[["8(?:51(?:0(?:02|31|60)|118)|91(?:0(?:1[0-2]|29)|1(?:[28]2|50|79)|2(?:10|64)|3(?:08|22|68)|4[29]8|62\\d|70[23]|959))\\d{3}",[9]],["14(?:5\\d|71)\\d{5}|4(?:[0-3]\\d|4[047-9]|5[0-25-9]|6[6-9]|7[02-9]|8[12547-9]|9[017-9])\\d{6}",[9]],["180(?:0\\d{3}|2)\\d{3}",[7,10]],["19(?:0[0126]\\d|[679])\\d{5}",[8,10]],["500\\d{6}",[9]],null,null,null,["550\\d{6}",[9]],["13(?:00\\d{2})?\\d{4}",[6,10]]]],"CD":["243","[2-6]\\d{6}|[18]\\d{6,8}|9\\d{8}",[7,9],[["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["12"]],["([89]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["8[0-2459]|9"]],["(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["88"]],["(\\d{2})(\\d{5})","$1 $2",["[1-6]"]]],"0","0$1"],"CF":["236","[278]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"CG":["242","[028]\\d{8}",[9],[["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["801"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[02]"]],["(\\d)(\\d{4})(\\d{4})","$1 $2 $3",["800"]]]],"CH":["41","[2-9]\\d{8}|860\\d{9}",[9],[["([2-9]\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[2-7]|[89]1"]],["([89]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["8[047]|90"]],["(\\d{3})(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4 $5",["860"]]],"0","0$1"],"CI":["225","[02-8]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"CK":["682","[2-8]\\d{4}",[5],[["(\\d{2})(\\d{3})","$1 $2"]]],"CL":["56","1230\\d{7}|[2-46-9]\\d{8,10}|5[1-3578]\\d{7}",[9,10,11],[["(\\d)(\\d{4})(\\d{4})","$1 $2 $3",["2[23]"],"($1)"],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[357]|4[1-35]|6[13-57]"],"($1)"],["(9)(\\d{4})(\\d{4})","$1 $2 $3",["9"]],["(44)(\\d{3})(\\d{4})","$1 $2 $3",["44"]],["([68]00)(\\d{3})(\\d{3,4})","$1 $2 $3",["[68]00"],"$1"],["(600)(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3 $4",["600"],"$1"],["(1230)(\\d{3})(\\d{4})","$1 $2 $3",["123","1230"],"$1"],["(\\d{5})(\\d{4})","$1 $2",["219"],"($1)"]],"0","0$1","0|(1(?:1[0-69]|2[0-57]|5[13-58]|69|7[0167]|8[018]))"],"CM":["237","[2368]\\d{7,8}",[8,9],[["([26])(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4 $5",["[26]"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[23]|88"]]]],"CN":["86","[1-7]\\d{6,11}|8[0-357-9]\\d{6,9}|9\\d{7,10}",[7,8,9,10,11,12],[["([48]00)(\\d{3})(\\d{4})","$1 $2 $3",["[48]00"]],["(\\d{2})(\\d{5,6})","$1 $2",["(?:10|2\\d)[19]","(?:10|2\\d)(?:10|9[56])","(?:10|2\\d)(?:100|9[56])"],"0$1"],["(\\d{3})(\\d{5,6})","$1 $2",["[3-9]","[3-9]\\d\\d[19]","[3-9]\\d\\d(?:10|9[56])"],"0$1"],["(21)(\\d{4})(\\d{4,6})","$1 $2 $3",["21"],"0$1","true"],["([12]\\d)(\\d{4})(\\d{4})","$1 $2 $3",["10[1-9]|2[02-9]","10[1-9]|2[02-9]","10(?:[1-79]|8(?:0[1-9]|[1-9]))|2[02-9]"],"0$1","true"],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["3(?:1[02-9]|35|49|5|7[02-68]|9[1-68])|4(?:1[02-9]|2[179]|[35][2-9]|6[47-9]|7|8[23])|5(?:3[03-9]|4[36]|5[02-9]|6[1-46]|7[028]|80|9[2-46-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]|2[248]|3[04-9]|4[3-6]|6[2368])|8(?:1[236-8]|2[5-7]|3|5[1-9]|7[02-9]|8[36-8]|9[1-7])|9(?:0[1-3689]|1[1-79]|[379]|4[13]|5[1-5])"],"0$1","true"],["(\\d{3})(\\d{4})(\\d{4})","$1 $2 $3",["3(?:11|7[179])|4(?:[15]1|3[1-35])|5(?:1|2[37]|3[12]|51|7[13-79]|9[15])|7(?:[39]1|5[457]|6[09])|8(?:[57]1|98)"],"0$1","true"],["(\\d{4})(\\d{3})(\\d{4})","$1 $2 $3",["807","8078"],"0$1","true"],["(\\d{3})(\\d{4})(\\d{4})","$1 $2 $3",["1(?:[3-57-9]|66)"]],["(10800)(\\d{3})(\\d{4})","$1 $2 $3",["108","1080","10800"]],["(\\d{3})(\\d{7,8})","$1 $2",["950"]]],"0",null,"(1(?:[129]\\d{3}|79\\d{2}))|0"],"CO":["57","(?:[13]\\d{0,3}|[24-8])\\d{7}",[8,10,11],[["(\\d)(\\d{7})","$1 $2",["1(?:[2-7]|8[2-9]|9[0-3])|[24-8]","1(?:[2-7]|8[2-9]|9(?:09|[1-3]))|[24-8]"],"($1)"],["(\\d{3})(\\d{7})","$1 $2",["3"]],["(1)(\\d{3})(\\d{7})","$1-$2-$3",["1(?:80|9[04])","1(?:800|9(?:0[01]|4[78]))"],"0$1",null,"$1 $2 $3"]],"0",null,"0([3579]|4(?:44|56))?"],"CR":["506","[24-9]\\d{7,9}",[8,10],[["(\\d{4})(\\d{4})","$1 $2",["[24-7]|8[3-9]"]],["(\\d{3})(\\d{3})(\\d{4})","$1-$2-$3",["[89]0"]]],null,null,"(19(?:0[012468]|1[09]|20|66|77|99))"],"CU":["53","[2-57]\\d{5,7}",[6,7,8],[["(\\d)(\\d{6,7})","$1 $2",["7"]],["(\\d{2})(\\d{4,6})","$1 $2",["[2-4]"]],["(\\d)(\\d{7})","$1 $2",["5"],"0$1"]],"0","(0$1)"],"CV":["238","[2-59]\\d{6}",[7],[["(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3"]]],"CW":["599","[134679]\\d{6,7}",[7,8],[["(\\d{3})(\\d{4})","$1 $2",["[13-7]"]],["(9)(\\d{3})(\\d{4})","$1 $2 $3",["9"]]],null,null,null,null,null,null,[["9(?:[48]\\d{2}|50\\d|7(?:2[0-24]|[34]\\d|6[35-7]|77|8[7-9]))\\d{4}",[8]],["9(?:5(?:[12467]\\d|3[01])|6(?:[15-9]\\d|3[01]))\\d{4}",[8]],null,null,null,null,null,["955\\d{5}",[8]],null,["60[0-2]\\d{4}",[7]]]],"CX":["61","[1458]\\d{5,9}",[6,7,8,9,10],[["([2378])(\\d{4})(\\d{4})","$1 $2 $3",["[2378]"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["14|[45]"],"0$1"],["(16)(\\d{3,4})","$1 $2",["16"],"0$1"],["(16)(\\d{3})(\\d{2,4})","$1 $2 $3",["16"],"0$1"],["(1[389]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["1[389]0","1(?:[38]0|9)0"]],["(180)(2\\d{3})","$1 $2",["180","1802"]],["(19\\d)(\\d{3})","$1 $2",["19[13]"]],["(19\\d{2})(\\d{4})","$1 $2",["19[679]"]],["(13)(\\d{2})(\\d{2})","$1 $2 $3",["13[1-9]"]]],"0",null,null,null,null,null,[["8(?:51(?:0(?:01|30|59)|117)|91(?:00[6-9]|1(?:21|49|78|81)|2(?:09|63)|3(?:12|26|75)|4(?:56|97)|64\\d|7(?:0[01]|1[0-2])|958))\\d{3}",[9]],["14(?:5\\d|71)\\d{5}|4(?:[0-3]\\d|4[047-9]|5[0-25-9]|6[6-9]|7[02-9]|8[12547-9]|9[017-9])\\d{6}",[9]],["180(?:0\\d{3}|2)\\d{3}",[7,10]],["19(?:0[0126]\\d|[679])\\d{5}",[8,10]],["500\\d{6}",[9]],null,null,null,["550\\d{6}",[9]],["13(?:00\\d{2})?\\d{4}",[6,8,10]]]],"CY":["357","[257-9]\\d{7}",[8],[["(\\d{2})(\\d{6})","$1 $2"]]],"CZ":["420","[2-8]\\d{8}|9\\d{8,11}",[9],[["([2-9]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[2-8]|9[015-7]"]],["(96\\d)(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3 $4",["96"]],["(9\\d)(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3 $4",["9[36]"]]]],"DE":["49","[1-35-9]\\d{3,14}|4(?:[0-8]\\d{3,12}|9(?:[0-37]\\d|4(?:[1-35-8]|4\\d?)|5\\d{1,2}|6[1-8]\\d?)\\d{2,8})",[4,5,6,7,8,9,10,11,12,13,14,15],[["(1\\d{2})(\\d{7,8})","$1 $2",["1[67]"]],["(15\\d{3})(\\d{6})","$1 $2",["15[0568]"]],["(1\\d{3})(\\d{7})","$1 $2",["15"]],["(\\d{2})(\\d{3,11})","$1 $2",["3[02]|40|[68]9"]],["(\\d{3})(\\d{3,11})","$1 $2",["2(?:0[1-389]|1[124]|2[18]|3[14]|[4-9]1)|3(?:[35-9][15]|4[015])|[4-8][1-9]1|9(?:06|[1-9]1)"]],["(\\d{4})(\\d{2,11})","$1 $2",["[24-6]|3(?:[3569][02-46-9]|4[2-4679]|7[2-467]|8[2-46-8])|[7-9](?:0[1-9]|[1-9])","[24-6]|3(?:3(?:0[1-467]|2[127-9]|3[124578]|[46][1246]|7[1257-9]|8[1256]|9[145])|4(?:2[135]|3[1357]|4[13578]|6[1246]|7[1356]|9[1346])|5(?:0[14]|2[1-3589]|3[1357]|[49][1246]|6[1-4]|7[13468]|8[13568])|6(?:0[356]|2[1-489]|3[124-6]|4[1347]|6[13]|7[12579]|8[1-356]|9[135])|7(?:2[1-7]|3[1357]|4[145]|6[1-5]|7[1-4])|8(?:21|3[1468]|4[1347]|6[0135-9]|7[1467]|8[136])|9(?:0[12479]|2[1358]|3[1357]|4[134679]|6[1-9]|7[136]|8[147]|9[1468]))|[7-9](?:0[1-9]|[1-9])"]],["(3\\d{4})(\\d{1,10})","$1 $2",["3"]],["(800)(\\d{7,12})","$1 $2",["800"]],["(\\d{3})(\\d)(\\d{4,10})","$1 $2 $3",["1(?:37|80)|900","1(?:37|80)|900[1359]"]],["(1\\d{2})(\\d{5,11})","$1 $2",["181"]],["(18\\d{3})(\\d{6})","$1 $2",["185","1850","18500"]],["(18\\d{2})(\\d{7})","$1 $2",["18[68]"]],["(18\\d)(\\d{8})","$1 $2",["18[2-579]"]],["(700)(\\d{4})(\\d{4})","$1 $2 $3",["700"]],["(138)(\\d{4})","$1 $2",["138"]],["(15[013-68])(\\d{2})(\\d{8})","$1 $2 $3",["15[013-68]"]],["(15[279]\\d)(\\d{2})(\\d{7})","$1 $2 $3",["15[279]"]],["(1[67]\\d)(\\d{2})(\\d{7,8})","$1 $2 $3",["1(?:6[023]|7)"]]],"0","0$1"],"DJ":["253","[27]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"DK":["45","[2-9]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"DM":["1","[57-9]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"767"],"DO":["1","[589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"8[024]9"],"DZ":["213","(?:[1-4]|[5-9]\\d)\\d{7}",[8,9],[["([1-4]\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[1-4]"]],["([5-8]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[5-8]"]],["(9\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["9"]]],"0","0$1"],"EC":["593","1\\d{9,10}|[2-8]\\d{7}|9\\d{8}",[8,9,10,11],[["(\\d)(\\d{3})(\\d{4})","$1 $2-$3",["[247]|[356][2-8]"],null,null,"$1-$2-$3"],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["9"],"0$1"],["(1800)(\\d{3})(\\d{3,4})","$1 $2 $3",["180","1800"],"$1"]],"0","(0$1)"],"EE":["372","[3-9]\\d{6,7}|800\\d{6,7}",[7,8,10],[["([3-79]\\d{2})(\\d{4})","$1 $2",["[369]|4[3-8]|5(?:[0-2]|5[0-478]|6[45])|7[1-9]","[369]|4[3-8]|5(?:[02]|1(?:[0-8]|95)|5[0-478]|6(?:4[0-4]|5[1-589]))|7[1-9]"]],["(70)(\\d{2})(\\d{4})","$1 $2 $3",["70"]],["(8000)(\\d{3})(\\d{3})","$1 $2 $3",["800","8000"]],["([458]\\d{3})(\\d{3,4})","$1 $2",["40|5|8(?:00|[1-5])","40|5|8(?:00[1-9]|[1-5])"]]]],"EG":["20","1\\d{4,9}|[24-6]\\d{8}|3\\d{7}|[89]\\d{8,9}",[8,9,10],[["(\\d)(\\d{7,8})","$1 $2",["[23]"]],["(\\d{2})(\\d{6,7})","$1 $2",["1(?:3|5[239])|[4-6]|[89][2-9]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1[0-25]|[89]00"]]],"0","0$1"],"EH":["212","[5-9]\\d{8}",[9],[["([5-7]\\d{2})(\\d{6})","$1-$2",["5(?:2[015-7]|3[0-4])|[67]"]],["([58]\\d{3})(\\d{5})","$1-$2",["5(?:2[2-489]|3[5-9]|92)|892","5(?:2(?:[2-48]|9[0-7])|3(?:[5-79]|8[0-7])|924)|892"]],["(5\\d{4})(\\d{4})","$1-$2",["5(?:29|38)","5(?:29|38)[89]"]],["([5]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["5(?:4[067]|5[03])"]],["(8[09])(\\d{7})","$1-$2",["8(?:0|9[013-9])"]]],"0",null,null,null,null,"528[89]"],"ER":["291","[178]\\d{6}",[7],[["(\\d)(\\d{3})(\\d{3})","$1 $2 $3"]],"0","0$1"],"ES":["34","[5-9]\\d{8}",[9],[["([89]00)(\\d{3})(\\d{3})","$1 $2 $3",["[89]00"]],["([5-9]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[568]|[79][0-8]"]]]],"ET":["251","[1-59]\\d{8}",[9],[["([1-59]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[1-59]"]]],"0","0$1"],"FI":["358","1\\d{4,11}|[2-9]\\d{4,10}",[5,6,7,8,9,10,11,12],[["(\\d{3})(\\d{3,7})","$1 $2",["(?:[1-3]0|[6-8])0"]],["(75\\d{3})","$1",["75[12]"]],["(116\\d{3})","$1",["116"],"$1"],["(\\d{2})(\\d{4,10})","$1 $2",["[14]|2[09]|50|7[135]"]],["(\\d)(\\d{4,11})","$1 $2",["[25689][1-8]|3"]]],"0","0$1",null,null,null,null,[["1(?:[3569][1-8]\\d{3,9}|[47]\\d{5,10})|2[1-8]\\d{3,9}|3(?:[1-8]\\d{3,9}|9\\d{4,8})|[5689][1-8]\\d{3,9}"],["4(?:[0-8]\\d{4,9}|9\\d{3,8})|50\\d{4,8}",[6,7,8,9,10,11]],["800\\d{4,7}",[7,8,9,10]],["[67]00\\d{5,6}",[8,9]],null,null,["[13]0\\d{4,8}|2(?:0(?:[016-8]\\d{3,7}|[2-59]\\d{2,7})|9\\d{4,8})|60(?:[12]\\d{5,6}|6\\d{7})|7(?:1\\d{7}|3\\d{8}|5[03-9]\\d{3,7})",[5,6,7,8,9,10]]]],"FJ":["679","[2-9]\\d{6}|0\\d{10}",[7,11],[["(\\d{3})(\\d{4})","$1 $2",["[2-9]"]],["(\\d{4})(\\d{3})(\\d{4})","$1 $2 $3",["0"]]]],"FK":["500","[2-7]\\d{4}",[5]],"FM":["691","[39]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"FO":["298","[2-9]\\d{5}",[6],[["(\\d{6})","$1"]],null,null,"(10(?:01|[12]0|88))"],"FR":["33","[1-9]\\d{8}",[9],[["([1-79])(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4 $5",["[1-79]"]],["(8\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["8"],"0 $1"]],"0","0$1"],"GA":["241","0?\\d{7}",[7,8],[["(\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[2-7]"],"0$1"],["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["0"]]]],"GB":["44","\\d{7,10}",[7,9,10],[["(7\\d{3})(\\d{6})","$1 $2",["7(?:[1-57-9]|62)","7(?:[1-57-9]|624)"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["2|5[56]|7[06]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1(?:[02-9]1|1)|3|9[018]"]],["(\\d{5})(\\d{4,5})","$1 $2",["1(?:38|5[23]|69|76|94)","1(?:(?:38|69)7|5(?:24|39)|768|946)","1(?:3873|5(?:242|39[4-6])|(?:697|768)[347]|9467)"]],["(1\\d{3})(\\d{5,6})","$1 $2",["1"]],["(800)(\\d{4})","$1 $2",["800","8001","80011","800111","8001111"]],["(845)(46)(4\\d)","$1 $2 $3",["845","8454","84546","845464"]],["(8\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["8(?:4[2-5]|7[0-3])"]],["(80\\d)(\\d{3})(\\d{4})","$1 $2 $3",["80"]],["(800)(\\d{6})","$1 $2",["800"]]],"0","0$1",null,null,null,null,[["2(?:0[01378]|3[0189]|4[017]|8[0-46-9]|9[0-2])\\d{7}|1(?:1(?:3[0-48]|[46][0-4]|5[0-26-9]|[78][0-49])|21[0-7]|31[0-8]|[4-69]1\\d)\\d{6}|1(?:2(?:0[024-9]|2[3-9]|3[3-79]|4[1-689]|[58][02-9]|6[0-47-9]|7[013-9]|9\\d)|3(?:0\\d|[25][02-9]|3[02-579]|[468][0-46-9]|7[1-35-79]|9[2-578])|4(?:0[03-9]|[28][02-57-9]|[37]\\d|4[02-69]|5[0-8]|[69][0-79])|5(?:0[1-35-9]|2[024-9]|3[015689]|4[02-9]|5[03-9]|6\\d|7[0-35-9]|8[0-468]|9[0-57-9])|6(?:0[034689]|2[0-35689]|[38][013-9]|4[1-467]|5[0-69]|6[13-9]|7[0-8]|9[0124578])|7(?:0[0246-9]|2\\d|3[0236-8]|4[03-9]|5[0-46-9]|6[013-9]|7[0-35-9]|8[024-9]|9[02-9])|8(?:0[35-9]|2[1-57-9]|3[02-578]|4[0-578]|5[124-9]|6[2-69]|7\\d|8[02-9]|9[02569])|9(?:0[02-589]|2[02-689]|3[1-57-9]|4[2-9]|5[0-579]|6[2-47-9]|7[0-24578]|8\\d|9[2-57]))\\d{6}|1(?:2(?:0(?:46[1-4]|87[2-9])|545[1-79]|76(?:2\\d|3[1-8]|6[1-6])|9(?:7(?:2[0-4]|3[2-5])|8(?:2[2-8]|7[0-47-9]|8[345])))|3(?:638[2-5]|647[23]|8(?:47[04-9]|64[0157-9]))|4(?:044[1-7]|20(?:2[23]|8\\d)|6(?:0(?:30|5[2-57]|6[1-8]|7[2-8])|140)|8(?:052|87[123]))|5(?:24(?:3[2-79]|6\\d)|276\\d|6(?:26[06-9]|686))|6(?:06(?:4\\d|7[4-79])|295[567]|35[34]\\d|47(?:24|61)|59(?:5[08]|6[67]|74)|955[0-4])|7(?:26(?:6[13-9]|7[0-7])|442\\d|50(?:2[0-3]|[3-68]2|76))|8(?:27[56]\\d|37(?:5[2-5]|8[239])|84(?:3[2-58]))|9(?:0(?:0(?:6[1-8]|85)|52\\d)|3583|4(?:66[1-8]|9(?:2[01]|81))|63(?:23|3[1-4])|9561))\\d{3}|176888[2-46-8]\\d{2}|16977[23]\\d{3}",[9,10]],["7(?:[1-3]\\d{3}|4(?:[0-46-9]\\d{2}|5(?:[0-689]\\d|7[0-57-9]))|5(?:0[0-8]|[13-9]\\d|2[0-35-9])\\d|7(?:0(?:0[01]|[1-9]\\d)|[1-7]\\d{2}|8[02-9]\\d|9[0-689]\\d)|8(?:[014-9]\\d|[23][0-8])\\d|9(?:[024-9]\\d{2}|1(?:[02-9]\\d|1[028])|3[0-689]\\d))\\d{5}",[10]],["80(?:0(?:1111|\\d{6,7})|8\\d{7})"],["(?:87[123]|9(?:[01]\\d|8[2349]))\\d{7}",[10]],["70\\d{8}",[10]],null,["(?:3[0347]|55)\\d{8}",[10]],["76(?:0[012]|2[356]|4[0134]|5[49]|6[0-369]|77|81|9[39])\\d{6}",[10]],["56\\d{8}",[10]],["8(?:4(?:5464\\d|[2-5]\\d{7})|70\\d{7})",[7,10]]]],"GD":["1","[4589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"473"],"GE":["995","[34578]\\d{8}",[9],[["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[348]"],"0$1"],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["7"],"0$1"],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["5"]]],"0"],"GF":["594","[56]\\d{8}",[9],[["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]],"0","0$1"],"GG":["44","[135789]\\d{6,9}",[7,9,10],[["(7\\d{3})(\\d{6})","$1 $2",["7(?:[1-57-9]|62)","7(?:[1-57-9]|624)"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["2|5[56]|7[06]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1(?:[02-9]1|1)|3|9[018]"]],["(\\d{5})(\\d{4,5})","$1 $2",["1(?:38|5[23]|69|76|94)","1(?:(?:38|69)7|5(?:24|39)|768|946)","1(?:3873|5(?:242|39[4-6])|(?:697|768)[347]|9467)"]],["(1\\d{3})(\\d{5,6})","$1 $2",["1"]],["(800)(\\d{4})","$1 $2",["800","8001","80011","800111","8001111"]],["(845)(46)(4\\d)","$1 $2 $3",["845","8454","84546","845464"]],["(8\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["8(?:4[2-5]|7[0-3])"]],["(80\\d)(\\d{3})(\\d{4})","$1 $2 $3",["80"]],["(800)(\\d{6})","$1 $2",["800"]]],"0",null,null,null,null,null,[["1481[25-9]\\d{5}",[10]],["7(?:781\\d|839\\d|911[17])\\d{5}",[10]],["80(?:0(?:1111|\\d{6,7})|8\\d{7})"],["(?:87[123]|9(?:[01]\\d|8[0-3]))\\d{7}",[10]],["70\\d{8}",[10]],null,["(?:3[0347]|55)\\d{8}",[10]],["76(?:0[012]|2[356]|4[0134]|5[49]|6[0-369]|77|81|9[39])\\d{6}",[10]],["56\\d{8}",[10]],["8(?:4(?:5464\\d|[2-5]\\d{7})|70\\d{7})",[7,10]]]],"GH":["233","[235]\\d{8}|8\\d{7}",[8,9],[["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[235]"]],["(\\d{3})(\\d{5})","$1 $2",["8"]]],"0","0$1"],"GI":["350","[256]\\d{7}",[8],[["(\\d{3})(\\d{5})","$1 $2",["2"]]]],"GL":["299","[1-689]\\d{5}",[6],[["(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3"]]],"GM":["220","[2-9]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"GN":["224","[367]\\d{7,8}",[8,9],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["3"]],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[67]"]]]],"GP":["590","[56]\\d{8}",[9],[["([56]\\d{2})(\\d{2})(\\d{4})","$1 $2-$3",["590|69[01]"]]],"0","0$1",null,null,null,null,[["590(?:0[1-68]|1[0-2]|2[0-68]|3[1289]|4[0-24-9]|5[3-579]|6[0189]|7[08]|8[0-689]|9\\d)\\d{4}"],["69(?:0\\d{2}|1(?:2[29]|3[0-5]))\\d{4}"]]],"GQ":["240","[23589]\\d{8}",[9],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["[235]"]],["(\\d{3})(\\d{6})","$1 $2",["[89]"]]]],"GR":["30","[26-9]\\d{9}",[10],[["([27]\\d)(\\d{4})(\\d{4})","$1 $2 $3",["21|7"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["2[2-9]1|[689]"]],["(2\\d{3})(\\d{6})","$1 $2",["2[2-9][02-9]"]]]],"GT":["502","[2-7]\\d{7}|1[89]\\d{9}",[8,11],[["(\\d{4})(\\d{4})","$1 $2",["[2-7]"]],["(\\d{4})(\\d{3})(\\d{4})","$1 $2 $3",["1"]]]],"GU":["1","[5689]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"671"],"GW":["245","(?:4(?:0\\d{5}|4\\d{7})|9\\d{8})",[7,9],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["44|9[5-7]"]],["(\\d{3})(\\d{4})","$1 $2",["40"]]]],"GY":["592","[2-46-9]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"HK":["852","[2-7]\\d{7}|8[0-3]\\d{6,7}|9\\d{4,10}",[5,6,7,8,9,11],[["(\\d{4})(\\d{4})","$1 $2",["[2-7]|[89](?:0[1-9]|[1-9])"]],["(800)(\\d{3})(\\d{3})","$1 $2 $3",["800"]],["(900)(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3 $4",["900"]],["(900)(\\d{2,5})","$1 $2",["900"]]]],"HN":["504","[237-9]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1-$2"]]],"HR":["385","[1-7]\\d{5,8}|[89]\\d{6,8}",[6,7,8,9],[["(1)(\\d{4})(\\d{3})","$1 $2 $3",["1"]],["([2-5]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["[2-5]"]],["(9\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["9"]],["(6[01])(\\d{2})(\\d{2,3})","$1 $2 $3",["6[01]"]],["([67]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["[67]"]],["(80[01])(\\d{2})(\\d{2,3})","$1 $2 $3",["80[01]"]],["(80[01])(\\d{3})(\\d{3})","$1 $2 $3",["80[01]"]]],"0","0$1"],"HT":["509","[2-489]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{4})","$1 $2 $3"]]],"HU":["36","[1-9]\\d{7,8}",[8,9],[["(1)(\\d{3})(\\d{4})","$1 $2 $3",["1"]],["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["[2-9]"]]],"06","($1)"],"ID":["62","(?:[1-79]\\d{6,10}|8\\d{7,11})",[7,8,9,10,11,12],[["(\\d{2})(\\d{5,8})","$1 $2",["2[124]|[36]1"],"(0$1)"],["(\\d{3})(\\d{5,8})","$1 $2",["2[035-9]|[36][02-9]|[4579]"],"(0$1)"],["(8\\d{2})(\\d{3,4})(\\d{3})","$1-$2-$3",["8[1-35-9]"]],["(8\\d{2})(\\d{4})(\\d{4,5})","$1-$2-$3",["8[1-35-9]"]],["(1)(500)(\\d{3})","$1 $2 $3",["150","1500"],"$1"],["(177)(\\d{6,8})","$1 $2",["177"]],["(800)(\\d{5,7})","$1 $2",["800"]],["(804)(\\d{3})(\\d{4})","$1 $2 $3",["804"]],["(80\\d)(\\d)(\\d{3})(\\d{3})","$1 $2 $3 $4",["80[79]"]]],"0","0$1"],"IE":["353","[124-9]\\d{6,9}",[7,8,9,10],[["(1)(\\d{3,4})(\\d{4})","$1 $2 $3",["1"]],["(\\d{2})(\\d{5})","$1 $2",["2[24-9]|47|58|6[237-9]|9[35-9]"]],["(\\d{3})(\\d{5})","$1 $2",["40[24]|50[45]"]],["(48)(\\d{4})(\\d{4})","$1 $2 $3",["48"]],["(818)(\\d{3})(\\d{3})","$1 $2 $3",["818"]],["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["[24-69]|7[14]"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["76|8[35-9]"],"0$1"],["(8\\d)(\\d)(\\d{3})(\\d{4})","$1 $2 $3 $4",["8[35-9]5"],"0$1"],["(700)(\\d{3})(\\d{3})","$1 $2 $3",["700"],"0$1"],["(\\d{4})(\\d{3})(\\d{3})","$1 $2 $3",["1(?:5|8[059])","1(?:5|8[059]0)"],"$1"]],"0","(0$1)"],"IL":["972","1\\d{6,11}|[2-589]\\d{3}(?:\\d{3,6})?|6\\d{3}|7\\d{6,9}",[4,7,8,9,10,11,12],[["([2-489])(\\d{3})(\\d{4})","$1-$2-$3",["[2-489]"],"0$1"],["([57]\\d)(\\d{3})(\\d{4})","$1-$2-$3",["[57]"],"0$1"],["(153)(\\d{1,2})(\\d{3})(\\d{4})","$1 $2 $3 $4",["153"]],["(1)([7-9]\\d{2})(\\d{3})(\\d{3})","$1-$2-$3-$4",["1[7-9]"]],["(1255)(\\d{3})","$1-$2",["125","1255"]],["(1200)(\\d{3})(\\d{3})","$1-$2-$3",["120","1200"]],["(1212)(\\d{2})(\\d{2})","$1-$2-$3",["121","1212"]],["(1599)(\\d{6})","$1-$2",["159","1599"]],["(151)(\\d{1,2})(\\d{3})(\\d{4})","$1-$2 $3-$4",["151"]],["(\\d{4})","*$1",["[2-689]"]]],"0"],"IM":["44","[135789]\\d{6,9}",[10],[["(7\\d{3})(\\d{6})","$1 $2",["7(?:[1-57-9]|62)","7(?:[1-57-9]|624)"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["2|5[56]|7[06]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1(?:[02-9]1|1)|3|9[018]"]],["(\\d{5})(\\d{4,5})","$1 $2",["1(?:38|5[23]|69|76|94)","1(?:(?:38|69)7|5(?:24|39)|768|946)","1(?:3873|5(?:242|39[4-6])|(?:697|768)[347]|9467)"]],["(1\\d{3})(\\d{5,6})","$1 $2",["1"]],["(800)(\\d{4})","$1 $2",["800","8001","80011","800111","8001111"]],["(845)(46)(4\\d)","$1 $2 $3",["845","8454","84546","845464"]],["(8\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["8(?:4[2-5]|7[0-3])"]],["(80\\d)(\\d{3})(\\d{4})","$1 $2 $3",["80"]],["(800)(\\d{6})","$1 $2",["800"]]],"0",null,null,null,null,null,[["1624[5-8]\\d{5}"],["7(?:4576|[59]24\\d|624[0-4689])\\d{5}"],["808162\\d{4}"],["(?:872299|90[0167]624)\\d{4}"],["70\\d{8}"],null,["3(?:08162\\d|3\\d{5}|4(?:40[49]06|5624\\d)|7(?:0624\\d|2299\\d))\\d{3}|55\\d{8}"],null,["56\\d{8}"],["8(?:4(?:40[49]06|5624\\d)|70624\\d)\\d{3}"]]],"IN":["91","008\\d{9}|1\\d{7,12}|[2-9]\\d{9,10}",[8,9,10,11,12,13],[["(\\d{8})","$1",["561","5616","56161"],"$1"],["(\\d{5})(\\d{5})","$1 $2",["6(?:[09]0|12|2[03689]|3[05-9])|7(?:[02-8]|19|9[037-9])|8(?:0[015-9]|[1-9])|9","6(?:[09]0|127|2(?:0[01]|39|6[02]|8[0-2]|9[04])|3(?:0[01]|5[0-2]|60|7[05]|81|9[02-5]))|7(?:[07]|19[0-5]|2(?:[0235-9]|[14][017-9])|3(?:[025-9]|[134][017-9])|4(?:[0-35689]|[47][017-9])|5(?:[02-46-9]|[15][017-9])|6(?:[02-9]|1[0-257-9])|8(?:[0-79]|8[0189])|9(?:[089]|31|7[02-9]))|8(?:0(?:[01589]|6[67]|7[02-9])|1(?:[0-57-9]|6[07-9])|2(?:[014][07-9]|[235-9])|3(?:[03-57-9]|[126][07-9])|[45]|6(?:[02457-9]|[136][07-9])|7(?:[078][07-9]|[1-69])|8(?:[0-25-9]|3[07-9]|4[047-9])|9(?:[02-9]|1[027-9]))|9","6(?:[09]0|1279|2(?:0[01]|39|6[02]|8[0-2]|9[04])|3(?:0[01]|5[0-2]|60|7[05]|81|9[02-5]))|7(?:0|19[0-5]|2(?:[0235-79]|[14][017-9]|8(?:[0-69]|[78][089]))|3(?:[05-8]|1(?:[0189]|7[5-9])|2(?:[0-49][089]|[5-8])|3[017-9]|4(?:[07-9]|11)|9(?:[01689]|[2-5][089]|7[0189]))|4(?:[056]|1(?:[0135-9]|[24][089])|[29](?:[0-7][089]|[89])|3(?:[0-8][089]|9)|[47](?:[089]|11|7[02-8])|8(?:[0-24-7][089]|[389]))|5(?:[0346-9]|[15][017-9]|2(?:[03-9]|[12][089]))|6(?:[0346-9]|1[0-257-9]|2(?:[0-4]|[5-9][089])|5(?:[0-367][089]|[4589]))|7(?:0(?:[02-9]|1[089])|[1-9])|8(?:[0-79]|8(?:0[0189]|11|8[013-9]|9))|9(?:[089]|313|7(?:[02-8]|9[07-9])))|8(?:0(?:[01589]|6[67]|7(?:[02-8]|9[04-9]))|1(?:[02-57-9]|1(?:[0-35-9]|4[0-46-9])|6(?:[089]|7[02-8]))|2(?:[014](?:[089]|7[02-8])|[235-9])|3(?:[03-57-9]|[16](?:[089]|7[02-7])|2(?:[09]|7[02-8]|8[0-689]))|[45]|6(?:[02457-9]|[136](?:[089]|7[02-8]))|7(?:0[07-9]|[1-69]|[78](?:[089]|7[02-8]))|8(?:[0-25-9]|3(?:[089]|7[02-8])|4(?:[0489]|7[02-8]))|9(?:[02-9]|1(?:[0289]|7[02-8])))|9"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["11|2[02]|33|4[04]|79[1-9]|80[2-46]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1(?:2[0-249]|3[0-25]|4[145]|[59][14]|[68][1-9]|7[1257])|2(?:1[257]|3[013]|4[01]|5[0137]|6[0158]|78|8[1568]|9[14])|3(?:26|4[1-3]|5[34]|6[01489]|7[02-46]|8[159])|4(?:1[36]|2[1-47]|3[15]|5[12]|6[0-26-9]|7[0-24-9]|8[013-57]|9[014-7])|5(?:1[025]|22|[36][25]|4[28]|5[12]|[78]1|9[15])|6(?:12|[2-4]1|5[17]|6[13]|7[14]|80)|7(?:12|2[14]|3[134]|4[47]|5[15]|[67]1|88)|8(?:16|2[014]|3[126]|6[136]|7[078]|8[34]|91)"]],["(\\d{4})(\\d{3})(\\d{3})","$1 $2 $3",["1(?:[23579]|[468][1-9])|[2-8]"]],["(\\d{2})(\\d{3})(\\d{4})(\\d{3})","$1 $2 $3 $4",["008"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["140"],"$1"],["(\\d{4})(\\d{2})(\\d{4})","$1 $2 $3",["160","1600"],"$1"],["(\\d{4})(\\d{4,5})","$1 $2",["180","1800"],"$1"],["(\\d{4})(\\d{2,4})(\\d{4})","$1 $2 $3",["180","1800"],"$1"],["(\\d{4})(\\d{3,4})(\\d{4})","$1 $2 $3",["186","1860"],"$1"],["(\\d{4})(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3 $4",["18[06]"],"$1"]],"0","0$1",null,null,true],"IO":["246","3\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"IQ":["964","[1-7]\\d{7,9}",[8,9,10],[["(1)(\\d{3})(\\d{4})","$1 $2 $3",["1"]],["([2-6]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["[2-6]"]],["(7\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["7"]]],"0","0$1"],"IR":["98","[1-8]\\d{5,9}|9(?:[0-4]\\d{8}|9\\d{8})",[6,7,10],[["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["[1-8]"]],["(\\d{2})(\\d{4,5})","$1 $2",["[1-8]"]],["(\\d{4,5})","$1",["96"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["9"]]],"0","0$1"],"IS":["354","[4-9]\\d{6}|38\\d{7}",[7,9],[["(\\d{3})(\\d{4})","$1 $2",["[4-9]"]],["(3\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["3"]]]],"IT":["39","[01589]\\d{5,10}|3(?:[12457-9]\\d{8}|[36]\\d{7,9})",[6,7,8,9,10,11],[["(\\d{2})(\\d{3,4})(\\d{4})","$1 $2 $3",["0[26]|55"]],["(0[26])(\\d{4})(\\d{5})","$1 $2 $3",["0[26]"]],["(0[26])(\\d{4,6})","$1 $2",["0[26]"]],["(0\\d{2})(\\d{3,4})(\\d{4})","$1 $2 $3",["0[13-57-9][0159]"]],["(\\d{3})(\\d{3,6})","$1 $2",["0[13-57-9][0159]|8(?:03|4[17]|9[245])","0[13-57-9][0159]|8(?:03|4[17]|9(?:2|[45][0-4]))"]],["(0\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["0[13-57-9][2-46-8]"]],["(0\\d{3})(\\d{2,6})","$1 $2",["0[13-57-9][2-46-8]"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["[13]|8(?:00|4[08]|9[59])","[13]|8(?:00|4[08]|9(?:5[5-9]|9))"]],["(\\d{4})(\\d{4})","$1 $2",["894","894[5-9]"]],["(\\d{3})(\\d{4})(\\d{4})","$1 $2 $3",["3"]]],null,null,null,null,null,null,[["0(?:[26]\\d{4,9}|(?:1(?:[0159]\\d|[27][1-5]|31|4[1-4]|6[1356]|8[2-57])|3(?:[0159]\\d|2[1-4]|3[12]|[48][1-6]|6[2-59]|7[1-7])|4(?:[0159]\\d|[23][1-9]|4[245]|6[1-5]|7[1-4]|81)|5(?:[0159]\\d|2[1-5]|3[2-6]|4[1-79]|6[4-6]|7[1-578]|8[3-8])|7(?:[0159]\\d|2[12]|3[1-7]|4[2346]|6[13569]|7[13-6]|8[1-59])|8(?:[0159]\\d|2[34578]|3[1-356]|[6-8][1-5])|9(?:[0159]\\d|[238][1-5]|4[12]|6[1-8]|7[1-6]))\\d{2,7})"],["3(?:[12457-9]\\d{8}|6\\d{7,8}|3\\d{7,9})",[9,10,11]],["80(?:0\\d{6}|3\\d{3})",[6,9]],["0878\\d{5}|1(?:44|6[346])\\d{6}|89(?:2\\d{3}|4(?:[0-4]\\d{2}|[5-9]\\d{4})|5(?:[0-4]\\d{2}|[5-9]\\d{6})|9\\d{6})",[6,8,9,10]],["1(?:78\\d|99)\\d{6}",[9,10]],null,null,null,["55\\d{8}",[10]],["84(?:[08]\\d{6}|[17]\\d{3})",[6,9]]]],"JE":["44","[135789]\\d{6,9}",[10],[["(7\\d{3})(\\d{6})","$1 $2",["7(?:[1-57-9]|62)","7(?:[1-57-9]|624)"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["2|5[56]|7[06]"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1(?:[02-9]1|1)|3|9[018]"]],["(\\d{5})(\\d{4,5})","$1 $2",["1(?:38|5[23]|69|76|94)","1(?:(?:38|69)7|5(?:24|39)|768|946)","1(?:3873|5(?:242|39[4-6])|(?:697|768)[347]|9467)"]],["(1\\d{3})(\\d{5,6})","$1 $2",["1"]],["(800)(\\d{4})","$1 $2",["800","8001","80011","800111","8001111"]],["(845)(46)(4\\d)","$1 $2 $3",["845","8454","84546","845464"]],["(8\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["8(?:4[2-5]|7[0-3])"]],["(80\\d)(\\d{3})(\\d{4})","$1 $2 $3",["80"]],["(800)(\\d{6})","$1 $2",["800"]]],"0",null,null,null,null,null,[["1534[0-24-8]\\d{5}"],["7(?:509\\d|7(?:00[378]|97[7-9])|829\\d|937\\d)\\d{5}"],["80(?:07(?:35|81)|8901)\\d{4}"],["(?:871206|90(?:066[59]|1810|71(?:07|55)))\\d{4}"],["701511\\d{4}"],null,["3(?:0(?:07(?:35|81)|8901)|3\\d{4}|4(?:4(?:4(?:05|42|69)|703)|5(?:041|800))|7(?:0002|1206))\\d{4}|55\\d{8}"],["76(?:0[012]|2[356]|4[0134]|5[49]|6[0-369]|77|81|9[39])\\d{6}"],["56\\d{8}"],["8(?:4(?:4(?:4(?:05|42|69)|703)|5(?:041|800))|70002)\\d{4}"]]],"JM":["1","[589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"876"],"JO":["962","[235-9]\\d{7,8}",[8,9],[["(\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[2356]|87"],"(0$1)"],["(7)(\\d{4})(\\d{4})","$1 $2 $3",["7[457-9]"]],["(\\d{2})(\\d{7})","$1 $2",["70"]],["(\\d{3})(\\d{5,6})","$1 $2",["8[0158]|9"]]],"0","0$1"],"JP":["81","[1-9]\\d{8,9}|00(?:[36]\\d{7,14}|7\\d{5,7}|8\\d{7})",[8,9,10,11,12,13,14,15,16,17],[["(\\d{3})(\\d{3})(\\d{3})","$1-$2-$3",["(?:12|57|99)0"]],["(\\d{3})(\\d{3})(\\d{4})","$1-$2-$3",["800"]],["(\\d{2})(\\d{4})(\\d{4})","$1-$2-$3",["[2579]0|80[1-9]"]],["(\\d{4})(\\d)(\\d{4})","$1-$2-$3",["1(?:26|3[79]|4[56]|5[4-68]|6[3-5])|499|5(?:76|97)|746|8(?:3[89]|47|51|63)|9(?:49|80|9[16])","1(?:267|3(?:7[247]|9[278])|4(?:5[67]|66)|5(?:47|58|64|8[67])|6(?:3[245]|48|5[4-68]))|499[2468]|5(?:76|97)9|7468|8(?:3(?:8[78]|96)|477|51[24]|636)|9(?:496|802|9(?:1[23]|69))","1(?:267|3(?:7[247]|9[278])|4(?:5[67]|66)|5(?:47|58|64|8[67])|6(?:3[245]|48|5[4-68]))|499[2468]|5(?:769|979[2-69])|7468|8(?:3(?:8[78]|96[2457-9])|477|51[24]|636[2-57-9])|9(?:496|802|9(?:1[23]|69))"]],["(\\d{3})(\\d{2})(\\d{4})","$1-$2-$3",["1(?:2[3-6]|3[3-9]|4[2-6]|5[2-8]|[68][2-7]|7[2-689]|9[1-578])|2(?:2[03-689]|3[3-58]|4[0-468]|5[04-8]|6[013-8]|7[06-9]|8[02-57-9]|9[13])|4(?:2[28]|3[689]|6[035-7]|7[05689]|80|9[3-5])|5(?:3[1-36-9]|4[4578]|5[013-8]|6[1-9]|7[2-8]|8[14-7]|9[4-9])|7(?:2[15]|3[5-9]|4[02-9]|6[135-8]|7[0-4689]|9[014-9])|8(?:2[49]|3[3-8]|4[5-8]|5[2-9]|6[35-9]|7[579]|8[03-579]|9[2-8])|9(?:[23]0|4[02-46-9]|5[024-79]|6[4-9]|7[2-47-9]|8[02-7]|9[3-7])","1(?:2[3-6]|3[3-9]|4[2-6]|5(?:[236-8]|[45][2-69])|[68][2-7]|7[2-689]|9[1-578])|2(?:2(?:[04-689]|3[23])|3[3-58]|4[0-468]|5(?:[0468][2-9]|5[78]|7[2-4])|6(?:[0135-8]|4[2-5])|7(?:[0679]|8[2-7])|8(?:[024578]|3[25-9]|9[6-9])|9(?:11|3[2-4]))|4(?:2(?:2[2-9]|8[237-9])|3[689]|6[035-7]|7(?:[059][2-8]|[68])|80|9[3-5])|5(?:3[1-36-9]|4[4578]|5[013-8]|6[1-9]|7[2-8]|8[14-7]|9(?:[4-7]|[89][2-8]))|7(?:2[15]|3[5-9]|4[02-9]|6[135-8]|7[0-4689]|9(?:[017-9]|4[6-8]|5[2-478]|6[2-589]))|8(?:2(?:4[4-8]|9[2-8])|3(?:[3-6][2-9]|7[2-6]|8[2-5])|4[5-8]|5[2-9]|6(?:[37]|5[4-7]|6[2-9]|8[2-8]|9[236-9])|7[579]|8[03-579]|9[2-8])|9(?:[23]0|4[02-46-9]|5[024-79]|6[4-9]|7[2-47-9]|8[02-7]|9(?:3[34]|4[2-69]|[5-7]))","1(?:2[3-6]|3[3-9]|4[2-6]|5(?:[236-8]|[45][2-69])|[68][2-7]|7[2-689]|9[1-578])|2(?:2(?:[04-689]|3[23])|3[3-58]|4[0-468]|5(?:[0468][2-9]|5[78]|7[2-4])|6(?:[0135-8]|4[2-5])|7(?:[0679]|8[2-7])|8(?:[024578]|3[25-9]|9[6-9])|9(?:11|3[2-4]))|4(?:2(?:2[2-9]|8[237-9])|3[689]|6[035-7]|7(?:[059][2-8]|[68])|80|9[3-5])|5(?:3[1-36-9]|4[4578]|5[013-8]|6[1-9]|7[2-8]|8[14-7]|9(?:[4-7]|[89][2-8]))|7(?:2[15]|3[5-9]|4[02-9]|6[135-8]|7[0-4689]|9(?:[017-9]|4[6-8]|5[2-478]|6[2-589]))|8(?:2(?:4[4-8]|9(?:20|[3578]|4[04-9]|6[56]))|3(?:[3-6][2-9]|7(?:[2-5]|6[0-59])|8[2-5])|4[5-8]|5[2-9]|6(?:[37]|5(?:[467]|5[014-9])|6(?:[2-8]|9[02-69])|8[2-8]|9(?:[236-8]|9[23]))|7[579]|8[03-579]|9[2-8])|9(?:[23]0|4[02-46-9]|5[024-79]|6[4-9]|7[2-47-9]|8[02-7]|9(?:3(?:3[02-9]|4[0-24689])|4[2-69]|[5-7]))","1(?:2[3-6]|3[3-9]|4[2-6]|5(?:[236-8]|[45][2-69])|[68][2-7]|7[2-689]|9[1-578])|2(?:2(?:[04-689]|3[23])|3[3-58]|4[0-468]|5(?:[0468][2-9]|5[78]|7[2-4])|6(?:[0135-8]|4[2-5])|7(?:[0679]|8[2-7])|8(?:[024578]|3[25-9]|9[6-9])|9(?:11|3[2-4]))|4(?:2(?:2[2-9]|8[237-9])|3[689]|6[035-7]|7(?:[059][2-8]|[68])|80|9[3-5])|5(?:3[1-36-9]|4[4578]|5[013-8]|6[1-9]|7[2-8]|8[14-7]|9(?:[4-7]|[89][2-8]))|7(?:2[15]|3[5-9]|4[02-9]|6[135-8]|7[0-4689]|9(?:[017-9]|4[6-8]|5[2-478]|6[2-589]))|8(?:2(?:4[4-8]|9(?:20|[3578]|4[04-9]|6(?:5[25]|60)))|3(?:[3-6][2-9]|7(?:[2-5]|6[0-59])|8[2-5])|4[5-8]|5[2-9]|6(?:[37]|5(?:[467]|5[014-9])|6(?:[2-8]|9[02-69])|8[2-8]|9(?:[236-8]|9[23]))|7[579]|8[03-579]|9[2-8])|9(?:[23]0|4[02-46-9]|5[024-79]|6[4-9]|7[2-47-9]|8[02-7]|9(?:3(?:3[02-9]|4[0-24689])|4[2-69]|[5-7]))"]],["(\\d{2})(\\d{3})(\\d{4})","$1-$2-$3",["1|2(?:2[37]|5[5-9]|64|78|8[39]|91)|4(?:2[2689]|64|7[347])|5[2-589]|60|8(?:2[124589]|3[279]|[46-9])|9(?:[235-8]|93)","1|2(?:2[37]|5(?:[57]|[68]0|9[19])|64|78|8[39]|917)|4(?:2(?:20|[68]|9[178])|64|7[347])|5[2-589]|60|8(?:2[124589]|3[279]|[46-9])|9(?:[235-8]|93[34])","1|2(?:2[37]|5(?:[57]|[68]0|9(?:17|99))|64|78|8[39]|917)|4(?:2(?:20|[68]|9[178])|64|7[347])|5[2-589]|60|8(?:2[124589]|3[279]|[46-9])|9(?:[235-8]|93(?:31|4))"]],["(\\d{3})(\\d{2})(\\d{4})","$1-$2-$3",["2(?:[34]7|[56]9|74|9[14-79])|82|993"]],["(\\d)(\\d{4})(\\d{4})","$1-$2-$3",["3|4(?:2[09]|7[01])|6[1-9]"]],["(\\d{2})(\\d{3})(\\d{4})","$1-$2-$3",["[2479][1-9]"]]],"0","0$1"],"KE":["254","20\\d{6,7}|[4-9]\\d{6,9}",[7,8,9,10],[["(\\d{2})(\\d{5,7})","$1 $2",["[24-6]"]],["(\\d{3})(\\d{6})","$1 $2",["7"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["[89]"]]],"0","0$1","005|0"],"KG":["996","[235-8]\\d{8,9}",[9,10],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["[25-7]|31[25]"]],["(\\d{4})(\\d{5})","$1 $2",["3(?:1[36]|[2-9])"]],["(\\d{3})(\\d{3})(\\d)(\\d{3})","$1 $2 $3 $4",["8"]]],"0","0$1"],"KH":["855","[1-9]\\d{7,9}",[8,9,10],[["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["1\\d[1-9]|[2-9]"],"0$1"],["(1[89]00)(\\d{3})(\\d{3})","$1 $2 $3",["1[89]0","1[89]00"]]],"0"],"KI":["686","[2458]\\d{4}|3\\d{4,7}|[67]\\d{7}",[5,8],[],null,null,"0"],"KM":["269","[3478]\\d{6}",[7],[["(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3"]]],"KN":["1","[589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"869"],"KP":["850","1\\d{9}|[28]\\d{7}",[8,10],[["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["1"]],["(\\d)(\\d{3})(\\d{4})","$1 $2 $3",["2"]],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["8"]]],"0","0$1"],"KR":["82","00(?:3\\d{8,9}|7\\d{9,11})|[1-7]\\d{4,9}|8\\d{8}",[5,6,8,9,10,11,12,13,14],[["(\\d{2})(\\d{3,4})","$1-$2",["(?:3[1-3]|[46][1-4]|5[1-5])1"]],["(\\d{4})(\\d{4})","$1-$2",["1(?:5[246-9]|6[046-8]|8[03579])","1(?:5(?:22|44|66|77|88|99)|6(?:[07]0|44|6[16]|88)|8(?:00|33|55|77|99))"],"$1"],["(\\d{5})","$1",["1[016-9]1","1[016-9]11","1[016-9]114"]],["(\\d)(\\d{3,4})(\\d{4})","$1-$2-$3",["2[1-9]"]],["(\\d{2})(\\d{3})(\\d{4})","$1-$2-$3",["60[2-9]|80"]],["(\\d{2})(\\d{3,4})(\\d{4})","$1-$2-$3",["1[0-25-9]|(?:3[1-3]|[46][1-4]|5[1-5])[1-9]"]],["(\\d{2})(\\d{4})(\\d{4})","$1-$2-$3",["[57]0"]]],"0","0$1","0(8[1-46-8]|85\\d{2})?"],"KW":["965","[12569]\\d{6,7}",[7,8],[["(\\d{4})(\\d{3,4})","$1 $2",["[16]|2(?:[0-35-9]|4[0-35-9])|52[25]|9[024-9]"]],["(\\d{3})(\\d{5})","$1 $2",["244|5(?:[015]|6[56])"]]]],"KY":["1","[3589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"345"],"KZ":["7","(?:33\\d|7\\d{2}|80[089])\\d{7}",[10],[["([3489]\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2-$3-$4",["[3489]"]],["(7\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["7"]]],"8",null,null,null,null,null,[["33622\\d{5}|7(?:1(?:0(?:[23]\\d|4[0-3]|59|63)|1(?:[23]\\d|4[0-79]|59)|2(?:[23]\\d|59)|3(?:2\\d|3[0-79]|4[0-35-9]|59)|4(?:[24]\\d|3[013-9]|5[1-9])|5(?:2\\d|3[1-9]|4[0-7]|59)|6(?:[234]\\d|5[19]|61)|72\\d|8(?:[27]\\d|3[1-46-9]|4[0-5]))|2(?:1(?:[23]\\d|4[46-9]|5[3469])|2(?:2\\d|3[0679]|46|5[12679])|3(?:[234]\\d|5[139])|4(?:2\\d|3[1235-9]|59)|5(?:[23]\\d|4[01246-8]|59|61)|6(?:2\\d|3[1-9]|4[0-4]|59)|7(?:[2379]\\d|40|5[279])|8(?:[23]\\d|4[0-3]|59)|9(?:2\\d|3[124578]|59)))\\d{5}"],["7(?:0[012578]|47|6[02-4]|7[15-8]|85)\\d{7}"],["800\\d{7}"],["809\\d{7}"],["808\\d{7}"],null,null,null,["751\\d{7}"]]],"LA":["856","[2-8]\\d{7,9}",[8,9,10],[["(20)(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3 $4",["20"]],["([2-8]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["2[13]|3[14]|[4-8]"]],["(30)(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3 $4",["30"]]],"0","0$1"],"LB":["961","[13-9]\\d{6,7}",[7,8],[["(\\d)(\\d{3})(\\d{3})","$1 $2 $3",["[13-69]|7(?:[2-57]|62|8[0-7]|9[04-9])|8[02-9]"],"0$1"],["([7-9]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["7(?:[01]|6[013-9]|8[89]|9[1-3])|[89][01]"]]],"0"],"LC":["1","[5789]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"758"],"LI":["423","6\\d{8}|[23789]\\d{6}",[7,9],[["(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3",["[237-9]"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["6[56]"]],["(69)(7\\d{2})(\\d{4})","$1 $2 $3",["697"]]],"0",null,"0|10(?:01|20|66)"],"LK":["94","[1-9]\\d{8}",[9],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["[1-689]"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["7"]]],"0","0$1"],"LR":["231","2\\d{7,8}|[378]\\d{8}|4\\d{6}|5\\d{6,8}",[7,8,9],[["(2\\d)(\\d{3})(\\d{3})","$1 $2 $3",["2"]],["([4-5])(\\d{3})(\\d{3})","$1 $2 $3",["[45]"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[23578]"]]],"0","0$1"],"LS":["266","[2568]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1 $2"]]],"LT":["370","[3-9]\\d{7}",[8],[["([34]\\d)(\\d{6})","$1 $2",["37|4(?:1|5[45]|6[2-4])"]],["([3-6]\\d{2})(\\d{5})","$1 $2",["3[148]|4(?:[24]|6[09])|528|6"]],["([7-9]\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["[7-9]"],"8 $1"],["(5)(2\\d{2})(\\d{4})","$1 $2 $3",["52[0-79]"]]],"8","(8-$1)","[08]",null,true],"LU":["352","[24-9]\\d{3,10}|3(?:[0-46-9]\\d{2,9}|5[013-9]\\d{1,8})",[4,5,6,7,8,9,10,11],[["(\\d{2})(\\d{3})","$1 $2",["[2-5]|7[1-9]|[89](?:0[2-9]|[1-9])"]],["(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3",["[2-5]|7[1-9]|[89](?:0[2-9]|[1-9])"]],["(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["20"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{1,2})","$1 $2 $3 $4",["2(?:[0367]|4[3-8])"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3 $4",["20"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{1,2})","$1 $2 $3 $4 $5",["2(?:[0367]|4[3-8])"]],["(\\d{2})(\\d{2})(\\d{2})(\\d{1,4})","$1 $2 $3 $4",["2(?:[12589]|4[12])|[3-5]|7[1-9]|8(?:0[2-9]|[1-9])|9(?:0[2-46-9]|[1-9])"]],["(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3",["70|80[01]|90[015]"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["6"]]],null,null,"(15(?:0[06]|1[12]|35|4[04]|55|6[26]|77|88|99)\\d)"],"LV":["371","[2689]\\d{7}",[8],[["([2689]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["[2689]"]]]],"LY":["218","[25679]\\d{8}",[9],[["([25-79]\\d)(\\d{7})","$1-$2",["[25-79]"]]],"0","0$1"],"MA":["212","[5-9]\\d{8}",[9],[["([5-7]\\d{2})(\\d{6})","$1-$2",["5(?:2[015-7]|3[0-4])|[67]"]],["([58]\\d{3})(\\d{5})","$1-$2",["5(?:2[2-489]|3[5-9]|92)|892","5(?:2(?:[2-48]|9[0-7])|3(?:[5-79]|8[0-7])|924)|892"]],["(5\\d{4})(\\d{4})","$1-$2",["5(?:29|38)","5(?:29|38)[89]"]],["([5]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["5(?:4[067]|5[03])"]],["(8[09])(\\d{7})","$1-$2",["8(?:0|9[013-9])"]]],"0","0$1",null,null,null,null,[["5(?:2(?:[015-79]\\d|2[02-9]|3[2-57]|4[2-8]|8[235-7])\\d|3(?:[0-48]\\d|[57][2-9]|6[2-8]|9[3-9])\\d|4[067]\\d{2}|5[03]\\d{2})\\d{4}"],["(?:6(?:[0-79]\\d|8[0-247-9])|7(?:0[067]|6[1267]|7[07]))\\d{6}"],["80\\d{7}"],["89\\d{7}"],null,null,null,null,["5924[01]\\d{4}"]]],"MC":["377","[34689]\\d{7,8}",[8,9],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[39]"],"$1"],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["4"]],["(6)(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4 $5",["6"]],["(\\d{3})(\\d{3})(\\d{2})","$1 $2 $3",["8"],"$1"]],"0","0$1"],"MD":["373","[235-9]\\d{7}",[8],[["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["22|3"]],["([25-7]\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["2[13-9]|[5-7]"]],["([89]\\d{2})(\\d{5})","$1 $2",["[89]"]]],"0","0$1"],"ME":["382","[2-9]\\d{7,8}",[8],[["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[2-57-9]|6[036-9]"]]],"0","0$1"],"MF":["590","[56]\\d{8}",[9],[["([56]\\d{2})(\\d{2})(\\d{4})","$1 $2-$3",["590|69[01]"]]],"0",null,null,null,null,null,[["590(?:0[079]|13|2[79]|30|43|5[0-268]|7[79]|87)\\d{4}"],["69(?:0\\d{2}|1(?:2[29]|3[0-5]))\\d{4}"]]],"MG":["261","[23]\\d{8}",[9],[["([23]\\d)(\\d{2})(\\d{3})(\\d{2})","$1 $2 $3 $4",["[23]"]]],"0","0$1"],"MH":["692","[2-6]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1-$2"]],"1"],"MK":["389","[2-578]\\d{7}",[8],[["(2)(\\d{3})(\\d{4})","$1 $2 $3",["2"]],["([347]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["[347]"]],["([58]\\d{2})(\\d)(\\d{2})(\\d{2})","$1 $2 $3 $4",["[58]"]]],"0","0$1"],"ML":["223","[246-9]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[246-9]"]]]],"MM":["95","[178]\\d{5,7}|[24-6]\\d{5,8}|9(?:[279]\\d{0,2}|5|[34]\\d{1,2}|6(?:\\d{1,2})?|8(?:\\d{2})?)\\d{6}",[6,7,8,9,10],[["(\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["1|2[245]"]],["(2)(\\d{4})(\\d{4})","$1 $2 $3",["251"]],["(\\d)(\\d{2})(\\d{3})","$1 $2 $3",["16|2"]],["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["432|67|81"]],["(\\d{2})(\\d{2})(\\d{3,4})","$1 $2 $3",["[4-8]"]],["(9)(\\d{3})(\\d{4,6})","$1 $2 $3",["9(?:2[0-4]|[35-9]|4[137-9])"]],["(9)([34]\\d{4})(\\d{4})","$1 $2 $3",["9(?:3[0-36]|4[0-57-9])"]],["(9)(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3 $4",["92[56]"]],["(9)(\\d{3})(\\d{3})(\\d{2})","$1 $2 $3 $4",["93"]]],"0","0$1"],"MN":["976","[12]\\d{7,9}|[57-9]\\d{7}",[8,9,10],[["([12]\\d)(\\d{2})(\\d{4})","$1 $2 $3",["[12]1"]],["([12]2\\d)(\\d{5,6})","$1 $2",["[12]2[1-3]"]],["([12]\\d{3})(\\d{5})","$1 $2",["[12](?:27|[3-5])","[12](?:27|[3-5]\\d)2"]],["(\\d{4})(\\d{4})","$1 $2",["[57-9]"],"$1"],["([12]\\d{4})(\\d{4,5})","$1 $2",["[12](?:27|[3-5])","[12](?:27|[3-5]\\d)[4-9]"]]],"0","0$1"],"MO":["853","[268]\\d{7}",[8],[["([268]\\d{3})(\\d{4})","$1 $2",["[268]"]]]],"MP":["1","[5689]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"670"],"MQ":["596","[56]\\d{8}",[9],[["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]],"0","0$1"],"MR":["222","[2-48]\\d{7}",[8],[["([2-48]\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[2-48]"]]]],"MS":["1","[5689]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"664"],"MT":["356","[2357-9]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1 $2"]]],"MU":["230","[2-9]\\d{6,7}",[7,8],[["([2-46-9]\\d{2})(\\d{4})","$1 $2",["[2-46-9]"]],["(5\\d{3})(\\d{4})","$1 $2",["5"]]]],"MV":["960","[346-8]\\d{6,9}|9(?:00\\d{7}|\\d{6})",[7,10],[["(\\d{3})(\\d{4})","$1-$2",["[3467]|9(?:0[1-9]|[1-9])"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["[89]00"]]]],"MW":["265","(?:1(?:\\d{2})?|[2789]\\d{2}|31\\d)\\d{6}",[7,9],[["(\\d)(\\d{3})(\\d{3})","$1 $2 $3",["1"]],["(2\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["2"]],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[17-9]"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["31"]]],"0","0$1"],"MX":["52","[1-9]\\d{9,10}",[10,11],[["([358]\\d)(\\d{4})(\\d{4})","$1 $2 $3",["33|55|81"]],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["[2467]|3[0-2457-9]|5[089]|8[02-9]|9[0-35-9]"]],["(1)([358]\\d)(\\d{4})(\\d{4})","044 $2 $3 $4",["1(?:33|55|81)"],"$1",null,"$1 $2 $3 $4"],["(1)(\\d{3})(\\d{3})(\\d{4})","044 $2 $3 $4",["1(?:[2467]|3[0-2457-9]|5[089]|8[2-9]|9[1-35-9])"],"$1",null,"$1 $2 $3 $4"]],"01","01 $1","0[12]|04[45](\\d{10})","1$1",true],"MY":["60","[13-9]\\d{7,9}",[8,9,10],[["([4-79])(\\d{3})(\\d{4})","$1-$2 $3",["[4-79]"],"0$1"],["(3)(\\d{4})(\\d{4})","$1-$2 $3",["3"],"0$1"],["([18]\\d)(\\d{3})(\\d{3,4})","$1-$2 $3",["1[02-46-9][1-9]|8"],"0$1"],["(1)([36-8]00)(\\d{2})(\\d{4})","$1-$2-$3-$4",["1[36-8]0","1[36-8]00"]],["(11)(\\d{4})(\\d{4})","$1-$2 $3",["11"],"0$1"],["(15[49])(\\d{3})(\\d{4})","$1-$2 $3",["15[49]"],"0$1"]],"0"],"MZ":["258","[28]\\d{7,8}",[8,9],[["([28]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["2|8[2-7]"]],["(80\\d)(\\d{3})(\\d{3})","$1 $2 $3",["80"]]]],"NA":["264","[68]\\d{7,8}",[8,9],[["(8\\d)(\\d{3})(\\d{4})","$1 $2 $3",["8[1-35]"]],["(6\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["6"]],["(88)(\\d{3})(\\d{3})","$1 $2 $3",["88"]],["(870)(\\d{3})(\\d{3})","$1 $2 $3",["870"]]],"0","0$1"],"NC":["687","[2-57-9]\\d{5}",[6],[["(\\d{2})(\\d{2})(\\d{2})","$1.$2.$3",["[2-46-9]|5[0-4]"]]]],"NE":["227","[0289]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["09|[289]"]],["(08)(\\d{3})(\\d{3})","$1 $2 $3",["08"]]]],"NF":["672","[13]\\d{5}",[6],[["(\\d{2})(\\d{4})","$1 $2",["1"]],["(\\d)(\\d{5})","$1 $2",["3"]]]],"NG":["234","[1-6]\\d{5,8}|9\\d{5,9}|[78]\\d{5,13}",[7,8,10,11,12,13,14],[["(\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["[12]|9(?:0[3-9]|[1-9])"]],["(\\d{2})(\\d{3})(\\d{2,3})","$1 $2 $3",["[3-6]|7(?:0[1-9]|[1-79])|8[2-9]"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["70|8[01]|90[235-9]"]],["([78]00)(\\d{4})(\\d{4,5})","$1 $2 $3",["[78]00"]],["([78]00)(\\d{5})(\\d{5,6})","$1 $2 $3",["[78]00"]],["(78)(\\d{2})(\\d{3})","$1 $2 $3",["78"]]],"0","0$1"],"NI":["505","[125-8]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1 $2"]]],"NL":["31","1\\d{4,8}|[2-7]\\d{8}|[89]\\d{6,9}",[5,6,7,8,9,10],[["([1-578]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["1[035]|2[0346]|3[03568]|4[0356]|5[0358]|7|8[4578]"]],["([1-5]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["1[16-8]|2[259]|3[124]|4[17-9]|5[124679]"]],["(6)(\\d{8})","$1 $2",["6[0-57-9]"]],["(66)(\\d{7})","$1 $2",["66"]],["(14)(\\d{3,4})","$1 $2",["14"],"$1"],["([89]0\\d)(\\d{4,7})","$1 $2",["[89]0"]]],"0","0$1"],"NO":["47","0\\d{4}|[2-9]\\d{7}",[5,8],[["([489]\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["[489]"]],["([235-7]\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[235-7]"]]],null,null,null,null,null,null,[["(?:2[1-4]|3[1-3578]|5[1-35-7]|6[1-4679]|7[0-8])\\d{6}",[8]],["(?:4[015-8]|5[89]|87|9\\d)\\d{6}",[8]],["80[01]\\d{5}",[8]],["82[09]\\d{5}",[8]],["880\\d{5}",[8]],null,["0\\d{4}|81(?:0(?:0[7-9]|1\\d)|5\\d{2})\\d{3}"],null,["85[0-5]\\d{5}",[8]],["810(?:0[0-6]|[2-8]\\d)\\d{3}",[8]]]],"NP":["977","[1-8]\\d{7}|9(?:[1-69]\\d{6,8}|7[2-6]\\d{5,7}|8\\d{8})",[8,10],[["(1)(\\d{7})","$1-$2",["1[2-6]"]],["(\\d{2})(\\d{6})","$1-$2",["1[01]|[2-8]|9(?:[1-69]|7[15-9])"]],["(9\\d{2})(\\d{7})","$1-$2",["9(?:6[013]|7[245]|8)"],"$1"]],"0","0$1"],"NR":["674","[458]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"NU":["683","[1-5]\\d{3}",[4]],"NZ":["64","6[235-9]\\d{6}|[2-57-9]\\d{7,9}",[8,9,10],[["(\\d)(\\d{3})(\\d{4})","$1-$2 $3",["240|[346]|7[2-57-9]|9[1-9]"]],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["21"]],["(\\d{2})(\\d{3})(\\d{3,5})","$1 $2 $3",["2(?:1[1-9]|[69]|7[0-35-9])|70|86"]],["(2\\d)(\\d{3,4})(\\d{4})","$1 $2 $3",["2[028]"]],["(\\d{3})(\\d{2})(\\d{3})","$1 $2 $3",["90"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["2(?:10|74)|5|[89]0"]]],"0","0$1"],"OM":["968","(?:5|[279]\\d)\\d{6}|800\\d{5,6}",[7,8,9],[["(2\\d)(\\d{6})","$1 $2",["2"]],["([79]\\d{3})(\\d{4})","$1 $2",["[79]"]],["([58]00)(\\d{4,6})","$1 $2",["[58]00"]]]],"PA":["507","[1-9]\\d{6,7}",[7,8],[["(\\d{3})(\\d{4})","$1-$2",["[1-57-9]"]],["(\\d{4})(\\d{4})","$1-$2",["6"]]]],"PE":["51","[14-9]\\d{7,8}",[8,9],[["(1)(\\d{7})","$1 $2",["1"]],["([4-8]\\d)(\\d{6})","$1 $2",["[4-7]|8[2-4]"]],["(\\d{3})(\\d{5})","$1 $2",["80"]],["(9\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["9"],"$1"]],"0","(0$1)"],"PF":["689","4\\d{5,7}|8\\d{7}",[6,8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["4[09]|8[79]"]],["(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3",["44"]]]],"PG":["675","[1-9]\\d{6,7}",[7,8],[["(\\d{3})(\\d{4})","$1 $2",["[13-689]|27"]],["(\\d{4})(\\d{4})","$1 $2",["20|7"]]]],"PH":["63","1\\d{10,12}|2\\d{5,7}|[3-7]\\d{8}|8\\d{7,9}|9\\d{9}",[6,8,9,10,11,12,13],[["(2)(\\d{3})(\\d{4})","$1 $2 $3",["2"],"(0$1)"],["(2)(\\d{5})","$1 $2",["2"],"(0$1)"],["(\\d{4})(\\d{4,6})","$1 $2",["3(?:23|39|46)|4(?:2[3-6]|[35]9|4[26]|76)|5(?:22|44)|642|8(?:62|8[245])","3(?:230|397|461)|4(?:2(?:35|[46]4|51)|396|4(?:22|63)|59[347]|76[15])|5(?:221|446)|642[23]|8(?:622|8(?:[24]2|5[13]))"],"(0$1)"],["(\\d{5})(\\d{4})","$1 $2",["346|4(?:27|9[35])|883","3469|4(?:279|9(?:30|56))|8834"],"(0$1)"],["([3-8]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[3-8]"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["81|9"],"0$1"],["(1800)(\\d{3})(\\d{4})","$1 $2 $3",["180","1800"]],["(1800)(\\d{1,2})(\\d{3})(\\d{4})","$1 $2 $3 $4",["180","1800"]]],"0"],"PK":["92","1\\d{8}|[2-8]\\d{5,11}|9(?:[013-9]\\d{4,10}|2\\d(?:111\\d{6}|\\d{3,7}))",[8,9,10,11,12],[["([89]00)(\\d{3})(\\d{2})","$1 $2 $3",["[89]00"],"0$1"],["(1\\d{3})(\\d{5})","$1 $2",["1"],"$1"],["(\\d{2})(\\d{7,8})","$1 $2",["(?:2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91)[2-9]"]],["(\\d{3})(\\d{6,7})","$1 $2",["2[349]|45|54|60|72|8[2-5]|9[2-469]","(?:2[349]|45|54|60|72|8[2-5]|9[2-469])\\d[2-9]"]],["(58\\d{3})(\\d{5})","$1 $2",["58[126]"]],["(3\\d{2})(\\d{7})","$1 $2",["3"],"0$1"],["(\\d{2})(111)(\\d{3})(\\d{3})","$1 $2 $3 $4",["(?:2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91)1","(?:2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91)11","(?:2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91)111"]],["(\\d{3})(111)(\\d{3})(\\d{3})","$1 $2 $3 $4",["2[349]|45|54|60|72|8[2-5]|9[2-9]","(?:2[349]|45|54|60|72|8[2-5]|9[2-9])\\d1","(?:2[349]|45|54|60|72|8[2-5]|9[2-9])\\d11","(?:2[349]|45|54|60|72|8[2-5]|9[2-9])\\d111"]]],"0","(0$1)"],"PL":["48","[1-57-9]\\d{6,8}|6\\d{5,8}",[6,7,8,9],[["(\\d{3})(\\d{3})","$1 $2",["11[68]|64"]],["(\\d{5})","$1",["19"]],["(\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["1[2-8]|2[2-69]|3[2-4]|4[1-468]|5[24-689]|6[1-3578]|7[14-7]|8[1-79]|9[145]"]],["(\\d{3})(\\d{2})(\\d{2,3})","$1 $2 $3",["64"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["26|39|45|5[0137]|6[0469]|7[02389]|8[08]"]],["(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[14]|2[0-57-9]|3[2-4]|5[24-689]|6[1-3578]|7[14-7]|8[1-79]|9[145]"]]]],"PM":["508","[45]\\d{5}",[6],[["([45]\\d)(\\d{2})(\\d{2})","$1 $2 $3",["[45]"]]],"0","0$1"],"PR":["1","[5789]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"787|939"],"PS":["970","1\\d{9}|[24589]\\d{7,8}",[8,9,10],[["([2489])(2\\d{2})(\\d{4})","$1 $2 $3",["[2489]2"]],["(5[69]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["5[69]"]],["(1[78]00)(\\d{3})(\\d{3})","$1 $2 $3",["1[78]0","1[78]00"],"$1"]],"0","0$1"],"PT":["351","[2-46-9]\\d{8}",[9],[["(2\\d)(\\d{3})(\\d{4})","$1 $2 $3",["2[12]"]],["([2-46-9]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["2[3-9]|[346-9]"]]]],"PW":["680","[2-9]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"PY":["595","5[0-5]\\d{4,7}|[2-46-9]\\d{5,8}",[6,7,8,9],[["(\\d{2})(\\d{5})","$1 $2",["[26]1|3[289]|4[1246-8]|7[1-3]|8[1-36]"],"(0$1)"],["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["[26]1|3[289]|4[1246-8]|7[1-3]|8[1-36]"],"(0$1)"],["(\\d{3})(\\d{3,6})","$1 $2",["[2-9]0"],"0$1"],["(\\d{3})(\\d{6})","$1 $2",["9[1-9]"],"0$1"],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["870","8700"]],["(\\d{3})(\\d{4,5})","$1 $2",["[2-8][1-9]"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["[2-8][1-9]"],"0$1"]],"0"],"QA":["974","[2-8]\\d{6,7}",[7,8],[["([28]\\d{2})(\\d{4})","$1 $2",["[28]"]],["([3-7]\\d{3})(\\d{4})","$1 $2",["[3-7]"]]]],"RE":["262","[268]\\d{8}",[9],[["([268]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[268]"]]],"0","0$1",null,null,null,"262|69|8"],"RO":["40","[23]\\d{5,8}|[7-9]\\d{8}",[6,9],[["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[23]1"]],["(\\d{2})(\\d{4})","$1 $2",["[23]1"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["[23][3-7]|[7-9]"]],["(2\\d{2})(\\d{3})","$1 $2",["2[3-6]"]]],"0","0$1"],"RS":["381","[126-9]\\d{4,11}|3(?:[0-79]\\d{3,10}|8[2-9]\\d{2,9})",[6,7,8,9,10,11,12],[["([23]\\d{2})(\\d{4,9})","$1 $2",["(?:2[389]|39)0"]],["([1-3]\\d)(\\d{5,10})","$1 $2",["1|2(?:[0-24-7]|[389][1-9])|3(?:[0-8]|9[1-9])"]],["(6\\d)(\\d{6,8})","$1 $2",["6"]],["([89]\\d{2})(\\d{3,9})","$1 $2",["[89]"]],["(7[26])(\\d{4,9})","$1 $2",["7[26]"]],["(7[08]\\d)(\\d{4,9})","$1 $2",["7[08]"]]],"0","0$1"],"RU":["7","[347-9]\\d{9}",[10],[["([3489]\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2-$3-$4",["[3489]"]],["(7\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["7"]]],"8","8 ($1)",null,null,true,null,[["(?:3(?:0[12]|4[1-35-79]|5[1-3]|65|8[1-58]|9[0145])|4(?:01|1[1356]|2[13467]|7[1-5]|8[1-7]|9[1-689])|8(?:1[1-8]|2[01]|3[13-6]|4[0-8]|5[15]|6[1-35-79]|7[1-37-9]))\\d{7}"],["9\\d{9}"],["80[04]\\d{7}"],["80[39]\\d{7}"],["808\\d{7}"]]],"RW":["250","[027-9]\\d{7,8}",[8,9],[["(2\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["2"]],["([7-9]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[7-9]"],"0$1"],["(0\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["0"]]],"0"],"SA":["966","[15]\\d{8}|8\\d{9}|92\\d{7}",[9,10],[["(1\\d)(\\d{3})(\\d{4})","$1 $2 $3",["1[1-467]"]],["(5\\d)(\\d{3})(\\d{4})","$1 $2 $3",["5"]],["(92\\d{2})(\\d{5})","$1 $2",["92"],"$1"],["(800)(\\d{3})(\\d{4})","$1 $2 $3",["800"],"$1"],["(811)(\\d{3})(\\d{3,4})","$1 $2 $3",["811"]]],"0","0$1"],"SB":["677","[1-9]\\d{4,6}",[5,7],[["(\\d{2})(\\d{5})","$1 $2",["[7-9]"]]]],"SC":["248","[24689]\\d{5,6}",[7],[["(\\d)(\\d{3})(\\d{3})","$1 $2 $3",["[246]"]]]],"SD":["249","[19]\\d{8}",[9],[["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3"]],"0","0$1"],"SE":["46","[1-35-9]\\d{5,11}|4\\d{6,8}",[6,7,8,9,10],[["(8)(\\d{2,3})(\\d{2,3})(\\d{2})","$1-$2 $3 $4",["8"],null,null,"$1 $2 $3 $4"],["([1-69]\\d)(\\d{2,3})(\\d{2})(\\d{2})","$1-$2 $3 $4",["1[013689]|2[0136]|3[1356]|4[0246]|54|6[03]|90"],null,null,"$1 $2 $3 $4"],["([1-469]\\d)(\\d{3})(\\d{2})","$1-$2 $3",["[12][136]|3[356]|4[0246]|6[03]|90"],null,null,"$1 $2 $3"],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1-$2 $3 $4",["1[2457]|2(?:[247-9]|5[0138])|3[0247-9]|4[1357-9]|5[0-35-9]|6(?:[124-689]|7[0-2])|9(?:[125-8]|3[0-5]|4[0-3])"],null,null,"$1 $2 $3 $4"],["(\\d{3})(\\d{2,3})(\\d{2})","$1-$2 $3",["1[2457]|2(?:[247-9]|5[0138])|3[0247-9]|4[1357-9]|5[0-35-9]|6(?:[124-689]|7[0-2])|9(?:[125-8]|3[0-5]|4[0-3])"],null,null,"$1 $2 $3"],["(7\\d)(\\d{3})(\\d{2})(\\d{2})","$1-$2 $3 $4",["7"],null,null,"$1 $2 $3 $4"],["(77)(\\d{2})(\\d{2})","$1-$2$3",["77"],null,null,"$1 $2 $3"],["(20)(\\d{2,3})(\\d{2})","$1-$2 $3",["20"],null,null,"$1 $2 $3"],["(9[034]\\d)(\\d{2})(\\d{2})(\\d{3})","$1-$2 $3 $4",["9[034]"],null,null,"$1 $2 $3 $4"],["(9[034]\\d)(\\d{4})","$1-$2",["9[034]"],null,null,"$1 $2"],["(\\d{3})(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1-$2 $3 $4 $5",["25[245]|67[3-6]"],null,null,"$1 $2 $3 $4 $5"]],"0","0$1"],"SG":["65","[36]\\d{7}|[17-9]\\d{7,10}",[8,10,11],[["([3689]\\d{3})(\\d{4})","$1 $2",["[369]|8[1-9]"]],["(1[89]00)(\\d{3})(\\d{4})","$1 $2 $3",["1[89]0","1[89]00"]],["(7000)(\\d{4})(\\d{3})","$1 $2 $3",["700","7000"]],["(800)(\\d{3})(\\d{4})","$1 $2 $3",["800"]]]],"SH":["290","[256]\\d{4}|8\\d{3}",[4,5],[],null,null,null,null,null,null,[["2(?:[0-57-9]\\d|6[4-9])\\d{2}"],["[56]\\d{4}",[5]],null,null,null,null,null,null,["262\\d{2}",[5]]]],"SI":["386","[1-7]\\d{6,7}|[89]\\d{4,7}",[5,6,7,8],[["(\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[12]|[34][24-8]|5[2-8]|7[3-8]"],"(0$1)"],["([3-7]\\d)(\\d{3})(\\d{3})","$1 $2 $3",["[37][01]|4[0139]|51|6"]],["([89][09])(\\d{3,6})","$1 $2",["[89][09]"]],["([58]\\d{2})(\\d{5})","$1 $2",["59|8[1-3]"]]],"0","0$1"],"SJ":["47","0\\d{4}|[45789]\\d{7}",[5,8],[["([489]\\d{2})(\\d{2})(\\d{3})","$1 $2 $3",["[489]"]],["([235-7]\\d)(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[235-7]"]]],null,null,null,null,null,null,[["79\\d{6}",[8]],["(?:4[015-8]|5[89]|9\\d)\\d{6}",[8]],["80[01]\\d{5}",[8]],["82[09]\\d{5}",[8]],["880\\d{5}",[8]],null,["0\\d{4}|81(?:0(?:0[7-9]|1\\d)|5\\d{2})\\d{3}"],null,["85[0-5]\\d{5}",[8]],["810(?:0[0-6]|[2-8]\\d)\\d{3}",[8]]]],"SK":["421","(?:[2-68]\\d{5,8}|9\\d{6,8})",[6,7,9],[["(2)(1[67])(\\d{3,4})","$1 $2 $3",["21[67]"]],["([3-5]\\d)(\\d{2})(\\d{2,3})","$1 $2 $3",["[3-5]"]],["(2)(\\d{3})(\\d{3})(\\d{2})","$1/$2 $3 $4",["2"]],["([3-5]\\d)(\\d{3})(\\d{2})(\\d{2})","$1/$2 $3 $4",["[3-5]"]],["([689]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[689]"]],["(9090)(\\d{3})","$1 $2",["909","9090"]]],"0","0$1"],"SL":["232","[2-9]\\d{7}",[8],[["(\\d{2})(\\d{6})","$1 $2"]],"0","(0$1)"],"SM":["378","[05-7]\\d{7,9}",[8,10],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[5-7]"]],["(0549)(\\d{6})","$1 $2",["054","0549"],null,null,"($1) $2"],["(\\d{6})","0549 $1",["[89]"],null,null,"(0549) $1"]],null,null,"([89]\\d{5})","0549$1"],"SN":["221","[3789]\\d{8}",[9],[["(\\d{2})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[379]"]],["(\\d{3})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["8"]]]],"SO":["252","[1-9]\\d{5,8}",[6,7,8,9],[["(\\d{6})","$1",["[134]"]],["(\\d)(\\d{6})","$1 $2",["[13-5]|2[0-79]"]],["(\\d)(\\d{7})","$1 $2",["24|[67]"]],["(\\d{2})(\\d{4})","$1 $2",["8[125]"]],["(\\d{2})(\\d{5,7})","$1 $2",["15|28|6[1-35-9]|799|9[2-9]"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",["3[59]|4[89]|6[24-6]|79|8[08]|90"]]],"0"],"SR":["597","[2-8]\\d{5,6}",[6,7],[["(\\d{3})(\\d{3})","$1-$2",["[2-4]|5[2-58]"]],["(\\d{2})(\\d{2})(\\d{2})","$1-$2-$3",["56"]],["(\\d{3})(\\d{4})","$1-$2",["[6-8]"]]]],"SS":["211","[19]\\d{8}",[9],[["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3",null,"0$1"]],"0"],"ST":["239","[29]\\d{6}",[7],[["(\\d{3})(\\d{4})","$1 $2"]]],"SV":["503","[267]\\d{7}|[89]\\d{6}(?:\\d{4})?",[7,8,11],[["(\\d{4})(\\d{4})","$1 $2",["[267]"]],["(\\d{3})(\\d{4})","$1 $2",["[89]"]],["(\\d{3})(\\d{4})(\\d{4})","$1 $2 $3",["[89]"]]]],"SX":["1","[5789]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"721"],"SY":["963","[1-59]\\d{7,8}",[8,9],[["(\\d{2})(\\d{3})(\\d{3,4})","$1 $2 $3",["[1-5]"]],["(9\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["9"]]],"0","0$1",null,null,true],"SZ":["268","[027]\\d{7}",[8],[["(\\d{4})(\\d{4})","$1 $2",["[027]"]]]],"TA":["290","8\\d{3}",[4],[],null,null,null,null,null,null,[["8\\d{3}"]]],"TC":["1","[5689]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"649"],"TD":["235","[2679]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4"]]],"TG":["228","[279]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[279]"]]]],"TH":["66","1\\d{8,9}|[2-9]\\d{7,8}",[8,9,10],[["(2)(\\d{3})(\\d{4})","$1 $2 $3",["2"]],["([13-9]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["14|[3-9]"]],["(1[89]00)(\\d{3})(\\d{3})","$1 $2 $3",["1[89]0","1[89]00"],"$1"]],"0","0$1"],"TJ":["992","[3-57-9]\\d{8}",[9],[["([349]\\d{2})(\\d{2})(\\d{4})","$1 $2 $3",["[34]7|91[78]"]],["([457-9]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["4[148]|[578]|9(?:[0235-9]|1[59])"]],["(331700)(\\d)(\\d{2})","$1 $2 $3",["331","3317","33170","331700"]],["(\\d{4})(\\d)(\\d{4})","$1 $2 $3",["3[1-5]","3(?:[1245]|3(?:[02-9]|1[0-589]))"]]],"8",null,null,null,true],"TK":["690","[2-47]\\d{3,6}",[4,5,6,7]],"TL":["670","[2-489]\\d{6}|7\\d{6,7}",[7,8],[["(\\d{3})(\\d{4})","$1 $2",["[2-489]|70"]],["(\\d{4})(\\d{4})","$1 $2",["7[3-8]"]]]],"TM":["993","[1-6]\\d{7}",[8],[["(\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2-$3-$4",["12"]],["(\\d{2})(\\d{6})","$1 $2",["6"],"8 $1"],["(\\d{3})(\\d)(\\d{2})(\\d{2})","$1 $2-$3-$4",["13|[2-5]"]]],"8","(8 $1)"],"TN":["216","[2-57-9]\\d{7}",[8],[["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3"]]],"TO":["676","[02-8]\\d{4,6}",[5,7],[["(\\d{2})(\\d{3})","$1-$2",["[1-6]|7[0-4]|8[05]"]],["(\\d{3})(\\d{4})","$1 $2",["7[5-9]|8[47-9]"]],["(\\d{4})(\\d{3})","$1 $2",["0"]]]],"TR":["90","[2-589]\\d{9}|444\\d{4}",[7,10],[["(\\d{3})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[23]|4(?:[0-35-9]|4[0-35-9])"],"(0$1)"],["(\\d{3})(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["5[02-69]"],"0$1"],["(\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["51|[89]"],"0$1"],["(444)(\\d{1})(\\d{3})","$1 $2 $3",["444"]]],"0",null,null,null,true],"TT":["1","[589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"868"],"TV":["688","[279]\\d{4,6}",[5,6,7]],"TW":["886","2\\d{6,8}|[3-689]\\d{7,8}|7\\d{7,9}",[7,8,9,10],[["(20)(\\d)(\\d{4})","$1 $2 $3",["202"]],["([258]0)(\\d{3})(\\d{4})","$1 $2 $3",["20[013-9]|50[0-46-9]|80[0-79]"]],["([2-8])(\\d{3,4})(\\d{4})","$1 $2 $3",["[25][2-8]|[346]|[78][1-9]"]],["(9\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["9"]],["(70)(\\d{4})(\\d{4})","$1 $2 $3",["70"]]],"0","0$1"],"TZ":["255","\\d{9}",[7,9],[["([24]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[24]"]],["([67]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[67]"]],["([89]\\d{2})(\\d{2})(\\d{4})","$1 $2 $3",["[89]"]]],"0","0$1"],"UA":["380","[3-9]\\d{8}",[9],[["([3-9]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["[38]9|4(?:[45][0-5]|87)|5(?:0|[67][37])|6[36-8]|7|9[1-9]","[38]9|4(?:[45][0-5]|87)|5(?:0|6(?:3[14-7]|7)|7[37])|6[36-8]|7|9[1-9]"]],["([3-689]\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["(?:3[1-8]|4[136-8])2|5(?:[12457]2|6[24])|6(?:[12][29]|[49]2|5[24])|8[0-8]|90","3(?:[1-46-8]2[013-9]|52)|4(?:[1378]2|62[013-9])|5(?:[12457]2|6[24])|6(?:[12][29]|[49]2|5[24])|8[0-8]|90"]],["([3-6]\\d{3})(\\d{5})","$1 $2",["3(?:[1-46-8]|5[013-9])|4(?:[137][013-9]|[45][6-9]|6|8[4-6])|5(?:[1245][013-9]|3|6[0135689]|7[4-6])|6(?:[12][13-8]|[49][013-9]|5[0135-9])","3(?:[1-46-8](?:[013-9]|22)|5[013-9])|4(?:[137][013-9]|[45][6-9]|6(?:[013-9]|22)|8[4-6])|5(?:[1245][013-9]|3|6(?:[015689]|3[02389])|7[4-6])|6(?:[12][13-8]|[49][013-9]|5[0135-9])"]]],"0","0$1"],"UG":["256","\\d{9}",[9],[["(\\d{3})(\\d{6})","$1 $2",["20[0-8]|4(?:6[45]|[7-9])|[7-9]","20(?:[013-8]|2[5-9])|4(?:6[45]|[7-9])|[7-9]"]],["(\\d{2})(\\d{7})","$1 $2",["3|4(?:[1-5]|6[0-36-9])"]],["(2024)(\\d{5})","$1 $2",["202","2024"]]],"0","0$1"],"US":["1","[2-9]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,true,null,[["(?:2(?:0[1-35-9]|1[02-9]|2[03-589]|3[149]|4[08]|5[1-46]|6[0279]|7[026]|8[13])|3(?:0[1-57-9]|1[02-9]|2[0135]|3[0-24679]|4[67]|5[12]|6[014]|8[056])|4(?:0[124-9]|1[02-579]|2[3-5]|3[0245]|4[0235]|58|6[39]|7[0589]|8[04])|5(?:0[1-57-9]|1[0235-8]|20|3[0149]|4[01]|5[19]|6[1-47]|7[013-5]|8[056])|6(?:0[1-35-9]|1[024-9]|2[03689]|3[016]|4[16]|5[017]|6[0-279]|78|8[012])|7(?:0[1-46-8]|1[02-9]|2[04-7]|3[1247]|4[037]|5[47]|6[02359]|7[02-59]|8[156])|8(?:0[1-68]|1[02-8]|28|3[0-258]|4[3578]|5[046-9]|6[02-5]|7[028])|9(?:0[1346-9]|1[02-9]|2[0589]|3[014678]|4[0179]|5[12469]|7[0-3589]|8[04-69]))[2-9]\\d{6}"],[""],["8(?:00|33|44|55|66|77|88)[2-9]\\d{6}"],["900[2-9]\\d{6}"],["5(?:(?:00|22|33|44|66|77|88)[2-9]|21[23])\\d{6}"]]],"UY":["598","[2489]\\d{6,7}",[7,8],[["(\\d{4})(\\d{4})","$1 $2",["[24]"]],["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["9[1-9]"],"0$1"],["(\\d{3})(\\d{4})","$1 $2",["[89]0"],"0$1"]],"0"],"UZ":["998","[679]\\d{8}",[9],[["([679]\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[679]"]]],"8","8 $1"],"VA":["39","(?:0(?:878\\d{5}|6698\\d{5})|[1589]\\d{5,10}|3(?:[12457-9]\\d{8}|[36]\\d{7,9}))",[6,8,9,10,11],[["(\\d{2})(\\d{3,4})(\\d{4})","$1 $2 $3",["0[26]|55"]],["(0[26])(\\d{4})(\\d{5})","$1 $2 $3",["0[26]"]],["(0[26])(\\d{4,6})","$1 $2",["0[26]"]],["(0\\d{2})(\\d{3,4})(\\d{4})","$1 $2 $3",["0[13-57-9][0159]"]],["(\\d{3})(\\d{3,6})","$1 $2",["0[13-57-9][0159]|8(?:03|4[17]|9[245])","0[13-57-9][0159]|8(?:03|4[17]|9(?:2|[45][0-4]))"]],["(0\\d{3})(\\d{3})(\\d{4})","$1 $2 $3",["0[13-57-9][2-46-8]"]],["(0\\d{3})(\\d{2,6})","$1 $2",["0[13-57-9][2-46-8]"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["[13]|8(?:00|4[08]|9[59])","[13]|8(?:00|4[08]|9(?:5[5-9]|9))"]],["(\\d{4})(\\d{4})","$1 $2",["894","894[5-9]"]],["(\\d{3})(\\d{4})(\\d{4})","$1 $2 $3",["3"]]],null,null,null,null,null,null,[["06698\\d{5}",[10]],["3(?:[12457-9]\\d{8}|6\\d{7,8}|3\\d{7,9})",[9,10,11]],["80(?:0\\d{6}|3\\d{3})",[6,9]],["0878\\d{5}|1(?:44|6[346])\\d{6}|89(?:2\\d{3}|4(?:[0-4]\\d{2}|[5-9]\\d{4})|5(?:[0-4]\\d{2}|[5-9]\\d{6})|9\\d{6})",[6,8,9,10]],["1(?:78\\d|99)\\d{6}",[9,10]],null,null,null,["55\\d{8}",[10]],["84(?:[08]\\d{6}|[17]\\d{3})",[6,9]]]],"VC":["1","[5789]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"784"],"VE":["58","[24589]\\d{9}",[10],[["(\\d{3})(\\d{7})","$1-$2"]],"0","0$1"],"VG":["1","[2589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"284"],"VI":["1","[3589]\\d{9}",[10],[["(\\d{3})(\\d{3})(\\d{4})","($1) $2-$3",null,null,null,"$1-$2-$3"]],"1",null,null,null,null,"340"],"VN":["84","1\\d{6,9}|2\\d{9}|6\\d{6,7}|7\\d{6}|8\\d{6,8}|9\\d{8}",[7,8,9,10],[["([17]99)(\\d{4})","$1 $2",["[17]99"]],["(\\d{2})(\\d{4})(\\d{4})","$1 $2 $3",["2[48]"]],["(80)(\\d{5})","$1 $2",["80"]],["(69\\d)(\\d{4,5})","$1 $2",["69"]],["(\\d{3})(\\d{4})(\\d{3})","$1 $2 $3",["2[0-35-79]"]],["([89]\\d)(\\d{3})(\\d{2})(\\d{2})","$1 $2 $3 $4",["8(?:8|9[89])|9"]],["(1[2689]\\d)(\\d{3})(\\d{4})","$1 $2 $3",["1(?:[26]|8[68]|99)"]],["(86[89])(\\d{3})(\\d{3})","$1 $2 $3",["86[89]"]],["(1[89]00)(\\d{4,6})","$1 $2",["1[89]0","1[89]00"],"$1"]],"0","0$1",null,null,true],"VU":["678","[2-57-9]\\d{4,6}",[5,7],[["(\\d{3})(\\d{4})","$1 $2",["[579]"]]]],"WF":["681","[4-8]\\d{5}",[6],[["(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3"]]],"WS":["685","[2-8]\\d{4,6}",[5,6,7],[["(8\\d{2})(\\d{3,4})","$1 $2",["8"]],["(7\\d)(\\d{5})","$1 $2",["7"]],["(\\d{5})","$1",["[2-6]"]]]],"XK":["383","[23][89]\\d{6,7}|4[3-79]\\d{6}|[89]00\\d{5}",[8,9],[["(\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["[23][89]|4[3-79]"]],["(\\d{3})(\\d{5})","$1 $2",["[89]00"]],["(\\d{3})(\\d{3})(\\d{3})","$1 $2 $3"]],"0","0$1"],"YE":["967","[1-7]\\d{6,8}",[7,8,9],[["([1-7])(\\d{3})(\\d{3,4})","$1 $2 $3",["[1-6]|7[24-68]"]],["(7\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["7[0137]"]]],"0","0$1"],"YT":["262","[268]\\d{8}",[9],[["([268]\\d{2})(\\d{2})(\\d{2})(\\d{2})","$1 $2 $3 $4",["[268]"]]],"0",null,null,null,null,"269|63"],"ZA":["27","[1-79]\\d{8}|8\\d{4,8}",[5,6,7,8,9],[["(860)(\\d{3})(\\d{3})","$1 $2 $3",["860"]],["(\\d{2})(\\d{3,4})","$1 $2",["8[1-4]"]],["(\\d{2})(\\d{3})(\\d{2,3})","$1 $2 $3",["8[1-4]"]],["(\\d{2})(\\d{3})(\\d{4})","$1 $2 $3",["[1-79]|8(?:[0-57]|6[1-9])"]]],"0","0$1"],"ZM":["260","[289]\\d{8}",[9],[["(\\d{2})(\\d{4})","$1 $2",null,"$1"],["([1-8])(\\d{2})(\\d{4})","$1 $2 $3",["[1-8]"],"$1"],["([29]\\d)(\\d{7})","$1 $2",["[29]"]],["(800)(\\d{3})(\\d{3})","$1 $2 $3",["800"]]],"0","0$1"],"ZW":["263","2(?:[0-57-9]\\d{3,8}|6(?:[14]\\d{7}|\\d{4}))|[13-69]\\d{4,9}|7\\d{8}|8[06]\\d{5,8}",[5,6,7,8,9,10],[["([49])(\\d{3})(\\d{2,4})","$1 $2 $3",["4|9[2-9]"]],["(7\\d)(\\d{3})(\\d{4})","$1 $2 $3",["7"]],["(86\\d{2})(\\d{3})(\\d{3})","$1 $2 $3",["86[24]"]],["([2356]\\d{2})(\\d{3,5})","$1 $2",["2(?:0[45]|2[278]|[49]8|[78])|3(?:[09]8|17|3[78]|7[1569]|8[37])|5[15][78]|6(?:[29]8|37|[68][78]|75)"]],["(\\d{3})(\\d{3})(\\d{3,4})","$1 $2 $3",["2(?:1[39]|2[0157]|31|[56][14]|7[35]|84)|329"]],["([1-356]\\d)(\\d{3,5})","$1 $2",["1[3-9]|2[02569]|3[0-69]|5[05689]|6"]],["([235]\\d)(\\d{3})(\\d{3,4})","$1 $2 $3",["[23]9|54"]],["([25]\\d{3})(\\d{3,5})","$1 $2",["(?:25|54)8","258[23]|5483"]],["(8\\d{3})(\\d{6})","$1 $2",["86"]],["(80\\d)(\\d{4})","$1 $2",["80"]]],"0","0$1"],"001":["979","\\d{9}",[9],[["(\\d)(\\d{4})(\\d{4})","$1 $2 $3"]]]}}
 
 /***/ }),
-/* 404 */,
 /* 405 */,
-/* 406 */
+/* 406 */,
+/* 407 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./af": 111,
-	"./af.js": 111,
-	"./ar": 118,
-	"./ar-dz": 112,
-	"./ar-dz.js": 112,
-	"./ar-kw": 113,
-	"./ar-kw.js": 113,
-	"./ar-ly": 114,
-	"./ar-ly.js": 114,
-	"./ar-ma": 115,
-	"./ar-ma.js": 115,
-	"./ar-sa": 116,
-	"./ar-sa.js": 116,
-	"./ar-tn": 117,
-	"./ar-tn.js": 117,
-	"./ar.js": 118,
-	"./az": 119,
-	"./az.js": 119,
-	"./be": 120,
-	"./be.js": 120,
-	"./bg": 121,
-	"./bg.js": 121,
-	"./bm": 122,
-	"./bm.js": 122,
-	"./bn": 123,
-	"./bn.js": 123,
-	"./bo": 124,
-	"./bo.js": 124,
-	"./br": 125,
-	"./br.js": 125,
-	"./bs": 126,
-	"./bs.js": 126,
-	"./ca": 127,
-	"./ca.js": 127,
-	"./cs": 128,
-	"./cs.js": 128,
-	"./cv": 129,
-	"./cv.js": 129,
-	"./cy": 130,
-	"./cy.js": 130,
-	"./da": 131,
-	"./da.js": 131,
-	"./de": 134,
-	"./de-at": 132,
-	"./de-at.js": 132,
-	"./de-ch": 133,
-	"./de-ch.js": 133,
-	"./de.js": 134,
-	"./dv": 135,
-	"./dv.js": 135,
-	"./el": 136,
-	"./el.js": 136,
-	"./en-au": 137,
-	"./en-au.js": 137,
-	"./en-ca": 138,
-	"./en-ca.js": 138,
-	"./en-gb": 139,
-	"./en-gb.js": 139,
-	"./en-ie": 140,
-	"./en-ie.js": 140,
-	"./en-nz": 141,
-	"./en-nz.js": 141,
-	"./eo": 142,
-	"./eo.js": 142,
-	"./es": 145,
-	"./es-do": 143,
-	"./es-do.js": 143,
-	"./es-us": 144,
-	"./es-us.js": 144,
-	"./es.js": 145,
-	"./et": 146,
-	"./et.js": 146,
-	"./eu": 147,
-	"./eu.js": 147,
-	"./fa": 148,
-	"./fa.js": 148,
-	"./fi": 149,
-	"./fi.js": 149,
-	"./fo": 150,
-	"./fo.js": 150,
-	"./fr": 153,
-	"./fr-ca": 151,
-	"./fr-ca.js": 151,
-	"./fr-ch": 152,
-	"./fr-ch.js": 152,
-	"./fr.js": 153,
-	"./fy": 154,
-	"./fy.js": 154,
-	"./gd": 155,
-	"./gd.js": 155,
-	"./gl": 156,
-	"./gl.js": 156,
-	"./gom-latn": 157,
-	"./gom-latn.js": 157,
-	"./gu": 158,
-	"./gu.js": 158,
-	"./he": 159,
-	"./he.js": 159,
-	"./hi": 160,
-	"./hi.js": 160,
-	"./hr": 161,
-	"./hr.js": 161,
-	"./hu": 162,
-	"./hu.js": 162,
-	"./hy-am": 163,
-	"./hy-am.js": 163,
-	"./id": 164,
-	"./id.js": 164,
-	"./is": 165,
-	"./is.js": 165,
-	"./it": 166,
-	"./it.js": 166,
-	"./ja": 167,
-	"./ja.js": 167,
-	"./jv": 168,
-	"./jv.js": 168,
-	"./ka": 169,
-	"./ka.js": 169,
-	"./kk": 170,
-	"./kk.js": 170,
-	"./km": 171,
-	"./km.js": 171,
-	"./kn": 172,
-	"./kn.js": 172,
-	"./ko": 173,
-	"./ko.js": 173,
-	"./ky": 174,
-	"./ky.js": 174,
-	"./lb": 175,
-	"./lb.js": 175,
-	"./lo": 176,
-	"./lo.js": 176,
-	"./lt": 177,
-	"./lt.js": 177,
-	"./lv": 178,
-	"./lv.js": 178,
-	"./me": 179,
-	"./me.js": 179,
-	"./mi": 180,
-	"./mi.js": 180,
-	"./mk": 181,
-	"./mk.js": 181,
-	"./ml": 182,
-	"./ml.js": 182,
-	"./mr": 183,
-	"./mr.js": 183,
-	"./ms": 185,
-	"./ms-my": 184,
-	"./ms-my.js": 184,
-	"./ms.js": 185,
-	"./mt": 186,
-	"./mt.js": 186,
-	"./my": 187,
-	"./my.js": 187,
-	"./nb": 188,
-	"./nb.js": 188,
-	"./ne": 189,
-	"./ne.js": 189,
-	"./nl": 191,
-	"./nl-be": 190,
-	"./nl-be.js": 190,
-	"./nl.js": 191,
-	"./nn": 192,
-	"./nn.js": 192,
-	"./pa-in": 193,
-	"./pa-in.js": 193,
-	"./pl": 194,
-	"./pl.js": 194,
-	"./pt": 196,
-	"./pt-br": 195,
-	"./pt-br.js": 195,
-	"./pt.js": 196,
-	"./ro": 197,
-	"./ro.js": 197,
-	"./ru": 198,
-	"./ru.js": 198,
-	"./sd": 199,
-	"./sd.js": 199,
-	"./se": 200,
-	"./se.js": 200,
-	"./si": 201,
-	"./si.js": 201,
-	"./sk": 202,
-	"./sk.js": 202,
-	"./sl": 203,
-	"./sl.js": 203,
-	"./sq": 204,
-	"./sq.js": 204,
-	"./sr": 206,
-	"./sr-cyrl": 205,
-	"./sr-cyrl.js": 205,
-	"./sr.js": 206,
-	"./ss": 207,
-	"./ss.js": 207,
-	"./sv": 208,
-	"./sv.js": 208,
-	"./sw": 209,
-	"./sw.js": 209,
-	"./ta": 210,
-	"./ta.js": 210,
-	"./te": 211,
-	"./te.js": 211,
-	"./tet": 212,
-	"./tet.js": 212,
-	"./th": 213,
-	"./th.js": 213,
-	"./tl-ph": 214,
-	"./tl-ph.js": 214,
-	"./tlh": 215,
-	"./tlh.js": 215,
-	"./tr": 216,
-	"./tr.js": 216,
-	"./tzl": 217,
-	"./tzl.js": 217,
-	"./tzm": 219,
-	"./tzm-latn": 218,
-	"./tzm-latn.js": 218,
-	"./tzm.js": 219,
-	"./uk": 220,
-	"./uk.js": 220,
-	"./ur": 221,
-	"./ur.js": 221,
-	"./uz": 223,
-	"./uz-latn": 222,
-	"./uz-latn.js": 222,
-	"./uz.js": 223,
-	"./vi": 224,
-	"./vi.js": 224,
-	"./x-pseudo": 225,
-	"./x-pseudo.js": 225,
-	"./yo": 226,
-	"./yo.js": 226,
-	"./zh-cn": 227,
-	"./zh-cn.js": 227,
-	"./zh-hk": 228,
-	"./zh-hk.js": 228,
-	"./zh-tw": 229,
-	"./zh-tw.js": 229
+	"./af": 114,
+	"./af.js": 114,
+	"./ar": 121,
+	"./ar-dz": 115,
+	"./ar-dz.js": 115,
+	"./ar-kw": 116,
+	"./ar-kw.js": 116,
+	"./ar-ly": 117,
+	"./ar-ly.js": 117,
+	"./ar-ma": 118,
+	"./ar-ma.js": 118,
+	"./ar-sa": 119,
+	"./ar-sa.js": 119,
+	"./ar-tn": 120,
+	"./ar-tn.js": 120,
+	"./ar.js": 121,
+	"./az": 122,
+	"./az.js": 122,
+	"./be": 123,
+	"./be.js": 123,
+	"./bg": 124,
+	"./bg.js": 124,
+	"./bm": 125,
+	"./bm.js": 125,
+	"./bn": 126,
+	"./bn.js": 126,
+	"./bo": 127,
+	"./bo.js": 127,
+	"./br": 128,
+	"./br.js": 128,
+	"./bs": 129,
+	"./bs.js": 129,
+	"./ca": 130,
+	"./ca.js": 130,
+	"./cs": 131,
+	"./cs.js": 131,
+	"./cv": 132,
+	"./cv.js": 132,
+	"./cy": 133,
+	"./cy.js": 133,
+	"./da": 134,
+	"./da.js": 134,
+	"./de": 137,
+	"./de-at": 135,
+	"./de-at.js": 135,
+	"./de-ch": 136,
+	"./de-ch.js": 136,
+	"./de.js": 137,
+	"./dv": 138,
+	"./dv.js": 138,
+	"./el": 139,
+	"./el.js": 139,
+	"./en-au": 140,
+	"./en-au.js": 140,
+	"./en-ca": 141,
+	"./en-ca.js": 141,
+	"./en-gb": 142,
+	"./en-gb.js": 142,
+	"./en-ie": 143,
+	"./en-ie.js": 143,
+	"./en-nz": 144,
+	"./en-nz.js": 144,
+	"./eo": 145,
+	"./eo.js": 145,
+	"./es": 148,
+	"./es-do": 146,
+	"./es-do.js": 146,
+	"./es-us": 147,
+	"./es-us.js": 147,
+	"./es.js": 148,
+	"./et": 149,
+	"./et.js": 149,
+	"./eu": 150,
+	"./eu.js": 150,
+	"./fa": 151,
+	"./fa.js": 151,
+	"./fi": 152,
+	"./fi.js": 152,
+	"./fo": 153,
+	"./fo.js": 153,
+	"./fr": 156,
+	"./fr-ca": 154,
+	"./fr-ca.js": 154,
+	"./fr-ch": 155,
+	"./fr-ch.js": 155,
+	"./fr.js": 156,
+	"./fy": 157,
+	"./fy.js": 157,
+	"./gd": 158,
+	"./gd.js": 158,
+	"./gl": 159,
+	"./gl.js": 159,
+	"./gom-latn": 160,
+	"./gom-latn.js": 160,
+	"./gu": 161,
+	"./gu.js": 161,
+	"./he": 162,
+	"./he.js": 162,
+	"./hi": 163,
+	"./hi.js": 163,
+	"./hr": 164,
+	"./hr.js": 164,
+	"./hu": 165,
+	"./hu.js": 165,
+	"./hy-am": 166,
+	"./hy-am.js": 166,
+	"./id": 167,
+	"./id.js": 167,
+	"./is": 168,
+	"./is.js": 168,
+	"./it": 169,
+	"./it.js": 169,
+	"./ja": 170,
+	"./ja.js": 170,
+	"./jv": 171,
+	"./jv.js": 171,
+	"./ka": 172,
+	"./ka.js": 172,
+	"./kk": 173,
+	"./kk.js": 173,
+	"./km": 174,
+	"./km.js": 174,
+	"./kn": 175,
+	"./kn.js": 175,
+	"./ko": 176,
+	"./ko.js": 176,
+	"./ky": 177,
+	"./ky.js": 177,
+	"./lb": 178,
+	"./lb.js": 178,
+	"./lo": 179,
+	"./lo.js": 179,
+	"./lt": 180,
+	"./lt.js": 180,
+	"./lv": 181,
+	"./lv.js": 181,
+	"./me": 182,
+	"./me.js": 182,
+	"./mi": 183,
+	"./mi.js": 183,
+	"./mk": 184,
+	"./mk.js": 184,
+	"./ml": 185,
+	"./ml.js": 185,
+	"./mr": 186,
+	"./mr.js": 186,
+	"./ms": 188,
+	"./ms-my": 187,
+	"./ms-my.js": 187,
+	"./ms.js": 188,
+	"./mt": 189,
+	"./mt.js": 189,
+	"./my": 190,
+	"./my.js": 190,
+	"./nb": 191,
+	"./nb.js": 191,
+	"./ne": 192,
+	"./ne.js": 192,
+	"./nl": 194,
+	"./nl-be": 193,
+	"./nl-be.js": 193,
+	"./nl.js": 194,
+	"./nn": 195,
+	"./nn.js": 195,
+	"./pa-in": 196,
+	"./pa-in.js": 196,
+	"./pl": 197,
+	"./pl.js": 197,
+	"./pt": 199,
+	"./pt-br": 198,
+	"./pt-br.js": 198,
+	"./pt.js": 199,
+	"./ro": 200,
+	"./ro.js": 200,
+	"./ru": 201,
+	"./ru.js": 201,
+	"./sd": 202,
+	"./sd.js": 202,
+	"./se": 203,
+	"./se.js": 203,
+	"./si": 204,
+	"./si.js": 204,
+	"./sk": 205,
+	"./sk.js": 205,
+	"./sl": 206,
+	"./sl.js": 206,
+	"./sq": 207,
+	"./sq.js": 207,
+	"./sr": 209,
+	"./sr-cyrl": 208,
+	"./sr-cyrl.js": 208,
+	"./sr.js": 209,
+	"./ss": 210,
+	"./ss.js": 210,
+	"./sv": 211,
+	"./sv.js": 211,
+	"./sw": 212,
+	"./sw.js": 212,
+	"./ta": 213,
+	"./ta.js": 213,
+	"./te": 214,
+	"./te.js": 214,
+	"./tet": 215,
+	"./tet.js": 215,
+	"./th": 216,
+	"./th.js": 216,
+	"./tl-ph": 217,
+	"./tl-ph.js": 217,
+	"./tlh": 218,
+	"./tlh.js": 218,
+	"./tr": 219,
+	"./tr.js": 219,
+	"./tzl": 220,
+	"./tzl.js": 220,
+	"./tzm": 222,
+	"./tzm-latn": 221,
+	"./tzm-latn.js": 221,
+	"./tzm.js": 222,
+	"./uk": 223,
+	"./uk.js": 223,
+	"./ur": 224,
+	"./ur.js": 224,
+	"./uz": 226,
+	"./uz-latn": 225,
+	"./uz-latn.js": 225,
+	"./uz.js": 226,
+	"./vi": 227,
+	"./vi.js": 227,
+	"./x-pseudo": 228,
+	"./x-pseudo.js": 228,
+	"./yo": 229,
+	"./yo.js": 229,
+	"./zh-cn": 230,
+	"./zh-cn.js": 230,
+	"./zh-hk": 231,
+	"./zh-hk.js": 231,
+	"./zh-tw": 232,
+	"./zh-tw.js": 232
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -94898,12 +95018,12 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 406;
+webpackContext.id = 407;
 
 
 /***/ }),
-/* 407 */,
-/* 408 */
+/* 408 */,
+/* 409 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -94956,14 +95076,33 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(410);
+__webpack_require__(412);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 409 */,
-/* 410 */
+/* 410 */,
+/* 411 */
+/***/ (function(module, exports) {
+
+module.exports = function cmp (a, b) {
+    var pa = a.split('.');
+    var pb = b.split('.');
+    for (var i = 0; i < 3; i++) {
+        var na = Number(pa[i]);
+        var nb = Number(pb[i]);
+        if (na > nb) return 1;
+        if (nb > na) return -1;
+        if (!isNaN(na) && isNaN(nb)) return 1;
+        if (isNaN(na) && !isNaN(nb)) return -1;
+    }
+    return 0;
+};
+
+
+/***/ }),
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -95156,8 +95295,6 @@ exports.clearImmediate = clearImmediate;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(46), __webpack_require__(17)))
 
 /***/ }),
-/* 411 */,
-/* 412 */,
 /* 413 */,
 /* 414 */,
 /* 415 */,
@@ -95228,21 +95365,23 @@ exports.clearImmediate = clearImmediate;
 /* 480 */,
 /* 481 */,
 /* 482 */,
-/* 483 */
+/* 483 */,
+/* 484 */,
+/* 485 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(78);
+__webpack_require__(79);
+__webpack_require__(77);
 __webpack_require__(76);
-__webpack_require__(75);
 __webpack_require__(35);
 __webpack_require__(5);
 __webpack_require__(2);
+__webpack_require__(82);
 __webpack_require__(81);
 __webpack_require__(80);
-__webpack_require__(79);
 __webpack_require__(0);
-module.exports = __webpack_require__(77);
+module.exports = __webpack_require__(78);
 
 
 /***/ })
-],[483]);
+],[485]);
