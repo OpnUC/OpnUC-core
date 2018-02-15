@@ -40,6 +40,6 @@ mix.js([
         'public/fonts'
     );
 
-if (mix.config.inProduction) {
+if (mix.inProduction()) {
     mix.version();
 }
