@@ -1,6 +1,6 @@
 <template>
     <section class="content">
-        <div class="box box-primary">
+        <div class="box box-primary" id="tableScrollTop">
             <div class="overlay" v-if="isLoading">
                 <i class="fa fa-refresh fa-spin"></i>
             </div>

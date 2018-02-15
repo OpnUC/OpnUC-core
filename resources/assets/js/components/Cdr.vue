@@ -49,7 +49,7 @@
                     </form>
                 </div>
             </div>
-            <div class="box">
+            <div class="box" id="tableScrollTop">
                 <div style="visibility: visible;" class="overlay" v-if="isLoading">
                     <i class="fa fa-refresh fa-spin"></i>
                 </div>

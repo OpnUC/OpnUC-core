@@ -111,11 +111,23 @@ Vue.mixin({
         },
         /**
          * Vuetable-2でページが変更された時
-         * @todo ページ変更時にページ上にスクロールするようにしたい
          * @param page
          */
         onVuetableChangePage(page) {
             this.$refs.vuetable.changePage(page)
+
+            // スクロールの速度(ms)
+            var speed = 400
+            var target = $('#tableScrollTop')
+
+            // スクロール先が見つからない場合は、処理しない
+            if (target && target.length === 0)
+                return false
+
+            var position = target.offset().top
+            $('body,html').animate({scrollTop: position}, speed, 'swing')
+
+            return false
         },
     }
 })
