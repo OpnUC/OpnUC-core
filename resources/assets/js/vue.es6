@@ -181,7 +181,7 @@ const app = new Vue({
                 _this.$events.$emit('LaravelEcho:reconnect')
             });
 
-            // Broadcast Channel
+            // Broadcast ChannelにJoinする
             window.echo.channel('BroadcastChannel')
                 .listen('MessageCreateBroadcastEvent', function (e) {
                     _this.$events.$emit('LaravelEcho:Broadcast', e)
@@ -190,7 +190,7 @@ const app = new Vue({
                     _this.$events.$emit('LaravelEcho:PresenceUpdated', e)
                 });
 
-            // 認証に通っている場合はPrivateChannel
+            // 認証に通っている場合はPrivateChannelにもJoinする
             if (this.$auth.check()) {
                 window.echo.private('PrivateChannel.' + this.$auth.user().id)
                     .listen('MessageCreatePrivateEvent', function (e) {
@@ -251,17 +251,3 @@ const app = new Vue({
 var timer = setInterval(function () {
     app.$auth.refresh()
 }, 30 * 60 * 1000);
-
-// window.app = app
-
-// window.axios.interceptors.response.use((response) => {
-//     return response
-// }, function (error) {
-//     var originalRequest = error.config
-//     console.log(originalRequest)
-//     if (error.response.status === 401 && !originalRequest._retry) {
-//         originalRequest._retry = true
-//     }
-//     // Do something with response error
-//     return Promise.reject(error)
-// })
