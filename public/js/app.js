@@ -767,26 +767,25 @@ var myBearer = {
     request: function (req, token) {
         this.options.http._setHeaders.call(this, req, {Authorization: 'Bearer ' + token});
     },
-
     response: function (res) {
         var headers = this.options.http._getHeaders.call(this, res),
             token = headers.Authorization || headers.authorization;
 
         if (token) {
             token = token.split(/Bearer\:?\s?/i);
+            token = token[token.length > 1 ? 1 : 0].trim()
 
             // for LaravelEcho
             if (window.echo) {
-                window.echo.options.auth.headers.Authorization = 'Bearer ' + token[token.length > 1 ? 1 : 0].trim();
+                window.echo.options.auth.headers.Authorization = 'Bearer ' + token
             }
 
-            return token[token.length > 1 ? 1 : 0].trim();
+            return token
         }
     }
 }
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_8__websanova_vue_auth___default.a, {
-    // auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
     auth: myBearer,
     http: __webpack_require__(236),
     router: __webpack_require__(237),
