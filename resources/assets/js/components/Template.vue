@@ -103,12 +103,14 @@
 </template>
 
 <script>
-
     import pushjs from 'push.js'
 
     export default {
         data() {
             return {
+                /**
+                 * LaravelEchoとの接続状況
+                 */
                 isConnectLaravelEcho: false,
             }
         },
@@ -159,11 +161,11 @@
                 }
             },
         },
-        mounted(){
+        mounted() {
             this.$events.$emit('LaravelEcho:init')
         },
         methods: {
-            changeloading () {
+            changeloading() {
                 //this.store.commit('TOGGLE_SEARCHING')
             },
             toggleMenu(event) {

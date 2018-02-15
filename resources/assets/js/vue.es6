@@ -44,7 +44,7 @@ var myBearer = {
 
             // for LaravelEcho
             if (window.echo) {
-                window.echo.options.auth.headers.Authorization = 'Bearer ' +  token[token.length > 1 ? 1 : 0].trim();
+                window.echo.options.auth.headers.Authorization = 'Bearer ' + token[token.length > 1 ? 1 : 0].trim();
             }
 
             return token[token.length > 1 ? 1 : 0].trim();
@@ -63,9 +63,62 @@ Vue.use(VueAuth, {
     }
 })
 
-//export {router};
-
 Vue.component('tel-contact', require('./components/common_TelContact.vue'))
+
+// VueのグローバルMixin
+Vue.mixin({
+    data() {
+        return {
+            // 1ページの件数
+            perPageList: [10, 30, 50, 100],
+            // Vuetable-2
+            vueTableCss: {
+                tableClass: 'table table-striped table-bordered',
+                loadingClass: 'loading',
+                ascendingIcon: 'glyphicon glyphicon-chevron-up',
+                descendingIcon: 'glyphicon glyphicon-chevron-down',
+                handleIcon: 'glyphicon glyphicon-menu-hamburger',
+            },
+            vueTableCssPagination: {
+                wrapperClass: 'pagination pull-right',
+                activeClass: 'btn-primary',
+                disabledClass: 'disabled',
+                pageClass: 'btn btn-border',
+                linkClass: 'btn btn-border',
+                icons: {
+                    first: '',
+                    prev: '',
+                    next: '',
+                    last: '',
+                },
+            },
+            vueTableIcons: {
+                first: '',
+                prev: '',
+                next: '',
+                last: '',
+            },
+        }
+    },
+    methods: {
+        /**
+         * Vuetable-2のページネーションデータ
+         * @param paginationData
+         */
+        onVuetablePaginationData(paginationData) {
+            this.$refs.pagination.setPaginationData(paginationData)
+            this.$refs.paginationInfo.setPaginationData(paginationData)
+        },
+        /**
+         * Vuetable-2でページが変更された時
+         * @todo ページ変更時にページ上にスクロールするようにしたい
+         * @param page
+         */
+        onVuetableChangePage(page) {
+            this.$refs.vuetable.changePage(page)
+        },
+    }
+})
 
 const app = new Vue({
     router: Vue.router,

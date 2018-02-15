@@ -64,7 +64,7 @@
                         <label>
                             1ページの件数：
                             <select class="form-control" v-model="perPage">
-                                <option v-for="n in [10,30,50,100]" :value="n">
+                                <option v-for="n in perPageList" :value="n">
                                     {{ n }}
                                 </option>
                             </select>
@@ -73,27 +73,27 @@
                     <vuetable class="table table-condensed table-striped"
                               ref="vuetable"
                               api-url="/cdr/search"
-                              :css="css"
+                              :css="vueTableCss"
                               :fields="fields"
                               :sort-order="sortOrder"
                               :append-params="searchParams"
                               detail-row-id="id"
                               :per-page="perPage"
-                              @vuetable:pagination-data="onPaginationData"
+                              @vuetable:pagination-data="onVuetablePaginationData"
                               no-data-template="データがありませんでした。"
                               pagination-path=""
                     >
                         <template slot="sender" scope="props">
                             <span
-                                    :style="props.rowData.sender_name ? 'border-bottom: dashed 1px gray;' : ''"
-                                    :title="props.rowData.sender_name"
-                            >{{ props.rowData.sender }}</span>
+                                :style="props.rowData.sender_name ? 'border-bottom: dashed 1px gray;' : ''"
+                                :title="props.rowData.sender_name"
+                        >{{ formatCdrPhoneNumber(props.rowData.sender) }}</span>
                         </template>
                         <template slot="destination" scope="props">
                             <span
                                     :style="props.rowData.destination_name ? 'border-bottom: dashed 1px gray;' : ''"
                                     :title="props.rowData.destination_name"
-                            >{{ props.rowData.destination }}</span>
+                            >{{ formatCdrPhoneNumber(props.rowData.destination) }}</span>
                         </template>
                     </vuetable>
                     <div class="vuetable-pagination ui basic segment grid">
@@ -103,9 +103,9 @@
                                                   info-class="pull-left"
                         ></vuetable-pagination-info>
                         <vuetable-pagination ref="pagination"
-                                             :css="cssPagination"
-                                             :icons="icons"
-                                             @vuetable-pagination:change-page="onChangePage"
+                                             :css="vueTableCssPagination"
+                                             :icons="vueTableIcons"
+                                             @vuetable-pagination:change-page="onVuetableChangePage"
                         ></vuetable-pagination>
                     </div>
                 </div>
@@ -119,10 +119,12 @@
     import Vuetable from 'vuetable-2/src/components/Vuetable'
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
+    import PhoneNumber from './common_PhoneNumber'
 
     require('moment/min/locales');
 
     export default {
+        mixins: [PhoneNumber],
         data() {
             return {
                 perPage: 50,
@@ -193,32 +195,6 @@
                         direction: 'desc'
                     }
                 ],
-                css: {
-                    tableClass: 'table table-striped table-bordered',
-                    loadingClass: 'loading',
-                    ascendingIcon: 'glyphicon glyphicon-chevron-up',
-                    descendingIcon: 'glyphicon glyphicon-chevron-down',
-                    handleIcon: 'glyphicon glyphicon-menu-hamburger',
-                },
-                cssPagination: {
-                    wrapperClass: 'pagination pull-right',
-                    activeClass: 'btn-primary',
-                    disabledClass: 'disabled',
-                    pageClass: 'btn btn-border',
-                    linkClass: 'btn btn-border',
-                    icons: {
-                        first: '',
-                        prev: '',
-                        next: '',
-                        last: '',
-                    },
-                },
-                icons: {
-                    first: '',
-                    prev: '',
-                    next: '',
-                    last: '',
-                },
                 fields: [
                     {
                         name: 'start_datetime',
@@ -268,6 +244,15 @@
         },
         methods: {
             /**
+             * CDR向けに電話番号をフォーマットする
+             */
+            formatCdrPhoneNumber(number) {
+                    var text1 = number.replace(/^(\d+)(\(.+\))?$/g, '$1')
+                    var text2 = number.replace(/^(\d+)(\(.+\))?$/g, '$2')
+
+                    return this.formatPhoneNumber(text1) + text2;
+            },
+            /**
              * 秒数を 時間 分 秒にフォーマット
              * @param value
              * @returns {string}
@@ -287,13 +272,6 @@
                 return (value == null)
                     ? ''
                     : moment(value).format(fmt)
-            },
-            onPaginationData(paginationData) {
-                this.$refs.pagination.setPaginationData(paginationData)
-                this.$refs.paginationInfo.setPaginationData(paginationData)
-            },
-            onChangePage(page) {
-                this.$refs.vuetable.changePage(page)
             },
             /**
              * 検索

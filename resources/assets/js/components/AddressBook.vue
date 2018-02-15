@@ -36,7 +36,7 @@
                     <label>
                         1ページの件数：
                         <select class="form-control" v-model="perPage">
-                            <option v-for="n in [10,30,50,100]" :value="n">
+                            <option v-for="n in perPageList" :value="n">
                                 {{ n }}
                             </option>
                         </select>
@@ -45,13 +45,13 @@
                 <vuetable class="table table-striped"
                           ref="vuetable"
                           api-url="/addressbook/search"
-                          :css="css"
+                          :css="vueTableCss"
                           :fields="fields"
                           :sort-order="sortOrder"
                           :append-params="searchParam"
                           detail-row-id="id"
                           :per-page="perPage"
-                          @vuetable:pagination-data="onPaginationData"
+                          @vuetable:pagination-data="onVuetablePaginationData"
                           no-data-template="データがありませんでした。"
                           pagination-path="">
                     <template slot="avatar" scope="props">
@@ -106,9 +106,9 @@
                                               info-class="pull-left">
                     </vuetable-pagination-info>
                     <vuetable-pagination ref="pagination"
-                                         :css="cssPagination"
-                                         :icons="icons"
-                                         @vuetable-pagination:change-page="onChangePage">
+                                         :css="vueTableCssPagination"
+                                         :icons="vueTableIcons"
+                                         @vuetable-pagination:change-page="onVuetableChangePage">
                     </vuetable-pagination>
                 </div>
             </div>
@@ -243,32 +243,6 @@
                         direction: 'asc'
                     }
                 ],
-                css: {
-                    tableClass: 'table table-striped table-bordered',
-                    loadingClass: 'loading',
-                    ascendingIcon: 'glyphicon glyphicon-chevron-up',
-                    descendingIcon: 'glyphicon glyphicon-chevron-down',
-                    handleIcon: 'glyphicon glyphicon-menu-hamburger',
-                },
-                cssPagination: {
-                    wrapperClass: 'pagination pull-right',
-                    activeClass: 'btn-primary',
-                    disabledClass: 'disabled',
-                    pageClass: 'btn btn-border',
-                    linkClass: 'btn btn-border',
-                    icons: {
-                        first: '',
-                        prev: '',
-                        next: '',
-                        last: '',
-                    },
-                },
-                icons: {
-                    first: '',
-                    prev: '',
-                    next: '',
-                    last: '',
-                },
                 fields: [
                     {
                         name: '__slot:avatar',
@@ -328,8 +302,10 @@
             VuetablePaginationInfo
         },
         methods: {
-            // 詳細の表示
-            showDetail(item) {
+            /**
+             * 詳細の表示
+             */
+            showDetail: function(item) {
                 this.detailDialog.visible = true
                 this.detailDialog.selectItem = item
             },
@@ -392,9 +368,12 @@
                         //self.isDownloading = false
                     });
             },
+            /**
+             * インポート
+             * @param e
+             */
             onImport: function (e) {
                 var self = this
-                // インポート
 
                 if (e.target.files.length === 0) {
                     // ファイルが選択されていない場合は処理しない
@@ -442,7 +421,10 @@
                         }
                     })
             },
-            // 削除
+            /**
+             * 削除
+             * @param item
+             */
             onDelete(item) {
                 var _this = this
 
@@ -473,13 +455,7 @@
                     console.log(error.message);
                 });
             },
-            onPaginationData(paginationData) {
-                this.$refs.pagination.setPaginationData(paginationData)
-                this.$refs.paginationInfo.setPaginationData(paginationData)
-            },
-            onChangePage(page) {
-                this.$refs.vuetable.changePage(page)
-            },
+
             onSearch() {
                 this.isSearch = this.searchParam.keyword ? true : false;
                 this.$refs.vuetable.refresh()
