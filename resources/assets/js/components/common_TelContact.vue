@@ -22,10 +22,10 @@
                 return window.opnucConfig.enable_tel_presence;
             },
             presenceStatus: function () {
-                // return window.extStatus[this.status]['statusText']
+                return window.extStatus[this.status]['statusText']
             },
             presenceClass: function () {
-                // return window.extStatus[this.status]['statusClass']
+                return window.extStatus[this.status]['statusClass']
             },
         },
         methods: {

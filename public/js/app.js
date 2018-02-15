@@ -6817,10 +6817,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         presenceStatus: function presenceStatus() {
-            // return window.extStatus[this.status]['statusText']
+            return window.extStatus[this.status]['statusText'];
         },
         presenceClass: function presenceClass() {
-            // return window.extStatus[this.status]['statusClass']
+            return window.extStatus[this.status]['statusClass'];
         }
     },
     methods: {
