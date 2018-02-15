@@ -28,6 +28,7 @@
                                 <label for="searchDateStart" class="col-sm-1 control-label">期間：</label>
                                 <div class="col-sm-5">
                                     <el-date-picker
+                                            id="searchDateStart"
                                             v-model="searchParams.datetime" type="daterange"
                                             placeholder="日時を選択してください"
                                             format="yyyy/MM/dd"
@@ -73,6 +74,7 @@
                     <vuetable class="table table-condensed table-striped"
                               ref="vuetable"
                               api-url="/cdr/search"
+                              :http-fetch="onVuetableHttpFetch"
                               :css="vueTableCss"
                               :fields="fields"
                               :sort-order="sortOrder"
@@ -83,13 +85,13 @@
                               no-data-template="データがありませんでした。"
                               pagination-path=""
                     >
-                        <template slot="sender" scope="props">
+                        <template slot="sender" slot-scope="props">
                             <span
                                 :style="props.rowData.sender_name ? 'border-bottom: dashed 1px gray;' : ''"
                                 :title="props.rowData.sender_name"
                         >{{ formatCdrPhoneNumber(props.rowData.sender) }}</span>
                         </template>
-                        <template slot="destination" scope="props">
+                        <template slot="destination" slot-scope="props">
                             <span
                                     :style="props.rowData.destination_name ? 'border-bottom: dashed 1px gray;' : ''"
                                     :title="props.rowData.destination_name"

@@ -45,6 +45,7 @@
                 <vuetable class="table table-striped"
                           ref="vuetable"
                           api-url="/addressbook/search"
+                          :http-fetch="onVuetableHttpFetch"
                           :css="vueTableCss"
                           :fields="fields"
                           :sort-order="sortOrder"
@@ -54,7 +55,7 @@
                           @vuetable:pagination-data="onVuetablePaginationData"
                           no-data-template="データがありませんでした。"
                           pagination-path="">
-                    <template slot="avatar" scope="props">
+                    <template slot="avatar" slot-scope="props">
                         <div class="image">
                             <img v-bind:src="props.rowData.avatar_path"
                                  width="60" height="60"
@@ -62,7 +63,7 @@
                                  alt="Avatar">
                         </div>
                     </template>
-                    <template slot="name" scope="props">
+                    <template slot="name" slot-scope="props">
                         <div>
                             <div v-if="props.rowData.position">
                                 <small>{{ props.rowData.position }}</small>
@@ -71,7 +72,7 @@
                                 props.rowData.name }}</a>
                         </div>
                     </template>
-                    <template slot="contact" scope="props">
+                    <template slot="contact" slot-scope="props">
                         <div>
                             <tel-contact :number="props.rowData.tel1" :status="props.rowData.tel1_status">
                             </tel-contact>
@@ -85,7 +86,7 @@
                             </div>
                         </div>
                     </template>
-                    <template slot="actions" scope="props">
+                    <template slot="actions" slot-scope="props">
                         <div>
                             <router-link v-if="$auth.check('addressbook-admin')"
                                          :to="{ name: 'AddressBookEdit', params: { id: props.rowData.id }}"

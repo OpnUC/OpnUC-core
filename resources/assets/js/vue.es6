@@ -17,7 +17,7 @@ Vue.use(VueAxios, axios)
 Vue.use(VueRouter);
 Vue.use(ElementUI, {locale})
 
-Vue.axios.defaults.baseURL = '/api/v1';
+axios.defaults.baseURL = '/api/v1';
 
 import routes from './routes'
 
@@ -127,6 +127,15 @@ Vue.mixin({
             $('body,html').animate({scrollTop: position}, speed, 'swing')
 
             return false
+        },
+        /**
+         * Vuetable-2から取得するための関数
+         * @param apiUrl
+         * @param httpOptions
+         * @returns {AxiosPromise<any>}
+         */
+        onVuetableHttpFetch(apiUrl, httpOptions) {
+            return axios.get(apiUrl, httpOptions)
         },
     }
 })

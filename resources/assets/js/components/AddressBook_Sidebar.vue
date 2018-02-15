@@ -1,6 +1,6 @@
 <template>
-    <div class="main-sidebar">
-        <div class="sidebar">
+    <aside class="main-sidebar">
+        <section class="sidebar">
             <div class="user-panel">
                 <div class="pull-left image">
                     <img v-bind:src="$auth.user().avatar_path" class="img-circle"
@@ -23,15 +23,16 @@
                     </span>
                 </div>
             </form>
-
-            <ul class="sidebar-menu">
+            <ul class="sidebar-menu tree" data-widget="tree">
                 <li class="header">電話帳</li>
                 <!-- // 電話帳種別  -->
                 <li class="treeview" v-for="(typeName, typeId) in addressBookType">
                     <a href="#">
                         <i class="fa fa-address-book"></i>
                         <span>{{ typeName }}</span>
-                        <i class="fa fa-angle-left pull-right"></i>
+                        <span class="pull-right-container">
+                           <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
                     <ul class="treeview-menu">
                         <li>
@@ -48,7 +49,9 @@
                             <router-link v-else
                                          :to="{ name: 'AddressBook', query: { typeId: typeId, groupId: item.Id }}">
                                 {{ item.Name }}
-                                <i class="fa fa-angle-left pull-right" v-if="item.Child"></i>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right" v-if="item.Child"></i>
+                                </span>
                             </router-link>
                             <group-list :item="item" :typeId="typeId"></group-list>
                         </li>
@@ -56,7 +59,7 @@
                 </li>
             </ul>
 
-            <ul class="sidebar-menu">
+            <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">
                     <i class="fa fa-cog"></i> 管理
                 </li>
@@ -73,8 +76,8 @@
                     </router-link>
                 </li>
             </ul>
-        </div>
-    </div>
+        </section>
+    </aside>
 </template>
 <script>
     import Vue from 'vue'
@@ -86,7 +89,7 @@
 
     export default {
         computed: {
-            my_ext(){
+            my_ext() {
                 if (this.$auth.user().address_book) {
                     return this.$auth.user().address_book.tel1
                 } else {
@@ -101,7 +104,7 @@
                 }
             },
         },
-        data(){
+        data() {
             return {
                 keyword: '',
                 addressBookType: null,
@@ -131,7 +134,7 @@
         },
         methods: {
             // 検索
-            onSearch () {
+            onSearch() {
                 this.$router.replace({
                     query: {
                         keyword: this.keyword,

@@ -16,6 +16,10 @@ var paths = {
     'fontawesome': 'node_modules/font-awesome'
 }
 
+mix.autoload({
+    jquery: ['$', 'window.jQuery', 'jQuery', 'window.$', 'jquery', 'window.jquery']
+});
+
 mix.js([
         'resources/assets/js/app.js',
         'resources/assets/js/vue.es6'
