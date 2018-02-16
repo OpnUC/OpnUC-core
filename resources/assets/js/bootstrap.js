@@ -76,6 +76,10 @@ window.extStatus = {
         'statusClass': 'fa fa-circle text-primary',
         'statusText': '不在'
     },
+    'callforward':{
+        'statusClass': 'fa fa-circle text-teal',
+        'statusText': '不在転送'
+    },
     'busy': {
         'statusClass': 'fa fa-circle text-danger',
         'statusText': '通話中'
