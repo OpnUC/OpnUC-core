@@ -97,7 +97,7 @@
         </div>
 
         <footer class="main-footer">
-            <strong>Copyright &copy; {{year}} OpnUC Developer Team.</strong> All rights reserved.
+            <strong>Copyright &copy; 2017-{{year}} OpnUC Developer Team.</strong> All rights reserved.
         </footer>
     </div>
 </template>
