@@ -249,7 +249,7 @@
                         name: '__slot:avatar',
                         title: '',
                         titleClass: 'columnAvatar',
-                        dataClass: 'text-center',
+                        dataClass: 'text-center vcenter',
                     },
                     {
                         name: '__slot:name',
@@ -541,6 +541,10 @@
     .btn.btn-border {
         border: 1px solid;
         margin-right: 2px;
+    }
+
+    .vuetable td.vcenter {
+        vertical-align: middle !important;
     }
 
     .vuetable-pagination-info {

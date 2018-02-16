@@ -39696,7 +39696,7 @@ exports = module.exports = __webpack_require__(8)(false);
 
 
 // module
-exports.push([module.i, "\n.pagination {\n    margin-top: 0;\n}\n.btn.btn-border {\n    border: 1px solid;\n    margin-right: 2px;\n}\n.vuetable-pagination-info {\n    margin-top: 8px !important;\n}\n.vuetable th.columnAvatar {\n    width: 100px;\n}\n.vuetable th.columnName {\n    width: 250px;\n}\n.vuetable th.columnContact {\n    width: 300px;\n}\n.vuetable th.columnAction {\n    width: 150px;\n}\n", ""]);
+exports.push([module.i, "\n.pagination {\n    margin-top: 0;\n}\n.btn.btn-border {\n    border: 1px solid;\n    margin-right: 2px;\n}\n.vuetable td.vcenter {\n    vertical-align: middle !important;\n}\n.vuetable-pagination-info {\n    margin-top: 8px !important;\n}\n.vuetable th.columnAvatar {\n    width: 100px;\n}\n.vuetable th.columnName {\n    width: 250px;\n}\n.vuetable th.columnContact {\n    width: 300px;\n}\n.vuetable th.columnAction {\n    width: 150px;\n}\n", ""]);
 
 // exports
 
@@ -39965,7 +39965,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name: '__slot:avatar',
                 title: '',
                 titleClass: 'columnAvatar',
-                dataClass: 'text-center'
+                dataClass: 'text-center vcenter'
             }, {
                 name: '__slot:name',
                 title: '役職/名前',
