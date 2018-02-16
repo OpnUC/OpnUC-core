@@ -23546,7 +23546,9 @@ var render = function() {
       _vm._v(" "),
       _c("footer", { staticClass: "main-footer" }, [
         _c("strong", [
-          _vm._v("Copyright © " + _vm._s(_vm.year) + " OpnUC Developer Team.")
+          _vm._v(
+            "Copyright © 2017-" + _vm._s(_vm.year) + " OpnUC Developer Team."
+          )
         ]),
         _vm._v(" All rights reserved.\n    ")
       ])
