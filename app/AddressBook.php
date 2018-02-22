@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Predis\CommunicationException;
 use Predis\Connection\ConnectionException;
 
@@ -72,31 +73,21 @@ class AddressBook extends Model
 
     /**
      * 内線番号のステータスを返す
+     * @todo 情報の取得がパッケージに依存するため見直す
      * @return string
      */
     private function _getTelStatus($value)
     {
 
-        // ToDo:プレゼンス情報の処理をまとめた方が良いかも
-
-        // 値があり、0で始まらない場合のみステータスをRedisから取得
+        // 値があり、0で始まらない場合のみステータスを取得
         if ($value && !starts_with($value, '0')) {
-            // 初期ステータス
-            $status = null;
+            $cacheKey = sprintf('extStatus:%s', $value);
 
-            try {
-                $status = \Redis::GET('extStatus:' . $value);
-            } catch (ConnectionException $e) {
-                // predisのgetMessageはUTF-8の変換エラーとなるため、コードで取得
-                \Log::error('Redis Exception: Connection Exception', [
-                    'code' => $e->getCode()
-                ]);
-            }
-
-            return $status == null ? 'unknown' : $status;
+            return Cache::get($cacheKey, 'unknown');
         }
 
-        return null;
+        return 'unknown';
+
     }
 
     /**

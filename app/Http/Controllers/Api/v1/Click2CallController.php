@@ -25,6 +25,7 @@ class Click2CallController extends Controller
     /**
      * 発信処理
      * @param Request $request
+     * @todo 外線発信特番を設定で変更出来るようにする
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function originate(Request $request)
@@ -36,7 +37,7 @@ class Click2CallController extends Controller
             ->first();
 
         // ユーザがアドレス帳を所有しているか、また内線番号の設定があるかチェック
-        if(!$addressbook || !$addressbook->tel1){
+        if (!$addressbook || !$addressbook->tel1) {
             return response([
                 'message' => 'あなたはPBX連携が設定されていないため、発信できません。',
                 'status' => 'error',
@@ -44,15 +45,22 @@ class Click2CallController extends Controller
         }
 
         // 相手先番号が数値かどうかチェック
-        if(!is_numeric($request['number'])){
+        if (!is_numeric($request['number'])) {
             return response([
                 'message' => '発信先が電話番号ではないため、発信できません。',
                 'status' => 'error',
             ], 422);
         }
 
+        $number = $request['number'];
+
+        // 先頭が0の場合は0を付加する
+        if (starts_with($number, '0')) {
+            $number = sprintf('0%s', $number);
+        }
+
         // 発信
-        $result = \App\Facades\PbxLinker::originate($addressbook->tel1, $request['number']);
+        $result = \App\Facades\PbxLinker::originate($addressbook->tel1, $number);
 
         return response([
             'status' => $result ? 'success' : 'error',
