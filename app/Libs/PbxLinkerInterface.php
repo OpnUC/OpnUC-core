@@ -36,4 +36,6 @@ interface PbxLinkerInterface
      */
     public function originate($ExtNumber, $number);
 
+    public function parseCdr();
+
 }

@@ -229,6 +229,15 @@ class AsteriskLinker implements PbxLinkerInterface
     }
 
     /**
+     * @return array
+     */
+    public function parseCdr(){
+
+        return [];
+
+    }
+
+    /**
      * DeviceNameから内線番号を取得
      * @param $device_name string
      * @return null|string
