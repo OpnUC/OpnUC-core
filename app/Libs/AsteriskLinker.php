@@ -94,7 +94,7 @@ class AsteriskLinker implements PbxLinkerInterface
                 // Click 2 Callの場合はDialStringを見ないと判断出来ない
 
                 // Caller ID Numが取得できない場合は処理しない
-                if($event->getKey('calleridnum') === null){
+                if ($event->getKey('calleridnum') === null) {
                     return;
                 }
 
@@ -200,6 +200,31 @@ class AsteriskLinker implements PbxLinkerInterface
         $result = $this->client->send($action);
 
         return $result->isSuccess();
+
+    }
+
+    /**
+     * @param $ExtNumber
+     * @return mixed|void
+     */
+    public function getPresence($ExtNumber)
+    {
+
+        return 'unknown';
+
+    }
+
+    /**
+     * 不在転送設定
+     * @param $ExtNumber string 内線番号(SYSG付き)
+     * @param $number string 転送先番号
+     * @todo 実装する
+     * @return bool
+     */
+    public function setCallForward($ExtNumber, $number = '')
+    {
+
+        return false;
 
     }
 

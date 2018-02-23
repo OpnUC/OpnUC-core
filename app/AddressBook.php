@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Facades\PbxLinker;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Predis\CommunicationException;
@@ -79,11 +80,10 @@ class AddressBook extends Model
     private function _getTelStatus($value)
     {
 
+        // プレゼンスが有効で、
         // 値があり、0で始まらない場合のみステータスを取得
-        if ($value && !starts_with($value, '0')) {
-            $cacheKey = sprintf('extStatus:%s', $value);
-
-            return Cache::get($cacheKey, 'unknown');
+        if (config('opnuc.enable_tel_presence') && $value && !starts_with($value, '0')) {
+            return PbxLinker::getPresence($value);
         }
 
         return 'unknown';
