@@ -14,6 +14,13 @@ interface PbxLinkerInterface
     public function processPresence();
 
     /**
+     * プレゼンス情報の取得
+     * @param $ExtNumber
+     * @return mixed
+     */
+    public function getPresence($ExtNumber);
+
+    /**
      * 不在転送設定
      * @param $ExtNumber string 内線番号(SYSG付き)
      * @param $number string 転送先番号
@@ -28,5 +35,7 @@ interface PbxLinkerInterface
      * @return bool
      */
     public function originate($ExtNumber, $number);
+
+    public function parseCdr();
 
 }
