@@ -178,10 +178,21 @@ class AsteriskLinker implements PbxLinkerInterface
     }
 
     /**
+     * 発信が利用可能か
+     * @return bool
+     */
+    public function isEnabledOriginate(){
+
+        return true;
+
+    }
+
+    /**
      * Click2Call
      * @param $ext string 発信元内線番号
      * @param $number string 発信先
      * @return bool
+     * @throws \PAMI\Client\Exception\ClientException
      */
     public function originate($ext, $number)
     {
@@ -215,10 +226,18 @@ class AsteriskLinker implements PbxLinkerInterface
     }
 
     /**
+     * 不在転送設定が利用可能か
+     * @return bool
+     */
+    public function isEnabledSetCallForward()
+    {
+        return false;
+    }
+
+    /**
      * 不在転送設定
-     * @param $ExtNumber string 内線番号(SYSG付き)
+     * @param $ExtNumber string 内線番号
      * @param $number string 転送先番号
-     * @todo 実装する
      * @return bool
      */
     public function setCallForward($ExtNumber, $number = '')
@@ -257,5 +276,6 @@ class AsteriskLinker implements PbxLinkerInterface
         return $matches[1];
 
     }
+
 
 }
