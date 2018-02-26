@@ -19876,7 +19876,7 @@ const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 confirmButtonText: '発信',
                 cancelButtonText: 'キャンセル',
             }).then(function () {
-                __WEBPACK_IMPORTED_MODULE_6_axios___default.a.post('/click2call/originate',
+                __WEBPACK_IMPORTED_MODULE_6_axios___default.a.post('/pbxlinker/originate',
                     {
                         number: number
                     })
@@ -23187,6 +23187,50 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -23196,7 +23240,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             /**
              * LaravelEchoとの接続状況
              */
-            isConnectLaravelEcho: false
+            isConnectLaravelEcho: false,
+            tel1Forward: ''
         };
     },
 
@@ -23204,6 +23249,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         year: function year() {
             var y = new Date();
             return y.getFullYear();
+        },
+        my_ext: function my_ext() {
+            if (this.$auth.user().address_book) {
+                return this.$auth.user().address_book.tel1;
+            } else {
+                return '';
+            }
         }
     },
     events: {
@@ -23244,6 +23296,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     mounted: function mounted() {
         this.$events.$emit('LaravelEcho:init');
+
+        // fix AdminLTE Control Sidebar
+        // https://github.com/almasaeed2010/AdminLTE/issues/987
+        $.AdminLTE.controlSidebar.activate();
     },
 
     methods: {
@@ -23262,6 +23318,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 error: function error() {
                     console.log('error');
                 }
+            });
+        },
+
+        /**
+         * 不在転送設定
+         */
+        onSetForward: function onSetForward() {
+            var _this = this;
+
+            axios.post('/pbxlinker/forward', {
+                ExtNumber: _this.my_ext,
+                Number: _this.tel1Forward
+            }).then(function (response) {
+                _this.$message({
+                    type: 'success',
+                    message: '転送設定が完了しました。'
+                });
+            }).catch(function (error) {
+                _this.isLoading = false;
+
+                var message = '';
+
+                if (error.response.status === 422) {
+                    // 422 - Validation Error
+                    message = '入力に問題があります。' + error.response.data.message;
+                } else {
+                    message = 'エラーが発生しました。' + error.response.data.message;
+                }
+
+                _this.$message({
+                    type: 'error',
+                    message: message
+                });
             });
         }
     }
@@ -23505,7 +23594,9 @@ var render = function() {
                             ],
                             1
                           )
-                        ]
+                        ],
+                    _vm._v(" "),
+                    _vm._m(1)
                   ],
                   2
                 )
@@ -23562,7 +23653,86 @@ var render = function() {
           )
         ]),
         _vm._v(" All rights reserved.\n    ")
-      ])
+      ]),
+      _vm._v(" "),
+      _c("aside", { staticClass: "control-sidebar control-sidebar-light" }, [
+        _vm._m(2),
+        _vm._v(" "),
+        _c("div", { staticClass: "tab-content" }, [
+          _c(
+            "div",
+            {
+              staticClass: "tab-pane active",
+              attrs: { id: "control-sidebar-home-tab" }
+            },
+            [
+              _c("h3", { staticClass: "control-sidebar-heading" }, [
+                _vm._v("不在転送設定")
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      _vm.onSetForward($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("label", { staticClass: "control-sidebar-subheading" }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(_vm.my_ext) +
+                          "\n                        "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "input-group input-group-sm" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.tel1Forward,
+                            expression: "tel1Forward"
+                          }
+                        ],
+                        staticClass: "form-control input-sm",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.tel1Forward },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.tel1Forward = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm._m(3)
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "help-block" }, [
+                      _vm._v("解除は、空欄のまま設定")
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", {
+                staticClass: "tab-pane",
+                attrs: { id: "control-sidebar-settings-tab" }
+              })
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "control-sidebar-bg" })
     ],
     1
   )
@@ -23580,6 +23750,59 @@ var staticRenderFns = [
       },
       [_c("span", { staticClass: "sr-only" }, [_vm._v("Toggle navigation")])]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("a", { attrs: { href: "#", "data-toggle": "control-sidebar" } }, [
+        _c("i", { staticClass: "fa fa-gears" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "ul",
+      { staticClass: "nav nav-tabs nav-justified control-sidebar-tabs" },
+      [
+        _c("li", { staticClass: "active" }, [
+          _c(
+            "a",
+            {
+              attrs: { href: "#control-sidebar-home-tab", "data-toggle": "tab" }
+            },
+            [_c("i", { staticClass: "fa fa-home" })]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", [
+          _c(
+            "a",
+            {
+              attrs: {
+                href: "#control-sidebar-settings-tab",
+                "data-toggle": "tab"
+              }
+            },
+            [_c("i", { staticClass: "fa fa-gears" })]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "input-group-btn" }, [
+      _c("button", { staticClass: "btn btn-flat", attrs: { type: "submit" } }, [
+        _vm._v("設定")
+      ])
+    ])
   }
 ]
 render._withStripped = true

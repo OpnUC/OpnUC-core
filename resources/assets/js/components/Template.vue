@@ -70,7 +70,9 @@
                                 <router-link to="/login">ログイン</router-link>
                             </li>
                         </template>
-
+                        <li>
+                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -99,6 +101,48 @@
         <footer class="main-footer">
             <strong>Copyright &copy; 2017-{{year}} OpnUC Developer Team.</strong> All rights reserved.
         </footer>
+
+        <aside class="control-sidebar control-sidebar-light">
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                <li class="active">
+                    <a href="#control-sidebar-home-tab" data-toggle="tab">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#control-sidebar-settings-tab" data-toggle="tab">
+                        <i class="fa fa-gears"></i>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="control-sidebar-home-tab">
+                    <h3 class="control-sidebar-heading">不在転送設定</h3>
+
+                    <!-- // ToDo: PBX連携が無効な場合の処理追加  -->
+                    <form v-on:submit.prevent="onSetForward">
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                {{ my_ext }}
+                            </label>
+                            <div class="input-group input-group-sm">
+                                <input type="text" v-model="tel1Forward" class="form-control input-sm">
+                                <span class="input-group-btn">
+                                <button type="submit" class="btn btn-flat">設定</button>
+                            </span>
+                            </div>
+                            <p class="help-block">解除は、空欄のまま設定</p>
+                        </div>
+                    </form>
+
+                    <div class="tab-pane" id="control-sidebar-settings-tab">
+
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <div class="control-sidebar-bg"></div>
     </div>
 </template>
 
@@ -112,6 +156,7 @@
                  * LaravelEchoとの接続状況
                  */
                 isConnectLaravelEcho: false,
+                tel1Forward: '',
             }
         },
         computed: {
@@ -119,6 +164,13 @@
                 var y = new Date()
                 return y.getFullYear()
             },
+            my_ext() {
+                if (this.$auth.user().address_book) {
+                    return this.$auth.user().address_book.tel1
+                } else {
+                    return ''
+                }
+            }
         },
         events: {
             'LaravelEcho:PresenceUpdated': function (e) {
@@ -163,6 +215,10 @@
         },
         mounted() {
             this.$events.$emit('LaravelEcho:init')
+
+            // fix AdminLTE Control Sidebar
+            // https://github.com/almasaeed2010/AdminLTE/issues/987
+            $.AdminLTE.controlSidebar.activate();
         },
         methods: {
             changeloading() {
@@ -181,6 +237,40 @@
                         console.log('error');
                     }
                 });
+            },
+            /**
+             * 不在転送設定
+             */
+            onSetForward() {
+                var _this = this
+
+                axios.post('/pbxlinker/forward', {
+                    ExtNumber: _this.my_ext,
+                    Number: _this.tel1Forward,
+                })
+                    .then(function (response) {
+                        _this.$message({
+                            type: 'success',
+                            message: '転送設定が完了しました。',
+                        });
+                    })
+                    .catch(function (error) {
+                        _this.isLoading = false
+
+                        var message = ''
+
+                        if (error.response.status === 422) {
+                            // 422 - Validation Error
+                            message = '入力に問題があります。' + error.response.data.message
+                        } else {
+                            message = 'エラーが発生しました。' + error.response.data.message
+                        }
+
+                        _this.$message({
+                            type: 'error',
+                            message: message,
+                        });
+                    });
             }
         }
     }

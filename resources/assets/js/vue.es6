@@ -233,7 +233,7 @@ const app = new Vue({
                 confirmButtonText: '発信',
                 cancelButtonText: 'キャンセル',
             }).then(function () {
-                axios.post('/click2call/originate',
+                axios.post('/pbxlinker/originate',
                     {
                         number: number
                     })

@@ -49,7 +49,8 @@ Route::group([
         Route::post('/user/uploadAvatar', 'UserController@uploadAvatar');
         Route::post('/user/deleteAvatar', 'UserController@deleteAvatar');
 
-        Route::post('/click2call/originate', 'Click2CallController@originate');
+        Route::post('/pbxlinker/originate', 'PbxLinkerController@originate');
+        Route::post('/pbxlinker/forward', 'PbxLinkerController@forward');
 
         // 発着信履歴
         Route::group([

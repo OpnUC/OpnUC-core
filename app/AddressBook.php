@@ -111,4 +111,19 @@ class AddressBook extends Model
 
     }
 
+    /**
+     * 該当ユーザが所有している内線番号か確認
+     * @param string $value 内線番号
+     * @return bool
+     */
+    public function checkExtNumber($value){
+
+        if($value == $this->tel1 || $value == $this->tel2 || $value == $this->tel3){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
 }
