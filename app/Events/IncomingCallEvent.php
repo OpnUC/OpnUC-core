@@ -10,22 +10,46 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 
+/**
+ * 着信通知を行うイベント
+ * Class IncomingCallEvent
+ * @package App\Events
+ */
 class IncomingCallEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * 発信者番号
+     * @var string
+     */
     public $callerid_num;
+
+    /**
+     * 発信者名
+     * @var string
+     */
     public $callerid_name;
+
+    /**
+     * 状態
+     * @var bool
+     */
     public $state;
+
+    /**
+     * ユーザID
+     * @var int
+     */
     private $userid;
 
     /**
      * Create a new event instance.
      *
-     * @param $ext string
-     * @param $state bool
-     * @param $caller_id string
-     * @param $caller_name string
+     * @param string $ext
+     * @param bool $state
+     * @param string $callerid_num
+     * @param string $callerid_name
      */
     public function __construct($ext, $state, $callerid_num = null, $callerid_name = '')
     {
@@ -49,7 +73,7 @@ class IncomingCallEvent implements ShouldBroadcast
         $this->userid = $record->owner_userid;
 
         // Caller ID Nameが無い場合は、電話帳から検索する
-        if(!$this->callerid_name && $this->callerid_num){
+        if (!$this->callerid_name && $this->callerid_num) {
             $record = AddressBook::select('name')
                 ->orWhere('tel1', $this->callerid_num)
                 ->orWhere('tel2', $this->callerid_num)
@@ -57,7 +81,7 @@ class IncomingCallEvent implements ShouldBroadcast
                 ->get()
                 ->first();
 
-            if($record !== null){
+            if ($record !== null) {
                 // レコードが無い場合は、セットしない
                 $this->callerid_name = $record->name;
             }
