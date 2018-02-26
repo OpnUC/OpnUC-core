@@ -41,7 +41,7 @@ class ApiClick2CallTest extends TestCase
             ->with($addressbook->tel1, $telNumber)
             ->andReturn(true);
 
-        $this->post('/api/v1/click2call/originate', [
+        $this->post('/api/v1/pbxlinker/originate', [
             'number' => $telNumber,
         ])
             ->assertStatus(200);
@@ -58,7 +58,7 @@ class ApiClick2CallTest extends TestCase
         $this->actingAs($user);
 
         // ユーザに関連付いたアドレス帳がないため、失敗
-        $this->post('/api/v1/click2call/originate', [
+        $this->post('/api/v1/pbxlinker/originate', [
             'number' => '117',
         ])
             ->assertStatus(403);
@@ -85,7 +85,7 @@ class ApiClick2CallTest extends TestCase
         $this->actingAs($user);
 
         // 発信先が数値ではないため、失敗
-        $this->post('/api/v1/click2call/originate', [
+        $this->post('/api/v1/pbxlinker/originate', [
             'number' => 'abc',
         ])
             ->assertStatus(422);
