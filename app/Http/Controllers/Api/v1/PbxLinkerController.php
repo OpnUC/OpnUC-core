@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Facades\PbxLinker;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -60,7 +61,7 @@ class PbxLinkerController extends Controller
         }
 
         // 発信
-        $result = \App\Facades\PbxLinker::originate($addressbook->tel1, $number);
+        $result = PbxLinker::originate($addressbook->tel1, $number);
 
         return response([
             'status' => $result ? 'success' : 'error',
