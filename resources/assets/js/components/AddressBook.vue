@@ -50,7 +50,6 @@
                           :fields="fields"
                           :sort-order="sortOrder"
                           :append-params="searchParam"
-                          detail-row-id="id"
                           :per-page="perPage"
                           @vuetable:pagination-data="onVuetablePaginationData"
                           no-data-template="データがありませんでした。"

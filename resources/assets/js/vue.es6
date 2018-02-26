@@ -26,7 +26,14 @@ Vue.router = new VueRouter({
     mode: 'history',
     linkActiveClass: 'active',
     scrollBehavior: function (to, from, savedPosition) {
-        return savedPosition || {x: 0, y: 0}
+        if (to.hash) {
+            return {
+                selector: to.hash
+                // , offset: { x: 0, y: 10 }
+            }
+        } else {
+            return savedPosition || {x: 0, y: 0}
+        }
     }
 })
 

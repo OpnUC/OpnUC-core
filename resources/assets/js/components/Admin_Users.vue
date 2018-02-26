@@ -33,7 +33,6 @@
                           :css="css"
                           :fields="fields"
                           :sort-order="sortOrder"
-                          detail-row-id="id"
                           :per-page="perPage"
                           @vuetable:pagination-data="onPaginationData"
                           no-data-template="データがありませんでした。"
