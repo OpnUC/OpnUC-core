@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\PresenceUpdated;
 use Illuminate\Console\Command;
 
 class PresenceTest extends Command
@@ -37,6 +38,6 @@ class PresenceTest extends Command
      */
     public function handle()
     {
-        event(new \App\Events\PresenceUpdated($this->argument('ext'), $this->argument('status')));
+        event(new PresenceUpdated($this->argument('ext'), $this->argument('status')));
     }
 }
