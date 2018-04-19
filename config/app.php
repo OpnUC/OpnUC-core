@@ -180,7 +180,7 @@ return [
         // Entrust
         Zizaco\Entrust\EntrustServiceProvider::class,
         // JWT-Auth
-        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
         // Asterisk Linker
         App\Providers\PbxLinkerServiceProvider::class,
