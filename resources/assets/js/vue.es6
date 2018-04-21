@@ -73,7 +73,7 @@ Vue.component('tel-contact', require('./components/common_TelContact.vue'))
 
 // VueのグローバルMixin
 Vue.mixin({
-    data() {
+    data: function() {
         return {
             // 1ページの件数
             perPageList: [10, 30, 50, 100],
@@ -111,7 +111,7 @@ Vue.mixin({
          * Vuetable-2のページネーションデータ
          * @param paginationData
          */
-        onVuetablePaginationData(paginationData) {
+        onVuetablePaginationData: function(paginationData) {
             this.$refs.pagination.setPaginationData(paginationData)
             this.$refs.paginationInfo.setPaginationData(paginationData)
         },
@@ -119,7 +119,7 @@ Vue.mixin({
          * Vuetable-2でページが変更された時
          * @param page
          */
-        onVuetableChangePage(page) {
+        onVuetableChangePage: function(page) {
             this.$refs.vuetable.changePage(page)
 
             // スクロールの速度(ms)
@@ -141,7 +141,7 @@ Vue.mixin({
          * @param httpOptions
          * @returns {AxiosPromise<any>}
          */
-        onVuetableHttpFetch(apiUrl, httpOptions) {
+        onVuetableHttpFetch: function(apiUrl, httpOptions) {
             return axios.get(apiUrl, httpOptions)
         },
     }

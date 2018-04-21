@@ -19716,7 +19716,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('tel-contact', __webpack_r
 
 // VueのグローバルMixin
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.mixin({
-    data() {
+    data: function() {
         return {
             // 1ページの件数
             perPageList: [10, 30, 50, 100],
@@ -19754,7 +19754,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.mixin({
          * Vuetable-2のページネーションデータ
          * @param paginationData
          */
-        onVuetablePaginationData(paginationData) {
+        onVuetablePaginationData: function(paginationData) {
             this.$refs.pagination.setPaginationData(paginationData)
             this.$refs.paginationInfo.setPaginationData(paginationData)
         },
@@ -19762,7 +19762,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.mixin({
          * Vuetable-2でページが変更された時
          * @param page
          */
-        onVuetableChangePage(page) {
+        onVuetableChangePage: function(page) {
             this.$refs.vuetable.changePage(page)
 
             // スクロールの速度(ms)
@@ -19784,7 +19784,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.mixin({
          * @param httpOptions
          * @returns {AxiosPromise<any>}
          */
-        onVuetableHttpFetch(apiUrl, httpOptions) {
+        onVuetableHttpFetch: function(apiUrl, httpOptions) {
             return __WEBPACK_IMPORTED_MODULE_6_axios___default.a.get(apiUrl, httpOptions)
         },
     }
