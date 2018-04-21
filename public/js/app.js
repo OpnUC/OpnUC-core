@@ -24468,16 +24468,16 @@ __webpack_require__(428);
         }
     },
     mounted: function mounted() {
-        self = this;
+        var _this = this;
 
         __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('ja');
 
         // Vuetableが読み込み中の場合は、Loadingを表示する
         this.$refs.vuetable.$on('vuetable:loading', function () {
-            self.isLoading = true;
+            _this.isLoading = true;
         });
         this.$refs.vuetable.$on('vuetable:loaded', function () {
-            self.isLoading = false;
+            _this.isLoading = false;
         });
     },
     created: function created() {
