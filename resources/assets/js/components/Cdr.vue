@@ -325,16 +325,16 @@
             },
         },
         mounted() {
-            self = this
+            var _this = this
 
             moment.locale('ja')
 
             // Vuetableが読み込み中の場合は、Loadingを表示する
             this.$refs.vuetable.$on('vuetable:loading', () => {
-                self.isLoading = true;
+                _this.isLoading = true;
             })
             this.$refs.vuetable.$on('vuetable:loaded', () => {
-                self.isLoading = false;
+                _this.isLoading = false;
             })
         },
         created() {
