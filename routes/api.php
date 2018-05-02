@@ -14,26 +14,29 @@ use Illuminate\Http\Request;
 */
 
 Route::group([
-    'middleware' => ['api'],
     'namespace' => 'Api\v1',
     'prefix' => 'v1'
 ], function () {
-    // Guest Access
-    Route::post('/auth/resetPasswordEmail', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    Route::post('/auth/resetPassword', 'Auth\ResetPasswordController@reset');
-    Route::post('/auth/login', 'AuthController@login');
 
-    // Token Refresh
-    Route::get('/auth/refresh', 'AuthController@refresh')
-        ->middleware(['api', 'jwt.refresh']);
+    // Guest
+    Route::group([
+        'middleware' => ['guest:api'],
+    ], function () {
+        // Guest Access
+        Route::post('/auth/resetPasswordEmail', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+        Route::post('/auth/resetPassword', 'Auth\ResetPasswordController@reset');
+        Route::post('/auth/login', 'AuthController@login');
 
-    // FrontEnd Error Reporting
-    Route::post('/error/report', 'ErrorController@report');
-    
+        // FrontEnd Error Reporting
+        Route::post('/error/report', 'ErrorController@report');
+    });
+
     // Login Check
     Route::group([
-        'middleware' => ['jwt.auth'],
+        'middleware' => ['auth:api'],
     ], function () {
+        // Token Refresh
+        Route::get('/auth/refresh', 'AuthController@refresh');
         Route::get('/auth/user', 'AuthController@user');
         Route::post('/auth/logout', 'AuthController@logout');
 
