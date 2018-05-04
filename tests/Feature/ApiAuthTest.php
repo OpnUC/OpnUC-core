@@ -18,7 +18,7 @@ class ApiAuthTest extends TestCase
         $user = factory(\App\User::class)->create();
 
         $this->post('/api/v1/auth/login', [
-            'username' => 'user01',
+            'username' => $user->username,
             'password' => 'password01',
         ], [
             'Accept' => 'application/json'
@@ -34,8 +34,6 @@ class ApiAuthTest extends TestCase
      */
     public function testLoginFail()
     {
-        $user = factory(\App\User::class)->create();
-
         $this->post('/api/v1/auth/login', [
             'username' => 'user01_',
             'password' => 'password01',
@@ -58,7 +56,7 @@ class ApiAuthTest extends TestCase
 
         $this->post('/api/v1/auth/login', [
             'mode' => 'restore',
-            'token' => JWTAuth::fromUser($user),
+            'token' => auth('api')->login($user),
         ], [
             'Accept' => 'application/json'
         ])
@@ -108,10 +106,8 @@ class ApiAuthTest extends TestCase
      */
     public function testLogoutFail()
     {
-        $user = factory(\App\User::class)->create();
-
         $this->post('/api/v1/auth/logout')
-            ->assertStatus(400);
+            ->assertStatus(401);
     }
 
     /**
@@ -135,13 +131,8 @@ class ApiAuthTest extends TestCase
      */
     public function testRefreshFail()
     {
-        $user = factory(\App\User::class)->create();
-
         $this->get('/api/v1/auth/refresh')
-            ->assertStatus(400)
-            ->assertJson([
-                'error' => 'token_invalid',
-            ]);
+            ->assertStatus(401);
     }
 
     /**
@@ -170,10 +161,8 @@ class ApiAuthTest extends TestCase
      */
     public function testUserDataFail()
     {
-        $user = factory(\App\User::class)->create();
-
         $this->get('/api/v1/auth/user')
-            ->assertStatus(400);
+            ->assertStatus(401);
     }
 
 }
