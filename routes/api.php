@@ -20,7 +20,7 @@ Route::group([
 
     // Guest
     Route::group([
-        'middleware' => ['guest:api'],
+        'middleware' => ['api'],
     ], function () {
         // Guest Access
         Route::post('/auth/resetPasswordEmail', 'Auth\ForgotPasswordController@sendResetLinkEmail');

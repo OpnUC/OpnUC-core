@@ -14,7 +14,7 @@
 // ログイン情報を復元
 Route::get('/loginRestore', function () {
     // ToDo エラー処理
-    return redirect()->away('/login?mode=restore&token='. auth('api')->tokenById(\Auth::user()->id));
+    return redirect()->away('/login?mode=restore&token='. auth('api')->login(\Auth::user()));
 });
 
 // Vue向けのルート

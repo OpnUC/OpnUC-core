@@ -39,9 +39,9 @@ class AuthController extends Controller
         // mode が restore の場合は、ログイン済みとして、Tokenで認証を試みる
         if ($request['mode'] === 'restore' && $request['token']) {
             // Tokenからユーザを取得
-            $token = auth()->tokenById(auth()->user()->id);
+            $token = $request['token'];
 
-            if ($token === null) {
+            if (auth('api')->check() === null) {
                 return response([
                     'status' => 'error',
                     'error' => 'invalid.credentials',
