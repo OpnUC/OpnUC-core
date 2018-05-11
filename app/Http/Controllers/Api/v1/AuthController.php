@@ -91,11 +91,13 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        auth()->refresh();
+        $token = auth()->refresh();
 
         return response([
             'status' => 'success'
-        ]);
+        ])
+            ->header('Authorization', $token);
+
     }
 
 }
