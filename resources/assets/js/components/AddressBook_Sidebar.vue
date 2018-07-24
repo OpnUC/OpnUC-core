@@ -114,7 +114,6 @@
         created() {
             var _this = this
 
-
             // 種別はテンプレートからもらう
             this.addressBookType = this.$route.matched[1].components.default.data().addressBookType
             this.keyword = this.$route.query.keyword
@@ -134,8 +133,8 @@
             });
         },
         mounted(){
+            // Activate Sidebar Tree
             $('ul.sidebar-menu').tree();
-
         },
         methods: {
             // 検索
