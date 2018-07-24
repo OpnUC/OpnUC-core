@@ -1,7 +1,7 @@
 <template>
     <div class="main-sidebar">
         <div class="sidebar">
-            <ul class="sidebar-menu">
+            <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">
                     システム管理
                 </li>
