@@ -86,15 +86,21 @@
                     >
                         <template slot="sender" slot-scope="props">
                             <span
-                                :style="props.rowData.sender_name ? 'border-bottom: dashed 1px gray;' : ''"
-                                :title="props.rowData.sender_name"
-                        >{{ formatCdrPhoneNumber(props.rowData.sender) }}</span>
+                                    :style="props.rowData.sender_name ? 'border-bottom: dashed 1px gray;' : ''"
+                                    :title="props.rowData.sender_name"
+                            >{{ formatCdrPhoneNumber(props.rowData.sender) }}</span>
+                            <span v-if="props.rowData.sender_comment" style="font-size:small;">
+                                ({{ props.rowData.sender_comment }})
+                            </span>
                         </template>
                         <template slot="destination" slot-scope="props">
                             <span
                                     :style="props.rowData.destination_name ? 'border-bottom: dashed 1px gray;' : ''"
                                     :title="props.rowData.destination_name"
                             >{{ formatCdrPhoneNumber(props.rowData.destination) }}</span>
+                            <span v-if="props.rowData.destination_comment" style="font-size:small;">
+                                ({{ props.rowData.destination_comment }})
+                            </span>
                         </template>
                     </vuetable>
                     <div class="vuetable-pagination ui basic segment grid">
@@ -121,6 +127,7 @@
     import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
     import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
     import PhoneNumber from './common_PhoneNumber'
+    import Encoding from 'encoding-japanese'
 
     require('moment/min/locales');
 
@@ -248,10 +255,10 @@
              * CDR向けに電話番号をフォーマットする
              */
             formatCdrPhoneNumber(number) {
-                    var text1 = number.replace(/^(\d+)(\(.+\))?$/g, '$1')
-                    var text2 = number.replace(/^(\d+)(\(.+\))?$/g, '$2')
+                var text1 = number.replace(/^(\d+)(\(.+\))?$/g, '$1')
+                var text2 = number.replace(/^(\d+)(\(.+\))?$/g, '$2')
 
-                    return this.formatPhoneNumber(text1) + text2;
+                return this.formatPhoneNumber(text1) + text2;
             },
             /**
              * 秒数を 時間 分 秒にフォーマット
@@ -299,9 +306,20 @@
                     }
                 )
                     .then(function (response) {
+                        var str2array = function (str) {
+                            var array = [], i, il = str.length;
+                            for (i = 0; i < il; i++) array.push(str.charCodeAt(i));
+                            return array;
+                        };
+
+                        var array = str2array(response.data);
+                        var sjis_array = Encoding.convert(array, 'SJIS', 'UNICODE');
+                        var uint8_array = new Uint8Array(sjis_array);
+
                         var headers = response.headers;
-                        var blob = new Blob([response.data], {type: headers['content-type']});
+                        var blob = new Blob([uint8_array], {type: headers['content-type']});
                         var link = document.createElement('a');
+
                         var contentDisposition = response.headers['content-disposition'] || '';
                         var filename = contentDisposition.split('filename=')[1];
                         filename = filename ? filename.replace(/"/g, "") : 'cdr.csv'

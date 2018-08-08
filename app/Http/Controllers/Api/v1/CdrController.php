@@ -88,7 +88,7 @@ class CdrController extends Controller
     {
 
         // 取得する列
-        $column = ['id', 'start_datetime', 'duration', 'sender', 'destination'];
+        $column = ['id', 'start_datetime', 'duration', 'sender', 'sender_comment', 'destination', 'destination_comment'];
 
         $items = \App\Cdr::select($column);
 

@@ -24346,6 +24346,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuetable_2_src_components_VuetablePaginationInfo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vuetable_2_src_components_VuetablePaginationInfo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber__ = __webpack_require__(226);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_encoding_japanese__ = __webpack_require__(233);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_encoding_japanese___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_encoding_japanese__);
 //
 //
 //
@@ -24462,6 +24464,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -24612,9 +24621,23 @@ __webpack_require__(405);
             axios.get('/cdr/download', {
                 params: this.searchParams
             }).then(function (response) {
+                var str2array = function str2array(str) {
+                    var array = [],
+                        i,
+                        il = str.length;
+                    for (i = 0; i < il; i++) {
+                        array.push(str.charCodeAt(i));
+                    }return array;
+                };
+
+                var array = str2array(response.data);
+                var sjis_array = __WEBPACK_IMPORTED_MODULE_6_encoding_japanese___default.a.convert(array, 'SJIS', 'UNICODE');
+                var uint8_array = new Uint8Array(sjis_array);
+
                 var headers = response.headers;
-                var blob = new Blob([response.data], { type: headers['content-type'] });
+                var blob = new Blob([uint8_array], { type: headers['content-type'] });
                 var link = document.createElement('a');
+
                 var contentDisposition = response.headers['content-disposition'] || '';
                 var filename = contentDisposition.split('filename=')[1];
                 filename = filename ? filename.replace(/"/g, "") : 'cdr.csv';
@@ -39824,7 +39847,21 @@ var render = function() {
                             )
                           )
                         ]
-                      )
+                      ),
+                      _vm._v(" "),
+                      props.rowData.sender_comment
+                        ? _c(
+                            "span",
+                            { staticStyle: { "font-size": "small" } },
+                            [
+                              _vm._v(
+                                "\n                            (" +
+                                  _vm._s(props.rowData.sender_comment) +
+                                  ")\n                        "
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   }
                 },
@@ -39849,7 +39886,21 @@ var render = function() {
                             )
                           )
                         ]
-                      )
+                      ),
+                      _vm._v(" "),
+                      props.rowData.destination_comment
+                        ? _c(
+                            "span",
+                            { staticStyle: { "font-size": "small" } },
+                            [
+                              _vm._v(
+                                "\n                            (" +
+                                  _vm._s(props.rowData.destination_comment) +
+                                  ")\n                        "
+                              )
+                            ]
+                          )
+                        : _vm._e()
                     ]
                   }
                 }
