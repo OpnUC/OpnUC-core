@@ -6,14 +6,14 @@
             </div>
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    ユーザ管理
+                    ロール管理
                 </h3>
             </div>
             <div class="box-body">
                 <div class="pull-left">
-                    <router-link :to="{ name: 'AdminUserEdit'}" class="btn btn-default">
+                    <router-link :to="{ name: 'AdminRoleEdit'}" class="btn btn-default">
                         <i class="fa fa-plus"></i>
-                        ユーザの追加
+                        ロールの追加
                     </router-link>
                 </div>
                 <div class="form-inline pull-right">
@@ -28,7 +28,7 @@
                 </div>
                 <vuetable class="table table-striped"
                           ref="vuetable"
-                          api-url="/admin/users"
+                          api-url="/admin/roles"
                           :http-fetch="onVuetableHttpFetch"
                           :css="css"
                           :fields="fields"
@@ -39,11 +39,11 @@
                           pagination-path="">
                     <template slot="actions" slot-scope="props">
                         <div>
-                            <router-link :to="{ name: 'AdminUserEdit', params: { id: props.rowData.id }}"
+                            <router-link :to="{ name: 'AdminRoleEdit', params: { id: props.rowData.id }}"
                                          class="btn btn-default btn-xs">
                                 <i class="fa fa-edit"></i> 編集
                             </router-link>
-                            <button type="button" class="btn btn-default btn-xs"
+                            <button v-if="props.rowData.users_count==0" type="button" class="btn btn-default btn-xs"
                                     v-on:click.prevent="onDelete(props.rowData)">
                                 <i class="fa fa-times"></i> 削除
                             </button>
@@ -112,21 +112,26 @@
                         titleClass: 'columnId',
                     },
                     {
-                        name: 'username',
-                        title: 'ユーザ名',
-                        sortField: 'username',
-                        titleClass: 'columnUsername',
+                        name: 'name',
+                        title: 'ロール名',
+                        sortField: 'name',
+                        titleClass: 'columnName',
                     },
                     {
                         name: 'display_name',
                         title: '表示名',
                         sortField: 'display_name',
+                        titleClass: 'columnDisplayname',
                     },
                     {
-                        name: 'roles',
-                        callback: 'formatRoles',
-                        title: 'ロール',
-                        titleClass: 'columnRole',
+                        name: 'description',
+                        title: '説明',
+                    },
+                    {
+                        name: 'perms',
+                        callback: 'formatPermissions',
+                        title: 'パーミッション',
+                        titleClass: 'columnPermission',
                     },
                     {
                         name: '__slot:actions',
@@ -141,7 +146,7 @@
                 },
                 // 読み込み中かどうか
                 isLoading: true,
-                roles: [],
+                perms: [],
             }
         },
         components: {
@@ -150,12 +155,12 @@
             VuetablePaginationInfo
         },
         methods: {
-            formatRoles: function (value) {
+            formatPermissions: function (value) {
                 var _this = this
                 var buffer = ''
 
                 $.each(value, function (index, val) {
-                    buffer += '<span class="badge bg-aqua">' + _this.roles[val] + '</span> ';
+                    buffer += '<span class="badge bg-aqua">' + _this.perms[val] + '</span> '
                 })
 
                 return buffer
@@ -164,12 +169,12 @@
             onDelete(item) {
                 var _this = this
 
-                this.$confirm('選択されたユーザを削除しても良いですか？', '確認', {
+                this.$confirm('選択されたロールを削除しても良いですか？', '確認', {
                     confirmButtonText: '削除',
                     cancelButtonText: 'キャンセル',
                     type: 'warning'
                 }).then(() => {
-                    axios.post('/admin/userDelete',
+                    axios.post('/admin/roleDelete',
                         {
                             id: item.id
                         })
@@ -182,10 +187,19 @@
                             _this.$refs.vuetable.refresh()
                         })
                         .catch(function (error) {
-                            _this.$message({
-                                type: 'error',
-                                message: '削除に失敗しました。'
-                            });
+                            if (error.response.status === 422) {
+                                // 422 - Validation Error
+                                _this.$message({
+                                    type: 'error',
+                                    message: error.response.data.message
+                                });
+                            } else {
+                                _this.$message({
+                                    type: 'error',
+                                    message: '削除に失敗しました。'
+                                });
+                            }
+
                         });
                 }).catch(function (error) {
                     console.log(error.message);
@@ -222,13 +236,13 @@
             var _this = this
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar)
 
-            axios.get('/admin/roles', {
+            axios.get('/admin/permissions', {
                 params: {
                     per_page: 65535
                 }
             })
                 .then(function (response) {
-                    _this.roles =_.transform(response.data.data, function(result, value, key) {
+                    _this.perms = _.transform(response.data.data, function (result, value, key) {
                         result[value.id] = value.display_name
                         return result
                     });
@@ -257,12 +271,16 @@
         width: 50px;
     }
 
-    .vuetable th.columnUsername {
+    .vuetable th.columnName {
         width: 150px;
     }
 
-    .vuetable th.columnRole {
-        width: 200px;
+    .vuetable th.columnDisplayname {
+        width: 250px;
+    }
+
+    .vuetable th.columnPermission {
+        width: 250px;
     }
 
     .vuetable th.columnAction {

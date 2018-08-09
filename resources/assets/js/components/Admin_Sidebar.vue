@@ -10,6 +10,10 @@
                         <i class="fa fa-user"></i>
                         <span>ユーザ管理</span>
                     </router-link>
+                    <router-link to="/Admin/Roles">
+                        <i class="fa fa-key"></i>
+                        <span>ロール管理</span>
+                    </router-link>
                 </li>
             </ul>
         </div>

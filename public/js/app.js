@@ -202,7 +202,7 @@ function toComment(sourceMap) {
 "use strict";
 
 
-var bind = __webpack_require__(221);
+var bind = __webpack_require__(222);
 
 /*global toString:true*/
 
@@ -853,10 +853,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(222);
+    adapter = __webpack_require__(223);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(222);
+    adapter = __webpack_require__(223);
   }
   return adapter;
 }
@@ -1058,7 +1058,8 @@ module.exports = Component.exports
 /* 93 */,
 /* 94 */,
 /* 95 */,
-/* 96 */
+/* 96 */,
+/* 97 */
 /***/ (function(module, exports) {
 
 module.exports = (function () {
@@ -1121,7 +1122,6 @@ module.exports = (function () {
 })();
 
 /***/ }),
-/* 97 */,
 /* 98 */,
 /* 99 */,
 /* 100 */,
@@ -1245,7 +1245,8 @@ module.exports = (function () {
 /* 218 */,
 /* 219 */,
 /* 220 */,
-/* 221 */
+/* 221 */,
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1263,7 +1264,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 222 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1274,7 +1275,7 @@ var settle = __webpack_require__(375);
 var buildURL = __webpack_require__(377);
 var parseHeaders = __webpack_require__(378);
 var isURLSameOrigin = __webpack_require__(379);
-var createError = __webpack_require__(223);
+var createError = __webpack_require__(224);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(380);
 
 module.exports = function xhrAdapter(config) {
@@ -1447,7 +1448,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 223 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1471,7 +1472,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 224 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1483,7 +1484,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 225 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1509,7 +1510,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 226 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
@@ -1556,7 +1557,6 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 227 */,
 /* 228 */,
 /* 229 */,
 /* 230 */,
@@ -1597,7 +1597,7 @@ window._ = __webpack_require__(239);
 
 __webpack_provided_window_dot_$ = __webpack_provided_window_dot_jQuery = __webpack_require__(4);
 
-__webpack_require__(67);
+__webpack_require__(68);
 __webpack_require__(240);
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
@@ -18783,7 +18783,7 @@ window.extStatus = {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16), __webpack_require__(66)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16), __webpack_require__(67)(module)))
 
 /***/ }),
 /* 240 */
@@ -19770,8 +19770,8 @@ module.exports = Echo;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(73);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_element_ui__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_element_ui__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_element_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_element_ui__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_ja__ = __webpack_require__(337);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_ja___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_ja__);
@@ -19781,11 +19781,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_App_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_axios__ = __webpack_require__(37);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue_axios__ = __webpack_require__(95);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue_axios__ = __webpack_require__(96);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_vue_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__websanova_vue_auth__ = __webpack_require__(347);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__websanova_vue_auth___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__websanova_vue_auth__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_events__ = __webpack_require__(97);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_events__ = __webpack_require__(98);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_vue_events__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__routes__ = __webpack_require__(351);
 __webpack_require__(261).polyfill();
@@ -22085,7 +22085,7 @@ module.exports = (function () {
 
 var __utils  = __webpack_require__(349),
     __token  = __webpack_require__(350),
-    __cookie = __webpack_require__(96)
+    __cookie = __webpack_require__(97)
 
 module.exports = function () {
 
@@ -22879,7 +22879,7 @@ module.exports = (function (){
 /* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __cookie = __webpack_require__(96);
+var __cookie = __webpack_require__(97);
 
 module.exports = (function () {
 
@@ -22966,9 +22966,9 @@ module.exports = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Index_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Index_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Cdr_vue__ = __webpack_require__(362);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Cdr_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Cdr_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_AddressBook_Template_vue__ = __webpack_require__(407);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_AddressBook_Template_vue__ = __webpack_require__(413);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_AddressBook_Template_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_AddressBook_Template_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_AddressBook_vue__ = __webpack_require__(412);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_AddressBook_vue__ = __webpack_require__(418);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_AddressBook_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_AddressBook_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_AddressBook_Sidebar_vue__ = __webpack_require__(423);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_AddressBook_Sidebar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_AddressBook_Sidebar_vue__);
@@ -22998,14 +22998,20 @@ module.exports = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__components_Admin_Users_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17__components_Admin_Users_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_Admin_UserEdit_vue__ = __webpack_require__(469);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__components_Admin_UserEdit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18__components_Admin_UserEdit_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_Login_vue__ = __webpack_require__(472);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_Login_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_PasswordReset_vue__ = __webpack_require__(475);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_PasswordReset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__components_PasswordReset_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_PasswordResetEmail_vue__ = __webpack_require__(480);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_PasswordResetEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_21__components_PasswordResetEmail_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_404_vue__ = __webpack_require__(485);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_404_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22__components_404_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_Admin_Roles_vue__ = __webpack_require__(501);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__components_Admin_Roles_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19__components_Admin_Roles_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_Admin_RoleEdit_vue__ = __webpack_require__(506);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__components_Admin_RoleEdit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20__components_Admin_RoleEdit_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_Login_vue__ = __webpack_require__(472);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__components_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_21__components_Login_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_PasswordReset_vue__ = __webpack_require__(475);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_PasswordReset_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_22__components_PasswordReset_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_PasswordResetEmail_vue__ = __webpack_require__(480);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_PasswordResetEmail_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_23__components_PasswordResetEmail_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_404_vue__ = __webpack_require__(485);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_404_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_24__components_404_vue__);
+
+
 
 
 
@@ -23165,31 +23171,49 @@ var routes = [{
                 description: 'System Administration',
                 auth: 'system-admin'
             }
+        }, {
+            path: 'Roles',
+            name: 'Admin_Roles',
+            component: __WEBPACK_IMPORTED_MODULE_19__components_Admin_Roles_vue___default.a,
+            meta: {
+                title: 'システム管理',
+                description: 'System Administration',
+                auth: 'system-admin'
+            }
+        }, {
+            path: 'RoleEdit/:id?',
+            name: 'AdminRoleEdit',
+            component: __WEBPACK_IMPORTED_MODULE_20__components_Admin_RoleEdit_vue___default.a,
+            meta: {
+                title: 'システム管理',
+                description: 'System Administration',
+                auth: 'system-admin'
+            }
         }]
     }, {
         path: '/Login',
-        component: __WEBPACK_IMPORTED_MODULE_19__components_Login_vue___default.a,
+        component: __WEBPACK_IMPORTED_MODULE_21__components_Login_vue___default.a,
         meta: {
             title: 'Login',
             description: 'Login'
         }
     }, {
         path: '/PasswordReset/:token',
-        component: __WEBPACK_IMPORTED_MODULE_20__components_PasswordReset_vue___default.a,
+        component: __WEBPACK_IMPORTED_MODULE_22__components_PasswordReset_vue___default.a,
         meta: {
             title: 'パスワードリセット',
             description: 'Password Reset'
         }
     }, {
         path: '/PasswordResetEmail',
-        component: __WEBPACK_IMPORTED_MODULE_21__components_PasswordResetEmail_vue___default.a,
+        component: __WEBPACK_IMPORTED_MODULE_23__components_PasswordResetEmail_vue___default.a,
         meta: {
             title: 'パスワードリセット',
             description: 'Password Reset'
         }
     }, {
         path: '*',
-        component: __WEBPACK_IMPORTED_MODULE_22__components_404_vue___default.a,
+        component: __WEBPACK_IMPORTED_MODULE_24__components_404_vue___default.a,
         meta: {
             title: 'NotFound',
             description: '404 Not Found'
@@ -24250,7 +24274,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(365)
 /* template */
-var __vue_template__ = __webpack_require__(406)
+var __vue_template__ = __webpack_require__(412)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -24344,9 +24368,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePagination__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuetable_2_src_components_VuetablePaginationInfo__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuetable_2_src_components_VuetablePaginationInfo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vuetable_2_src_components_VuetablePaginationInfo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber__ = __webpack_require__(226);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber__ = __webpack_require__(227);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_encoding_japanese__ = __webpack_require__(233);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_encoding_japanese__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_encoding_japanese___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_encoding_japanese__);
 //
 //
@@ -24479,7 +24503,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-__webpack_require__(405);
+__webpack_require__(411);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mixins: [__WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber___default.a],
@@ -27365,7 +27389,7 @@ module.exports = __webpack_require__(372);
 
 
 var utils = __webpack_require__(8);
-var bind = __webpack_require__(221);
+var bind = __webpack_require__(222);
 var Axios = __webpack_require__(373);
 var defaults = __webpack_require__(59);
 
@@ -27400,9 +27424,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(225);
+axios.Cancel = __webpack_require__(226);
 axios.CancelToken = __webpack_require__(387);
-axios.isCancel = __webpack_require__(224);
+axios.isCancel = __webpack_require__(225);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -27534,7 +27558,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(223);
+var createError = __webpack_require__(224);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -27950,7 +27974,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(8);
 var transformData = __webpack_require__(384);
-var isCancel = __webpack_require__(224);
+var isCancel = __webpack_require__(225);
 var defaults = __webpack_require__(59);
 
 /**
@@ -28101,7 +28125,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(225);
+var Cancel = __webpack_require__(226);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -29646,7 +29670,7 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_libphonenumber_js__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_libphonenumber_js__ = __webpack_require__(228);
 
 /**
  * 電話番号関係の共通処理
@@ -29680,7 +29704,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 402 */,
 /* 403 */,
 /* 404 */,
-/* 405 */
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */,
+/* 410 */,
+/* 411 */
 /***/ (function(module, exports, __webpack_require__) {
 
 ;(function (global, factory) {
@@ -39574,7 +39604,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /***/ }),
-/* 406 */
+/* 412 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -40004,19 +40034,19 @@ if (false) {
 }
 
 /***/ }),
-/* 407 */
+/* 413 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(408)
+  __webpack_require__(414)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(410)
+var __vue_script__ = __webpack_require__(416)
 /* template */
-var __vue_template__ = __webpack_require__(411)
+var __vue_template__ = __webpack_require__(417)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -40055,13 +40085,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 408 */
+/* 414 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(409);
+var content = __webpack_require__(415);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -40081,7 +40111,7 @@ if(false) {
 }
 
 /***/ }),
-/* 409 */
+/* 415 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(7)(false);
@@ -40095,7 +40125,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 410 */
+/* 416 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -40133,7 +40163,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 411 */
+/* 417 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -40153,17 +40183,17 @@ if (false) {
 }
 
 /***/ }),
-/* 412 */
+/* 418 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(413)
+  __webpack_require__(419)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(415)
+var __vue_script__ = __webpack_require__(421)
 /* template */
 var __vue_template__ = __webpack_require__(422)
 /* template functional */
@@ -40204,13 +40234,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 413 */
+/* 419 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(414);
+var content = __webpack_require__(420);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -40230,7 +40260,7 @@ if(false) {
 }
 
 /***/ }),
-/* 414 */
+/* 420 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(7)(false);
@@ -40244,7 +40274,7 @@ exports.push([module.i, "\n.pagination {\n    margin-top: 0;\n}\n.btn.btn-border
 
 
 /***/ }),
-/* 415 */
+/* 421 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -40257,7 +40287,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuetable_2_src_components_VuetablePagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuetable_2_src_components_VuetablePagination__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_encoding_japanese__ = __webpack_require__(233);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_encoding_japanese__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_encoding_japanese___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_encoding_japanese__);
 //
 //
@@ -40785,12 +40815,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
 /* 422 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -47417,6 +47441,12 @@ var render = function() {
                 _c("i", { staticClass: "fa fa-user" }),
                 _vm._v(" "),
                 _c("span", [_vm._v("ユーザ管理")])
+              ]),
+              _vm._v(" "),
+              _c("router-link", { attrs: { to: "/Admin/Roles" } }, [
+                _c("i", { staticClass: "fa fa-key" }),
+                _vm._v(" "),
+                _c("span", [_vm._v("ロール管理")])
               ])
             ],
             1
@@ -47851,10 +47881,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return record.components.sidebar;
         });
 
-        // ロール一覧を取得
-        axios.get('/admin/roles').then(function (response) {
-            $.each(response.data, function (index, val) {
-                __WEBPACK_IMPORTED_MODULE_0_vue___default.a.set(_this.roles, val.id, val.display_name);
+        axios.get('/admin/roles', {
+            params: {
+                per_page: 65535
+            }
+        }).then(function (response) {
+            _this.roles = _.transform(response.data.data, function (result, value, key) {
+                result[value.id] = value.display_name;
+                return result;
             });
         }).catch(function (error) {
             console.log(error);
@@ -48360,8 +48394,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return record.components.sidebar;
         });
 
-        axios.get('/admin/roles').then(function (response) {
-            _this.roles = response.data;
+        axios.get('/admin/roles', {
+            params: {
+                per_page: 65535
+            }
+        }).then(function (response) {
+            _this.roles = response.data.data;
         }).catch(function (error) {
             console.log(error);
         });
@@ -50515,7 +50553,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_PhoneNumber__ = __webpack_require__(226);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_PhoneNumber__ = __webpack_require__(227);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_PhoneNumber___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__common_PhoneNumber__);
 //
 //
@@ -50610,6 +50648,1279 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 494 */,
+/* 495 */,
+/* 496 */,
+/* 497 */,
+/* 498 */,
+/* 499 */,
+/* 500 */,
+/* 501 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(502)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(504)
+/* template */
+var __vue_template__ = __webpack_require__(505)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Admin_Roles.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-03b92d86", Component.options)
+  } else {
+    hotAPI.reload("data-v-03b92d86", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 502 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(503);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(9)("6c9362a1", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-03b92d86\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Admin_Roles.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-03b92d86\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Admin_Roles.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 503 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(7)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.pagination {\n    margin-top: 0;\n}\n.btn.btn-border {\n    border: 1px solid;\n    margin-right: 2px;\n}\n.vuetable-pagination-info {\n    margin-top: 8px !important;\n}\n.vuetable th.columnId {\n    width: 50px;\n}\n.vuetable th.columnName {\n    width: 150px;\n}\n.vuetable th.columnDisplayname {\n    width: 250px;\n}\n.vuetable th.columnPermission {\n    width: 250px;\n}\n.vuetable th.columnAction {\n    width: 150px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 504 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuetable_2_src_components_Vuetable__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuetable_2_src_components_Vuetable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuetable_2_src_components_Vuetable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuetable_2_src_components_VuetablePagination__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuetable_2_src_components_VuetablePagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuetable_2_src_components_VuetablePagination__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            perPage: 10,
+            // Vuetableのパラメタ
+            sortOrder: [{
+                field: 'id',
+                sortField: 'id',
+                direction: 'asc'
+            }],
+            css: {
+                tableClass: 'table table-striped table-bordered',
+                loadingClass: 'loading',
+                ascendingIcon: 'glyphicon glyphicon-chevron-up',
+                descendingIcon: 'glyphicon glyphicon-chevron-down',
+                sortHandleIcon: 'glyphicon glyphicon-menu-hamburger'
+            },
+            cssPagination: {
+                wrapperClass: 'pagination pull-right',
+                activeClass: 'btn-primary',
+                disabledClass: 'disabled',
+                pageClass: 'btn btn-border',
+                linkClass: 'btn btn-border'
+            },
+            icons: {
+                first: '',
+                prev: '',
+                next: '',
+                last: ''
+            },
+            fields: [{
+                name: 'id',
+                title: '#',
+                sortField: 'id',
+                titleClass: 'columnId'
+            }, {
+                name: 'name',
+                title: 'ロール名',
+                sortField: 'name',
+                titleClass: 'columnName'
+            }, {
+                name: 'display_name',
+                title: '表示名',
+                sortField: 'display_name',
+                titleClass: 'columnDisplayname'
+            }, {
+                name: 'description',
+                title: '説明'
+            }, {
+                name: 'perms',
+                callback: 'formatPermissions',
+                title: 'パーミッション',
+                titleClass: 'columnPermission'
+            }, {
+                name: '__slot:actions',
+                title: '操作',
+                titleClass: 'columnAction'
+            }],
+            // ここまで：Vuetableのパラメタ
+            detailDialog: {
+                visible: false,
+                selectItem: null
+            },
+            // 読み込み中かどうか
+            isLoading: true,
+            perms: []
+        };
+    },
+
+    components: {
+        Vuetable: __WEBPACK_IMPORTED_MODULE_1_vuetable_2_src_components_Vuetable___default.a,
+        VuetablePagination: __WEBPACK_IMPORTED_MODULE_2_vuetable_2_src_components_VuetablePagination___default.a,
+        VuetablePaginationInfo: __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo___default.a
+    },
+    methods: {
+        formatPermissions: function formatPermissions(value) {
+            var _this = this;
+            var buffer = '';
+
+            $.each(value, function (index, val) {
+                buffer += '<span class="badge bg-aqua">' + _this.perms[val] + '</span> ';
+            });
+
+            return buffer;
+        },
+        // 削除
+        onDelete: function onDelete(item) {
+            var _this = this;
+
+            this.$confirm('選択されたロールを削除しても良いですか？', '確認', {
+                confirmButtonText: '削除',
+                cancelButtonText: 'キャンセル',
+                type: 'warning'
+            }).then(function () {
+                axios.post('/admin/roleDelete', {
+                    id: item.id
+                }).then(function (response) {
+                    _this.$message({
+                        type: 'success',
+                        message: '削除が完了しました。'
+                    });
+
+                    _this.$refs.vuetable.refresh();
+                }).catch(function (error) {
+                    if (error.response.status === 422) {
+                        // 422 - Validation Error
+                        _this.$message({
+                            type: 'error',
+                            message: error.response.data.message
+                        });
+                    } else {
+                        _this.$message({
+                            type: 'error',
+                            message: '削除に失敗しました。'
+                        });
+                    }
+                });
+            }).catch(function (error) {
+                console.log(error.message);
+            });
+        },
+        onPaginationData: function onPaginationData(paginationData) {
+            this.$refs.pagination.setPaginationData(paginationData);
+            this.$refs.paginationInfo.setPaginationData(paginationData);
+        },
+        onChangePage: function onChangePage(page) {
+            this.$refs.vuetable.changePage(page);
+        },
+        regEvent: function regEvent() {
+            var _this = this;
+            this.$refs.vuetable.$on('vuetable:loading', function () {
+                _this.isLoading = true;
+            });
+            this.$refs.vuetable.$on('vuetable:loaded', function () {
+                _this.isLoading = false;
+            });
+        }
+    },
+    watch: {
+        perPage: function perPage() {
+            this.$nextTick(function () {
+                this.$refs.vuetable.refresh();
+            });
+        }
+    },
+    mounted: function mounted() {
+        this.regEvent();
+    },
+    created: function created() {
+        var _this = this;
+        this.$root.sidebar = this.$route.matched.some(function (record) {
+            return record.components.sidebar;
+        });
+
+        axios.get('/admin/permissions', {
+            params: {
+                per_page: 65535
+            }
+        }).then(function (response) {
+            _this.perms = _.transform(response.data.data, function (result, value, key) {
+                result[value.id] = value.display_name;
+                return result;
+            });
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+});
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(4)))
+
+/***/ }),
+/* 505 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { staticClass: "content" }, [
+    _c(
+      "div",
+      { staticClass: "box box-primary", attrs: { id: "tableScrollTop" } },
+      [
+        _vm.isLoading
+          ? _c("div", { staticClass: "overlay" }, [
+              _c("i", { staticClass: "fa fa-refresh fa-spin" })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "box-body" },
+          [
+            _c(
+              "div",
+              { staticClass: "pull-left" },
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-default",
+                    attrs: { to: { name: "AdminRoleEdit" } }
+                  },
+                  [
+                    _c("i", { staticClass: "fa fa-plus" }),
+                    _vm._v(
+                      "\n                    ロールの追加\n                "
+                    )
+                  ]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-inline pull-right" }, [
+              _c("label", [
+                _vm._v(
+                  "\n                    1ページの件数：\n                    "
+                ),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.perPage,
+                        expression: "perPage"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.perPage = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  _vm._l([10, 30, 50, 100], function(n) {
+                    return _c("option", { domProps: { value: n } }, [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(n) +
+                          "\n                        "
+                      )
+                    ])
+                  })
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("vuetable", {
+              ref: "vuetable",
+              staticClass: "table table-striped",
+              attrs: {
+                "api-url": "/admin/roles",
+                "http-fetch": _vm.onVuetableHttpFetch,
+                css: _vm.css,
+                fields: _vm.fields,
+                "sort-order": _vm.sortOrder,
+                "per-page": _vm.perPage,
+                "no-data-template": "データがありませんでした。",
+                "pagination-path": ""
+              },
+              on: { "vuetable:pagination-data": _vm.onPaginationData },
+              scopedSlots: _vm._u([
+                {
+                  key: "actions",
+                  fn: function(props) {
+                    return [
+                      _c(
+                        "div",
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "btn btn-default btn-xs",
+                              attrs: {
+                                to: {
+                                  name: "AdminRoleEdit",
+                                  params: { id: props.rowData.id }
+                                }
+                              }
+                            },
+                            [
+                              _c("i", { staticClass: "fa fa-edit" }),
+                              _vm._v(" 編集\n                        ")
+                            ]
+                          ),
+                          _vm._v(" "),
+                          props.rowData.users_count == 0
+                            ? _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-default btn-xs",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      $event.preventDefault()
+                                      _vm.onDelete(props.rowData)
+                                    }
+                                  }
+                                },
+                                [
+                                  _c("i", { staticClass: "fa fa-times" }),
+                                  _vm._v(" 削除\n                        ")
+                                ]
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    ]
+                  }
+                }
+              ])
+            }),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "vuetable-pagination ui basic segment grid" },
+              [
+                _c("vuetable-pagination-info", {
+                  ref: "paginationInfo",
+                  attrs: {
+                    "no-data-template": "",
+                    "info-template": "{from}件～{to}件目を表示({total}件中)",
+                    "info-class": "pull-left"
+                  }
+                }),
+                _vm._v(" "),
+                _c("vuetable-pagination", {
+                  ref: "pagination",
+                  attrs: { css: _vm.cssPagination, icons: _vm.icons },
+                  on: { "vuetable-pagination:change-page": _vm.onChangePage }
+                })
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("h3", { staticClass: "box-title" }, [
+        _vm._v("\n                ロール管理\n            ")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-03b92d86", module.exports)
+  }
+}
+
+/***/ }),
+/* 506 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(507)
+/* template */
+var __vue_template__ = __webpack_require__(508)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Admin_RoleEdit.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-9bc28432", Component.options)
+  } else {
+    hotAPI.reload("data-v-9bc28432", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 507 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            selectItem: null,
+            // Validation
+            status: null,
+            message: null,
+            errors: [],
+            // 読み込み中かどうか
+            isLoading: true,
+            perms: []
+        };
+    },
+
+    methods: {
+        onSave: function onSave() {
+            var _this = this;
+
+            _this.isLoading = true;
+
+            // 初期化
+            _this.status = null;
+            _this.message = null;
+            _this.errors = [];
+
+            // 編集処理
+            axios.post('/admin/roleEdit', _this.selectItem).then(function (response) {
+                _this.isLoading = false;
+
+                // 一覧ページに戻す
+                _this.$router.push('/admin/roles');
+
+                _this.$message({
+                    type: response.data.status,
+                    message: response.data.message
+                });
+            }).catch(function (error) {
+                _this.isLoading = false;
+                _this.status = 'error';
+
+                if (error.response.status === 422) {
+                    // 422 - Validation Error
+                    _this.message = '入力に問題があります。';
+
+                    _this.errors = error.response.data.errors;
+                } else {
+                    _this.message = 'エラーが発生しました。';
+                }
+            });
+        }
+    },
+    mounted: function mounted() {
+        var _this = this;
+
+        _this.isLoading = true;
+
+        if (this.$route.params.id) {
+            // Read
+            axios.get('/admin/role', {
+                params: {
+                    id: this.$route.params.id
+                }
+            }).then(function (response) {
+                _this.selectItem = response.data;
+
+                _this.isLoading = false;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        } else {
+            _this.selectItem = {
+                // selectは配列として初期化する必要あり
+                prems: []
+            };
+
+            _this.isLoading = false;
+        }
+    },
+    created: function created() {
+        var _this = this;
+        this.$root.sidebar = this.$route.matched.some(function (record) {
+            return record.components.sidebar;
+        });
+
+        axios.get('/admin/permissions', {
+            params: {
+                per_page: 65535
+            }
+        }).then(function (response) {
+            _this.perms = response.data.data;
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+});
+
+/***/ }),
+/* 508 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("section", { staticClass: "content" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c(
+          "form",
+          {
+            staticClass: "form-horizontal",
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.onSave($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "box box-primary" }, [
+              _vm.isLoading
+                ? _c("div", { staticClass: "overlay" }, [
+                    _c("i", { staticClass: "fa fa-refresh fa-spin" })
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm._m(0),
+              _vm._v(" "),
+              _vm.selectItem
+                ? _c("div", { staticClass: "box-body" }, [
+                    _vm.status == "success"
+                      ? _c("div", { staticClass: "alert alert-success" }, [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.message) +
+                              "\n                        "
+                          )
+                        ])
+                      : _vm.status == "error"
+                        ? _c("div", { staticClass: "alert alert-error" }, [
+                            _vm._v(
+                              "\n                            " +
+                                _vm._s(_vm.message) +
+                                "\n                        "
+                            )
+                          ])
+                        : _vm._e(),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "form-group",
+                        class: _vm.errors.id ? "has-error" : ""
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label col-xs-3",
+                            attrs: { for: "inputId" }
+                          },
+                          [_vm._v("ロールID")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-xs-7" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectItem.id,
+                                expression: "selectItem.id"
+                              }
+                            ],
+                            staticClass: "form-control input-sm",
+                            attrs: {
+                              type: "text",
+                              id: "inputId",
+                              placeholder: "ユーザID",
+                              readonly: "readonly"
+                            },
+                            domProps: { value: _vm.selectItem.id },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.selectItem,
+                                  "id",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.errors.id
+                            ? _c("span", { staticClass: "help-block" }, [
+                                _c(
+                                  "ul",
+                                  _vm._l(_vm.errors.id, function(item) {
+                                    return _c("li", { key: item }, [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(item) +
+                                          "\n                                        "
+                                      )
+                                    ])
+                                  })
+                                )
+                              ])
+                            : _vm._e()
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "form-group",
+                        class: _vm.errors.name ? "has-error" : ""
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label col-xs-3",
+                            attrs: { for: "inputName" }
+                          },
+                          [_vm._v("ロール名")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-xs-7" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectItem.name,
+                                expression: "selectItem.name"
+                              }
+                            ],
+                            staticClass: "form-control input-sm",
+                            attrs: {
+                              type: "text",
+                              id: "inputName",
+                              placeholder: "ロール名"
+                            },
+                            domProps: { value: _vm.selectItem.name },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.selectItem,
+                                  "name",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.errors.name
+                            ? _c("span", { staticClass: "help-block" }, [
+                                _c(
+                                  "ul",
+                                  _vm._l(_vm.errors.name, function(item) {
+                                    return _c("li", { key: item }, [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(item) +
+                                          "\n                                        "
+                                      )
+                                    ])
+                                  })
+                                )
+                              ])
+                            : _vm._e()
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "form-group",
+                        class: _vm.errors.display_name ? "has-error" : ""
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label col-xs-3",
+                            attrs: { for: "inputDisplayName" }
+                          },
+                          [_vm._v("表示名")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-xs-7" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectItem.display_name,
+                                expression: "selectItem.display_name"
+                              }
+                            ],
+                            staticClass: "form-control input-sm",
+                            attrs: {
+                              type: "text",
+                              id: "inputDisplayName",
+                              placeholder: "表示名"
+                            },
+                            domProps: { value: _vm.selectItem.display_name },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.selectItem,
+                                  "display_name",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.errors.display_name
+                            ? _c("span", { staticClass: "help-block" }, [
+                                _c(
+                                  "ul",
+                                  _vm._l(_vm.errors.display_name, function(
+                                    item
+                                  ) {
+                                    return _c("li", { key: item }, [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(item) +
+                                          "\n                                        "
+                                      )
+                                    ])
+                                  })
+                                )
+                              ])
+                            : _vm._e()
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "form-group",
+                        class: _vm.errors.description ? "has-error" : ""
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label col-xs-3",
+                            attrs: { for: "inputDescription" }
+                          },
+                          [_vm._v("説明")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-xs-7" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.selectItem.description,
+                                expression: "selectItem.description"
+                              }
+                            ],
+                            staticClass: "form-control input-sm",
+                            attrs: {
+                              type: "text",
+                              id: "inputDescription",
+                              placeholder: "説明"
+                            },
+                            domProps: { value: _vm.selectItem.description },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.selectItem,
+                                  "description",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          }),
+                          _vm._v(" "),
+                          _vm.errors.description
+                            ? _c("span", { staticClass: "help-block" }, [
+                                _c(
+                                  "ul",
+                                  _vm._l(_vm.errors.description, function(
+                                    item
+                                  ) {
+                                    return _c("li", { key: item }, [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(item) +
+                                          "\n                                        "
+                                      )
+                                    ])
+                                  })
+                                )
+                              ])
+                            : _vm._e()
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "form-group",
+                        class: _vm.errors.perms ? "has-error" : ""
+                      },
+                      [
+                        _c(
+                          "label",
+                          {
+                            staticClass: "control-label col-xs-3",
+                            attrs: { for: "inputPerms" }
+                          },
+                          [_vm._v("付与パーミッション")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-xs-7" },
+                          [
+                            _c(
+                              "el-select",
+                              {
+                                attrs: {
+                                  id: "inputPerms",
+                                  multiple: "",
+                                  placeholder: "付与パーミッション"
+                                },
+                                model: {
+                                  value: _vm.selectItem.perms,
+                                  callback: function($$v) {
+                                    _vm.$set(_vm.selectItem, "perms", $$v)
+                                  },
+                                  expression: "selectItem.perms"
+                                }
+                              },
+                              _vm._l(_vm.perms, function(perm) {
+                                return _c("el-option", {
+                                  key: perm.id,
+                                  attrs: {
+                                    label: perm.display_name,
+                                    value: perm.id
+                                  }
+                                })
+                              })
+                            ),
+                            _vm._v(" "),
+                            _vm.errors.perms
+                              ? _c("span", { staticClass: "help-block" }, [
+                                  _c(
+                                    "ul",
+                                    _vm._l(_vm.errors.perms, function(item) {
+                                      return _c("li", { key: item }, [
+                                        _vm._v(
+                                          "\n                                            " +
+                                            _vm._s(item) +
+                                            "\n                                        "
+                                        )
+                                      ])
+                                    })
+                                  )
+                                ])
+                              : _vm._e()
+                          ],
+                          1
+                        )
+                      ]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm._m(1)
+            ])
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-header with-border" }, [
+      _c("h3", { staticClass: "box-title" }, [
+        _vm._v(
+          "\n                            ロール 追加・編集\n                        "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary pull-right",
+          attrs: { type: "submit" }
+        },
+        [_vm._v("保存")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-9bc28432", module.exports)
+  }
+}
 
 /***/ })
 ],[236]);

@@ -21,6 +21,8 @@ import Admin_Sidebar from './components/Admin_Sidebar.vue'
 import Admin from './components/Admin.vue'
 import Admin_Users from './components/Admin_Users.vue'
 import Admin_UserEdit from './components/Admin_UserEdit.vue'
+import Admin_Roles from './components/Admin_Roles.vue'
+import Admin_RoleEdit from './components/Admin_RoleEdit.vue'
 
 import Login from './components/Login.vue'
 import PasswordReset from './components/PasswordReset.vue'
@@ -170,6 +172,26 @@ const routes = [
                         path: 'UserEdit/:id?',
                         name: 'AdminUserEdit',
                         component: Admin_UserEdit,
+                        meta: {
+                            title: 'システム管理',
+                            description: 'System Administration',
+                            auth: 'system-admin'
+                        },
+                    },
+                    {
+                        path: 'Roles',
+                        name: 'Admin_Roles',
+                        component: Admin_Roles,
+                        meta: {
+                            title: 'システム管理',
+                            description: 'System Administration',
+                            auth: 'system-admin'
+                        },
+                    },
+                    {
+                        path: 'RoleEdit/:id?',
+                        name: 'AdminRoleEdit',
+                        component: Admin_RoleEdit,
                         meta: {
                             title: 'システム管理',
                             description: 'System Administration',

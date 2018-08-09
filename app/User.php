@@ -82,14 +82,7 @@ class User extends Authenticatable implements JWTSubject
     public function getRolesAttribute()
     {
 
-        $result = array();
-        $roles = $this->roles()->get();
-
-        foreach ($roles as $role) {
-            $result[] = $role->id;
-        }
-
-        return $result;
+        return $this->roles()->get(['id'])->pluck('id');
 
     }
 
