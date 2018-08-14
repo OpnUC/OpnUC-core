@@ -45,19 +45,22 @@ class PbxLinkerController extends Controller
             ], 403);
         }
 
+
+        $number = $request['number'];
+
+        // 番号変換パターンを適用
+        $patterns = \App\SettingNumberRewrite::all();
+
+        foreach ($patterns as $pattern) {
+            $number = preg_replace('/' . $pattern['pattern'] . '/i', $pattern['replacement'], $number);
+        }
+
         // 相手先番号が数値かどうかチェック
-        if (!is_numeric($request['number'])) {
+        if (!is_numeric($number)) {
             return response([
                 'message' => '発信先が電話番号ではないため、発信できません。',
                 'status' => 'error',
             ], 422);
-        }
-
-        $number = $request['number'];
-
-        // 先頭が0の場合は0を付加する
-        if (starts_with($number, '0')) {
-            $number = sprintf('0%s', $number);
         }
 
         // 発信
@@ -76,7 +79,7 @@ class PbxLinkerController extends Controller
     {
 
         // PBX側の機能有無を確認
-        if(!PbxLinker::isEnabledSetCallForward()){
+        if (!PbxLinker::isEnabledSetCallForward()) {
             return response([
                 'message' => 'PBX連携が設定されていないため、設定できません。',
                 'status' => 'error',
