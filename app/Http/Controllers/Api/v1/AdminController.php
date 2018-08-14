@@ -269,4 +269,87 @@ class AdminController extends Controller
 
     }
 
+    /**
+     * 番号変換
+     */
+    public function settingNumberRewrite(Request $request)
+    {
+
+        $id = intval($request['id']);
+
+        $user = \App\SettingNumberRewrite::find($id);
+
+        return \Response::json($user);
+
+    }
+
+
+    /**
+     * 番号変換一覧
+     */
+    public function settingNumberRewrites(Request $request)
+    {
+
+        $column = ['id', 'pattern', 'replacement', 'description'];
+
+        $items = \App\SettingNumberRewrite::select($column);
+
+        $sort = explode('|', $request['sort']);
+        // Sort
+        if (is_array($sort) && in_array($sort[0], $column) && in_array($sort[1], array('desc', 'asc'))) {
+            $items = $items
+                ->orderBy($sort[0], $sort[1]);
+        }
+
+        $per_page = intval($request['per_page']) ? $request['per_page'] : 10;
+
+        $items = $items->paginate($per_page);
+
+        return \Response::json($items);
+
+    }
+
+    /**
+     * 番号変換の削除
+     */
+    public function settingNumberRewriteDelete(Request $request)
+    {
+
+        $id = intval($request['id']);
+
+        $record = \App\SettingNumberRewrite::find($id);
+
+        $record->delete();
+
+        return response([
+            'status' => 'success',
+            'message' => '番号変換の削除が完了しました。'
+        ]);
+
+    }
+
+    /**
+     * 番号変換の追加・編集
+     * @param Requests\AdminSettingNumberRewriteRequest $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
+    public function settingNumberRewriteEdit(\App\Http\Requests\AdminSettingNumberRewriteRequest $request)
+    {
+
+        $id = intval($request['id']);
+
+        $record = \App\SettingNumberRewrite::firstOrNew(['id' => $id]);
+        $record->pattern = $request['pattern'];
+        $record->replacement = $request['replacement'];
+        $record->description = $request['description'];
+
+        $record->save();
+
+        return response([
+            'status' => 'success',
+            'message' => '番号変換の追加・編集が完了しました。'
+        ]);
+
+    }
+
 }

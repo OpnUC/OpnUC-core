@@ -54,6 +54,10 @@ Route::group([
             Route::get('user', 'AdminController@user');
             Route::post('userEdit', 'AdminController@userEdit');
             Route::post('userDelete', 'AdminController@userDelete');
+            Route::get('settingNumberRewrites', 'AdminController@settingNumberRewrites');
+            Route::get('settingNumberRewrite', 'AdminController@settingNumberRewrite');
+            Route::post('settingNumberRewriteDelete', 'AdminController@settingNumberRewriteDelete');
+            Route::post('settingNumberRewriteEdit', 'AdminController@settingNumberRewriteEdit');
         });
 
         Route::get('/user/users', 'UserController@users');
