@@ -4,67 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "50ea0f1f768fa95cb635de12fc9c6800",
+    "content-hash": "490faf95353bda4bc3fabc2ff300e1df",
     "packages": [
-        {
-            "name": "aacotroneo/laravel-saml2",
-            "version": "0.11.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/aacotroneo/laravel-saml2.git",
-                "reference": "21c01a5d0397e958bd995f4e09a52a8e788bbbe6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aacotroneo/laravel-saml2/zipball/21c01a5d0397e958bd995f4e09a52a8e788bbbe6",
-                "reference": "21c01a5d0397e958bd995f4e09a52a8e788bbbe6",
-                "shasum": ""
-            },
-            "require": {
-                "ext-openssl": "*",
-                "illuminate/support": ">=5.0.0",
-                "onelogin/php-saml": "^2.10",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "0.9.*"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Aacotroneo\\Saml2\\Saml2ServiceProvider"
-                    ],
-                    "aliases": {
-                        "Saml2": "Aacotroneo\\Saml2\\Facades\\Saml2Auth"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Aacotroneo\\Saml2\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "aacotroneo",
-                    "email": "aacotroneo@gmail.com"
-                }
-            ],
-            "description": "A Laravel package for Saml2 integration as a SP (service provider) based on OneLogin toolkit, which is much lightweight than simplesamlphp",
-            "homepage": "https://github.com/aacotroneo/laravel-saml2",
-            "keywords": [
-                "SAML2",
-                "laravel",
-                "onelogin",
-                "saml"
-            ],
-            "time": "2018-02-19T01:04:09+00:00"
-        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
@@ -1505,59 +1446,6 @@
                 "php"
             ],
             "time": "2018-07-15T17:25:16+00:00"
-        },
-        {
-            "name": "onelogin/php-saml",
-            "version": "v2.14.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/onelogin/php-saml.git",
-                "reference": "939f509143e95c21ab9720d2bfd5220c5828016d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/onelogin/php-saml/zipball/939f509143e95c21ab9720d2bfd5220c5828016d",
-                "reference": "939f509143e95c21ab9720d2bfd5220c5828016d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-dom": "*",
-                "ext-mcrypt": "*",
-                "ext-openssl": "*",
-                "php": ">=5.3.2"
-            },
-            "require-dev": {
-                "pdepend/pdepend": "1.1.0",
-                "phploc/phploc": "*",
-                "phpunit/phpunit": "4.8",
-                "satooshi/php-coveralls": "1.0.1",
-                "sebastian/phpcpd": "*",
-                "squizlabs/php_codesniffer": "2.9.0"
-            },
-            "suggest": {
-                "ext-gettext": "Install gettext and php5-gettext libs to handle translations"
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "extlib/xmlseclibs",
-                    "lib/Saml",
-                    "lib/Saml2"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "OneLogin PHP SAML Toolkit",
-            "homepage": "https://developers.onelogin.com/saml/php",
-            "keywords": [
-                "SAML2",
-                "onelogin",
-                "saml"
-            ],
-            "time": "2018-06-17T08:10:08+00:00"
         },
         {
             "name": "paragonie/random_compat",
