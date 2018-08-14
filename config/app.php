@@ -180,7 +180,7 @@ return [
         // Entrust
         Zizaco\Entrust\EntrustServiceProvider::class,
 
-        // Asterisk Linker
+        // PBX Linker
         App\Providers\PbxLinkerServiceProvider::class,
     ],
 

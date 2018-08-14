@@ -12,13 +12,14 @@
         "goodby/csv": "^1.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "marcelog/pami": "^2.0",
         "pragmarx/version": "^0.2.5",
         "predis/predis": "v1.1.1",
         "tymon/jwt-auth": "1.0.0-rc2",
+        "wikimedia/composer-merge-plugin": "^1.4",
         "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
+        "bnbwebexpertise/laravel-merge-plugin": "^1.0",
         "filp/whoops": "~2.0",
         "fzaninotto/faker": "~1.4",
         "itsgoingd/clockwork": "^2.1",
@@ -42,6 +43,11 @@
     "extra": {
         "laravel": {
             "dont-discover": [
+            ]
+        },
+        "merge-plugin": {
+            "include": [
+                "extensions/*/composer.json"
             ]
         }
     },
