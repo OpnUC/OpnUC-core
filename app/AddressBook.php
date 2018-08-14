@@ -104,7 +104,10 @@ class AddressBook extends Model
         if ($this->owner_userid != 0) {
             $user = \App\User::find($this->owner_userid);
 
-            $path = $user->getAvatarPathAttribute();
+            // ユーザが存在しない場合は処理しない
+            if (!is_null($user)) {
+                $path = $user->getAvatarPathAttribute();
+            }
         }
 
         return $path;
@@ -116,11 +119,12 @@ class AddressBook extends Model
      * @param string $value 内線番号
      * @return bool
      */
-    public function checkExtNumber($value){
+    public function checkExtNumber($value)
+    {
 
-        if($value == $this->tel1 || $value == $this->tel2 || $value == $this->tel3){
+        if ($value == $this->tel1 || $value == $this->tel2 || $value == $this->tel3) {
             return true;
-        }else{
+        } else {
             return false;
         }
 
