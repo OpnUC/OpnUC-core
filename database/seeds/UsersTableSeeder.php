@@ -23,36 +23,41 @@ class UsersTableSeeder extends Seeder
         /////
         $adminRole = new \App\Role();
         $adminRole->name = 'admin';
-        $adminRole->display_name = '管理者ロール';
+        $adminRole->display_name = 'システム管理者ロール';
         $adminRole->save();
 
-        $operatorRole = new \App\Role();
-        $operatorRole->name = 'operator';
-        $operatorRole->display_name = '担当者ロール';
-        $operatorRole->save();
+        $userRole = new \App\Role();
+        $userRole->name = 'user';
+        $userRole->display_name = '一般ユーザ';
+        $userRole->save();
 
         /////
         $adminPerm = new \App\Permission();
         $adminPerm->name = 'system-admin';
-        $adminPerm->display_name = 'システム管理';
+        $adminPerm->display_name = 'システム管理権限';
         $adminPerm->save();
 
         $abUserPerm = new \App\Permission();
         $abUserPerm->name = 'addressbook-user';
-        $abUserPerm->display_name = 'Web電話帳 表示';
+        $abUserPerm->display_name = 'Web電話帳 ユーザ権限';
         $abUserPerm->save();
 
         $abAdminPerm = new \App\Permission();
         $abAdminPerm->name = 'addressbook-admin';
-        $abAdminPerm->display_name = 'Web電話帳 管理';
+        $abAdminPerm->display_name = 'Web電話帳 管理権限';
         $abAdminPerm->save();
 
         $cdrUserPerm = new \App\Permission();
         $cdrUserPerm->name = 'cdr-user';
-        $cdrUserPerm->display_name = '発着信履歴 表示';
+        $cdrUserPerm->display_name = '発着信履歴 ユーザ権限';
         $cdrUserPerm->save();
-        /////
 
+        $cdrSuperUserPerm = new \App\Permission();
+        $cdrSuperUserPerm->name = 'cdr-superuser';
+        $cdrSuperUserPerm->display_name = '発着信履歴 全表示権限';
+        $cdrSuperUserPerm->save();
+
+        /////
         DB::table('users')->truncate();
 
         DB::table('users')->insert([
@@ -67,11 +72,11 @@ class UsersTableSeeder extends Seeder
         $adminRole->attachPermission($abUserPerm);
         $adminRole->attachPermission($abAdminPerm);
         $adminRole->attachPermission($cdrUserPerm);
+        $adminRole->attachPermission($cdrSuperUserPerm);
 
-        // オペレータロール
-        $operatorRole->attachPermission($abUserPerm);
-        $operatorRole->attachPermission($abAdminPerm);
-        $operatorRole->attachPermission($cdrUserPerm);
+        // 一般ユーザロール
+        $userRole->attachPermission($abUserPerm);
+        $userRole->attachPermission($cdrUserPerm);
 
         $user = \App\User::where('username', '=', 'admin')->first();
 

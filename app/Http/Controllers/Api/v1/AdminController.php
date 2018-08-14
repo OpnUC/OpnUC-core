@@ -28,11 +28,6 @@ class AdminController extends Controller
     public function users(Request $request)
     {
 
-        // 権限チェック
-        if (!\Entrust::can('system-admin')) {
-            abort(403);
-        }
-
         $column = ['id', 'username', 'display_name', 'email', 'created_at'];
 
         $items = \App\User::select($column);
@@ -68,11 +63,6 @@ class AdminController extends Controller
      */
     public function user(Request $request)
     {
-
-        // 権限チェック
-        if (!\Entrust::can('system-admin')) {
-            abort(403);
-        }
 
         $id = intval($request['id']);
 
@@ -154,11 +144,6 @@ class AdminController extends Controller
     public function roles(Request $request)
     {
 
-        // 権限チェック
-        if (!\Entrust::can('system-admin')) {
-            abort(403);
-        }
-
         $column = ['id', 'name', 'display_name', 'description'];
 
         $items = \App\Role::select($column);
@@ -183,11 +168,6 @@ class AdminController extends Controller
      */
     public function role(Request $request)
     {
-
-        // 権限チェック
-        if (!\Entrust::can('system-admin')) {
-            abort(403);
-        }
 
         $id = intval($request['id']);
 
@@ -269,11 +249,6 @@ class AdminController extends Controller
      */
     public function permissions(Request $request)
     {
-
-        // 権限チェック
-        if (!\Entrust::can('system-admin')) {
-            abort(403);
-        }
 
         $column = ['id', 'name', 'display_name', 'description'];
 
