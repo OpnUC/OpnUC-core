@@ -1,0 +1,65 @@
+build:
+  environment:
+    timezone: 'Asia/Tokyo' # タイムゾーンの設定※1
+    php: '7.1'
+    mysql: '5.7'
+    variables:
+      APP_ENV: 'testing'
+      DB_HOST: '127.0.0.1'
+      DB_DATABASE: 'opnuc'
+      DB_USERNAME: 'root'
+      DB_PASSWORD: ''
+      REDIS_HOST: '127.0.0.1'
+      CACHE_DRIVER: 'array'
+      MAIL_DRIVER: 'log'
+  cache:
+    directories:
+    - node_modules
+    - vendor/
+    - ~/.composer/cache/
+  dependencies:
+    before:
+    - mysql -uroot -e 'CREATE DATABASE opnuc CHARACTER SET utf8mb4;'
+  tests:
+    before:
+    - composer install -n --prefer-dist
+    - chmod -R 777 storage
+    - chmod -R 777 bootstrap/cache
+    - cp .env.example .env
+    - php artisan key:generate
+    - php artisan jwt:secret
+    - php artisan migrate
+    - php artisan db:seed
+    override:
+    -
+      command: './vendor/bin/phpunit --coverage-clover=.coverage.xml'
+      coverage:
+        file: '.coverage.xml'
+        format: 'clover'
+      idle_timeout: 600 # タイムアウトの設定*
+  nodes:
+    tests: true
+    analysis:
+      tests:
+        override:
+        -
+          command: phpcs-run
+          use_website_config: true
+        - php-scrutinizer-run
+        - js-scrutinizer-run
+
+filter:
+  paths:
+  - 'app/*'
+  excluded_paths:
+  - 'app/views/*'
+  - 'app/config/*'
+  - 'app/database/*'
+checks:
+  php: true
+  javascript: true
+coding_style:
+  php:
+    spaces:
+      around_operators:
+        concatenation: true
