@@ -49,7 +49,7 @@ class ApiClick2CallTest extends TestCase
     }
 
     /**
-     * テスト：検索 失敗1
+     * テスト：発信 失敗1
      */
     public function testOriginateFail1()
     {

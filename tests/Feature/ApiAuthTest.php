@@ -69,21 +69,22 @@ class ApiAuthTest extends TestCase
     /**
      * Login Restore Test on Fail
      */
-//    public function testLoginRestoreFail()
-//    {
-//        $user = factory(\App\User::class)->create();
-//
-//        $this->post('/api/v1/auth/login', [
-//            'mode' => 'restore',
-//            'token' => JWTAuth::fromUser($user),
-//        ], [
-//            'Accept' => 'application/json'
-//        ])
-//            ->assertStatus(401)
-//            ->assertJson([
-//                'status' => 'invalid.credentials',
-//            ]);
-//    }
+    public function testLoginRestoreFail()
+    {
+        $user = factory(\App\User::class)->create();
+
+        $this->post('/api/v1/auth/login', [
+            'mode' => 'restore',
+            'token' => '',
+        ], [
+            'Accept' => 'application/json'
+        ])
+            ->assertStatus(401)
+            ->assertJson([
+                'status' => 'error',
+                'error' => 'invalid.credentials',
+            ]);
+    }
 
     /**
      * Logout Test
