@@ -48186,7 +48186,10 @@ var render = function() {
                 _vm._v(" "),
                 _c("vuetable-pagination", {
                   ref: "pagination",
-                  attrs: { css: _vm.cssPagination, icons: _vm.icons },
+                  attrs: {
+                    css: _vm.vueTableCssPagination,
+                    icons: _vm.vueTableIcons
+                  },
                   on: { "vuetable-pagination:change-page": _vm.onChangePage }
                 })
               ],
@@ -49643,7 +49646,10 @@ var render = function() {
                 _vm._v(" "),
                 _c("vuetable-pagination", {
                   ref: "pagination",
-                  attrs: { css: _vm.cssPagination, icons: _vm.icons },
+                  attrs: {
+                    css: _vm.vueTableCssPagination,
+                    icons: _vm.vueTableIcons
+                  },
                   on: { "vuetable-pagination:change-page": _vm.onChangePage }
                 })
               ],
@@ -50864,7 +50870,10 @@ var render = function() {
                 _vm._v(" "),
                 _c("vuetable-pagination", {
                   ref: "pagination",
-                  attrs: { css: _vm.cssPagination, icons: _vm.icons },
+                  attrs: {
+                    css: _vm.vueTableCssPagination,
+                    icons: _vm.vueTableIcons
+                  },
                   on: { "vuetable-pagination:change-page": _vm.onChangePage }
                 })
               ],

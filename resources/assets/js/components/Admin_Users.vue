@@ -57,8 +57,8 @@
                                               info-class="pull-left">
                     </vuetable-pagination-info>
                     <vuetable-pagination ref="pagination"
-                                         :css="cssPagination"
-                                         :icons="icons"
+                                         :css="vueTableCssPagination"
+                                         :icons="vueTableIcons"
                                          @vuetable-pagination:change-page="onChangePage">
                     </vuetable-pagination>
                 </div>
