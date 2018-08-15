@@ -78,15 +78,6 @@ class PbxLinkerManager extends Manager
     }
 
     /**
-     * @return AsteriskLinker
-     */
-    protected function createAsteriskDriver(){
-
-        return new AsteriskLinker();
-
-    }
-
-    /**
      * Return all of the created connections.
      *
      * @return array
