@@ -51629,6 +51629,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     computed: {
@@ -51872,18 +51873,7 @@ var render = function() {
                     ? _c("div", { staticClass: "text-center" }, [
                         _c("p"),
                         _vm._v(" "),
-                        _c(
-                          "a",
-                          {
-                            staticClass: "btn btn-primary btn-block",
-                            attrs: { href: "/saml2/login" }
-                          },
-                          [
-                            _vm._v(
-                              "\n                            SAML2でログイン\n                        "
-                            )
-                          ]
-                        )
+                        _vm._m(1)
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -51925,6 +51915,24 @@ var staticRenderFns = [
         ]
       )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "btn btn-block btn-social btn-google",
+        attrs: { href: "/extensions/saml2/login" }
+      },
+      [
+        _c("i", { staticClass: "fa fa-sign-in" }),
+        _vm._v(
+          "\n                            SAML2でログイン\n                        "
+        )
+      ]
+    )
   }
 ]
 render._withStripped = true

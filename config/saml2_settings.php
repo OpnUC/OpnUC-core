@@ -2,7 +2,7 @@
 return $settings = array(
     'useSaml2Auth' => env('SAML2_ENABLE', false),
     'useRoutes' => true,
-    'routesPrefix' => '/saml2',
+    'routesPrefix' => '/extensions/saml2',
     'routesMiddleware' => ['saml'],
     'retrieveParametersFromServer' => false,
     'logoutRoute' => '/',
