@@ -18,8 +18,8 @@ Route::get('/loginRestore', function () {
 });
 
 // Vue向けのルート
-// saml2/ broadcasting/ で始まるリクエストは処理しない
+// extensions/ broadcasting/ で始まるリクエストは処理しない
 Route::get('/{vue?}', function () {
     return view('index');
-})->where('vue', '(?!saml2/|broadcasting/)[\/\w\.-]*');
+})->where('vue', '(?!extensions/|broadcasting/)[\/\w\.-]*');
 

@@ -43,7 +43,8 @@
 
                         <div class="text-center" v-if="enable_saml2_auth">
                             <p></p>
-                            <a href="/saml2/login" class="btn btn-primary btn-block">
+                            <a href="/extensions/saml2/login" class="btn btn-block btn-social btn-google">
+                                <i class="fa fa-sign-in"></i>
                                 SAML2でログイン
                             </a>
                         </div>
