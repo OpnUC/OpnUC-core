@@ -4,11 +4,12 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 use App\Notifications\CustomPasswordReset;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
     use EntrustUserTrait;
@@ -40,6 +41,26 @@ class User extends Authenticatable
     );
 
     /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    /**
      * アドレス帳情報を取得
      * @return AddressBook
      */
@@ -61,14 +82,7 @@ class User extends Authenticatable
     public function getRolesAttribute()
     {
 
-        $result = array();
-        $roles = $this->roles()->get();
-
-        foreach ($roles as $role) {
-            $result[] = $role->id;
-        }
-
-        return $result;
+        return $this->roles()->get(['id'])->pluck('id');
 
     }
 
@@ -107,7 +121,7 @@ class User extends Authenticatable
         switch ($this->avatar_type) {
             case 1:
                 // 標準(アップロード優先)
-                if($this->avatar_filename != '' && \Storage::exists('public/avatars/' . $this->avatar_filename)){
+                if ($this->avatar_filename != '' && \Storage::exists('public/avatars/' . $this->avatar_filename)) {
                     // ファイルが存在している事をチェック
                     $path = \Storage::url('public/avatars/' . $this->avatar_filename);
                 }

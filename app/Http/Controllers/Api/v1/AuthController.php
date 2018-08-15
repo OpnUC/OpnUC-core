@@ -12,12 +12,16 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 class AuthController extends Controller
 {
 
+    /**
+     * ログイン中のユーザ情報を返す
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function user()
     {
 
         return response()->json([
             'status' => 'success',
-            'data' => Auth::User()
+            'data' => auth()->user()
         ]);
 
     }
@@ -35,23 +39,21 @@ class AuthController extends Controller
         // mode が restore の場合は、ログイン済みとして、Tokenで認証を試みる
         if ($request['mode'] === 'restore' && $request['token']) {
             // Tokenからユーザを取得
-            $logginUser = JWTAuth::toUser($request['token']);
+            $token = $request['token'];
 
-            if ($logginUser === null) {
+            if (auth('api')->check() === null) {
                 return response([
                     'status' => 'error',
                     'error' => 'invalid.credentials',
                     'message' => '認証に失敗しました。'
                 ], 401);
             }
-
-            $token = JWTAuth::fromUser($logginUser);
         } else {
             $credentials = $request->only('username', 'password');
 
             try {
-                // verify the credentials and create a token for the user
-                if (!$token = JWTAuth::attempt($credentials)) {
+                // 認証情報をチェック
+                if (!$token = auth('api')->attempt($credentials)) {
                     return response([
                         'status' => 'error',
                         'error' => 'invalid.credentials',
@@ -69,10 +71,13 @@ class AuthController extends Controller
             ->header('Authorization', $token);
     }
 
+    /**
+     * ログアウト
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function logout()
     {
-        JWTAuth::invalidate();
-        Auth::logout();
+        auth()->logout();
 
         return response([
             'status' => 'success',
@@ -80,11 +85,19 @@ class AuthController extends Controller
         ], 200);
     }
 
+    /**
+     * リフレッシュ
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function refresh()
     {
+        $token = auth()->refresh();
+
         return response([
             'status' => 'success'
-        ]);
+        ])
+            ->header('Authorization', $token);
+
     }
 
 }

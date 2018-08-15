@@ -21,6 +21,10 @@ import Admin_Sidebar from './components/Admin_Sidebar.vue'
 import Admin from './components/Admin.vue'
 import Admin_Users from './components/Admin_Users.vue'
 import Admin_UserEdit from './components/Admin_UserEdit.vue'
+import Admin_Roles from './components/Admin_Roles.vue'
+import Admin_RoleEdit from './components/Admin_RoleEdit.vue'
+import Admin_Settings_NumberRewrite from './components/Admin_Settings_NumberRewrite.vue'
+import Admin_Settings_NumberRewriteEdit from './components/Admin_Settings_NumberRewriteEdit.vue'
 
 import Login from './components/Login.vue'
 import PasswordReset from './components/PasswordReset.vue'
@@ -170,6 +174,46 @@ const routes = [
                         path: 'UserEdit/:id?',
                         name: 'AdminUserEdit',
                         component: Admin_UserEdit,
+                        meta: {
+                            title: 'システム管理',
+                            description: 'System Administration',
+                            auth: 'system-admin'
+                        },
+                    },
+                    {
+                        path: 'Roles',
+                        name: 'Admin_Roles',
+                        component: Admin_Roles,
+                        meta: {
+                            title: 'システム管理',
+                            description: 'System Administration',
+                            auth: 'system-admin'
+                        },
+                    },
+                    {
+                        path: 'RoleEdit/:id?',
+                        name: 'AdminRoleEdit',
+                        component: Admin_RoleEdit,
+                        meta: {
+                            title: 'システム管理',
+                            description: 'System Administration',
+                            auth: 'system-admin'
+                        },
+                    },
+                    {
+                        path: 'Settings_NumberRewrite',
+                        name: 'AdminSettings_NumberRewrite',
+                        component: Admin_Settings_NumberRewrite,
+                        meta: {
+                            title: 'システム管理',
+                            description: 'System Administration',
+                            auth: 'system-admin'
+                        },
+                    },
+                    {
+                        path: 'Settings_NumberRewriteEdit',
+                        name: 'AdminSettings_NumberRewriteEdit',
+                        component: Admin_Settings_NumberRewriteEdit,
                         meta: {
                             title: 'システム管理',
                             description: 'System Administration',

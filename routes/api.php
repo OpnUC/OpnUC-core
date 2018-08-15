@@ -14,34 +14,51 @@ use Illuminate\Http\Request;
 */
 
 Route::group([
-    'middleware' => ['api'],
     'namespace' => 'Api\v1',
     'prefix' => 'v1'
 ], function () {
-    // Guest Access
-    Route::post('/auth/resetPasswordEmail', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    Route::post('/auth/resetPassword', 'Auth\ResetPasswordController@reset');
-    Route::post('/auth/login', 'AuthController@login');
 
-    // Token Refresh
-    Route::get('/auth/refresh', 'AuthController@refresh')
-        ->middleware(['api', 'jwt.refresh']);
+    // Guest
+    Route::group([
+        'middleware' => ['api'],
+    ], function () {
+        // Guest Access
+        Route::post('/auth/resetPasswordEmail', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+        Route::post('/auth/resetPassword', 'Auth\ResetPasswordController@reset');
+        Route::post('/auth/login', 'AuthController@login');
 
-    // FrontEnd Error Reporting
-    Route::post('/error/report', 'ErrorController@report');
-    
+        // FrontEnd Error Reporting
+        Route::post('/error/report', 'ErrorController@report');
+    });
+
     // Login Check
     Route::group([
-        'middleware' => ['jwt.auth'],
+        'middleware' => ['auth:api'],
     ], function () {
+        // Token Refresh
+        Route::get('/auth/refresh', 'AuthController@refresh');
         Route::get('/auth/user', 'AuthController@user');
         Route::post('/auth/logout', 'AuthController@logout');
 
-        Route::get('/admin/roles', 'AdminController@roles');
-        Route::get('/admin/users', 'AdminController@users');
-        Route::get('/admin/user', 'AdminController@user');
-        Route::post('/admin/userEdit', 'AdminController@userEdit');
-        Route::post('/admin/userDelete', 'AdminController@userDelete');
+        // システム管理
+        Route::group([
+            'middleware' => 'permission:system-admin',
+            'prefix' => 'admin'
+        ], function () {
+            Route::get('permissions', 'AdminController@permissions');
+            Route::get('roles', 'AdminController@roles');
+            Route::get('role', 'AdminController@role');
+            Route::post('roleEdit', 'AdminController@roleEdit');
+            Route::post('roleDelete', 'AdminController@roleDelete');
+            Route::get('users', 'AdminController@users');
+            Route::get('user', 'AdminController@user');
+            Route::post('userEdit', 'AdminController@userEdit');
+            Route::post('userDelete', 'AdminController@userDelete');
+            Route::get('settingNumberRewrites', 'AdminController@settingNumberRewrites');
+            Route::get('settingNumberRewrite', 'AdminController@settingNumberRewrite');
+            Route::post('settingNumberRewriteDelete', 'AdminController@settingNumberRewriteDelete');
+            Route::post('settingNumberRewriteEdit', 'AdminController@settingNumberRewriteEdit');
+        });
 
         Route::get('/user/users', 'UserController@users');
         Route::post('/user/edit', 'UserController@edit');
@@ -54,7 +71,7 @@ Route::group([
 
         // 発着信履歴
         Route::group([
-            'middleware' => 'permission:cdr-user',
+            'middleware' => 'permission:cdr-user|cdr-superuser',
             'prefix' => 'cdr'
         ], function () {
             Route::get('search', 'CdrController@search');

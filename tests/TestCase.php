@@ -29,7 +29,7 @@ abstract class TestCase extends BaseTestCase
     public function call($method, $uri, $parameters = [], $cookies = [], $files = [], $server = [], $content = null)
     {
         if ($this->user) {
-            $server['HTTP_AUTHORIZATION'] = 'Bearer ' . JWTAuth::fromUser($this->user);
+            $server['HTTP_AUTHORIZATION'] = 'Bearer ' . auth('api')->login($this->user);
         }
 
         $server['HTTP_ACCEPT'] = 'application/json';
@@ -41,6 +41,8 @@ abstract class TestCase extends BaseTestCase
     public function setUp()
     {
         parent::setUp();
+        Artisan::call('migrate:reset');
+
         Artisan::call('migrate');
         Artisan::call('db:seed');
         Artisan::call('db:seed', ['--class' => 'DemoSeeder']);

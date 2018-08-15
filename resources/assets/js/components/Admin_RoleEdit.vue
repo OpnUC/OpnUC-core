@@ -9,7 +9,7 @@
                         </div>
                         <div class="box-header with-border">
                             <h3 class="box-title">
-                                ユーザ 追加・編集
+                                ロール 追加・編集
                             </h3>
                         </div>
                         <div class="box-body" v-if="selectItem">
@@ -21,7 +21,7 @@
                             </div>
 
                             <div class="form-group" :class="errors.id ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputId">ユーザID</label>
+                                <label class="control-label col-xs-3" for="inputId">ロールID</label>
                                 <div class="col-xs-7">
                                     <input type="text" class="form-control input-sm" id="inputId"
                                            placeholder="ユーザID" readonly="readonly" v-model="selectItem.id">
@@ -35,14 +35,14 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" :class="errors.username ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputUsername">ユーザ名</label>
+                            <div class="form-group" :class="errors.name ? 'has-error' : ''">
+                                <label class="control-label col-xs-3" for="inputName">ロール名</label>
                                 <div class="col-xs-7">
-                                    <input type="text" class="form-control input-sm" id="inputUsername"
-                                           placeholder="ユーザ名" v-model="selectItem.username">
-                                    <span class="help-block" v-if="errors.username">
+                                    <input type="text" class="form-control input-sm" id="inputName"
+                                           placeholder="ロール名" v-model="selectItem.name">
+                                    <span class="help-block" v-if="errors.name">
                                         <ul>
-                                            <li v-for="item in errors.username" :key="item">
+                                            <li v-for="item in errors.name" :key="item">
                                                 {{ item }}
                                             </li>
                                         </ul>
@@ -65,14 +65,14 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" :class="errors.email ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputEmail">メールアドレス</label>
+                            <div class="form-group" :class="errors.description ? 'has-error' : ''">
+                                <label class="control-label col-xs-3" for="inputDescription">説明</label>
                                 <div class="col-xs-7">
-                                    <input type="text" class="form-control input-sm" id="inputEmail"
-                                           placeholder="メールアドレス" v-model="selectItem.email">
-                                    <span class="help-block" v-if="errors.email">
+                                    <input type="text" class="form-control input-sm" id="inputDescription"
+                                           placeholder="説明" v-model="selectItem.description">
+                                    <span class="help-block" v-if="errors.description">
                                         <ul>
-                                            <li v-for="item in errors.email" :key="item">
+                                            <li v-for="item in errors.description" :key="item">
                                                 {{ item }}
                                             </li>
                                         </ul>
@@ -80,56 +80,20 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" :class="errors.roles ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputRoles">所属ロール</label>
+                            <div class="form-group" :class="errors.perms ? 'has-error' : ''">
+                                <label class="control-label col-xs-3" for="inputPerms">付与パーミッション</label>
                                 <div class="col-xs-7">
-                                    <el-select id="inputRoles" v-model="selectItem.roles" multiple placeholder="所属ロール">
+                                    <el-select id="inputPerms" v-model="selectItem.perms" multiple placeholder="付与パーミッション">
                                         <el-option
-                                                v-for="role in roles"
-                                                :key="role.id"
-                                                :label="role.display_name"
-                                                :value="role.id">
+                                                v-for="perm in perms"
+                                                :key="perm.id"
+                                                :label="perm.display_name"
+                                                :value="perm.id">
                                         </el-option>
                                     </el-select>
-                                    <span class="help-block" v-if="errors.roles">
+                                    <span class="help-block" v-if="errors.perms">
                                         <ul>
-                                            <li v-for="item in errors.roles" :key="item">
-                                                {{ item }}
-                                            </li>
-                                        </ul>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group" :class="errors.password ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputPassword">パスワード</label>
-                                <div class="col-xs-7">
-                                    <input type="password" class="form-control input-sm" id="inputPassword"
-                                           placeholder="パスワード" v-model="selectItem.password">
-                                    <span class="help-block" v-if="selectItem.id">
-                                        ※ パスワードを変更しない場合は、空欄としてください。
-                                    </span>
-                                    <span class="help-block" v-if="errors.password">
-                                        <ul>
-                                            <li v-for="item in errors.password">
-                                                {{ item }}
-                                            </li>
-                                        </ul>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group" :class="errors.password_confirmation ? 'has-error' : ''">
-                                <label class="control-label col-xs-3" for="inputPasswordConfirm">パスワード(確認)</label>
-                                <div class="col-xs-7">
-                                    <input type="password" class="form-control input-sm" id="inputPasswordConfirm"
-                                           placeholder="パスワード(確認)" v-model="selectItem.password_confirmation">
-                                    <span class="help-block" v-if="selectItem.id">
-                                        ※ パスワードを変更しない場合は、空欄としてください。
-                                    </span>
-                                    <span class="help-block" v-if="errors.password_confirmation">
-                                        <ul>
-                                            <li v-for="item in errors.password_confirmation">
+                                            <li v-for="item in errors.perms" :key="item">
                                                 {{ item }}
                                             </li>
                                         </ul>
@@ -160,11 +124,11 @@
                 errors: [],
                 // 読み込み中かどうか
                 isLoading: true,
-                roles: [],
+                perms: [],
             }
         },
         methods: {
-            onSave() {
+            onSave(){
                 var _this = this
 
                 _this.isLoading = true
@@ -175,12 +139,12 @@
                 _this.errors = []
 
                 // 編集処理
-                axios.post('/admin/userEdit', _this.selectItem)
+                axios.post('/admin/roleEdit', _this.selectItem)
                     .then(function (response) {
                         _this.isLoading = false
 
                         // 一覧ページに戻す
-                        _this.$router.push('/admin/users')
+                        _this.$router.push('/admin/roles')
 
                         _this.$message({
                             type: response.data.status,
@@ -209,7 +173,7 @@
 
             if (this.$route.params.id) {
                 // Read
-                axios.get('/admin/user', {
+                axios.get('/admin/role', {
                     params: {
                         id: this.$route.params.id
                     }
@@ -225,7 +189,7 @@
             } else {
                 _this.selectItem = {
                     // selectは配列として初期化する必要あり
-                    roles: [],
+                    prems: [],
                 }
 
                 _this.isLoading = false
@@ -235,13 +199,13 @@
             var _this = this
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar)
 
-            axios.get('/admin/roles', {
+            axios.get('/admin/permissions', {
                 params: {
                     per_page: 65535
                 }
             })
                 .then(function (response) {
-                    _this.roles = response.data.data
+                    _this.perms = response.data.data
                 })
                 .catch(function (error) {
                     console.log(error);

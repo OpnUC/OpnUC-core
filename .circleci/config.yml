@@ -1,0 +1,81 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/php:7.1-cli
+        environment:
+        - APP_DEBUG=true
+        - APP_ENV=testing
+        - DB_HOST=127.0.0.1
+        - DB_DATABASE=circleci
+        - DB_USERNAME=circleci
+        - DB_PASSWORD=circleci
+        - MYSQL_ALLOW_EMPTY_PASSWORD=true
+        - CACHE_DRIVER=array
+      - image: circleci/mysql:5.7-ram
+        environment:
+        - MYSQL_ROOT_PASSWORD=circleci
+        - MYSQL_DATABASE=circleci
+        - MYSQL_USER=circleci
+        - MYSQL_PASSWORD=circleci
+      - image: redis
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run:
+          name: Wait for db
+          command: dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+
+      - run: sudo apt install -y libmcrypt-dev libzip-dev libwebp-dev libjpeg-dev libpng-dev libz-dev libxpm-dev
+
+      - run: sudo docker-php-ext-install pdo_mysql mcrypt gd
+      - run: composer install -n --prefer-dist
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "composer.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: sudo composer self-update
+
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-dependencies-{{ checksum "composer.json" }}
+
+#      - restore_cache:
+#          keys:
+#            - node-v1-{{ checksum "package.json" }}
+#            - node-v1-
+
+#      - run: npm install
+
+#      - save_cache:
+#          key: node-v1-{{ checksum "package.json" }}
+#          paths:
+#            - node_modules
+
+      # setting up environment
+      - run: cp .env.example .env
+
+      # set encryption key
+      - run: php artisan key:generate
+
+      # run seeding
+      - run: php artisan migrate
+      - run: php artisan db:seed
+
+      # run tests!
+      - run: ./vendor/bin/phpunit -d memory_limit=512M --coverage-clover=coverage.xml
+
+      - run: bash <(curl -s https://codecov.io/bash)

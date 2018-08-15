@@ -215,10 +215,6 @@
         },
         mounted() {
             this.$events.$emit('LaravelEcho:init')
-
-            // fix AdminLTE Control Sidebar
-            // https://github.com/almasaeed2010/AdminLTE/issues/987
-            $.AdminLTE.controlSidebar.activate();
         },
         methods: {
             changeloading() {

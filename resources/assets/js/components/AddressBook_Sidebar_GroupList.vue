@@ -1,6 +1,6 @@
 <template>
     <ul class="treeview-menu" v-if="item.Child">
-        <li v-for="childItem in item.Child">
+        <li class="treeview" v-for="childItem in item.Child">
             <a href="#" v-if="childItem.Child">
                 {{ childItem.Name }}
                 <i class="fa fa-angle-left pull-right" v-if="childItem.Child"></i>

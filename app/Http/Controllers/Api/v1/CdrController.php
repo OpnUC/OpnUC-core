@@ -88,7 +88,7 @@ class CdrController extends Controller
     {
 
         // 取得する列
-        $column = ['id', 'start_datetime', 'duration', 'sender', 'destination'];
+        $column = ['id', 'start_datetime', 'duration', 'sender', 'sender_comment', 'destination', 'destination_comment'];
 
         $items = \App\Cdr::select($column);
 
@@ -102,6 +102,20 @@ class CdrController extends Controller
         if ($request->has('destination')) {
             $items = $items
                 ->where('destination', 'LIKE', '%' . $request->input('destination') . '%');
+        }
+
+        // 発着信履歴の特権ユーザか
+        if (!\Entrust::can('cdr-superuser')) {
+            $addressbook = \Auth::user()->address_book;
+
+            // ToDo: アドレス帳情報が自分で変えられるため、連携用の列を分ける必要あり？
+            // 特権で無い場合は、自分の履歴のみ表示出来る
+            $items = $items
+                ->where(function ($query) use ($addressbook) {
+                    $query
+                        ->where('sender', $addressbook->tel1)
+                        ->orWhere('destination', $addressbook->tel1);
+                });
         }
 
         // 期間

@@ -23,7 +23,7 @@
                     </span>
                 </div>
             </form>
-            <ul class="sidebar-menu tree" data-widget="tree">
+            <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">電話帳</li>
                 <!-- // 電話帳種別  -->
                 <li class="treeview" v-for="(typeName, typeId) in addressBookType">
@@ -41,7 +41,7 @@
                             </router-link>
                         </li>
                         <!--//ここから切り出す-->
-                        <li v-for="item in addressBookGroups[typeId]">
+                        <li class="treeview" v-for="item in addressBookGroups[typeId]">
                             <a href="#" v-if="item.Child">
                                 {{ item.Name }}
                                 <i class="fa fa-angle-left pull-right" v-if="item.Child"></i>
@@ -131,6 +131,10 @@
                         console.log(error);
                     });
             });
+        },
+        mounted(){
+            // Activate Sidebar Tree
+            $('ul.sidebar-menu').tree();
         },
         methods: {
             // 検索

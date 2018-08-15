@@ -6,14 +6,14 @@
             </div>
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    ユーザ管理
+                    番号変換パターン
                 </h3>
             </div>
             <div class="box-body">
                 <div class="pull-left">
-                    <router-link :to="{ name: 'AdminUserEdit'}" class="btn btn-default">
+                    <router-link :to="{ name: 'AdminSettings_NumberRewriteEdit'}" class="btn btn-default">
                         <i class="fa fa-plus"></i>
-                        ユーザの追加
+                        パターンの追加
                     </router-link>
                 </div>
                 <div class="form-inline pull-right">
@@ -28,7 +28,7 @@
                 </div>
                 <vuetable class="table table-striped"
                           ref="vuetable"
-                          api-url="/admin/users"
+                          api-url="/admin/settingNumberRewrites"
                           :http-fetch="onVuetableHttpFetch"
                           :css="css"
                           :fields="fields"
@@ -39,7 +39,7 @@
                           pagination-path="">
                     <template slot="actions" slot-scope="props">
                         <div>
-                            <router-link :to="{ name: 'AdminUserEdit', params: { id: props.rowData.id }}"
+                            <router-link :to="{ name: 'AdminSettings_NumberRewriteEdit', params: { id: props.rowData.id }}"
                                          class="btn btn-default btn-xs">
                                 <i class="fa fa-edit"></i> 編集
                             </router-link>
@@ -112,21 +112,19 @@
                         titleClass: 'columnId',
                     },
                     {
-                        name: 'username',
-                        title: 'ユーザ名',
-                        sortField: 'username',
-                        titleClass: 'columnUsername',
+                        name: 'pattern',
+                        title: 'パターン(正規表現)',
+                        sortField: 'pattern',
                     },
                     {
-                        name: 'display_name',
-                        title: '表示名',
-                        sortField: 'display_name',
+                        name: 'replacement',
+                        title: '置換文字列',
+                        sortField: 'replacement',
                     },
                     {
-                        name: 'roles',
-                        callback: 'formatRoles',
-                        title: 'ロール',
-                        titleClass: 'columnRole',
+                        name: 'description',
+                        title: '説明',
+                        sortField: 'description',
                     },
                     {
                         name: '__slot:actions',
@@ -135,13 +133,8 @@
                     },
                 ],
                 // ここまで：Vuetableのパラメタ
-                detailDialog: {
-                    visible: false,
-                    selectItem: null,
-                },
                 // 読み込み中かどうか
                 isLoading: true,
-                roles: [],
             }
         },
         components: {
@@ -150,26 +143,16 @@
             VuetablePaginationInfo
         },
         methods: {
-            formatRoles: function (value) {
-                var _this = this
-                var buffer = ''
-
-                $.each(value, function (index, val) {
-                    buffer += '<span class="badge bg-aqua">' + _this.roles[val] + '</span> ';
-                })
-
-                return buffer
-            },
             // 削除
             onDelete(item) {
                 var _this = this
 
-                this.$confirm('選択されたユーザを削除しても良いですか？', '確認', {
+                this.$confirm('選択された変換パターンを削除しても良いですか？', '確認', {
                     confirmButtonText: '削除',
                     cancelButtonText: 'キャンセル',
                     type: 'warning'
                 }).then(() => {
-                    axios.post('/admin/userDelete',
+                    axios.post('/admin/settingNumberRewriteDelete',
                         {
                             id: item.id
                         })
@@ -221,21 +204,6 @@
         created() {
             var _this = this
             this.$root.sidebar = this.$route.matched.some(record => record.components.sidebar)
-
-            axios.get('/admin/roles', {
-                params: {
-                    per_page: 65535
-                }
-            })
-                .then(function (response) {
-                    _this.roles =_.transform(response.data.data, function(result, value, key) {
-                        result[value.id] = value.display_name
-                        return result
-                    });
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
         },
     }
 </script>
@@ -255,17 +223,5 @@
 
     .vuetable th.columnId {
         width: 50px;
-    }
-
-    .vuetable th.columnUsername {
-        width: 150px;
-    }
-
-    .vuetable th.columnRole {
-        width: 200px;
-    }
-
-    .vuetable th.columnAction {
-        width: 150px;
     }
 </style>
