@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Redis;
 
 class Cdr extends Model
 {
@@ -45,7 +46,7 @@ class Cdr extends Model
         // 番号情報に付加情報がある場合があるため、「先頭の数字 # *」のみとする
         $number = preg_replace('/^([0-9\#\*]+).*$/', '$1', $number);
 
-        $redisItem = \Redis::get('numberList-' . $number);
+        $redisItem = Redis::get('numberList-' . $number);
 
         if (!$redisItem) {
             // 種別が、内線電話帳/共通電話帳
@@ -63,8 +64,8 @@ class Cdr extends Model
         }
 
         if ($dbItem) {
-            \Redis::set('numberList-' . $number, $dbItem->name);
-            \Redis::expire('numberList-' . $number, 60 * 60); // 60 min
+            Redis::set('numberList-' . $number, $dbItem->name);
+            Redis::expire('numberList-' . $number, 60 * 60); // 60 min
 
             return $dbItem->name;
         }
