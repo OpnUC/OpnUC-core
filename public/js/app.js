@@ -50565,6 +50565,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -50615,6 +50616,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 title: '置換文字列',
                 sortField: 'replacement'
             }, {
+                name: 'display_replacement',
+                title: '表示置換',
+                callback: 'bool2string',
+                sortField: 'display_replacement'
+            }, {
                 name: 'description',
                 title: '説明',
                 sortField: 'description'
@@ -50635,6 +50641,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         VuetablePaginationInfo: __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo___default.a
     },
     methods: {
+        bool2string: function bool2string(value) {
+            return value ? '有効' : '無効';
+        },
+
         // 削除
         onDelete: function onDelete(item) {
             var _this = this;
@@ -51054,6 +51064,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -51333,7 +51363,7 @@ var render = function() {
                       "div",
                       {
                         staticClass: "form-group",
-                        class: _vm.errors.display_name ? "has-error" : ""
+                        class: _vm.errors.replacement ? "has-error" : ""
                       },
                       [
                         _c(
@@ -51394,6 +51424,104 @@ var render = function() {
                                 )
                               ])
                             : _vm._e()
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        staticClass: "form-group",
+                        class: _vm.errors.display_replacement ? "has-error" : ""
+                      },
+                      [
+                        _c("div", { staticClass: "col-xs-offset-3 col-xs-8" }, [
+                          _c("div", { staticClass: "checkbox" }, [
+                            _c("label", [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.selectItem.display_replacement,
+                                    expression: "selectItem.display_replacement"
+                                  }
+                                ],
+                                attrs: {
+                                  type: "checkbox",
+                                  id: "inputDisplayReplacement"
+                                },
+                                domProps: {
+                                  checked: Array.isArray(
+                                    _vm.selectItem.display_replacement
+                                  )
+                                    ? _vm._i(
+                                        _vm.selectItem.display_replacement,
+                                        null
+                                      ) > -1
+                                    : _vm.selectItem.display_replacement
+                                },
+                                on: {
+                                  change: function($event) {
+                                    var $$a =
+                                        _vm.selectItem.display_replacement,
+                                      $$el = $event.target,
+                                      $$c = $$el.checked ? true : false
+                                    if (Array.isArray($$a)) {
+                                      var $$v = null,
+                                        $$i = _vm._i($$a, $$v)
+                                      if ($$el.checked) {
+                                        $$i < 0 &&
+                                          _vm.$set(
+                                            _vm.selectItem,
+                                            "display_replacement",
+                                            $$a.concat([$$v])
+                                          )
+                                      } else {
+                                        $$i > -1 &&
+                                          _vm.$set(
+                                            _vm.selectItem,
+                                            "display_replacement",
+                                            $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1))
+                                          )
+                                      }
+                                    } else {
+                                      _vm.$set(
+                                        _vm.selectItem,
+                                        "display_replacement",
+                                        $$c
+                                      )
+                                    }
+                                  }
+                                }
+                              }),
+                              _vm._v(
+                                "\n                                        表示も置換する\n                                    "
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _vm.errors.display_replacement
+                              ? _c("span", { staticClass: "help-block" }, [
+                                  _c(
+                                    "ul",
+                                    _vm._l(
+                                      _vm.errors.display_replacement,
+                                      function(item) {
+                                        return _c("li", { key: item }, [
+                                          _vm._v(
+                                            "\n                                            " +
+                                              _vm._s(item) +
+                                              "\n                                        "
+                                          )
+                                        ])
+                                      }
+                                    )
+                                  )
+                                ])
+                              : _vm._e()
+                          ])
                         ])
                       ]
                     ),

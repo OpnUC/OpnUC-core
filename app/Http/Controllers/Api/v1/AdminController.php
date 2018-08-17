@@ -290,7 +290,7 @@ class AdminController extends Controller
     public function settingNumberRewrites(Request $request)
     {
 
-        $column = ['id', 'pattern', 'replacement', 'description'];
+        $column = ['id', 'pattern', 'replacement', 'description', 'display_replacement'];
 
         $items = \App\SettingNumberRewrite::select($column);
 
@@ -342,6 +342,7 @@ class AdminController extends Controller
         $record->pattern = $request['pattern'];
         $record->replacement = $request['replacement'];
         $record->description = $request['description'];
+        $record->display_replacement = $request['display_replacement'];
 
         $record->save();
 

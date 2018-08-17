@@ -50,7 +50,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" :class="errors.display_name ? 'has-error' : ''">
+                            <div class="form-group" :class="errors.replacement ? 'has-error' : ''">
                                 <label class="control-label col-xs-3" for="inputReplacement">置換文字列</label>
                                 <div class="col-xs-7">
                                     <input type="text" class="form-control input-sm" id="inputReplacement"
@@ -62,6 +62,26 @@
                                             </li>
                                         </ul>
                                     </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group" :class="errors.display_replacement ? 'has-error' : ''">
+                                <div class="col-xs-offset-3 col-xs-8">
+
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" id="inputDisplayReplacement"
+                                                   v-model="selectItem.display_replacement"/>
+                                            表示も置換する
+                                        </label>
+                                        <span class="help-block" v-if="errors.display_replacement">
+                                        <ul>
+                                            <li v-for="item in errors.display_replacement" :key="item">
+                                                {{ item }}
+                                            </li>
+                                        </ul>
+                                    </span>
+                                    </div>
                                 </div>
                             </div>
 
