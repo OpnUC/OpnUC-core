@@ -23751,7 +23751,7 @@ var render = function() {
                                               staticClass: "fa fa-cog"
                                             }),
                                             _vm._v(
-                                              "\n                                            システム管理\n                                        "
+                                              "\n                                                システム管理\n                                            "
                                             )
                                           ]
                                         )
@@ -23963,7 +23963,7 @@ var staticRenderFns = [
       "a",
       {
         staticClass: "sidebar-toggle",
-        attrs: { href: "#", "data-toggle": "offcanvas", role: "button" }
+        attrs: { href: "#", "data-toggle": "push-menu", role: "button" }
       },
       [_c("span", { staticClass: "sr-only" }, [_vm._v("Toggle navigation")])]
     )
