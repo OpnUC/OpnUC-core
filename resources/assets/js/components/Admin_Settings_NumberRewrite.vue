@@ -39,8 +39,9 @@
                           pagination-path="">
                     <template slot="actions" slot-scope="props">
                         <div>
-                            <router-link :to="{ name: 'AdminSettings_NumberRewriteEdit', params: { id: props.rowData.id }}"
-                                         class="btn btn-default btn-xs">
+                            <router-link
+                                    :to="{ name: 'AdminSettings_NumberRewriteEdit', params: { id: props.rowData.id }}"
+                                    class="btn btn-default btn-xs">
                                 <i class="fa fa-edit"></i> 編集
                             </router-link>
                             <button type="button" class="btn btn-default btn-xs"
@@ -122,6 +123,12 @@
                         sortField: 'replacement',
                     },
                     {
+                        name: 'display_replacement',
+                        title: '表示置換',
+                        callback: 'bool2string',
+                        sortField: 'display_replacement',
+                    },
+                    {
                         name: 'description',
                         title: '説明',
                         sortField: 'description',
@@ -143,6 +150,9 @@
             VuetablePaginationInfo
         },
         methods: {
+            bool2string(value) {
+                return value ? '有効' : '無効'
+            },
             // 削除
             onDelete(item) {
                 var _this = this

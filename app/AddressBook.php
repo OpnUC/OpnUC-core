@@ -24,6 +24,52 @@ class AddressBook extends Model
     );
 
     /**
+     * 番号変換
+     * @param $value
+     * @return string
+     */
+    private function rewriteTelNumber($value)
+    {
+
+        // 番号変換パターンを適用
+        $patterns = \App\SettingNumberRewrite::where('display_replacement', true)
+            ->get();
+
+        foreach ($patterns as $pattern) {
+            $value = preg_replace('/' . $pattern['pattern'] . '/i', $pattern['replacement'], $value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Tel1
+     * @return string
+     */
+    public function getTel1Attribute()
+    {
+        return $this->rewriteTelNumber($this->attributes['tel1']);
+    }
+
+    /**
+     * Tel2
+     * @return string
+     */
+    public function getTel2Attribute()
+    {
+        return $this->rewriteTelNumber($this->attributes['tel2']);
+    }
+
+    /**
+     * Tel3
+     * @return string
+     */
+    public function getTel3Attribute()
+    {
+        return $this->rewriteTelNumber($this->attributes['tel3']);
+    }
+
+    /**
      * グループ名
      * @return string
      */

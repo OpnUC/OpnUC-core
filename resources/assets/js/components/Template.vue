@@ -7,7 +7,7 @@
             </router-link>
 
             <nav class="navbar navbar-static-top" role="navigation">
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
 
@@ -42,14 +42,14 @@
                                             {{ $auth.user().display_name }}
                                         </p>
                                     </li>
-                                    <li class="user-body" v-if="$auth.check('system-admin')">
-                                        <div class="col-xs-12 text-center">
-                                            <router-link to="/Admin">
-                                                <i class="fa fa-cog"></i>
-                                                システム管理
-                                            </router-link>
-                                        </div>
-                                    </li>
+                                        <li class="user-body" v-if="$auth.check('system-admin')">
+                                            <div class="col-xs-12 text-center">
+                                                <router-link to="/Admin">
+                                                    <i class="fa fa-cog"></i>
+                                                    システム管理
+                                                </router-link>
+                                            </div>
+                                        </li>
                                     <li class="user-footer">
                                         <div class="pull-left">
                                             <router-link to="/User" class="btn btn-default btn-flat">
