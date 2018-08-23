@@ -8,8 +8,16 @@
                 </div>
                 <div class="pull-left info">
                     <p>{{ $auth.user().display_name }}</p>
-                    <tel-contact :number="my_ext" :status="my_ext_status">
-                    </tel-contact>
+                    <div v-if="my_ext">
+                        <i class="fa fa-phone"></i>
+                        {{ my_ext }}
+
+                        <a href="#" v-on:click.prevent="onExtStateVisible()">
+                            <i v-if="enableTelPresence && isPhoneNumberExt(my_ext)"
+                               class="extStatus" :class="`ext${my_ext} ${my_ext_status_class}`"
+                               :title="my_ext_status"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -82,12 +90,14 @@
 <script>
     import Vue from 'vue'
     import AddressBook_Sidebar_GroupList from './AddressBook_Sidebar_GroupList.vue'
+    import PhoneNumber from './common_PhoneNumber'
 
     Vue.component('group-list',
         AddressBook_Sidebar_GroupList
     );
 
     export default {
+        mixins: [PhoneNumber],
         computed: {
             my_ext() {
                 if (this.$auth.user().address_book) {
@@ -98,10 +108,20 @@
             },
             my_ext_status() {
                 if (this.$auth.user().address_book) {
-                    return this.$auth.user().address_book.tel1_status
+                    return window.extStatus[this.$auth.user().address_book.tel1_status]['statusText']
                 } else {
                     return ''
                 }
+            },
+            my_ext_status_class() {
+                if (this.$auth.user().address_book) {
+                    return window.extStatus[this.$auth.user().address_book.tel1_status]['statusClass']
+                } else {
+                    return ''
+                }
+            },
+            enableTelPresence() {
+                return window.opnucConfig.enable_tel_presence;
             },
         },
         data() {
@@ -132,11 +152,14 @@
                     });
             });
         },
-        mounted(){
+        mounted() {
             // Activate Sidebar Tree
             $('ul.sidebar-menu').tree();
         },
         methods: {
+            onExtStateVisible(){
+                this.$events.$emit('AddressBook:onExtStateVisible', true)
+            },
             // 検索
             onSearch() {
                 this.$router.replace({

@@ -222,6 +222,29 @@
                 <button class="btn btn-default" v-on:click="detailDialog.visible = false">閉じる</button>
              </span>
         </el-dialog>
+
+        <el-dialog title="状態変更" v-model="extStateChangeDialog.visible">
+
+            <div class="row">
+                <div class="col-xs-7">
+                    <form v-on:submit.prevent="onSetForward">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <input type="text" v-model="tel1Forward" class="form-control input-sm">
+                                <span class="input-group-btn">
+                                <button type="submit" class="btn btn-flat">設定</button>
+                            </span>
+                            </div>
+                            <p class="help-block">解除は、空欄のまま設定</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <span slot="footer" class="dialog-footer">
+                    <button class="btn btn-default" v-on:click="extStateChangeDialog.visible = false">閉じる</button>
+            </span>
+        </el-dialog>
     </section>
 </template>
 <script>
@@ -279,6 +302,10 @@
                     downloadType: null,
                 },
                 // ここまで：Vuetableのパラメタ
+                extStateChangeDialog: {
+                    visible: false,
+                },
+                tel1Forward: '',
                 detailDialog: {
                     visible: false,
                     selectItem: null,
@@ -305,7 +332,7 @@
             /**
              * 詳細の表示
              */
-            showDetail: function(item) {
+            showDetail: function (item) {
                 this.detailDialog.visible = true
                 this.detailDialog.selectItem = item
             },
@@ -455,7 +482,40 @@
                     console.log(error.message);
                 });
             },
+            /**
+             * 不在転送設定
+             */
+            onSetForward() {
+                var _this = this
 
+                axios.post('/pbxlinker/forward', {
+                    ExtNumber: _this.my_ext,
+                    Number: _this.tel1Forward,
+                })
+                    .then(function (response) {
+                        _this.$message({
+                            type: 'success',
+                            message: '転送設定が完了しました。',
+                        });
+                    })
+                    .catch(function (error) {
+                        _this.isLoading = false
+
+                        var message = ''
+
+                        if (error.response.status === 422) {
+                            // 422 - Validation Error
+                            message = '入力に問題があります。' + error.response.data.message
+                        } else {
+                            message = 'エラーが発生しました。' + error.response.data.message
+                        }
+
+                        _this.$message({
+                            type: 'error',
+                            message: message,
+                        });
+                    });
+            },
             onSearch() {
                 this.isSearch = this.searchParam.keyword ? true : false;
                 this.$refs.vuetable.refresh()
@@ -528,6 +588,9 @@
             // グループ情報が更新された場合
             'AddressBook:updateGroup': function (group) {
                 this.addressBookGroup = group
+            },
+            'AddressBook:onExtStateVisible': function (flag) {
+                this.extStateChangeDialog.visible = flag
             },
         }
     }
