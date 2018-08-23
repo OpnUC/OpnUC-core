@@ -23421,35 +23421,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -23459,8 +23430,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             /**
              * LaravelEchoとの接続状況
              */
-            isConnectLaravelEcho: false,
-            tel1Forward: ''
+            isConnectLaravelEcho: false
         };
     },
 
@@ -23533,39 +23503,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 error: function error() {
                     console.log('error');
                 }
-            });
-        },
-
-        /**
-         * 不在転送設定
-         */
-        onSetForward: function onSetForward() {
-            var _this = this;
-
-            axios.post('/pbxlinker/forward', {
-                ExtNumber: _this.my_ext,
-                Number: _this.tel1Forward
-            }).then(function (response) {
-                _this.$message({
-                    type: 'success',
-                    message: '転送設定が完了しました。'
-                });
-            }).catch(function (error) {
-                _this.isLoading = false;
-
-                var message = '';
-
-                if (error.response.status === 422) {
-                    // 422 - Validation Error
-                    message = '入力に問題があります。' + error.response.data.message;
-                } else {
-                    message = 'エラーが発生しました。' + error.response.data.message;
-                }
-
-                _this.$message({
-                    type: 'error',
-                    message: message
-                });
             });
         }
     }
@@ -23751,7 +23688,7 @@ var render = function() {
                                               staticClass: "fa fa-cog"
                                             }),
                                             _vm._v(
-                                              "\n                                                システム管理\n                                            "
+                                              "\n                                            システム管理\n                                        "
                                             )
                                           ]
                                         )
@@ -23811,9 +23748,7 @@ var render = function() {
                             ],
                             1
                           )
-                        ],
-                    _vm._v(" "),
-                    _vm._m(1)
+                        ]
                   ],
                   2
                 )
@@ -23872,84 +23807,7 @@ var render = function() {
         _vm._v(" All rights reserved.\n    ")
       ]),
       _vm._v(" "),
-      _c("aside", { staticClass: "control-sidebar control-sidebar-light" }, [
-        _vm._m(2),
-        _vm._v(" "),
-        _c("div", { staticClass: "tab-content" }, [
-          _c(
-            "div",
-            {
-              staticClass: "tab-pane active",
-              attrs: { id: "control-sidebar-home-tab" }
-            },
-            [
-              _c("h3", { staticClass: "control-sidebar-heading" }, [
-                _vm._v("不在転送設定")
-              ]),
-              _vm._v(" "),
-              _c(
-                "form",
-                {
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.onSetForward($event)
-                    }
-                  }
-                },
-                [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("label", { staticClass: "control-sidebar-subheading" }, [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(_vm.my_ext) +
-                          "\n                        "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "input-group input-group-sm" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.tel1Forward,
-                            expression: "tel1Forward"
-                          }
-                        ],
-                        staticClass: "form-control input-sm",
-                        attrs: { type: "text" },
-                        domProps: { value: _vm.tel1Forward },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.tel1Forward = $event.target.value
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _vm._m(3)
-                    ]),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "help-block" }, [
-                      _vm._v("解除は、空欄のまま設定")
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", {
-                staticClass: "tab-pane",
-                attrs: { id: "control-sidebar-settings-tab" }
-              })
-            ]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "control-sidebar-bg" })
+      _vm._m(1)
     ],
     1
   )
@@ -23972,54 +23830,43 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("a", { attrs: { href: "#", "data-toggle": "control-sidebar" } }, [
-        _c("i", { staticClass: "fa fa-gears" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
-      "ul",
-      { staticClass: "nav nav-tabs nav-justified control-sidebar-tabs" },
+      "aside",
+      { staticClass: "control-sidebar control-sidebar-light" },
       [
-        _c("li", { staticClass: "active" }, [
-          _c(
-            "a",
-            {
-              attrs: { href: "#control-sidebar-home-tab", "data-toggle": "tab" }
-            },
-            [_c("i", { staticClass: "fa fa-home" })]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", [
-          _c(
-            "a",
-            {
-              attrs: {
-                href: "#control-sidebar-settings-tab",
-                "data-toggle": "tab"
-              }
-            },
-            [_c("i", { staticClass: "fa fa-gears" })]
-          )
-        ])
+        _c(
+          "ul",
+          { staticClass: "nav nav-tabs nav-justified control-sidebar-tabs" },
+          [
+            _c("li", { staticClass: "active" }, [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href: "#control-sidebar-home-tab",
+                    "data-toggle": "tab"
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-home" })]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", [
+              _c(
+                "a",
+                {
+                  attrs: {
+                    href: "#control-sidebar-settings-tab",
+                    "data-toggle": "tab"
+                  }
+                },
+                [_c("i", { staticClass: "fa fa-gears" })]
+              )
+            ])
+          ]
+        )
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "input-group-btn" }, [
-      _c("button", { staticClass: "btn btn-flat", attrs: { type: "submit" } }, [
-        _vm._v("設定")
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -40539,6 +40386,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -40586,6 +40456,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 downloadType: null
             },
             // ここまで：Vuetableのパラメタ
+            extStateChangeDialog: {
+                visible: false
+            },
+            tel1Forward: '',
             detailDialog: {
                 visible: false,
                 selectItem: null
@@ -40758,6 +40632,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error.message);
             });
         },
+
+        /**
+         * 不在転送設定
+         */
+        onSetForward: function onSetForward() {
+            var _this = this;
+
+            axios.post('/pbxlinker/forward', {
+                ExtNumber: _this.my_ext,
+                Number: _this.tel1Forward
+            }).then(function (response) {
+                _this.$message({
+                    type: 'success',
+                    message: '転送設定が完了しました。'
+                });
+            }).catch(function (error) {
+                _this.isLoading = false;
+
+                var message = '';
+
+                if (error.response.status === 422) {
+                    // 422 - Validation Error
+                    message = '入力に問題があります。' + error.response.data.message;
+                } else {
+                    message = 'エラーが発生しました。' + error.response.data.message;
+                }
+
+                _this.$message({
+                    type: 'error',
+                    message: message
+                });
+            });
+        },
         onSearch: function onSearch() {
             this.isSearch = this.searchParam.keyword ? true : false;
             this.$refs.vuetable.refresh();
@@ -40834,6 +40741,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         // グループ情報が更新された場合
         'AddressBook:updateGroup': function AddressBookUpdateGroup(group) {
             this.addressBookGroup = group;
+        },
+        'AddressBook:onExtStateVisible': function AddressBookOnExtStateVisible(flag) {
+            this.extStateChangeDialog.visible = flag;
         }
     }
 });
@@ -41501,6 +41411,102 @@ var render = function() {
             ]
           )
         ]
+      ),
+      _vm._v(" "),
+      _c(
+        "el-dialog",
+        {
+          attrs: { title: "状態変更" },
+          model: {
+            value: _vm.extStateChangeDialog.visible,
+            callback: function($$v) {
+              _vm.$set(_vm.extStateChangeDialog, "visible", $$v)
+            },
+            expression: "extStateChangeDialog.visible"
+          }
+        },
+        [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-xs-7" }, [
+              _c(
+                "form",
+                {
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.onSetForward($event)
+                    }
+                  }
+                },
+                [
+                  _c("div", { staticClass: "form-group" }, [
+                    _c("div", { staticClass: "input-group input-group-sm" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.tel1Forward,
+                            expression: "tel1Forward"
+                          }
+                        ],
+                        staticClass: "form-control input-sm",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.tel1Forward },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.tel1Forward = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "input-group-btn" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-flat",
+                            attrs: { type: "submit" }
+                          },
+                          [_vm._v("設定")]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "help-block" }, [
+                      _vm._v("解除は、空欄のまま設定")
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "dialog-footer",
+              attrs: { slot: "footer" },
+              slot: "footer"
+            },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-default",
+                  on: {
+                    click: function($event) {
+                      _vm.extStateChangeDialog.visible = false
+                    }
+                  }
+                },
+                [_vm._v("閉じる")]
+              )
+            ]
+          )
+        ]
       )
     ],
     1
@@ -41602,7 +41608,7 @@ exports = module.exports = __webpack_require__(6)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -41617,6 +41623,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue__ = __webpack_require__(427);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_PhoneNumber__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_PhoneNumber___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__common_PhoneNumber__);
 //
 //
 //
@@ -41698,6 +41706,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -41705,6 +41722,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('group-list', __WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue___default.a);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    mixins: [__WEBPACK_IMPORTED_MODULE_2__common_PhoneNumber___default.a],
     computed: {
         my_ext: function my_ext() {
             if (this.$auth.user().address_book) {
@@ -41715,10 +41733,20 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('group-list', __WEBPACK_IM
         },
         my_ext_status: function my_ext_status() {
             if (this.$auth.user().address_book) {
-                return this.$auth.user().address_book.tel1_status;
+                return window.extStatus[this.$auth.user().address_book.tel1_status]['statusText'];
             } else {
                 return '';
             }
+        },
+        my_ext_status_class: function my_ext_status_class() {
+            if (this.$auth.user().address_book) {
+                return window.extStatus[this.$auth.user().address_book.tel1_status]['statusClass'];
+            } else {
+                return '';
+            }
+        },
+        enableTelPresence: function enableTelPresence() {
+            return window.opnucConfig.enable_tel_presence;
         }
     },
     data: function data() {
@@ -41753,6 +41781,10 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('group-list', __WEBPACK_IM
     },
 
     methods: {
+        onExtStateVisible: function onExtStateVisible() {
+            this.$events.$emit('AddressBook:onExtStateVisible', true);
+        },
+
         // 検索
         onSearch: function onSearch() {
             this.$router.replace({
@@ -41931,18 +41963,42 @@ var render = function() {
           })
         ]),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "pull-left info" },
-          [
-            _c("p", [_vm._v(_vm._s(_vm.$auth.user().display_name))]),
-            _vm._v(" "),
-            _c("tel-contact", {
-              attrs: { number: _vm.my_ext, status: _vm.my_ext_status }
-            })
-          ],
-          1
-        )
+        _c("div", { staticClass: "pull-left info" }, [
+          _c("p", [_vm._v(_vm._s(_vm.$auth.user().display_name))]),
+          _vm._v(" "),
+          _vm.my_ext
+            ? _c("div", [
+                _c("i", { staticClass: "fa fa-phone" }),
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(_vm.my_ext) +
+                    "\n\n                    "
+                ),
+                _c(
+                  "a",
+                  {
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.onExtStateVisible()
+                      }
+                    }
+                  },
+                  [
+                    _vm.enableTelPresence && _vm.isPhoneNumberExt(_vm.my_ext)
+                      ? _c("i", {
+                          staticClass: "extStatus",
+                          class:
+                            "ext" + _vm.my_ext + " " + _vm.my_ext_status_class,
+                          attrs: { title: _vm.my_ext_status }
+                        })
+                      : _vm._e()
+                  ]
+                )
+              ])
+            : _vm._e()
+        ])
       ]),
       _vm._v(" "),
       _c(
