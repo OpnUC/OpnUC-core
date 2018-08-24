@@ -489,7 +489,7 @@
                 var _this = this
 
                 axios.post('/pbxlinker/forward', {
-                    ExtNumber: _this.my_ext,
+                    ExtNumber: this.$auth.user().address_book ? this.$auth.user().address_book.tel1 : '',
                     Number: _this.tel1Forward,
                 })
                     .then(function (response) {

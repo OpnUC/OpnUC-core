@@ -430,7 +430,7 @@ function applyToTag (styleElement, obj) {
 "use strict";
 
 
-var bind = __webpack_require__(222);
+var bind = __webpack_require__(223);
 
 /*global toString:true*/
 
@@ -947,10 +947,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(223);
+    adapter = __webpack_require__(224);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(223);
+    adapter = __webpack_require__(224);
   }
   return adapter;
 }
@@ -1024,7 +1024,53 @@ module.exports = defaults;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)))
 
 /***/ }),
-/* 62 */,
+/* 62 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(398)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\common_PhoneNumber.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-55fd27fa", Component.options)
+  } else {
+    hotAPI.reload("data-v-55fd27fa", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
 /* 63 */,
 /* 64 */,
 /* 65 */,
@@ -1059,7 +1105,8 @@ module.exports = defaults;
 /* 94 */,
 /* 95 */,
 /* 96 */,
-/* 97 */
+/* 97 */,
+/* 98 */
 /***/ (function(module, exports) {
 
 module.exports = (function () {
@@ -1122,7 +1169,6 @@ module.exports = (function () {
 })();
 
 /***/ }),
-/* 98 */,
 /* 99 */,
 /* 100 */,
 /* 101 */,
@@ -1246,7 +1292,8 @@ module.exports = (function () {
 /* 219 */,
 /* 220 */,
 /* 221 */,
-/* 222 */
+/* 222 */,
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1264,7 +1311,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 223 */
+/* 224 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1275,7 +1322,7 @@ var settle = __webpack_require__(375);
 var buildURL = __webpack_require__(377);
 var parseHeaders = __webpack_require__(378);
 var isURLSameOrigin = __webpack_require__(379);
-var createError = __webpack_require__(224);
+var createError = __webpack_require__(225);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(380);
 
 module.exports = function xhrAdapter(config) {
@@ -1448,7 +1495,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 224 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1472,7 +1519,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 225 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1484,7 +1531,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 226 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1507,53 +1554,6 @@ Cancel.prototype.toString = function toString() {
 Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
-
-
-/***/ }),
-/* 227 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(398)
-/* template */
-var __vue_template__ = null
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\common_PhoneNumber.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-55fd27fa", Component.options)
-  } else {
-    hotAPI.reload("data-v-55fd27fa", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
 
 
 /***/ }),
@@ -1597,7 +1597,7 @@ window._ = __webpack_require__(239);
 
 __webpack_provided_window_dot_$ = __webpack_provided_window_dot_jQuery = __webpack_require__(4);
 
-__webpack_require__(68);
+__webpack_require__(69);
 __webpack_require__(240);
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
@@ -18783,7 +18783,7 @@ window.extStatus = {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16), __webpack_require__(67)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(16), __webpack_require__(68)(module)))
 
 /***/ }),
 /* 240 */
@@ -19770,8 +19770,8 @@ module.exports = Echo;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_element_ui__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_element_ui__ = __webpack_require__(76);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_element_ui___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_element_ui__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_ja__ = __webpack_require__(337);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_ja___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_element_ui_lib_locale_lang_ja__);
@@ -19781,11 +19781,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_App_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_App_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_axios__ = __webpack_require__(40);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue_axios__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue_axios__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_vue_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_vue_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__websanova_vue_auth__ = __webpack_require__(347);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__websanova_vue_auth___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__websanova_vue_auth__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_events__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_events__ = __webpack_require__(99);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_vue_events___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_vue_events__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__routes__ = __webpack_require__(351);
 __webpack_require__(261).polyfill();
@@ -22085,7 +22085,7 @@ module.exports = (function () {
 
 var __utils  = __webpack_require__(349),
     __token  = __webpack_require__(350),
-    __cookie = __webpack_require__(97)
+    __cookie = __webpack_require__(98)
 
 module.exports = function () {
 
@@ -22879,7 +22879,7 @@ module.exports = (function (){
 /* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __cookie = __webpack_require__(97);
+var __cookie = __webpack_require__(98);
 
 module.exports = (function () {
 
@@ -24239,9 +24239,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePagination__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuetable_2_src_components_VuetablePaginationInfo__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_vuetable_2_src_components_VuetablePaginationInfo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_vuetable_2_src_components_VuetablePaginationInfo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__common_PhoneNumber__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_encoding_japanese__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_encoding_japanese__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_encoding_japanese___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_encoding_japanese__);
 //
 //
@@ -27260,7 +27260,7 @@ module.exports = __webpack_require__(372);
 
 
 var utils = __webpack_require__(9);
-var bind = __webpack_require__(222);
+var bind = __webpack_require__(223);
 var Axios = __webpack_require__(373);
 var defaults = __webpack_require__(61);
 
@@ -27295,9 +27295,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(226);
+axios.Cancel = __webpack_require__(227);
 axios.CancelToken = __webpack_require__(387);
-axios.isCancel = __webpack_require__(225);
+axios.isCancel = __webpack_require__(226);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -27429,7 +27429,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(224);
+var createError = __webpack_require__(225);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -27845,7 +27845,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(9);
 var transformData = __webpack_require__(384);
-var isCancel = __webpack_require__(225);
+var isCancel = __webpack_require__(226);
 var defaults = __webpack_require__(61);
 
 /**
@@ -27996,7 +27996,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(226);
+var Cancel = __webpack_require__(227);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -40158,7 +40158,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vuetable_2_src_components_VuetablePagination___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vuetable_2_src_components_VuetablePagination__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_vuetable_2_src_components_VuetablePaginationInfo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_encoding_japanese__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_encoding_japanese__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_encoding_japanese___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_encoding_japanese__);
 //
 //
@@ -40640,7 +40640,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this = this;
 
             axios.post('/pbxlinker/forward', {
-                ExtNumber: _this.my_ext,
+                ExtNumber: this.$auth.user().address_book ? this.$auth.user().address_book.tel1 : '',
                 Number: _this.tel1Forward
             }).then(function (response) {
                 _this.$message({
@@ -41623,7 +41623,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue__ = __webpack_require__(427);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__AddressBook_Sidebar_GroupList_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_PhoneNumber__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_PhoneNumber__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common_PhoneNumber___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__common_PhoneNumber__);
 //
 //
@@ -53257,7 +53257,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_PhoneNumber__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_PhoneNumber__ = __webpack_require__(62);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__common_PhoneNumber___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__common_PhoneNumber__);
 //
 //
