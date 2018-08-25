@@ -148,10 +148,9 @@ class ApiUserTest extends TestCase
 
         $dbUser = \App\User::find($user->id);
 
-        // ToDo: アップロードの確認が出来ない
-
         // ファイルが保存されたことをアサートする
-//        Storage::disk('avatars')->assertExists($dbUser->avatar_filename);
+        $uploaded = 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'avatars' . DIRECTORY_SEPARATOR . $dbUser->avatar_filename;
+        $this->assertFileExists(storage_path($uploaded));
 
     }
 
@@ -171,8 +170,6 @@ class ApiUserTest extends TestCase
         ])
             ->assertStatus(422);
 
-        //        Storage::disk('avatars')->assertMissing('avatar.jpg');
-
     }
 
     /**
@@ -190,8 +187,6 @@ class ApiUserTest extends TestCase
             'avatar_file' => UploadedFile::fake()->create('avatar.pdf'),
         ])
             ->assertStatus(422);
-
-//        Storage::disk('avatars')->assertMissing('avatar.pdf');
 
     }
 
