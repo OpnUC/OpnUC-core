@@ -40664,6 +40664,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     message: message
                 });
             });
+
+            // 転送先を消す
+            _this.tel1Forward = '';
         },
         onSearch: function onSearch() {
             this.isSearch = this.searchParam.keyword ? true : false;
@@ -41440,6 +41443,10 @@ var render = function() {
                 },
                 [
                   _c("div", { staticClass: "form-group" }, [
+                    _c("label", { attrs: { for: "tel1Forward" } }, [
+                      _vm._v("不在転送設定")
+                    ]),
+                    _vm._v(" "),
                     _c("div", { staticClass: "input-group input-group-sm" }, [
                       _c("input", {
                         directives: [
@@ -41451,7 +41458,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control input-sm",
-                        attrs: { type: "text" },
+                        attrs: { type: "text", id: "tel1Forward" },
                         domProps: { value: _vm.tel1Forward },
                         on: {
                           input: function($event) {
@@ -41467,7 +41474,7 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-flat",
+                            staticClass: "btn btn-flat btn-primary",
                             attrs: { type: "submit" }
                           },
                           [_vm._v("設定")]
@@ -41476,7 +41483,7 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("p", { staticClass: "help-block" }, [
-                      _vm._v("解除は、空欄のまま設定")
+                      _vm._v("解除は、空欄のまま設定をクリックしてください。")
                     ])
                   ])
                 ]

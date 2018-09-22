@@ -224,18 +224,18 @@
         </el-dialog>
 
         <el-dialog title="状態変更" v-model="extStateChangeDialog.visible">
-
             <div class="row">
                 <div class="col-xs-7">
                     <form v-on:submit.prevent="onSetForward">
                         <div class="form-group">
+                            <label for="tel1Forward">不在転送設定</label>
                             <div class="input-group input-group-sm">
-                                <input type="text" v-model="tel1Forward" class="form-control input-sm">
+                                <input type="text" v-model="tel1Forward" id="tel1Forward" class="form-control input-sm">
                                 <span class="input-group-btn">
-                                <button type="submit" class="btn btn-flat">設定</button>
-                            </span>
+                                    <button type="submit" class="btn btn-flat btn-primary">設定</button>
+                                </span>
                             </div>
-                            <p class="help-block">解除は、空欄のまま設定</p>
+                            <p class="help-block">解除は、空欄のまま設定をクリックしてください。</p>
                         </div>
                     </form>
                 </div>
@@ -515,6 +515,9 @@
                             message: message,
                         });
                     });
+
+                // 転送先を消す
+                _this.tel1Forward = ''
             },
             onSearch() {
                 this.isSearch = this.searchParam.keyword ? true : false;
