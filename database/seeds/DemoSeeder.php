@@ -27,10 +27,11 @@ class DemoSeeder extends Seeder
             $cdrItem->sender = rand(200, 800);
             $cdrItem->destination = rand(200, 800);
 
-            // 値がfloatになってしまうので、intval追加
-            $baseTime = time() + rand();
+            // 日付の範囲は+1日(86400s)とする
+            $baseTime = time() + rand(0, 86400);
 
             $cdrItem->duration = rand(10, 3600);
+            // 値がfloatになってしまうので、intval追加
             $cdrItem->start_datetime = date('Y-m-d H:i:s', intval($baseTime));
             $cdrItem->end_datetime = date('Y-m-d H:i:s', intval($baseTime + $cdrItem->duration));
 
@@ -62,7 +63,7 @@ class DemoSeeder extends Seeder
             $abItem->owner_userid = 0;
             $abItem->groupid = $grpExtChild1_1->id;
             $abItem->position = $faker->realText(10);
-            $abItem->name_kana =  $faker->realText(10);
+            $abItem->name_kana = $faker->realText(10);
             $abItem->name = $faker->name();
             $abItem->tel1 = rand(300, 399);
             $abItem->tel2 = str_replace('-', '', $faker->phoneNumber());
@@ -115,7 +116,7 @@ class DemoSeeder extends Seeder
             $abItem->owner_userid = 0;
             $abItem->groupid = $abGroupID[array_rand($abGroupID)];
             $abItem->position = $faker->realText(10);
-            $abItem->name_kana =  $faker->realText(10);
+            $abItem->name_kana = $faker->realText(10);
             $abItem->name = $faker->name();
             $abItem->tel1 = str_replace('-', '', $faker->phoneNumber());
             $abItem->tel2 = str_replace('-', '', $faker->phoneNumber());
@@ -125,6 +126,8 @@ class DemoSeeder extends Seeder
 
             $abItem->save();
         }
+
+        echo 'Demo Data seeding succeed.' . "\n";
 
     }
 }
