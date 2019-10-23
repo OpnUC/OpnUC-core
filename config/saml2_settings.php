@@ -8,34 +8,27 @@ return $settings = array(
     'logoutRoute' => '/',
     // Vue側ですでにログイン済みとして処理するため、 mode を restore とする
     'loginRoute' => '/loginRestore',
+
     'errorRoute' => '/login',
-    'strict' => true, //@todo: make this depend on laravel config
-    'debug' => env('APP_DEBUG'),
-    'sp' => array(
-        'NameIDFormat' => 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
-        'x509cert' => env('SAML2_SP_CERT', 'dummy'),
-        'privateKey' => env('SAML2_SP_KEY', 'dummy'),
-    ),
-    'idp' => array(
-        'entityId' => env('SAML2_ENTITYID', 'dummy'),
-        'singleSignOnService' => array(
-            'url' => env('SAML2_SSOS', 'http://example.com/dummy/'),
-        ),
-        'singleLogoutService' => array(
-            'url' => env('SAML2_SLS', ''),
-        ),
-        'x509cert' => env('SAML2_IDP_CERT', ''),
-        'certFingerprint' => env('SAML2_IDP_FINGERPRINT', ''),
-    ),
-    'security' => array(
-        'nameIdEncrypted' => false,
-        'authnRequestsSigned' => true,
-        'logoutRequestSigned' => false,
-        'logoutResponseSigned' => false,
-        'signMetadata' => false,
-        'wantMessagesSigned' => false,
-        'wantAssertionsSigned' => false,
-        'wantNameIdEncrypted' => false,
-        'requestedAuthnContext' => true,
-    ),
+    // If 'proxyVars' is True, then the Saml lib will trust proxy headers
+    // e.g X-Forwarded-Proto / HTTP_X_FORWARDED_PROTO. This is useful if
+    // your application is running behind a load balancer which terminates
+    // SSL.
+    'proxyVars' => false,
+
+    /**
+     * Array of IDP prefixes to be configured e.g. 'idpNames' => ['test1', 'test2', 'test3'],
+     * Separate routes will be automatically registered for each IDP specified with IDP name as prefix
+     * Separate config file saml2/<idpName>_idp_settings.php should be added & configured accordingly
+     */
+    'idpNames' => ['kcprd'],
+
+    /**
+     * (Optiona) Which class implements the route functions.
+     * If left blank, defaults to this lib's controller (Aacotroneo\Saml2\Http\Controllers\Saml2Controller).
+     * If you need to extend Saml2Controller (e.g. to override the `login()` function to pass
+     * a `$returnTo` argument), this value allows you to pass your own controller, and have
+     * it used in the routes definition.
+     */
+    //'saml2_controller' => '',
 );

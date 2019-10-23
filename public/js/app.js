@@ -52115,7 +52115,7 @@ var staticRenderFns = [
       "a",
       {
         staticClass: "btn btn-block btn-social btn-google",
-        attrs: { href: "/extensions/saml2/login" }
+        attrs: { href: "/extensions/saml2/kcprd/login" }
       },
       [
         _c("i", { staticClass: "fa fa-sign-in" }),
