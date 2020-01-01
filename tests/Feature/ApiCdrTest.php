@@ -22,7 +22,7 @@ class ApiCdrTest extends TestCase
         $user = factory(\App\User::class)->create();
 
         $adminRole = Role::where('name', 'admin')->first();
-        $user->attachRole($adminRole);
+        $user->assignRole($adminRole);
 
         $this->actingAs($user);
 
@@ -61,7 +61,7 @@ class ApiCdrTest extends TestCase
         $user = factory(\App\User::class)->create();
 
         $adminRole = Role::where('name', 'admin')->first();
-        $user->attachRole($adminRole);
+        $user->assignRole($adminRole);
 
         $this->actingAs($user);
 

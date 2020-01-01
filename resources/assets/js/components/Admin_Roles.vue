@@ -128,7 +128,7 @@
                         title: '説明',
                     },
                     {
-                        name: 'perms',
+                        name: 'perms_name',
                         callback: 'formatPermissions',
                         title: 'パーミッション',
                         titleClass: 'columnPermission',
@@ -243,7 +243,7 @@
             })
                 .then(function (response) {
                     _this.perms = _.transform(response.data.data, function (result, value, key) {
-                        result[value.id] = value.display_name
+                        result[value.name] = value.display_name
                         return result
                     });
                 })

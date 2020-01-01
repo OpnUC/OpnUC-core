@@ -22,7 +22,8 @@ class AdminRoleRequest extends FormRequest
         $rules = [
             'id' => 'numeric',
             'name' => 'required|unique:roles,name,' . $this['id'],
-            'perms' => 'required|array|min:1',
+            'display_name' => 'required',
+            'perms_name' => 'required|array|min:1',
         ];
 
         return $rules;
@@ -34,7 +35,8 @@ class AdminRoleRequest extends FormRequest
         return [
             'name.required' => 'ロール名は必ず入力してください。',
             'name.unique' => '入力されたロール名はすでに登録されています。別のロール名を入力してください。',
-            'perms.required' => '付与パーミッションは必ず選択して下さい。',
+            'display_name.required' => '表示名は必ず入力してください。',
+            'perms_name.required' => '付与パーミッションは必ず選択して下さい。',
         ];
     }
 

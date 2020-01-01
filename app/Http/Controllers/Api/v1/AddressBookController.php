@@ -28,10 +28,6 @@ class AddressBookController extends Controller
 
     public function detail(Request $request)
     {
-        // 権限チェック
-        if (!\Entrust::can('addressbook-user')) {
-            abort(403);
-        }
 
         $id = intval($request['id']) ? intval($request['id']) : 0;
 
@@ -263,10 +259,6 @@ class AddressBookController extends Controller
      */
     public function search(Request $req)
     {
-        // 権限チェック
-        if (!\Entrust::can('addressbook-user')) {
-            abort(403);
-        }
 
         $items = $this->_getItems($req);
 
@@ -346,10 +338,6 @@ class AddressBookController extends Controller
      */
     public function groupList(Request $request)
     {
-        // 権限チェック
-        if (!\Entrust::can('addressbook-user')) {
-            abort(403);
-        }
 
         // 末端のグループのみを表示するか
         $isAll = $request['isAll'] ? true : false;
@@ -382,10 +370,6 @@ class AddressBookController extends Controller
      */
     public function groups(Request $req)
     {
-        // 権限チェック
-        if (!\Entrust::can('addressbook-user')) {
-            abort(403);
-        }
 
         $typeId = intval($req['typeId']);
         $dbGroups = \App\AddressBookGroup::where('parent_groupid', 0)
@@ -402,11 +386,6 @@ class AddressBookController extends Controller
      */
     public function group(Request $request)
     {
-        // 権限チェック
-        if (!\Entrust::can('addressbook-user')) {
-            abort(403);
-        }
-
         $groupId = intval($request['groupId']);
         $dbGroup = \App\AddressBookGroup::find($groupId);
 

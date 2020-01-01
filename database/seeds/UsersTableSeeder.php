@@ -1,7 +1,10 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UsersTableSeeder extends Seeder
 {
@@ -12,53 +15,53 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        if(env('APP_ENV') != 'testing'){
+            if (!$this->command->confirm('Do you wish to refresh migration before seeding, it will clear users/permission/roles ?')) {
+                exit;
+            }
+        }
+
         Model::unguard();
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        DB::table('permissions')->truncate();
-        DB::table('permission_role')->truncate();
-        DB::table('roles')->truncate();
-        DB::table('role_user')->truncate();
+        Permission::truncate();
+        Role::truncate();
+        DB::table(config('permission.table_names.model_has_roles'))->truncate();
+        DB::table(config('permission.table_names.model_has_permissions'))->truncate();
+        DB::table(config('permission.table_names.role_has_permissions'))->truncate();
 
         /////
-        $adminRole = new \App\Role();
-        $adminRole->name = 'admin';
+        $adminRole = Role::findOrCreate('admin');
         $adminRole->display_name = 'システム管理者ロール';
         $adminRole->save();
 
-        $userRole = new \App\Role();
-        $userRole->name = 'user';
+        $userRole = Role::findOrCreate('user');
         $userRole->display_name = '一般ユーザ';
         $userRole->save();
 
         /////
-        $adminPerm = new \App\Permission();
-        $adminPerm->name = 'system-admin';
+        $adminPerm = Permission::findOrCreate('system-admin');
         $adminPerm->display_name = 'システム管理権限';
         $adminPerm->save();
 
-        $abUserPerm = new \App\Permission();
-        $abUserPerm->name = 'addressbook-user';
+        $abUserPerm = Permission::findOrCreate('addressbook-user');
         $abUserPerm->display_name = 'Web電話帳 ユーザ権限';
         $abUserPerm->save();
 
-        $abAdminPerm = new \App\Permission();
-        $abAdminPerm->name = 'addressbook-admin';
+        $abAdminPerm = Permission::findOrCreate('addressbook-admin');
         $abAdminPerm->display_name = 'Web電話帳 管理権限';
         $abAdminPerm->save();
 
-        $cdrUserPerm = new \App\Permission();
-        $cdrUserPerm->name = 'cdr-user';
+        $cdrUserPerm = Permission::findOrCreate('cdr-user');
         $cdrUserPerm->display_name = '発着信履歴 ユーザ権限';
         $cdrUserPerm->save();
 
-        $cdrSuperUserPerm = new \App\Permission();
-        $cdrSuperUserPerm->name = 'cdr-superuser';
+        $cdrSuperUserPerm = Permission::findOrCreate('cdr-superuser');
         $cdrSuperUserPerm->display_name = '発着信履歴 全表示権限';
         $cdrSuperUserPerm->save();
 
         /////
-        DB::table('users')->truncate();
+        User::truncate();
 
         DB::table('users')->insert([
             'display_name' => '管理者',
@@ -68,19 +71,23 @@ class UsersTableSeeder extends Seeder
         ]);
 
         // 管理ロール
-        $adminRole->attachPermission($adminRole);
-        $adminRole->attachPermission($abUserPerm);
-        $adminRole->attachPermission($abAdminPerm);
-        $adminRole->attachPermission($cdrUserPerm);
-        $adminRole->attachPermission($cdrSuperUserPerm);
+        $adminRole->syncPermissions([
+            $adminPerm,
+            $abUserPerm,
+            $abAdminPerm,
+            $cdrUserPerm,
+            $cdrSuperUserPerm
+        ]);
 
         // 一般ユーザロール
-        $userRole->attachPermission($abUserPerm);
-        $userRole->attachPermission($cdrUserPerm);
+        $userRole->syncPermissions([
+            $abUserPerm,
+            $cdrUserPerm
+        ]);
 
         $user = \App\User::where('username', '=', 'admin')->first();
 
-        $user->attachRole($adminRole);
+        $user->syncRoles($adminRole);
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         Model::reguard();

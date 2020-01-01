@@ -83,12 +83,12 @@
                             <div class="form-group" :class="errors.perms ? 'has-error' : ''">
                                 <label class="control-label col-xs-3" for="inputPerms">付与パーミッション</label>
                                 <div class="col-xs-7">
-                                    <el-select id="inputPerms" v-model="selectItem.perms" multiple placeholder="付与パーミッション">
+                                    <el-select id="inputPerms" v-model="selectItem.perms_name" multiple placeholder="付与パーミッション">
                                         <el-option
                                                 v-for="perm in perms"
-                                                :key="perm.id"
+                                                :key="perm.name"
                                                 :label="perm.display_name"
-                                                :value="perm.id">
+                                                :value="perm.name">
                                         </el-option>
                                     </el-select>
                                     <span class="help-block" v-if="errors.perms">
@@ -188,8 +188,6 @@
                     });
             } else {
                 _this.selectItem = {
-                    // selectは配列として初期化する必要あり
-                    prems: [],
                 }
 
                 _this.isLoading = false

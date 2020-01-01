@@ -105,7 +105,7 @@ class CdrController extends Controller
         }
 
         // 発着信履歴の特権ユーザか
-        if (!\Entrust::can('cdr-superuser')) {
+        if (!\Auth::user()->can('cdr-superuser')) {
             $addressbook = \Auth::user()->address_book;
 
             // ToDo: アドレス帳情報が自分で変えられるため、連携用の列を分ける必要あり？

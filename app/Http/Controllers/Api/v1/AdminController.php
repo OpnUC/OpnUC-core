@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use http\Client\Response;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Log;
+use Spatie\Permission\Models\Role;
 
 /**
  * Admin Controller
@@ -100,36 +103,20 @@ class AdminController extends Controller
 
         $id = intval($request['id']);
 
-        $record = \App\User::firstOrNew(['id' => $id]);
-        $record->username = $request['username'];
-        $record->display_name = $request['display_name'];
-        $record->email = $request['email'];
+        $user = \App\User::firstOrNew(['id' => $id]);
+        $user->username = $request['username'];
+        $user->display_name = $request['display_name'];
+        $user->email = $request['email'];
 
         if (strlen($request['password']) != 0) {
             // パスワードが入力されている場合、パスワードをセット
-            $record->password = bcrypt($request['password']);
+            $user->password = bcrypt($request['password']);
         }
 
-        $record->save();
-
-        $diffRole = array_diff($record->roles->toArray(), $request['roles']);
-
-        // ロールから外す
-        foreach ($diffRole as $roleId) {
-            $role = \App\Role::find($roleId);
-            $record->detachRole($role);
-        }
+        $user->save();
 
         // ロールを割り当てる
-        foreach ($request['roles'] as $roleId) {
-            //
-            if (in_array($roleId, $record->roles->toArray())) {
-                continue;
-            }
-
-            $role = \App\Role::find($roleId);
-            $record->attachRole($role);
-        }
+        $user->syncRoles($request['roles_name']);
 
         return response([
             'status' => 'success',
@@ -185,16 +172,16 @@ class AdminController extends Controller
 
         $id = intval($request['id']);
 
-        $record = \App\Role::find($id);
+        $role = \App\Role::find($id);
 
-        if ($record->users()->get()->count() != 0) {
+        if ($role->users()->get()->count() != 0) {
             return response([
                 'status' => 'error',
                 'message' => 'このロールに所属するユーザがいるため、削除出来ません。'
             ], 422);
         }
 
-        $record->delete();
+        $role->delete();
 
         return response([
             'status' => 'success',
@@ -206,36 +193,17 @@ class AdminController extends Controller
     /**
      * ロールの追加・編集
      * @param Requests\AdminRoleRequest $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Http\Response
      */
-    public function roleEdit(\App\Http\Requests\AdminRoleRequest $request)
+    public function roleEdit(\App\Http\Requests\AdminRoleRequest $request) : \Illuminate\Http\Response
     {
 
-        $id = intval($request['id']);
+        $role = Role::findOrCreate($request['name']);
+        $role->update($request->except(['perms_name', 'users_count']));
 
-        $record = \App\Role::firstOrNew(['id' => $id]);
-        $record->name = $request['name'];
-        $record->display_name = $request['display_name'];
-        $record->description = $request['description'];
+        $role->save();
 
-        $record->save();
-
-        $diffPerm = array_diff($record->perms->toArray(), $request['perms']);
-
-        // ロールから外す
-        foreach ($diffPerm as $permId) {
-            $record->detachPermission($permId);
-        }
-
-        // ロールを割り当てる
-        foreach ($request['perms'] as $permId) {
-            //
-            if (in_array($permId, $record->perms->toArray())) {
-                continue;
-            }
-
-            $record->attachPermission($permId);
-        }
+        $role->syncPermissions($request['perms_name']);
 
         return response([
             'status' => 'success',
