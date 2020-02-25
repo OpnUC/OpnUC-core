@@ -33,10 +33,13 @@ class ImportLaravelPermissionTables extends Seeder
                     break;
                 default:
                     if ($table == null) {
-                        continue;
+                        break;
                     }
                     $vals = preg_split("/\t/", $line);
                     if (ends_with($table, \App\Permission::class) || ends_with($table, \App\Role::class)) {
+                        if (count($vals) != 6) {
+                            break;
+                        }
                         echo "Insert {$table} {$line}\n";
                         $item = new $table;
                         $item['id'] = $vals[0];
@@ -47,11 +50,17 @@ class ImportLaravelPermissionTables extends Seeder
                         $item['updated_at'] = $vals[5];
                         $item->save();
                     } elseif ($table == 'RolePermission') {
+                        if (count($vals) != 2) {
+                            break;
+                        }
                         echo "Role {$vals[0]} Attache Perm {$vals[1]}\n";
                         $role = \App\Role::find($vals[0]);
                         $perm = \App\Permission::find($vals[1]);
                         $role->givePermissionTo($perm);
                     } elseif ($table == 'UserRole') {
+                        if (count($vals) != 2) {
+                            break;
+                        }
                         echo "User {$vals[0]} Attache Role {$vals[1]}\n";
                         $user = \App\User::find($vals[0]);
                         $role = \App\Role::find($vals[1]);

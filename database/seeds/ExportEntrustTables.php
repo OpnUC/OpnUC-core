@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ExportEntrustTables extends Seeder
 {
@@ -12,30 +13,32 @@ class ExportEntrustTables extends Seeder
     public function run()
     {
         // Permission
-        $perms = \App\Permission::all();
+        $perms = DB::table('permissions')->get()->toArray();
 
         echo "###Permission\n";
         foreach ($perms as $perm) {
-            echo "{$perm['id']}\t{$perm['name']}\t{$perm['display_name']}\t{$perm['description']}\t{$perm['created_at']}\t{$perm['updated_at']}\n";
+            echo "{$perm->id}\t{$perm->name}\t{$perm->display_name}\t{$perm->description}\t{$perm->created_at}\t{$perm->updated_at}\n";
         }
 
         // Role
-        $roles = \App\Role::all();
+        $roles = DB::table('roles')->get()->toArray();
 
         $role_perms = [];
         $role_users = [];
         echo "###Role\n";
         foreach ($roles as $role) {
-            echo "{$role['id']}\t{$role['name']}\t{$role['display_name']}\t{$role['description']}\t{$role['created_at']}\t{$role['updated_at']}\n";
+            echo "{$role->id}\t{$role->name}\t{$role->display_name}\t{$role->description}\t{$role->created_at}\t{$role->updated_at}\n";
 
-            $role_in_perms = $role->perms()->get();
-            foreach ($role_in_perms as $role_in_perm) {
-                $role_perms[$role['id']][] = $role_in_perm['id'];
+            if($role){
+                $role_in_perms = DB::table('permission_role')->where('role_id', $role->id)->get()->toArray();
+                foreach ($role_in_perms as $role_in_perm) {
+                    $role_perms[$role->id][] = $role_in_perm->permission_id;
+                }
             }
 
-            $role_in_users = $role->users()->get();
+            $role_in_users = DB::table('role_user')->where('role_id', $role->id)->get()->toArray();
             foreach ($role_in_users as $role_in_user) {
-                $role_users[$role_in_user['id']][] = $role['id'];
+                $role_users[$role_in_user->user_id][] = $role->id;
             }
         }
 
