@@ -177,9 +177,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        // Entrust
-        Zizaco\Entrust\EntrustServiceProvider::class,
-
         // PBX Linker
         App\Providers\PbxLinkerServiceProvider::class,
     ],

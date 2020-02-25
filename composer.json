@@ -13,9 +13,9 @@
         "laravel/tinker": "~1.0",
         "pragmarx/version": "^0.2.5",
         "predis/predis": "v1.1.1",
+        "spatie/laravel-permission": "^2.38",
         "tymon/jwt-auth": "1.0.0-rc2",
-        "wikimedia/composer-merge-plugin": "^1.4",
-        "zizaco/entrust": "5.2.x-dev"
+        "wikimedia/composer-merge-plugin": "^1.4"
     },
     "require-dev": {
         "bnbwebexpertise/laravel-merge-plugin": "^1.0",

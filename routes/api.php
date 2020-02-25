@@ -78,16 +78,29 @@ Route::group([
             Route::get('download', 'CdrController@download');
         });
 
-        Route::get('/addressbook/search', 'AddressBookController@search');
-        Route::get('/addressbook/download', 'AddressBookController@download');
-        Route::post('/addressbook/import', 'AddressBookController@import');
-        Route::get('/addressbook/detail', 'AddressBookController@detail');
-        Route::get('/addressbook/groupList', 'AddressBookController@groupList');
-        Route::get('/addressbook/groups', 'AddressBookController@groups');
-        Route::get('/addressbook/group', 'AddressBookController@group');
-        Route::post('/addressbook/edit', 'AddressBookController@edit');
-        Route::post('/addressbook/groupEdit', 'AddressBookController@groupEdit');
-        Route::post('/addressbook/delete', 'AddressBookController@delete');
-        Route::post('/addressbook/groupDelete', 'AddressBookController@groupDelete');
+        // アドレス帳
+        Route::group([
+            'middleware' => 'permission:addressbook-user|addressbook-admin',
+            'prefix' => 'addressbook'
+        ], function () {
+            Route::get('search', 'AddressBookController@search');
+            Route::get('download', 'AddressBookController@download');
+            Route::get('detail', 'AddressBookController@detail');
+            Route::get('groupList', 'AddressBookController@groupList');
+            Route::get('groups', 'AddressBookController@groups');
+            Route::get('group', 'AddressBookController@group');
+
+            // アドレス帳 管理者
+            Route::group([
+                'middleware' => 'permission:addressbook-admin',
+            ], function () {
+                // admin
+                Route::post('import', 'AddressBookController@import');
+                Route::post('delete', 'AddressBookController@delete');
+                Route::post('edit', 'AddressBookController@edit');
+                Route::post('groupEdit', 'AddressBookController@groupEdit');
+                Route::post('groupDelete', 'AddressBookController@groupDelete');
+            });
+        });
     });
 });

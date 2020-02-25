@@ -1,26 +1,31 @@
 <?php namespace App;
 
-use Illuminate\Support\Facades\Config;
-use Zizaco\Entrust\EntrustRole;
-
-class Role extends EntrustRole
+class Role extends \Spatie\Permission\Models\Role
 {
     protected $fillable = [
         'name', 'display_name', 'description',
     ];
 
+    protected $hidden = [
+        'guard_name',
+        'permissions',
+        'users',
+    ];
+
     // JSONに追加する属性
     protected $appends = array(
         'users_count',
-        'perms',
+        'perms_name',
     );
 
     /**
+     * Roleを割り当てられているユーザ数
      * @return int
      */
     public function getUsersCountAttribute()
     {
-        $item = $this->users()->get()->count();
+        // Todo: $this->usersを使うと getModelForGuard エラーになるため
+        $item = User::role($this->name)->count();
 
         return $item;
     }
@@ -28,17 +33,9 @@ class Role extends EntrustRole
     /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getPermsAttribute()
+    public function getPermsNameAttribute()
     {
-        return $this->perms()->get(['id'])->pluck('id');
-    }
-
-    // fix
-    public function users()
-    {
-
-        return $this->belongsToMany(Config::get('auth.providers.users.model'), Config::get('entrust.role_user_table'), Config::get('entrust.role_foreign_key'), Config::get('entrust.user_foreign_key'));
-
+        return $this->getPermissionNames();
     }
 
 }

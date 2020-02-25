@@ -123,7 +123,7 @@
                         sortField: 'display_name',
                     },
                     {
-                        name: 'roles',
+                        name: 'roles_name',
                         callback: 'formatRoles',
                         title: 'ロール',
                         titleClass: 'columnRole',
@@ -229,7 +229,7 @@
             })
                 .then(function (response) {
                     _this.roles =_.transform(response.data.data, function(result, value, key) {
-                        result[value.id] = value.display_name
+                        result[value.name] = value.display_name
                         return result
                     });
                 })

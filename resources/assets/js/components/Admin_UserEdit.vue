@@ -83,12 +83,12 @@
                             <div class="form-group" :class="errors.roles ? 'has-error' : ''">
                                 <label class="control-label col-xs-3" for="inputRoles">所属ロール</label>
                                 <div class="col-xs-7">
-                                    <el-select id="inputRoles" v-model="selectItem.roles" multiple placeholder="所属ロール">
+                                    <el-select id="inputRoles" v-model="selectItem.roles_name" multiple placeholder="所属ロール">
                                         <el-option
                                                 v-for="role in roles"
-                                                :key="role.id"
+                                                :key="role.name"
                                                 :label="role.display_name"
-                                                :value="role.id">
+                                                :value="role.name">
                                         </el-option>
                                     </el-select>
                                     <span class="help-block" v-if="errors.roles">

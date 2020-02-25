@@ -4,15 +4,16 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Zizaco\Entrust\Traits\EntrustUserTrait;
-
 use App\Notifications\CustomPasswordReset;
 
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
-    use EntrustUserTrait;
+    use HasRoles;
+
+    protected $guard_name = 'api';
 
     /**
      * The attributes that are mass assignable.
@@ -29,14 +30,17 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
+        'roles',
+        'permissions',
     ];
 
     // JSONに追加する属性
     protected $appends = array(
         'address_book',
-        'roles',
-        'permissions',
+        'roles_name',
+        'permissions_name',
         'avatar_path',
     );
 
@@ -79,29 +83,24 @@ class User extends Authenticatable implements JWTSubject
      * ロール情報を取得
      * @return array
      */
-    public function getRolesAttribute()
+    public function getRolesNameAttribute()
     {
 
-        return $this->roles()->get(['id'])->pluck('id');
+        return $this->getRoleNames();
 
     }
 
     /**
      * 権限情報を取得
      * @return array
+     * @throws \Exception
      */
-    public function getPermissionsAttribute()
+    public function getPermissionsNameAttribute()
     {
-
         $result = array();
-        $roles = $this->roles()->get();
 
-        foreach ($roles as $role) {
-            $perms = $role->perms()->get();
-
-            foreach ($perms as $perm) {
-                $result[] = $perm->name;
-            }
+        foreach ($this->getAllPermissions() as $permission) {
+            $result[] = $permission->name;
         }
 
         return $result;
