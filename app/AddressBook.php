@@ -4,6 +4,7 @@ namespace App;
 
 use App\Facades\PbxLinker;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * App\AddressBook
@@ -125,7 +126,7 @@ class AddressBook extends Model
 
         // プレゼンスが有効で、
         // 値があり、0で始まらない場合のみステータスを取得
-        if (config('opnuc.enable_tel_presence') && $value && !starts_with($value, '0')) {
+        if (config('opnuc.enable_tel_presence') && $value && !Str::startsWith($value, '0')) {
             return PbxLinker::getPresence($value);
         }
 
