@@ -38,7 +38,7 @@ abstract class TestCase extends BaseTestCase
     }
 
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
         Artisan::call('migrate:reset');
@@ -48,7 +48,7 @@ abstract class TestCase extends BaseTestCase
         Artisan::call('db:seed', ['--class' => 'DemoSeeder']);
     }
 
-    public function tearDown()
+    public function tearDown() : void
     {
         Artisan::call('migrate:reset');
         parent::tearDown();

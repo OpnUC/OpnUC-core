@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         'display_name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('password01'),
-        'remember_token' => str_random(10),
+        'remember_token' => Str::random(10),
         'avatar_type' => 1,
         'avatar_filename' => '',
     ];
