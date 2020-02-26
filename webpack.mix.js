@@ -21,11 +21,11 @@ mix.autoload({
 });
 
 mix.js([
-        'resources/assets/js/app.js',
-        'resources/assets/js/vue.es6'
+        'resources/js/app.js',
+        'resources/js/vue.es6'
     ]
     , 'public/js')
-    .sass('resources/assets/sass/app.scss', 'public/css')
+    .sass('resources/sass/app.scss', 'public/css')
     .combine([
         // Admin LTE
         paths.admin_lte + '/dist/css/AdminLTE.min.css',
