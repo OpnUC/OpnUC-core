@@ -4,9 +4,6 @@ namespace App;
 
 use App\Facades\PbxLinker;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Cache;
-use Predis\CommunicationException;
-use Predis\Connection\ConnectionException;
 
 /**
  * App\AddressBook

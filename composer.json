@@ -12,7 +12,6 @@
         "laravel/framework": "^6.0",
         "laravel/tinker": "~1.0",
         "pragmarx/version": "^1.0",
-        "predis/predis": "v1.1.1",
         "spatie/laravel-permission": "^3.0",
         "tymon/jwt-auth": "^1.0.0-rc2",
         "wikimedia/composer-merge-plugin": "^1.4"
