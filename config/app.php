@@ -213,8 +213,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        // Entrust
-        'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         // PBX Linker
         'PbxLinker' => App\Facades\PbxLinker::class,
     ],
