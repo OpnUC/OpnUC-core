@@ -25,7 +25,7 @@ class ApiUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->get('/api/v1/user/users')
+        $this->call('GET', '/api/v1/user/users')
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $user->id,
@@ -45,7 +45,7 @@ class ApiUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->get('/api/v1/user/users', [
+        $this->call('GET', '/api/v1/user/users', [
             'id' => $user->id,
         ])
             ->assertStatus(200)
@@ -67,7 +67,7 @@ class ApiUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->post('/api/v1/user/edit', [
+        $this->call('POST', '/api/v1/user/edit', [
             'id' => $user->id,
             'username' => $user->username,
             'display_name' => $user->display_name . 'edited',
@@ -92,7 +92,7 @@ class ApiUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->post('/api/v1/user/passwordChange', [
+        $this->call('POST', '/api/v1/user/passwordChange', [
             'password' => 'password01',
             'newPassword' => 'password01_edit',
             'newPassword_confirmation' => 'password01_edit',
@@ -115,7 +115,7 @@ class ApiUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->post('/api/v1/user/passwordChange', [
+        $this->call('POST', '/api/v1/user/passwordChange', [
             'password' => 'password01_dummy',
             'newPassword' => 'password01_edit',
             'newPassword_confirmation' => 'password01_edit',
@@ -138,7 +138,7 @@ class ApiUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->post('/api/v1/user/uploadAvatar', [
+        $this->call('POST', '/api/v1/user/uploadAvatar', [
             'avatar_file' => UploadedFile::fake()->image('avatar.jpg'),
         ])
             ->assertStatus(200)
@@ -165,7 +165,7 @@ class ApiUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->post('/api/v1/user/uploadAvatar', [
+        $this->call('POST', '/api/v1/user/uploadAvatar', [
             'avatar_file' => UploadedFile::fake()->image('avatar.jpg', 641, 481),
         ])
             ->assertStatus(422);
@@ -183,7 +183,7 @@ class ApiUserTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->post('/api/v1/user/uploadAvatar', [
+        $this->call('POST', '/api/v1/user/uploadAvatar', [
             'avatar_file' => UploadedFile::fake()->create('avatar.pdf'),
         ])
             ->assertStatus(422);

@@ -17,7 +17,7 @@ class ApiAuthTest extends TestCase
     {
         $user = factory(\App\User::class)->create();
 
-        $this->post('/api/v1/auth/login', [
+        $this->call('POST', '/api/v1/auth/login', [
             'username' => $user->username,
             'password' => 'password01',
         ], [
@@ -34,7 +34,7 @@ class ApiAuthTest extends TestCase
      */
     public function testLoginFail()
     {
-        $this->post('/api/v1/auth/login', [
+        $this->call('POST', '/api/v1/auth/login', [
             'username' => 'user01_',
             'password' => 'password01',
         ], [
@@ -54,7 +54,7 @@ class ApiAuthTest extends TestCase
     {
         $user = factory(\App\User::class)->create();
 
-        $this->post('/api/v1/auth/login', [
+        $this->call('POST', '/api/v1/auth/login', [
             'mode' => 'restore',
             'token' => auth('api')->login($user),
         ], [
@@ -73,7 +73,7 @@ class ApiAuthTest extends TestCase
     {
         $user = factory(\App\User::class)->create();
 
-        $this->post('/api/v1/auth/login', [
+        $this->call('POST', '/api/v1/auth/login', [
             'mode' => 'restore',
             'token' => '',
         ], [
@@ -95,7 +95,7 @@ class ApiAuthTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->post('/api/v1/auth/logout')
+        $this->call('POST', '/api/v1/auth/logout')
             ->assertStatus(200)
             ->assertJson([
                 'status' => 'success',
@@ -107,7 +107,7 @@ class ApiAuthTest extends TestCase
      */
     public function testLogoutFail()
     {
-        $this->post('/api/v1/auth/logout')
+        $this->call('POST', '/api/v1/auth/logout')
             ->assertStatus(401);
     }
 
@@ -120,7 +120,7 @@ class ApiAuthTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->get('/api/v1/auth/refresh')
+        $this->call('GET', '/api/v1/auth/refresh')
             ->assertStatus(200)
             ->assertJson([
                 'status' => 'success',
@@ -132,7 +132,7 @@ class ApiAuthTest extends TestCase
      */
     public function testRefreshFail()
     {
-        $this->get('/api/v1/auth/refresh')
+        $this->call('GET', '/api/v1/auth/refresh')
             ->assertStatus(401);
     }
 
@@ -145,7 +145,7 @@ class ApiAuthTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->get('/api/v1/auth/user')
+        $this->call('GET', '/api/v1/auth/user')
             ->assertStatus(200)
             ->assertJson([
                 'status' => 'success',
@@ -162,7 +162,7 @@ class ApiAuthTest extends TestCase
      */
     public function testUserDataFail()
     {
-        $this->get('/api/v1/auth/user')
+        $this->call('GET', '/api/v1/auth/user')
             ->assertStatus(401);
     }
 

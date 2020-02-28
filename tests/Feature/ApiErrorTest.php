@@ -21,7 +21,7 @@ class ApiErrorTest extends TestCase
         $user = factory(\App\User::class)->create();
 
         $this->actingAs($user);
-        $this->post('/api/v1/error/report', [
+        $this->call('POST', '/api/v1/error/report', [
             'message' => 'error message logged in',
         ])
             ->assertStatus(200);
@@ -34,7 +34,7 @@ class ApiErrorTest extends TestCase
     public function testReport2()
     {
 
-        $this->post('/api/v1/error/report', [
+        $this->call('POST', '/api/v1/error/report', [
             'message' => 'error message not logged in',
         ])
             ->assertStatus(200);
