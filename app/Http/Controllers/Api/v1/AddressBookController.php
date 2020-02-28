@@ -64,7 +64,7 @@ class AddressBookController extends Controller
                 return response([
                     'status' => 'error',
                     'message' => '404 Not Found'
-                ], 400);
+                ], 404);
                 break;
         }
 
