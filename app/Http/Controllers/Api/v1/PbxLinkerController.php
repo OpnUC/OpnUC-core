@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Events\PbxLinkerOriginateEvent;
+use App\Events\PbxLinkerSetCallForwardEvent;
 use App\Facades\PbxLinker;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -11,17 +13,6 @@ use App\Http\Requests;
  */
 class PbxLinkerController extends Controller
 {
-
-    /**
-     * constructor
-     */
-    public function __construct()
-    {
-
-        // ミドルウェアの指定
-        $this->middleware('jwt.auth');
-
-    }
 
     /**
      * 発信処理
@@ -45,7 +36,6 @@ class PbxLinkerController extends Controller
             ], 403);
         }
 
-
         $number = $request['number'];
 
         // 番号変換パターンを適用
@@ -64,10 +54,10 @@ class PbxLinkerController extends Controller
         }
 
         // 発信
-        $result = PbxLinker::originate($addressbook->tel1, $number);
+        event(new PbxLinkerOriginateEvent($addressbook->tel1, $number));
 
         return response([
-            'status' => $result ? 'success' : 'error',
+            'status' => 'success'
         ]);
 
     }
@@ -79,7 +69,7 @@ class PbxLinkerController extends Controller
     {
 
         // PBX側の機能有無を確認
-        if (!PbxLinker::isEnabledSetCallForward()) {
+        if (config('opnuc.enable_set_callforward')) {
             return response([
                 'message' => 'PBX連携が設定されていないため、設定できません。',
                 'status' => 'error',
@@ -111,10 +101,10 @@ class PbxLinkerController extends Controller
         }
 
         // 設定
-        $result = PbxLinker::setCallForward($extNumber, $number);
+        event(new PbxLinkerSetCallForwardEvent($addressbook->tel1, $number));
 
         return response([
-            'status' => $result ? 'success' : 'error',
+            'status' => 'success'
         ]);
 
     }

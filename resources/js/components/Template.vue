@@ -144,11 +144,11 @@
         },
         events: {
             'LaravelEcho:PresenceUpdated': function (e) {
-                var ext = e.ext
+                var extNumber = e.extNumber
                 var status = e.status
 
                 // プレゼンスの更新
-                $('i.fa.fa-circle.extStatus.ext' + ext)
+                $('i.fa.fa-circle.extStatus.ext' + extNumber)
                     .removeClass(function (index, className) {
                         return (className.match(/\btext-\S+/g) || []).join(' ');
                     })

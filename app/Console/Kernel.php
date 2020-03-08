@@ -14,8 +14,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        CdrProcess::class,
-        'App\Console\Commands\PresenceTest',
         \App\Console\Commands\PbxLinker::class,
     ];
 
@@ -27,11 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // 発着信履歴の処理
-        $schedule->command(CdrProcess::class)
-            ->everyFiveMinutes()
-            ->withoutOverlapping()
-            ->appendOutputTo(storage_path('logs/cdr_process.log'));
+
     }
 
     /**

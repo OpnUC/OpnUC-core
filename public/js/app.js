@@ -20346,24 +20346,21 @@ const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 _this.$events.$emit('LaravelEcho:reconnect')
             });
 
-            // Broadcast ChannelにJoinする
-            window.echo.channel('BroadcastChannel')
-                .listen('MessageCreateBroadcastEvent', function (e) {
-                    _this.$events.$emit('LaravelEcho:Broadcast', e)
-                })
-                .listen('PresenceUpdated', function (e) {
-                    _this.$events.$emit('LaravelEcho:PresenceUpdated', e)
-                });
-
             // 認証に通っている場合はPrivateChannelにもJoinする
             if (this.$auth.check()) {
-                window.echo.private('PrivateChannel.' + this.$auth.user().id)
-                    .listen('MessageCreatePrivateEvent', function (e) {
-                        _this.$events.$emit('LaravelEcho:Private', e)
+                window.echo.private('LinkerChannel')
+                    .listenForWhisper('PresenceUpdated', (e) => {
+                        _this.$events.$emit('LaravelEcho:PresenceUpdated', e)
+                        console.log(e);
                     })
-                    .listen('IncomingCallEvent', function (e) {
-                        _this.$events.$emit('LaravelEcho:IncomingCall', e)
-                    });
+
+                // window.echo.private('PrivateChannel.' + this.$auth.user().id)
+                //     .listen('MessageCreatePrivateEvent', function (e) {
+                //         _this.$events.$emit('LaravelEcho:Private', e)
+                //     })
+                //     .listen('IncomingCallEvent', function (e) {
+                //         _this.$events.$emit('LaravelEcho:IncomingCall', e)
+                //     });
             }
         },
         // Click to Callの発信処理
@@ -23804,11 +23801,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     events: {
         'LaravelEcho:PresenceUpdated': function LaravelEchoPresenceUpdated(e) {
-            var ext = e.ext;
+            var extNumber = e.extNumber;
             var status = e.status;
 
             // プレゼンスの更新
-            $('i.fa.fa-circle.extStatus.ext' + ext).removeClass(function (index, className) {
+            $('i.fa.fa-circle.extStatus.ext' + extNumber).removeClass(function (index, className) {
                 return (className.match(/\btext-\S+/g) || []).join(' ');
             }).addClass(window.extStatus[status]['statusClass']).attr('title', window.extStatus[status]['statusText']);
         },

@@ -4,6 +4,7 @@ namespace App;
 
 use App\Facades\PbxLinker;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 /**
@@ -118,16 +119,17 @@ class AddressBook extends Model
 
     /**
      * 内線番号のステータスを返す
-     * @todo 情報の取得がパッケージに依存するため見直す
+     * @param $extNumber string 内線番号
      * @return string
      */
-    private function _getTelStatus($value)
+    private function _getTelStatus($extNumber)
     {
 
-        // プレゼンスが有効で、
-        // 値があり、0で始まらない場合のみステータスを取得
-        if (config('opnuc.enable_tel_presence') && $value && !Str::startsWith($value, '0')) {
-            return PbxLinker::getPresence($value);
+        // プレゼンスが有効、かつ内線番号が空で無く、0で始まっていない場合にキャッシュからプレゼンスを取得
+        if (config('opnuc.enable_tel_presence') && $extNumber != '' && !Str::startsWith($extNumber, '0')) {
+            $cacheKey = config('opnuc.presence_cache_key_prefix') . $extNumber;
+
+            return Cache::get($cacheKey, 'unknown');
         }
 
         return 'unknown';
