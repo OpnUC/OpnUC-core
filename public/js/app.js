@@ -20348,19 +20348,12 @@ const app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
 
             // 認証に通っている場合はPrivateChannelにもJoinする
             if (this.$auth.check()) {
-                window.echo.private('LinkerChannel')
+
+                // ToDo: クライアント側に悪い人が居ると偽装出来るため、いったんサーバーを通すしか無い
+                window.echo.private('PbxLinkerChannel')
                     .listenForWhisper('PresenceUpdated', (e) => {
                         _this.$events.$emit('LaravelEcho:PresenceUpdated', e)
-                        console.log(e);
                     })
-
-                // window.echo.private('PrivateChannel.' + this.$auth.user().id)
-                //     .listen('MessageCreatePrivateEvent', function (e) {
-                //         _this.$events.$emit('LaravelEcho:Private', e)
-                //     })
-                //     .listen('IncomingCallEvent', function (e) {
-                //         _this.$events.$emit('LaravelEcho:IncomingCall', e)
-                //     });
             }
         },
         // Click to Callの発信処理
