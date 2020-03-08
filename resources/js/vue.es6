@@ -197,24 +197,14 @@ const app = new Vue({
                 _this.$events.$emit('LaravelEcho:reconnect')
             });
 
-            // Broadcast ChannelにJoinする
-            window.echo.channel('BroadcastChannel')
-                .listen('MessageCreateBroadcastEvent', function (e) {
-                    _this.$events.$emit('LaravelEcho:Broadcast', e)
-                })
-                .listen('PresenceUpdated', function (e) {
-                    _this.$events.$emit('LaravelEcho:PresenceUpdated', e)
-                });
-
             // 認証に通っている場合はPrivateChannelにもJoinする
             if (this.$auth.check()) {
-                window.echo.private('PrivateChannel.' + this.$auth.user().id)
-                    .listen('MessageCreatePrivateEvent', function (e) {
-                        _this.$events.$emit('LaravelEcho:Private', e)
+
+                // ToDo: クライアント側に悪い人が居ると偽装出来るため、いったんサーバーを通すしか無い
+                window.echo.private('PbxLinkerChannel')
+                    .listenForWhisper('PresenceUpdated', (e) => {
+                        _this.$events.$emit('LaravelEcho:PresenceUpdated', e)
                     })
-                    .listen('IncomingCallEvent', function (e) {
-                        _this.$events.$emit('LaravelEcho:IncomingCall', e)
-                    });
             }
         },
         // Click to Callの発信処理

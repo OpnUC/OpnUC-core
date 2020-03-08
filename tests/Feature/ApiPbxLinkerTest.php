@@ -2,7 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Events\PbxLinkerOriginateEvent;
+use App\Events\PbxLinkerSetCallForwardEvent;
 use App\Facades\PbxLinker;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Event;
 use Tests\TestCase;
 
 /**
@@ -34,19 +38,24 @@ class ApiPbxLinkerTest extends TestCase
         $this->actingAs($user);
 
         // 発信先の番号を指定
-        $telNumber = '0120116116';
+        $telNumber = '999';
 
-        // PbxLinkerの発信処理をモック化
-        // 番号変換で0が付加されるため、決め打ちで0を追記
-        PbxLinker::shouldReceive('originate')
-            ->once()
-            ->with($addressbook->tel1, '0' . $telNumber)
-            ->andReturn(true);
+        // EventをFake化して、発火しないようにする
+        Event::fake();
 
         $this->post('/api/v1/pbxlinker/originate', [
             'number' => $telNumber,
         ])
             ->assertStatus(200);
+
+        // イベントが実行されていることをアサート
+        // 番号変換で0が付加されるため、決め打ちで0を追記
+        Event::assertDispatched(PbxLinkerOriginateEvent::class, function ($e) use ($addressbook, $telNumber) {
+            return ($e->extNumber == $addressbook->tel1) &&
+                ($e->number === $telNumber);
+        });
+
+        Event::assertDispatched(PbxLinkerOriginateEvent::class, 1);
 
     }
 
@@ -114,24 +123,25 @@ class ApiPbxLinkerTest extends TestCase
         $this->actingAs($user);
 
         // 転送先の番号を指定
-        $telNumber = '117';
+        $telNumber = '999';
 
-        // Pbx Linkerの不在転送機能をモックで有効にする
-        PbxLinker::shouldReceive('isEnabledSetCallForward')
-            ->once()
-            ->andReturn(true);
-
-        // PbxLinkerの不在転送設定処理をモック化
-        PbxLinker::shouldReceive('setCallForward')
-            ->once()
-            ->with($addressbook->tel1, $telNumber)
-            ->andReturn(true);
+        // EventをFake化して、発火しないようにする
+        Event::fake();
 
         $this->post('/api/v1/pbxlinker/forward', [
             'ExtNumber' => $addressbook->tel1,
             'Number' => $telNumber,
         ])
             ->assertStatus(200);
+
+        // イベントが実行されていることをアサート
+        // 番号変換で0が付加されるため、決め打ちで0を追記
+        Event::assertDispatched(PbxLinkerSetCallForwardEvent::class, function ($e) use ($addressbook, $telNumber) {
+            return ($e->extNumber == $addressbook->tel1) &&
+                ($e->number === $telNumber);
+        });
+
+        Event::assertDispatched(PbxLinkerSetCallForwardEvent::class, 1);
 
     }
 
@@ -144,11 +154,6 @@ class ApiPbxLinkerTest extends TestCase
         $user = factory(\App\User::class)->create();
 
         $this->actingAs($user);
-
-        // Pbx Linkerの不在転送機能をモックで有効にする
-        PbxLinker::shouldReceive('isEnabledSetCallForward')
-            ->once()
-            ->andReturn(true);
 
         // ユーザに関連付いたアドレス帳がないため、失敗
         $this->post('/api/v1/pbxlinker/forward', [
@@ -182,11 +187,6 @@ class ApiPbxLinkerTest extends TestCase
         // 転送先の番号を指定
         $telNumber = 'abc';
 
-        // Pbx Linkerの不在転送機能をモックで有効にする
-        PbxLinker::shouldReceive('isEnabledSetCallForward')
-            ->once()
-            ->andReturn(true);
-
         // 転送先が数値ではないため、失敗
         $this->post('/api/v1/pbxlinker/forward', [
             'ExtNumber' => $addressbook->tel1,
@@ -206,10 +206,8 @@ class ApiPbxLinkerTest extends TestCase
 
         $this->actingAs($user);
 
-        // Pbx Linkerの不在転送機能をモックで有効にする
-        PbxLinker::shouldReceive('isEnabledSetCallForward')
-            ->once()
-            ->andReturn(false);
+        // 設定で転送を無効にする
+        Config::set('opnuc.enable_set_callforward', false);
 
         // 不在転送が無効なため、失敗
         $this->post('/api/v1/pbxlinker/forward', [

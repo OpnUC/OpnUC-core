@@ -11,11 +11,11 @@
 |
 */
 
-//Broadcast::channel('App.User.{id}', function ($user, $id) {
-//    return (int)$user->id === (int)$id;
-//});
-
-Broadcast::channel('PrivateChannel.{userId}', function ($user, $userId) {
-//    \Log::debug(print_r($user, true));
-    return (int)$user->id === (int)$userId;
+/**
+ * PBX Linker Channel
+ * @todo テナント
+ */
+Broadcast::channel('PbxLinkerChannel', function ($user) {
+    // Check PBX Linker Permission
+    return $user->can('pbxlinker');
 });

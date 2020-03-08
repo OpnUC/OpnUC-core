@@ -64,12 +64,20 @@ class AddressBookController extends Controller
                 return response([
                     'status' => 'error',
                     'message' => '404 Not Found'
-                ], 400);
+                ], 404);
                 break;
         }
 
         // 一時的にストリームを作成
         $stream = fopen('php://temp', 'w');
+
+        // ストリームが作成出来たかチェック
+        if($stream === false){
+            return response([
+                'status' => 'error',
+                'message' => 'Can\'t create temporary file',
+            ], 500);
+        }
 
         // CSVで書き出し
         foreach ($items as $item) {
@@ -348,7 +356,7 @@ class AddressBookController extends Controller
 
         foreach ($dbGroups as $group) {
             // 末端のグループのみを表示する場合、子供が有るグループは処理しない
-            if ($isAll == false && count($group->childs)) {
+            if ($isAll === false && count($group->childs)) {
                 continue;
             }
 

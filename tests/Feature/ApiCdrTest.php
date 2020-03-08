@@ -26,7 +26,7 @@ class ApiCdrTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->get('/api/v1/cdr/search', [
+        $this->call('GET', '/api/v1/cdr/search', [
             'sort' => 'start_datetime|desc',
             'sender' => '3',
             'destination' => '3',
@@ -48,7 +48,7 @@ class ApiCdrTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->get('/api/v1/cdr/search')
+        $this->call('GET', '/api/v1/cdr/search')
             ->assertStatus(403);
 
     }
@@ -65,7 +65,7 @@ class ApiCdrTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->get('/api/v1/cdr/download', [
+        $this->call('GET', '/api/v1/cdr/download', [
             'sort' => 'start_datetime|desc',
             'sender' => '3',
             'destination' => '3',
