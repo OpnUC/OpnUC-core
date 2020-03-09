@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -9,5 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SettingNumberRewrite extends Model
 {
+    use UsesTenantConnection;
+
     protected $guarded = ['id'];
 }

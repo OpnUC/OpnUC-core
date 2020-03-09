@@ -1,7 +1,11 @@
 <?php namespace App;
 
+use Hyn\Tenancy\Traits\UsesTenantConnection;
+
 class Role extends \Spatie\Permission\Models\Role
 {
+    use UsesTenantConnection;
+
     protected $fillable = [
         'name', 'display_name', 'description',
     ];

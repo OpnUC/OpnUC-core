@@ -1,14 +1,21 @@
 <?php
+
 namespace App;
+
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
+
 /**
  * App\AddressBookGroup
  */
-class AddressBookGroup extends Model {
+class AddressBookGroup extends Model
+{
+    use UsesTenantConnection;
 
     protected $guarded = ['id'];
 
-    public function childs() {
+    public function childs()
+    {
         return $this->hasMany('App\AddressBookGroup', 'parent_groupid', 'id');
     }
 

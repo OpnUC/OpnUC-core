@@ -2,11 +2,14 @@
 
 namespace App;
 
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Redis;
 
 class Cdr extends Model
 {
+    use UsesTenantConnection;
+
     // for Carbon
     protected $dates = ['created_at', 'updated_at', 'start_datetime', 'end_datetime'];
     // JSONに追加する属性

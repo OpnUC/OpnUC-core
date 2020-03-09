@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Facades\PbxLinker;
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -12,6 +13,8 @@ use Illuminate\Support\Str;
  */
 class AddressBook extends Model
 {
+    use UsesTenantConnection;
+
     protected $guarded = ['id'];
     // JSONに追加する属性
     protected $appends = array(

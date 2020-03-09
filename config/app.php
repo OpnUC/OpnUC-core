@@ -55,6 +55,13 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     /*
+    |----
+    | Laravel Tenancy Base URL
+    |----
+    */
+    'url_base' => env('APP_URL_BASE', 'http://localhost'),
+
+    /*
     |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
