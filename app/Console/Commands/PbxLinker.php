@@ -42,6 +42,8 @@ class PbxLinker extends Command
         $this->info('Starting PbxLinker Process...');
 
         $this->line('Setting up default socket time out=-1');
+        // ToDo
+        // 環境によってうまく動作しない
         ini_set("default_socket_timeout", -1);
 
         $this->line('Subscribe Redis Channel:PresenceChannelWhisper');
