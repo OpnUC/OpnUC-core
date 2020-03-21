@@ -3,21 +3,34 @@
 namespace Tests;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Illuminate\Support\Facades\Artisan;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
+    use InteractsWithTenancy;
 
     protected $user;
+    protected $tenantUrl;
+
+    public function createApplication()
+    {
+        $app = require __DIR__ . '/../bootstrap/app.php';
+
+        $app->make(Kernel::class)->bootstrap();
+
+        $this->setUpTenancy();
+
+        return $app;
+    }
 
     /**
      * Set the currently logged in user for the application.
      *
-     * @param  Authenticatable $user
-     * @param  string|null $driver
+     * @param Authenticatable $user
+     * @param string|null $driver
      * @return $this
      */
     public function actingAs(Authenticatable $user, $driver = null)
@@ -34,23 +47,39 @@ abstract class TestCase extends BaseTestCase
 
         $server['HTTP_ACCEPT'] = 'application/json';
 
-        return parent::call($method, $uri, $parameters, $cookies, $files, $server, $content);
+        return parent::call($method, 'http://' . $this->tenantUrl . '/' . $uri, $parameters, $cookies, $files, $server, $content);
     }
 
-
-    public function setUp() : void
+    public function setUp(): void
     {
         parent::setUp();
+
+        $this->tenantUrl = 'testing.' . env('TENANT_URL_BASE');
+
         Artisan::call('migrate:reset');
 
         Artisan::call('migrate');
-        Artisan::call('db:seed');
-        Artisan::call('db:seed', ['--class' => 'DemoSeeder']);
+
+        $this->setUpHostnames(true);
+        $this->setUpWebsites(true, true);
+        $this->activateTenant();
+
+        // テナントデータベースのシーダーはTenancyで自動的に実行される
+//        Artisan::call('tenancy:db:seed');
+
+        // デモデータのシーダー
+        Artisan::call('tenancy:db:seed', [
+            '--class' => 'DemoSeeder',
+            '--website_id' => 1
+        ]);
     }
 
-    public function tearDown() : void
+    public function tearDown(): void
     {
         Artisan::call('migrate:reset');
+
+        $this->cleanupTenancy();
+
         parent::tearDown();
     }
 }

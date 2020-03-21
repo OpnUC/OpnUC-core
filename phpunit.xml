@@ -28,5 +28,10 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="DB_DATABASE" value="opnuc_test"/>
+        <!-- // Laravel Tenancy Setting -->
+        <env name="TENANT_URL_BASE" value="example.com"/>
+        <env name="TENANCY_DATABASE_AUTO_DELETE" value="1"/>
+        <env name="TENANCY_DATABASE_AUTO_DELETE_USER" value="1"/>
+        <env name="TENANCY_AUTO_HOSTNAME_IDENTIFICATION" value="0" />
     </php>
 </phpunit>
