@@ -29,6 +29,9 @@ Route::group([
 
         // FrontEnd Error Reporting
         Route::post('/error/report', 'ErrorController@report');
+
+        // Application Config
+        Route::get('/config', 'ConfigController@index');
     });
 
     // Login Check
